@@ -1,0 +1,68 @@
+{
+    "relationships": [
+        {
+            "relationshipId": 1,
+            "relationshipName": "evaluationBuilderType",
+            "relationshipNameCapitalized": "EvaluationBuilderType",
+            "relationshipFieldName": "evaluationBuilderType",
+            "otherEntityName": "evaluationBuilderType",
+            "relationshipType": "many-to-one",
+            "otherEntityNameCapitalized": "EvaluationBuilderType",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipId": 2,
+            "relationshipName": "evaluationBuilder",
+            "relationshipNameCapitalized": "EvaluationBuilder",
+            "relationshipFieldName": "evaluationBuilder",
+            "otherEntityName": "evaluationBuilder",
+            "relationshipType": "many-to-one",
+            "otherEntityNameCapitalized": "EvaluationBuilder",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldId": 1,
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldIsEnum": false,
+            "fieldNameCapitalized": "Name",
+            "fieldNameUnderscored": "name",
+            "fieldInJavaBeanMethod": "Name",
+            "fieldValidate": false
+        },
+        {
+            "fieldId": 2,
+            "fieldName": "verbalization",
+            "fieldType": "String",
+            "fieldIsEnum": false,
+            "fieldNameCapitalized": "Verbalization",
+            "fieldNameUnderscored": "verbalization",
+            "fieldInJavaBeanMethod": "Verbalization",
+            "fieldValidate": false
+        },
+        {
+            "fieldId": 3,
+            "fieldName": "collection",
+            "fieldType": "Boolean",
+            "fieldIsEnum": false,
+            "fieldNameCapitalized": "Collection",
+            "fieldNameUnderscored": "collection",
+            "fieldInJavaBeanMethod": "Collection",
+            "fieldValidate": false
+        }
+    ],
+    "fieldsContainOwnerManyToMany": false,
+    "fieldsContainOwnerOneToOne": false,
+    "fieldsContainOneToMany": false,
+    "fieldsContainLocalDate": false,
+    "fieldsContainCustomTime": false,
+    "fieldsContainBigDecimal": false,
+    "fieldsContainDateTime": false,
+    "fieldsContainDate": false,
+    "changelogDate": "20150720194101",
+    "dto": "no",
+    "pagination": "pager",
+    "validation": false
+}
