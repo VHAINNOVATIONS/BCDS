@@ -1,0 +1,45 @@
+/* custom button one begins */
+
+
+.btn-custom-one {
+  color: #ffffff;
+  background-color: #008888;
+  border-color: #00BBBB;
+}
+
+.btn-custom-one:hover,
+.btn-custom-one:focus,
+.btn-custom-one:active,
+.btn-custom-one.active,
+.open .dropdown-toggle.custom-one {
+  color: #ffffff;
+  background-color: #006666;
+  border-color: #008888;
+}
+
+.btn-custom-one:active,
+.btn-custom-one.active,
+.open .dropdown-toggle.btn-custom-one {
+  background-image: none;
+}
+
+.btn-custom-one.disabled,
+.btn-custom-one[disabled],
+fieldset[disabled] .btn-custom-one,
+.btn-custom-one.disabled:hover,
+.btn-custom-one[disabled]:hover,
+fieldset[disabled] .btn-custom-one:hover,
+.btn-custom-one.disabled:focus,
+.btn-custom-one[disabled]:focus,
+fieldset[disabled] .btn-custom-one:focus,
+.btn-custom-one.disabled:active,
+.btn-custom-one[disabled]:active,
+fieldset[disabled] .btn-custom-one:active,
+.btn-custom-one.disabled.active,
+.btn-custom-one[disabled].active,
+fieldset[disabled] .btn-custom-one.active {
+  background-color: #428bca;
+  border-color: #357ebd;
+}
+
+/* custom button 2 ends*/

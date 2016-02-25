@@ -1,0 +1,37 @@
+{
+    "relationships": [],
+    "fields": [
+        {
+            "fieldId": 1,
+            "fieldName": "eval_builder_type_id",
+            "fieldType": "Long",
+            "fieldIsEnum": false,
+            "fieldNameCapitalized": "Eval_builder_type_id",
+            "fieldNameUnderscored": "eval_builder_type_id",
+            "fieldInJavaBeanMethod": "Eval_builder_type_id",
+            "fieldValidate": false
+        },
+        {
+            "fieldId": 2,
+            "fieldName": "effective_date",
+            "fieldType": "DateTime",
+            "fieldIsEnum": false,
+            "fieldNameCapitalized": "Effective_date",
+            "fieldNameUnderscored": "effective_date",
+            "fieldInJavaBeanMethod": "Effective_date",
+            "fieldValidate": false
+        }
+    ],
+    "fieldsContainOwnerManyToMany": false,
+    "fieldsContainOwnerOneToOne": false,
+    "fieldsContainOneToMany": false,
+    "fieldsContainLocalDate": false,
+    "fieldsContainCustomTime": true,
+    "fieldsContainBigDecimal": false,
+    "fieldsContainDateTime": true,
+    "fieldsContainDate": false,
+    "changelogDate": "20150712140053",
+    "dto": "no",
+    "pagination": "pager",
+    "validation": false
+}

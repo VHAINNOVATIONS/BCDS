@@ -1,0 +1,27 @@
+{
+    "relationships": [],
+    "fields": [
+        {
+            "fieldId": 1,
+            "fieldName": "diagnostic_code",
+            "fieldType": "Integer",
+            "fieldIsEnum": false,
+            "fieldNameCapitalized": "Diagnostic_code",
+            "fieldNameUnderscored": "diagnostic_code",
+            "fieldInJavaBeanMethod": "Diagnostic_code",
+            "fieldValidate": false
+        }
+    ],
+    "fieldsContainOwnerManyToMany": false,
+    "fieldsContainOwnerOneToOne": false,
+    "fieldsContainOneToMany": false,
+    "fieldsContainLocalDate": false,
+    "fieldsContainCustomTime": false,
+    "fieldsContainBigDecimal": false,
+    "fieldsContainDateTime": false,
+    "fieldsContainDate": false,
+    "changelogDate": "20150712152413",
+    "dto": "no",
+    "pagination": "pager",
+    "validation": false
+}

@@ -1,0 +1,21 @@
+{
+  "generator-jhipster": {
+    "baseName": "rulesManager",
+    "packageName": "gov.va.vba",
+    "packageFolder": "gov/va/vba",
+    "authenticationType": "session",
+    "hibernateCache": "ehcache",
+    "clusteredHttpSession": "no",
+    "websocket": "no",
+    "databaseType": "sql",
+    "devDatabaseType": "mysql",
+    "prodDatabaseType": "mysql",
+    "searchEngine": "no",
+    "useCompass": false,
+    "buildTool": "maven",
+    "frontendBuilder": "grunt",
+    "javaVersion": "8",
+    "enableTranslation": false,
+    "rememberMeKey": "5bc5b0a34d5abe1bf6a0e043e41cda6fa244fc0d"
+  }
+}

@@ -1,0 +1,39 @@
+{
+    "name": "bcds",
+    "version": "0.0.0",
+    "appPath": "src/main/webapp",
+    "testPath": "src/test/javascript/spec",
+    "dependencies": {
+    "bootstrap": "3.3.5",
+    "modernizr": "2.8.3",
+    "jquery": "2.1.4",
+    "json3": "3.3.2",
+    "angular-ui-router": "0.2.13",
+    "angular-bootstrap": "0.14.3",
+	"angular": "1.4.5",
+    "angular-resource": "1.4.5",
+    "angular-cookies": "1.4.5",
+    "angular-sanitize": "1.4.5",
+    "angular-local-storage": "0.2.0",
+    "angular-cache-buster": "0.4.3",
+    "ngInfiniteScroll": "1.2.0"
+  },
+  "devDependencies": {
+    "angular-mocks": "1.4.5",
+    "angular-scenario": "1.4.5"
+  },
+  "resolutions": {
+    "angular": "1.4.5",
+    "angular-cookies": "1.4.5",
+    "jquery": "2.1.4"
+  },
+  "overrides": {
+    "bootstrap": {
+      "main": [
+        "dist/js/bootstrap.js",
+        "dist/css/bootstrap.css",
+        "less/bootstrap.less"
+      ]
+    }
+  }
+}
