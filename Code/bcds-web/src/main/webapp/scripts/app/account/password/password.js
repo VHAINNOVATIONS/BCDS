@@ -7,7 +7,7 @@ angular.module('bcdsApp')
                 parent: 'account',
                 url: '/password',
                 data: {
-                    roles: ['ROLE_USER'],
+                    roles: ['ROLE_MODEL_EXECUTOR','ROLE_MODEL_MANAGER','ROLE_ADMIN'],
                     pageTitle: 'Password'
                 },
                 views: {

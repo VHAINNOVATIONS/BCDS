@@ -18,19 +18,16 @@
         <dependency>
             <groupId>gov.va.vba</groupId>
             <artifactId>bcds-persistence</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>gov.va.vba</groupId>
             <artifactId>bcds-impl</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
-            <groupId>gov.va.vba.vbms</groupId>
-            <artifactId>vbms-kernel-exception</artifactId>
-            <version>9.0-SNAPSHOT</version>
+            <groupId>gov.va.vba</groupId>
+            <artifactId>webservices-external</artifactId>
         </dependency>
 
         <!-- fasterxml dependencies -->
@@ -90,6 +87,17 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
             <version>${spring-boot.version}</version>
+        </dependency>
+
+        <!-- spring boot dependency for web services -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-ws</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>wsdl4j</groupId>
+            <artifactId>wsdl4j</artifactId>
         </dependency>
 
         <!-- To Make Weblogic work with the application-->

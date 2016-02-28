@@ -1,0 +1,606 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is Oracle JAX-WS 2.1.3-07/10/2008 08:41 PM(bt). -->
+<xs:schema xmlns:tns="http://services.mapd.benefits.vba.va.gov/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://services.mapd.benefits.vba.va.gov/">
+
+    <xs:element name="BenefitsException" nillable="true" type="tns:benefitsExceptionBean" />
+
+    <xs:element name="ManageTrackedItems" type="tns:ManageTrackedItems" />
+
+    <xs:element name="ManageTrackedItemsResponse" type="tns:ManageTrackedItemsResponse" />
+
+    <xs:element name="RequiredFieldException" nillable="true" type="tns:faultInfoBean" />
+
+    <xs:element name="createTrackedItems" type="tns:createTrackedItems" />
+
+    <xs:element name="createTrackedItemsResponse" type="tns:createTrackedItemsResponse" />
+
+    <xs:element name="deleteTrackedItems" type="tns:deleteTrackedItems" />
+
+    <xs:element name="deleteTrackedItemsResponse" type="tns:deleteTrackedItemsResponse" />
+
+    <xs:element name="findTrackedItems" type="tns:findTrackedItems" />
+
+    <xs:element name="findTrackedItemsByDocId" type="tns:findTrackedItemsByDocId" />
+
+    <xs:element name="findTrackedItemsByDocIdResponse" type="tns:findTrackedItemsByDocIdResponse" />
+
+    <xs:element name="findTrackedItemsByFileNumber" type="tns:findTrackedItemsByFileNumber" />
+
+    <xs:element name="findTrackedItemsByFileNumberResponse" type="tns:findTrackedItemsByFileNumberResponse" />
+
+    <xs:element name="findTrackedItemsByPtcpntId" type="tns:findTrackedItemsByPtcpntId" />
+
+    <xs:element name="findTrackedItemsByPtcpntIdResponse" type="tns:findTrackedItemsByPtcpntIdResponse" />
+
+    <xs:element name="findTrackedItemsResponse" type="tns:findTrackedItemsResponse" />
+
+    <xs:element name="findUnsolEvdnce" type="tns:findUnsolEvdnce" />
+
+    <xs:element name="findUnsolEvdnceResponse" type="tns:findUnsolEvdnceResponse" />
+
+    <xs:element name="manageUnsolicitedEvidence" type="tns:manageUnsolicitedEvidence" />
+
+    <xs:element name="manageUnsolicitedEvidenceResponse" type="tns:manageUnsolicitedEvidenceResponse" />
+
+    <xs:complexType name="findTrackedItemsByFileNumber">
+        <xs:sequence>
+            <xs:element name="fileNumber" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="findTrackedItemsByFileNumberResponse">
+        <xs:sequence>
+            <xs:element name="BenefitClaim" type="tns:benefitClaim" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="benefitClaim">
+        <xs:complexContent>
+            <xs:extension base="tns:compositeTransferObject">
+                <xs:sequence>
+                    <xs:element name="bnftClmTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="bnftClmTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="brokeredInDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="brokeredOutDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="cancldDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="claimRcvdDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="claimSuspnsDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="clmId" type="xs:string" minOccurs="0" />
+                    <xs:element name="clmSuspnsCd" type="xs:string" minOccurs="0" />
+                    <xs:element name="closedDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="comntTxt" type="xs:string" minOccurs="0" />
+                    <xs:element name="contentions" type="tns:contention" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="continuedDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="dvlpmtItemId" type="xs:string" minOccurs="0" />
+                    <xs:element name="dvlpmtItems" type="tns:developmentItem" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="lastCntctDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="lcSttRsnTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="lcSttRsnTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="lctnId" type="xs:string" minOccurs="0" />
+                    <xs:element name="letters" type="tns:letter" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="nonMedClmDesc" type="xs:string" minOccurs="0" />
+                    <xs:element name="notesInd" type="xs:string" minOccurs="0" />
+                    <xs:element name="notfcnPrflTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="prirty" type="xs:string" minOccurs="0" />
+                    <xs:element name="ptcpntIdClmnt" type="xs:string" minOccurs="0" />
+                    <xs:element name="ptcpntIdRvsr" type="xs:string" minOccurs="0" />
+                    <xs:element name="ptcpntIdVet" type="xs:string" minOccurs="0" />
+                    <xs:element name="ptcpntIdVsr" type="xs:string" minOccurs="0" />
+                    <xs:element name="ptcpntSuspnsId" type="xs:string" minOccurs="0" />
+                    <xs:element name="ratdecCmpltDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ratingCorrctnDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ratingIncmpltDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="rdyDecnDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="readyToWrkDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="secRdyDecnDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="sojLctnId" type="xs:string" minOccurs="0" />
+                    <xs:element name="stationProfile" type="tns:stationProfile" minOccurs="0" />
+                    <xs:element name="stnSuspnsPrfil" type="tns:stationSuspenseProfile" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="suspnsActnDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="suspnsRsnTxt" type="xs:string" minOccurs="0" />
+                    <xs:element name="transferredInDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="transferredOutDt" type="xs:dateTime" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="compositeTransferObject" abstract="true">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="transferObject" abstract="true">
+        <xs:sequence>
+            <xs:element name="callId" type="xs:long" minOccurs="0" />
+            <xs:element name="jrnDt" type="xs:dateTime" minOccurs="0" />
+            <xs:element name="jrnLctnId" type="xs:string" minOccurs="0" />
+            <xs:element name="jrnObjId" type="xs:string" minOccurs="0" />
+            <xs:element name="jrnSttTc" type="xs:string" minOccurs="0" />
+            <xs:element name="jrnUserId" type="xs:string" minOccurs="0" />
+            <xs:element name="parentId" type="xs:long" minOccurs="0" />
+            <xs:element name="parentName" type="xs:string" minOccurs="0" />
+            <xs:element name="rowCnt" type="xs:long" minOccurs="0" />
+            <xs:element name="rowId" type="xs:long" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="contention">
+        <xs:complexContent>
+            <xs:extension base="tns:compositeTransferObject">
+                <xs:sequence>
+                    <xs:element name="beginDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="clmId" type="xs:string" minOccurs="0" />
+                    <xs:element name="clmntTxt" type="xs:string" minOccurs="0" />
+                    <xs:element name="clsfcnId" type="xs:string" minOccurs="0" />
+                    <xs:element name="clsfcnTxt" type="xs:string" minOccurs="0" />
+                    <xs:element name="cmpltdDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="cntntnId" type="xs:string" minOccurs="0" />
+                    <xs:element name="cntntnStatusTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="cntntnTypeCd" type="xs:string" minOccurs="0" />
+                    <xs:element name="cntntnTypeNm" type="xs:string" minOccurs="0" />
+                    <xs:element name="dgnstcTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="dgnstcTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="medInd" type="xs:string" minOccurs="0" />
+                    <xs:element name="notfcnDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="specialIssues" type="tns:specialIssue" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="wgAplcblInd" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="specialIssue">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="clmId" type="xs:string" minOccurs="0" />
+                    <xs:element name="cntntnId" type="xs:string" minOccurs="0" />
+                    <xs:element name="cntntnSpisId" type="xs:string" minOccurs="0" />
+                    <xs:element name="spisTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="spisTn" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="developmentItem">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="acceptDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="claimId" type="xs:string" minOccurs="0" />
+                    <xs:element name="devactnId" type="xs:string" minOccurs="0" />
+                    <xs:element name="devlItemOutArgValue" type="tns:outputArgumentValue" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="docid" type="xs:string" minOccurs="0" />
+                    <xs:element name="dvlpmtItemId" type="xs:string" minOccurs="0" />
+                    <xs:element name="dvlpmtTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="followDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="inErrorDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="receiveDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="recipient" type="xs:string" minOccurs="0" />
+                    <xs:element name="relatdDvlpmtItemId" type="xs:string" minOccurs="0" />
+                    <xs:element name="relatdOutgngDcmntId" type="xs:string" minOccurs="0" />
+                    <xs:element name="reqDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="scanDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="scndFlwDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="shortNm" type="xs:string" minOccurs="0" />
+                    <xs:element name="stdDevactnId" type="xs:string" minOccurs="0" />
+                    <xs:element name="suspnsDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="vbmsDevactionId" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="outputArgumentValue">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="cntntnId" type="xs:string" minOccurs="0" />
+                    <xs:element name="colNo" type="xs:long" minOccurs="0" />
+                    <xs:element name="devactnId" type="xs:string" minOccurs="0" />
+                    <xs:element name="keyWordTxt" type="xs:string" minOccurs="0" />
+                    <xs:element name="outgngDcmntId" type="xs:string" minOccurs="0" />
+                    <xs:element name="ptcOutgngDocTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="ptcpntId" type="xs:string" minOccurs="0" />
+                    <xs:element name="rowNo" type="xs:long" minOccurs="0" />
+                    <xs:element name="valueTxt" type="xs:base64Binary" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="letter">
+        <xs:complexContent>
+            <xs:extension base="tns:compositeTransferObject">
+                <xs:sequence>
+                    <xs:element name="barCd" type="xs:string" minOccurs="0" />
+                    <xs:element name="clmId" type="xs:string" minOccurs="0" />
+                    <xs:element name="cntctProfile" type="tns:contactProfile" minOccurs="0" />
+                    <xs:element name="dcmntDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="developmentActions" type="tns:developmentAction" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="docid" type="xs:string" minOccurs="0" />
+                    <xs:element name="dvlpmtTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="enclosures" type="tns:enclosure" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="estabdDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="fileSttDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="fileSttTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="incldEnclsrInd" type="xs:string" minOccurs="0" />
+                    <xs:element name="letterRelationships" type="tns:letterRelationship" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="lttrTmplatId" type="xs:string" minOccurs="0" />
+                    <xs:element name="lttrTxt" type="xs:base64Binary" minOccurs="0" />
+                    <xs:element name="lttrTxt2" type="xs:base64Binary" minOccurs="0" />
+                    <xs:element name="nm" type="xs:string" minOccurs="0" />
+                    <xs:element name="outdcmtTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="printDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ptcpntDcmntTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="ptcpntId" type="xs:string" minOccurs="0" />
+                    <xs:element name="templatTc" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="contactProfile">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="adrOneTxt" type="xs:string" minOccurs="0" />
+                    <xs:element name="adrThreeTxt" type="xs:string" minOccurs="0" />
+                    <xs:element name="adrTwoTxt" type="xs:string" minOccurs="0" />
+                    <xs:element name="cityNm" type="xs:string" minOccurs="0" />
+                    <xs:element name="cntryTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="cntyNm" type="xs:string" minOccurs="0" />
+                    <xs:element name="dvlpmtCntctTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="firstNm" type="xs:string" minOccurs="0" />
+                    <xs:element name="frgnPostalCd" type="xs:string" minOccurs="0" />
+                    <xs:element name="lastNm" type="xs:string" minOccurs="0" />
+                    <xs:element name="middleNm" type="xs:string" minOccurs="0" />
+                    <xs:element name="orgNm" type="xs:string" minOccurs="0" />
+                    <xs:element name="postalCd" type="xs:string" minOccurs="0" />
+                    <xs:element name="prvncNm" type="xs:string" minOccurs="0" />
+                    <xs:element name="ptcpntAdrTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="ptcpntId" type="xs:string" minOccurs="0" />
+                    <xs:element name="sfxNm" type="xs:string" minOccurs="0" />
+                    <xs:element name="slttnTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="trtryNm" type="xs:string" minOccurs="0" />
+                    <xs:element name="zip1stSfxNo" type="xs:string" minOccurs="0" />
+                    <xs:element name="zip2ndSfxNo" type="xs:string" minOccurs="0" />
+                    <xs:element name="zipPrefixNo" type="xs:string" minOccurs="0" />
+                    <xs:element name="mPostalTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="mPstOfficeTc" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="developmentAction">
+        <xs:complexContent>
+            <xs:extension base="tns:compositeTransferObject">
+                <xs:sequence>
+                    <xs:element name="createDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="cstHeadngId" type="xs:string" minOccurs="0" />
+                    <xs:element name="cstPrgrphTxt" type="xs:base64Binary" minOccurs="0" />
+                    <xs:element name="customParagraphs" type="tns:paragraph" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="devactnId" type="xs:string" minOccurs="0" />
+                    <xs:element name="developmentItems" type="tns:developmentItem" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="docid" type="xs:string" minOccurs="0" />
+                    <xs:element name="fedAgencyInd" type="xs:string" minOccurs="0" />
+                    <xs:element name="headngId" type="xs:string" minOccurs="0" />
+                    <xs:element name="lctnId" type="xs:string" minOccurs="0" />
+                    <xs:element name="nm" type="xs:string" minOccurs="0" />
+                    <xs:element name="outArgValues" type="tns:outputArgumentValue" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="pgmTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="piesReqstCd" type="xs:string" minOccurs="0" />
+                    <xs:element name="prgrphId" type="xs:string" minOccurs="0" />
+                    <xs:element name="ptcpntId" type="xs:string" minOccurs="0" />
+                    <xs:element name="rulesBasedInd" type="xs:string" minOccurs="0" />
+                    <xs:element name="stdDevactnCd" type="xs:string" minOccurs="0" />
+                    <xs:element name="stdDevactnId" type="xs:string" minOccurs="0" />
+                    <xs:element name="stdactnDescp" type="xs:string" minOccurs="0" />
+                    <xs:element name="suspnsDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="suspnsDuratn" type="xs:long" minOccurs="0" />
+                    <xs:element name="suspnsDys" type="xs:long" minOccurs="0" />
+                    <xs:element name="suspnsUnit" type="xs:string" minOccurs="0" />
+                    <xs:element name="txt" type="xs:base64Binary" minOccurs="0" />
+                    <xs:element name="vbmsDevactionId" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="paragraph">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="customPrgrphTxt" type="xs:base64Binary" minOccurs="0" />
+                    <xs:element name="devactnId" type="xs:string" minOccurs="0" />
+                    <xs:element name="headngId" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="enclosure">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="copiesQty" type="xs:long" minOccurs="0" />
+                    <xs:element name="docid" type="xs:string" minOccurs="0" />
+                    <xs:element name="jetFormNm" type="xs:string" minOccurs="0" />
+                    <xs:element name="oneOcrncInd" type="xs:string" minOccurs="0" />
+                    <xs:element name="outdcmtStencid" type="xs:string" minOccurs="0" />
+                    <xs:element name="stdEnclsrId" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="letterRelationship">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="followUpDcmntId" type="xs:string" minOccurs="0" />
+                    <xs:element name="letterRlnshpId" type="xs:string" minOccurs="0" />
+                    <xs:element name="relatdDcmntId" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="stationProfile">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="clmntNtfiv" type="xs:long" minOccurs="0" />
+                    <xs:element name="cutOffTm" type="xs:string" minOccurs="0" />
+                    <xs:element name="dftAllItmNtfIv" type="xs:long" minOccurs="0" />
+                    <xs:element name="lctnId" type="xs:string" minOccurs="0" />
+                    <xs:element name="lttrSig" type="xs:string" minOccurs="0" />
+                    <xs:element name="lttrSigTtl" type="xs:string" minOccurs="0" />
+                    <xs:element name="lttrStnEmail" type="xs:string" minOccurs="0" />
+                    <xs:element name="notfcnPrflTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="snstvFileUserId" type="xs:string" minOccurs="0" />
+                    <xs:element name="stnNm" type="xs:string" minOccurs="0" />
+                    <xs:element name="suspnsInd" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="stationSuspenseProfile">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="claimSuspnsCd" type="xs:string" minOccurs="0" />
+                    <xs:element name="lctnId" type="xs:string" minOccurs="0" />
+                    <xs:element name="pgmTypeCd" type="xs:string" minOccurs="0" />
+                    <xs:element name="row_cnt" type="xs:long" minOccurs="0" />
+                    <xs:element name="stdDvlpmtActionCd" type="xs:string" minOccurs="0" />
+                    <xs:element name="stdDvlpmtActionId" type="xs:string" minOccurs="0" />
+                    <xs:element name="stnSuspnsPrfilId" type="xs:string" minOccurs="0" />
+                    <xs:element name="suspnsDuratnQty" type="xs:long" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="benefitsExceptionBean">
+        <xs:complexContent>
+            <xs:extension base="tns:faultInfoBean">
+                <xs:sequence>
+                    <xs:element name="CALL_ID" type="xs:int" minOccurs="0" />
+                    <xs:element name="DATASOURCE" type="xs:string" minOccurs="0" />
+                    <xs:element name="DS_ERROR" type="xs:string" minOccurs="0" />
+                    <xs:element name="DS_MESSAGE" type="xs:string" minOccurs="0" />
+                    <xs:element name="FIELD_NAME" type="xs:string" minOccurs="0" />
+                    <xs:element name="JRN_DT" type="xs:string" minOccurs="0" />
+                    <xs:element name="JRN_LCTN_ID" type="xs:string" minOccurs="0" />
+                    <xs:element name="JRN_OBJ_ID" type="xs:string" minOccurs="0" />
+                    <xs:element name="JRN_STT_TC" type="xs:string" minOccurs="0" />
+                    <xs:element name="JRN_USER_ID" type="xs:string" minOccurs="0" />
+                    <xs:element name="LOG" type="xs:string" minOccurs="0" />
+                    <xs:element name="ORA_MSG" type="xs:string" minOccurs="0" />
+                    <xs:element name="PARENT_ID" type="xs:int" minOccurs="0" />
+                    <xs:element name="PARENT_NAME" type="xs:string" minOccurs="0" />
+                    <xs:element name="ROW_CNT" type="xs:int" minOccurs="0" />
+                    <xs:element name="ROW_ID" type="xs:int" minOccurs="0" />
+                    <xs:element name="ROW_NUM" type="xs:int" minOccurs="0" />
+                    <xs:element name="TABLE_NAME" type="xs:string" minOccurs="0" />
+                    <xs:element name="VN_ERROR" type="xs:int" minOccurs="0" />
+                    <xs:element name="VN_MSG" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="faultInfoBean">
+        <xs:sequence>
+            <xs:element name="message" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="manageUnsolicitedEvidence">
+        <xs:sequence>
+            <xs:element name="unsolEvidenceList" type="tns:unsolicitedEvidence" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="unsolicitedEvidence">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="descTxt" type="xs:string" minOccurs="0" />
+                    <xs:element name="evdnceTypeCd" type="xs:string" minOccurs="0" />
+                    <xs:element name="incmngDcmntId" type="xs:string" minOccurs="0" />
+                    <xs:element name="ptcpntClmntId" type="xs:string" minOccurs="0" />
+                    <xs:element name="rcvdDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="userName" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="manageUnsolicitedEvidenceResponse">
+        <xs:sequence>
+            <xs:element name="UnsolicitedEvidence" type="tns:unsolicitedEvidence" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="findUnsolEvdnce">
+        <xs:sequence>
+            <xs:element name="Claiment_ptpcpnt_id" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="findUnsolEvdnceResponse">
+        <xs:sequence>
+            <xs:element name="UnsolicitedEvidence" type="tns:unsolicitedEvidence" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="deleteTrackedItems">
+        <xs:sequence>
+            <xs:element name="letter" type="tns:letterContainer" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="letterContainer">
+        <xs:sequence>
+            <xs:element name="clmId" type="xs:string" minOccurs="0" />
+            <xs:element name="contentions" type="tns:contention" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="developmentEvidence" type="tns:developmentEvidence" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="letters" type="tns:letter" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="notes" type="tns:note" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="powerOfAttorney" type="tns:powerOfAttorney" minOccurs="0" />
+            <xs:element name="stationProfile" type="tns:stationProfile" minOccurs="0" />
+            <xs:element name="unsolicitedEvidence" type="tns:unsolicitedEvidence" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="developmentEvidence">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="clmId" type="xs:string" minOccurs="0" />
+                    <xs:element name="dvlpmtEvdTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="dvlpmtEvdTn" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="note">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="bnftClmNoteTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="clmId" type="xs:string" minOccurs="0" />
+                    <xs:element name="createDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="modifdDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="noteId" type="xs:string" minOccurs="0" />
+                    <xs:element name="noteOutTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="ptcpntId" type="xs:string" minOccurs="0" />
+                    <xs:element name="ptcpntNoteTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="stdNoteId" type="xs:string" minOccurs="0" />
+                    <xs:element name="suspnsDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="txt" type="xs:string" minOccurs="0" />
+                    <xs:element name="userId" type="xs:string" minOccurs="0" />
+                    <xs:element name="userNm" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="powerOfAttorney">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="brthdyDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="deathDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="efctvDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="endDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="firstNm" type="xs:string" minOccurs="0" />
+                    <xs:element name="fullNm" type="xs:string" minOccurs="0" />
+                    <xs:element name="lastNm" type="xs:string" minOccurs="0" />
+                    <xs:element name="middleNm" type="xs:string" minOccurs="0" />
+                    <xs:element name="orgNm" type="xs:string" minOccurs="0" />
+                    <xs:element name="orgTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="ptcpntIdA" type="xs:string" minOccurs="0" />
+                    <xs:element name="ptcpntIdB" type="xs:string" minOccurs="0" />
+                    <xs:element name="ptcpntRshpTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="sfxNm" type="xs:string" minOccurs="0" />
+                    <xs:element name="ssnNo" type="xs:string" minOccurs="0" />
+                    <xs:element name="sttTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="taxIdNo" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="deleteTrackedItemsResponse">
+        <xs:sequence />
+    </xs:complexType>
+
+    <xs:complexType name="ManageTrackedItems">
+        <xs:sequence>
+            <xs:element name="DevelopemnetItems" type="tns:developmentItem" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ManageTrackedItemsResponse">
+        <xs:sequence>
+            <xs:element name="DevelopmentItems" type="tns:developmentItem" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="findTrackedItemsByPtcpntId">
+        <xs:sequence>
+            <xs:element name="ptcpntId" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="findTrackedItemsByPtcpntIdResponse">
+        <xs:sequence>
+            <xs:element name="BenefitClaim" type="tns:benefitClaim" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="createTrackedItems">
+        <xs:sequence>
+            <xs:element name="arg0" type="xs:long" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="createTrackedItemsResponse">
+        <xs:sequence />
+    </xs:complexType>
+
+    <xs:complexType name="findTrackedItemsByDocId">
+        <xs:sequence>
+            <xs:element name="documentId" type="xs:long" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="findTrackedItemsByDocIdResponse">
+        <xs:sequence>
+            <xs:element name="BenefitClaim" type="tns:benefitClaim" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="findTrackedItems">
+        <xs:sequence>
+            <xs:element name="claimId" type="xs:long" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="findTrackedItemsResponse">
+        <xs:sequence>
+            <xs:element name="BenefitClaim" type="tns:benefitClaim" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

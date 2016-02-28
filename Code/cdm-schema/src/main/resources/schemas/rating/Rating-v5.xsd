@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://vbms.vba.va.gov/cdm/rating/v5"
+           targetNamespace="http://vbms.vba.va.gov/cdm/rating/v5"
+           elementFormDefault="qualified" version="5.0">
+    <xs:annotation>
+        <xs:documentation>
+            Release 5.0
+            ========================
+            WIPT Approved: 22JUL2015
+            TSC Approved:  23JUL2015
+            ------------------------
+            * Major version increment due to removal of decremented NarrativeProfile/poa. Data exchanges are currently
+            using Participant-v4.xsd/Veteran/veteranServiceOrganization instead, and will continue to do so.
+            * New BenefitEstimate complexType, which references new DisabilityRating complexType
+
+        </xs:documentation>
+    </xs:annotation>
+    <xs:complexType name="RatingDecisionSummary">
+        <xs:annotation>
+            <xs:documentation>
+                Notification letter text for a Rating Decision.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="notificationText" type="xs:string"
+                        minOccurs="0" maxOccurs="5000">
+                <xs:annotation>
+                    <xs:documentation>Notification Letter Text</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="rbaIssueId" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Rating Issue primary key in the Corporate database
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="issueSortSeqNbr" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Issue sort sequence number from the Corporate
+                    database
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="issueText" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Rating issue description.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <!-- All the elements for the Codesheet profile -->
+    <xs:complexType name="CodesheetProfile">
+        <xs:sequence>
+            <xs:element name="decisionDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        Rating decision date.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="documentTitle" type="xs:string"
+                        minOccurs="0"/>
+            <xs:element name="amputationNote" type="xs:string"
+                        minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        amputation rule that is applied for supplemental
+                        decision issue.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ancillaryDecision" type="xs:string"
+                        minOccurs="0" maxOccurs="5000">
+                <xs:annotation>
+                    <xs:documentation>
+                        Ancillary decision text.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="associatedClaims" type="xs:string"
+                        minOccurs="0" maxOccurs="5000">
+                <xs:annotation>
+                    <xs:documentation>
+                        Contains all claims associated with rating
+                        decision.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="combinedEvals" type="xs:string"
+                        minOccurs="0" maxOccurs="5000"/>
+            <xs:element name="competencyDecision" type="xs:string"
+                        minOccurs="0" maxOccurs="5000">
+                <xs:annotation>
+                    <xs:documentation>Competency decision for the Veteran</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="copyTo" type="xs:string"
+                        minOccurs="0" maxOccurs="5000"/>
+
+            <xs:element name="deathDecision" type="xs:string"
+                        minOccurs="0" maxOccurs="5000"/>
+
+            <xs:element name="deathDecisionHeader" type="xs:string"
+                        minOccurs="0"/>
+
+            <xs:element name="DeferredFamilyIssues" type="xs:string"
+                        minOccurs="0" maxOccurs="5000"/>
+
+            <xs:element name="DeferredVeteranIssues" type="DeferredIssue"
+                        minOccurs="0"/>
+
+            <xs:element name="dentalDecision" type="xs:string"
+                        minOccurs="0" maxOccurs="5000"/>
+
+
+            <xs:element name="desDisabilities" type="DesDisability"
+                        minOccurs="0"/>
+
+            <xs:element name="familyDecision" type="xs:string"
+                        minOccurs="0" maxOccurs="5000">
+                <xs:annotation>
+                    <xs:documentation>Family members decision.The family member
+                        decision types include Ancillary (cp_ancillary), Special Monthly
+                        Pension (cp_smp) and Competency (cp_competency)
+                    </xs:documentation>
+                </xs:annotation>
+
+            </xs:element>
+            <xs:element name="atIssueAncUnemplDecision" type="xs:boolean" minOccurs="0"/>
+            <xs:element name="unEmplDeniedDecision" type="xs:string"
+                        minOccurs="0" maxOccurs="5000"/>
+            <xs:element name="unEmplGrantedDecision" type="xs:string"
+                        minOccurs="0" maxOccurs="5000"/>
+            <xs:element name="jurisdiction" type="xs:string"
+                        maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The Jurisdiction is comprised of a general description of the claim
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="legacyCode" type="LegacyCodes"
+                        maxOccurs="1" minOccurs="0"/>
+            <xs:element name="notSubjectToCompSvcPeriods" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="notSubjectToCompensation8Nsc" type="DisabilityDetails"
+                        minOccurs="0" maxOccurs="5000"/>
+
+            <xs:element name="notations" type="xs:string"
+                        minOccurs="0" maxOccurs="5000"/>
+
+            <xs:element name="pensionDisabilities" type="PensionDisability"
+                        minOccurs="0"/>
+
+            <xs:element name="pensionEntitlementDecision" type="PensionEntitlementDecision"
+                        minOccurs="0"/>
+
+            <xs:element name="smcDenial" type="xs:string" minOccurs="0"/>
+
+            <xs:element name="smcGrid" type="SmcCode"
+                        minOccurs="0" maxOccurs="5000"/>
+
+            <xs:element name="spclMthlycompensation" type="xs:string"
+                        minOccurs="0" maxOccurs="5000"/>
+
+            <xs:element name="subjectToCompensation1Sc" type="DisabilityDetails"
+                        minOccurs="0" maxOccurs="5000"/>
+
+            <xs:element name="treatmentPurpose" type="DisabilityDetails"
+                        minOccurs="0" maxOccurs="5000"/>
+            <xs:element name="vocRehab" type="DisabilityDetails"
+                        minOccurs="0" maxOccurs="5000"/>
+            <xs:element name="accruedGrant" type="xs:string" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="cue" type="xs:string" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="showInsuranceRating" type="xs:boolean" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="raterName" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="secondSignature" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="signline" type="xs:string" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="NarrativeProfile">
+        <xs:sequence>
+            <xs:element name="decisionDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        Rating decision date. This will be printed on the
+                        finalized letters.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="documentTitle" type="xs:string"
+                        minOccurs="0"/>
+            <xs:element name="amputationNote" type="xs:string"
+                        maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>amputation rule that is applied for supplemental
+                        decision issue.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="introduction" type="xs:string"
+                        minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Rating introduction text</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="decision" type="xs:string"
+                        minOccurs="0" maxOccurs="5000">
+                <xs:annotation>
+                    <xs:documentation>Short description of the decision(s) rendered by
+                        Ratings Specialist.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="evidence" type="xs:string"
+                        minOccurs="0" maxOccurs="5000">
+                <xs:annotation>
+                    <xs:documentation>Evidence text associated with the claim
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="reasonForDecision" type="RatingDecisionSummary"
+                        minOccurs="0" maxOccurs="5000"/>
+        </xs:sequence>
+
+    </xs:complexType>
+    <xs:complexType name="DeferredIssue">
+        <xs:sequence>
+            <xs:element name="disabilityList" type="DisabilityDetails"
+                        minOccurs="0" maxOccurs="5000"/>
+            <xs:element name="issuesList" type="xs:string"
+                        minOccurs="0" maxOccurs="5000"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DesDisability">
+        <xs:sequence>
+            <xs:element name="pebReferredProposedCombinedEvaluation"
+                        type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="pebReferredProposedNscDisability" type="DisabilityDetails"
+                        minOccurs="0" maxOccurs="5000">
+                <xs:annotation>
+                    <xs:documentation>PEB Referred Proposed DES Non Service Connected (NSC)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="pebReferredProposedScDisability" type="DisabilityDetails"
+                        minOccurs="0" maxOccurs="5000">
+                <xs:annotation>
+                    <xs:documentation>PEB Referred Proposed DES Service Connected (SC)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="proposedCombinedEvaluation" type="xs:string"
+                        minOccurs="0" maxOccurs="1"/>
+            <xs:element name="proposedNscDisability" type="DisabilityDetails"
+                        minOccurs="0" maxOccurs="5000"/>
+            <xs:element name="proposedScDisability" type="DisabilityDetails"
+                        minOccurs="0" maxOccurs="5000"/>
+            <xs:element name="specialMonthlyCompensation" type="xs:string"
+                        minOccurs="0" maxOccurs="5000"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="LegacyCodes">
+        <xs:annotation>
+            <xs:documentation>Provide additional information that is keyed into BDN</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="addlSvcCode" type="xs:string" minOccurs="0"/>
+            <xs:element name="combatCode" type="xs:string" minOccurs="1"/>
+            <xs:element name="futureExamDate" type="xs:date"
+                        minOccurs="0"/>
+            <xs:element name="specProvCode" type="xs:string"
+                        minOccurs="0"/>
+            <xs:element name="futureExamType" type="FutureExamTypeEnum" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="FutureExamTypeEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="NONE"/>
+            <xs:enumeration value="AtOnce"/>
+            <xs:enumeration value="FutureExamDate"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="DisabilityDetails">
+        <xs:sequence>
+            <xs:element name="diagnosticCode" type="xs:string"
+                        minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Diagnostic code of the disability</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="lineItems" type="xs:string"
+                        minOccurs="0" maxOccurs="5000"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PensionDisability">
+        <xs:sequence>
+            <xs:element name="combinedEvaluationForPension" type="xs:string"
+                        minOccurs="0"/>
+            <xs:element name="disabilityList" type="DisabilityDetails"
+                        minOccurs="0" maxOccurs="5000"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="PensionEntitlementDecision">
+        <xs:sequence>
+            <xs:element name="combinedEvaluationForPension" type="xs:string"
+                        minOccurs="0" maxOccurs="1"/>
+            <xs:element name="permanentTotalDecisions" type="xs:string"
+                        minOccurs="0" maxOccurs="5000"/>
+            <xs:element name="smpDecisions" type="xs:string"
+                        minOccurs="0" maxOccurs="5000"/>
+            <xs:element name="specialProvLawDecisions" type="xs:string"
+                        minOccurs="0" maxOccurs="5000"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="SmcCode">
+        <xs:sequence>
+            <xs:element name="anatLoss" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        anatLoss of the SMC code
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="basic" type="xs:string" minOccurs="0"/>
+            <xs:element name="effectiveDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        effective date of the antloss
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="hospital" type="xs:string" minOccurs="0"/>
+            <xs:element name="lossOfUse" type="xs:string" minOccurs="0"/>
+            <xs:element name="otherLoss" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="BenefitEstimate">
+        <xs:sequence>
+            <xs:element name="serviceConnectedDisabilities" type="DisabilityRating" minOccurs="0" maxOccurs="5000"/>
+            <xs:element name="nonServiceConnectedDisabilities" type="DisabilityRating" minOccurs="0" maxOccurs="5000"/>
+            <xs:element name="monthlyEntitlementAmount" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="combinedRatingPercentage" type="xs:string" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="DisabilityRating">
+        <xs:sequence>
+            <xs:element name="description" type="xs:string"/>
+            <xs:element name="ratingPercentage" type="xs:string" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

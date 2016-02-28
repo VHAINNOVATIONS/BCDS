@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://vbms.vba.va.gov/cdm/common/v4"
+           targetNamespace="http://vbms.vba.va.gov/cdm/common/v4" elementFormDefault="qualified" version="4.2">
+    <xs:annotation>
+        <xs:documentation>
+
+            Version 4.1
+            -----------
+            Source: VBMS-C
+            Date: 7MAY2014
+            Changes:
+            * Added optional addressLines 4 and 5 to the Address Type
+
+            Version 4.2
+            -----------
+            Source: VBMS-Core
+            Author: Eric Buitenhuis
+            Date: 12 May 2014
+            * Added TwoDigitCode type
+            * Changed TwoDigitCode type to simpleType so it can be used as an attribute
+
+        </xs:documentation>
+    </xs:annotation>
+
+    <xs:complexType name="Address">
+        <xs:sequence>
+            <xs:element name="source" type="Source" minOccurs="0"/>
+        </xs:sequence>
+
+        <xs:attribute name="addressLine1" type="xs:string"/>
+        <xs:attribute name="addressLine2" type="xs:string"/>
+        <xs:attribute name="addressLine3" type="xs:string"/>
+        <xs:attribute name="addressLine4" type="xs:string"/>
+        <xs:attribute name="addressLine5" type="xs:string"/>
+        <xs:attribute name="city" type="xs:string"/>
+        <xs:attribute name="stateCode" type="xs:string"/>
+        <xs:attribute name="countryCode" type="xs:string"/>
+        <xs:attribute name="postalCode" type="xs:string"/>
+        <xs:attribute name="preferredAddr" type="xs:boolean" use="required"/>
+        <xs:attribute name="type" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="CodeValue">
+        <xs:attribute name="code" type="xs:string" use="required"/>
+        <xs:attribute name="name" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="Email">
+        <xs:sequence>
+            <xs:element name="source" type="Source" minOccurs="0"/>
+        </xs:sequence>
+
+        <xs:attribute name="email" type="xs:string" use="required"/>
+        <xs:attribute name="emailType" type="xs:string"/>
+        <xs:attribute name="notes" type="xs:string"/>
+        <xs:attribute name="preferredEmail" type="xs:boolean" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="FaultDetailBean">
+        <xs:attribute name="exceptionClassName" type="xs:string"/>
+        <xs:attribute name="message" type="xs:string" use="required"/>
+        <xs:attribute name="uid" type="xs:string"/>
+        <xs:attribute name="serverException" type="xs:boolean" use="required"/>
+    </xs:complexType>
+
+    <!--<xs:element name="faultDetailBean" type="FaultDetailBean"/>-->
+
+    <xs:simpleType name="FileNumber">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="8"/>
+            <xs:maxLength value="9"/>
+            <xs:pattern value="[0-9]*"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="Phone">
+        <xs:sequence>
+            <xs:element name="source" type="Source" minOccurs="0"/>
+        </xs:sequence>
+
+        <xs:attribute name="phoneNumber" type="xs:string" use="required"/>
+        <xs:attribute name="timeToCall" type="TimeToCall"/>
+        <xs:attribute name="notes" type="xs:string"/>
+        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="preferredPhone" type="xs:boolean" use="required"/>
+    </xs:complexType>
+
+    <xs:simpleType name="RegionalArea">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="CENTRAL"/>
+            <xs:enumeration value="EASTERN"/>
+            <xs:enumeration value="SOUTHERN"/>
+            <xs:enumeration value="WESTERN"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="RegionalOffice">
+        <xs:sequence>
+            <xs:element name="area" type="RegionalArea"/>
+            <xs:element name="physicalAddress" type="Address"/>
+            <xs:element name="mailingAddress" type="Address"/>
+        </xs:sequence>
+
+        <xs:attribute name="stationNumber" type="xs:string" use="required"/>
+        <xs:attribute name="roName" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="Source">
+        <xs:sequence>
+            <xs:element name="sourceDt" type="xs:date" minOccurs="0"/>
+        </xs:sequence>
+
+        <xs:attribute name="sourceName" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <xs:simpleType name="TimeToCall">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Day Time"/>
+            <xs:enumeration value="Night Time"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="TwoDigitCode">
+        <xs:annotation>
+            <xs:documentation>
+                An xs:string object that must be two characters in length
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:length value="2"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

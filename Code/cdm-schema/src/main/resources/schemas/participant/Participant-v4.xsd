@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://vbms.vba.va.gov/cdm/participant/v4"
+           xmlns="http://vbms.vba.va.gov/cdm/participant/v4"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:common="http://vbms.vba.va.gov/cdm/common/v4"
+           elementFormDefault="qualified"
+           version="4.2">
+
+    <xs:annotation>
+        <xs:documentation>
+            Participant subject area captures the data structures around the people involved
+            in the Claims process.
+
+            Version 4.1
+            -----------
+            Source: VBMS-C
+            Date: 7MAY2014
+            Changes:
+            * Added Dependent type
+            * Added DependentRelationship type
+            * Copied over various documentation from the SDD
+
+            Release 4.2
+            ========================
+            WIPT Approved: 01JUL2015
+            TSC Approved:  02JUL2015
+            ------------------------
+            * Replaced maxOccurs="unbounded" with maxOccurs="5000"
+        </xs:documentation>
+    </xs:annotation>
+
+    <xs:import namespace="http://vbms.vba.va.gov/cdm/common/v4" schemaLocation="../common/Common-v4.xsd"/>
+
+    <xs:complexType name="ContactInformation">
+        <xs:sequence>
+            <xs:sequence>
+                <xs:element name="address" type="common:Address" maxOccurs="5000" minOccurs="0"/>
+                <xs:element name="email" type="common:Email" maxOccurs="5000" minOccurs="0"/>
+                <xs:element name="phoneNumber" type="common:Phone" maxOccurs="5000" minOccurs="0"/>
+            </xs:sequence>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="CriminalInfo">
+        <xs:sequence>
+            <xs:element name="dateSentToJail" type="xs:date" minOccurs="0"/>
+            <xs:element name="dateReleasedFromJail" type="xs:date" minOccurs="0"/>
+            <xs:element name="paroleEndDt" type="xs:date" minOccurs="0"/>
+        </xs:sequence>
+
+        <xs:attribute name="crimeCommitted" type="xs:string"/>
+        <xs:attribute name="verdict" type="xs:string"/>
+        <xs:attribute name="sentence" type="xs:string"/>
+        <xs:attribute name="stateOfCrime" type="xs:string"/>
+        <xs:attribute name="countryOfCrime" type="xs:string"/>
+        <xs:attribute name="onParole" type="xs:boolean"/>
+        <xs:attribute name="prisonName" type="xs:string"/>
+        <xs:attribute name="cityOfCrime" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="Decoration">
+        <xs:attribute name="name" type="xs:string"/>
+        <xs:attribute name="awardDt" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="DeploymentInfo">
+        <xs:sequence>
+            <xs:element name="inTheaterStartDt" type="xs:date" minOccurs="0"/>
+            <xs:element name="inTheaterEndDt" type="xs:date" minOccurs="0"/>
+        </xs:sequence>
+
+        <xs:attribute name="inTheaterDays" type="xs:int"/>
+    </xs:complexType>
+
+    <xs:complexType name="FiduciaryList">
+        <xs:choice>
+            <xs:element name="personFiduciary" type="PersonAgent" minOccurs="0" maxOccurs="5000"/>
+            <xs:element name="orgFiduciary" type="OrganizationAgent" minOccurs="0"/>
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:complexType name="FinancialInfo">
+        <xs:attribute name="disabilitySeverancePay">
+            <xs:simpleType>
+                <xs:restriction base="xs:decimal">
+                    <xs:fractionDigits value="2"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="lumpReadjPay">
+            <xs:simpleType>
+                <xs:restriction base="xs:decimal">
+                    <xs:fractionDigits value="2"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="netWorthAmnt">
+            <xs:simpleType>
+                <xs:restriction base="xs:decimal">
+                    <xs:fractionDigits value="2"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="substananceAmnt">
+            <xs:simpleType>
+                <xs:restriction base="xs:decimal">
+                    <xs:fractionDigits value="2"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="taxAbatement" type="xs:string"/>
+        <xs:attribute name="taxID" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="InsuranceInfo">
+        <xs:sequence>
+            <xs:element name="policyStartDt" type="xs:date" minOccurs="0"/>
+            <xs:element name="policyEndDt" type="xs:date" minOccurs="0"/>
+        </xs:sequence>
+
+        <xs:attribute name="providerName" type="xs:string"/>
+        <xs:attribute name="insuredName" type="xs:string"/>
+        <xs:attribute name="policyPrefix" type="xs:string"/>
+        <xs:attribute name="policyNumber" type="xs:string"/>
+        <xs:attribute name="policyGroupNumber" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="MarriageInfo">
+        <xs:sequence>
+            <xs:element name="marriageDate" type="xs:date" minOccurs="0"/>
+            <xs:element name="marriageCity" type="xs:string" minOccurs="0"/>
+            <xs:element name="marriageState" type="xs:string" minOccurs="0"/>
+            <xs:element name="firstName" type="xs:string" minOccurs="0"/>
+            <xs:element name="lastName" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="marriageType">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="Ceremonial"/>
+                    <xs:enumeration value="Common Law"/>
+                    <xs:enumeration value="Tribal"/>
+                    <xs:enumeration value="Proxy"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="terminateType">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="Death"/>
+                    <xs:enumeration value="Divorce"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="terminateDate" type="xs:date"/>
+        <xs:attribute name="terminateCity" type="xs:string"/>
+        <xs:attribute name="terminateState" type="xs:string"/>
+        <xs:attribute name="spouseVeteran" type="xs:boolean"/>
+        <xs:attribute name="spouseFileNumber" type="xs:string"/>
+        <xs:attribute name="spouseCoLiving" type="xs:boolean"/>
+        <xs:attribute name="monthlySupportAmt">
+            <xs:simpleType>
+                <xs:restriction base="xs:decimal">
+                    <xs:fractionDigits value="2"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="Name">
+        <xs:sequence>
+            <xs:element name="source" type="common:Source" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="namePrefix" type="xs:string"/>
+        <xs:attribute name="firstName" type="xs:string"/>
+        <xs:attribute name="middleName" type="xs:string"/>
+        <xs:attribute name="lastName" type="xs:string"/>
+        <xs:attribute name="nameSuffix" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="Organization">
+        <xs:complexContent>
+            <xs:extension base="Participant">
+                <xs:sequence>
+                    <xs:sequence>
+                        <xs:element name="contactInformation" type="ContactInformation" minOccurs="0"/>
+                        <xs:element name="pointOfContact" type="Person" minOccurs="0" maxOccurs="5000"/>
+                    </xs:sequence>
+                </xs:sequence>
+
+                <xs:attribute name="name" type="xs:string" use="required"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="OrganizationAgent">
+        <xs:annotation>
+            <xs:documentation>
+                Represents a person who has been granted fiduciary privileges and is acting as an agent on behalf of a
+                veteran or claimant. E.g., a Veteran Service Organization advocating for the veteran.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="Organization">
+                <xs:attribute name="powerOfAttorneyStartDate" type="xs:date"/>
+                <xs:attribute name="powerOfAttorneyEndDate" type="xs:date"/>
+                <xs:attribute name="grantedFullVeteranHealthcareAccess" type="xs:boolean" use="required">
+                    <xs:annotation>
+                        <xs:documentation>
+                            This attribute indicates whether or not the POA has been given permission by the veteran to
+                            view all healthcare information, including explicitly sensitive material such as alcoholism, HIV,
+                            etc.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="powerOfAttorneyType" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Participant" abstract="true">
+        <xs:annotation>
+            <xs:documentation>
+                Participant is the abstract base type for all person or organization types in the VBMS CDM whose source
+                data originates from non-VBMS systems. Typically, this would be types like Veteran or Organization
+                that originate in the BGS system.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="Party">
+                <xs:attribute name="externalParticipantId" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- v4-change-delete?: Need to review to determine if this object is really needed. -->
+    <xs:complexType name="Party" abstract="true">
+        <xs:annotation>
+            <xs:documentation>
+                Party is the abstract base type for all person or organization types in the VBMS CDM. Party is
+                independent of the source of data.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="source" type="common:Source" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Person">
+        <xs:annotation>
+            <xs:documentation>
+                An object representing a real person and holding the common attributes of a person.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="Participant">
+                <xs:sequence>
+                    <xs:element name="preferredName" type="Name" minOccurs="0"/>
+
+                    <xs:element name="alternateNames" type="Name" minOccurs="0" maxOccurs="5000"/>
+                    <xs:element name="personalInfo" type="PersonalInfo" minOccurs="0"/>
+                </xs:sequence>
+
+                <xs:attribute name="gender">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="M"/>
+                            <xs:enumeration value="F"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="PersonAgent">
+        <xs:annotation>
+            <xs:documentation>
+                Represents a person who has been granted fiduciary privileges and is acting as an agent on behalf of a
+                veteran or claimant.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="Person">
+                <xs:attribute name="powerOfAttorneyStartDate" type="xs:date"/>
+                <xs:attribute name="powerOfAttorneyEndDate" type="xs:date"/>
+                <xs:attribute name="grantedFullVeteranHealthcareAccess" type="xs:boolean" use="required">
+                    <xs:annotation>
+                        <xs:documentation>
+                            This attribute indicates whether or not the POA has been given permission by the veteran to
+                            view
+                            all healthcare information, including explicitly sensitive material such as alcoholism, HIV,
+                            etc.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="powerOfAttorneyType" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="PersonalInfo">
+        <xs:sequence>
+            <xs:element name="address" minOccurs="0" type="common:Address" maxOccurs="5000"/>
+            <xs:element name="email" type="common:Email" maxOccurs="5000" minOccurs="0"/>
+            <xs:element name="criminalInfo" type="CriminalInfo" minOccurs="0" maxOccurs="5000"/>
+            <xs:element name="financialInfo" type="FinancialInfo" minOccurs="0" maxOccurs="5000"/>
+            <xs:element name="insuranceInfo" type="InsuranceInfo" minOccurs="0" maxOccurs="5000"/>
+            <xs:element name="phone" type="common:Phone" minOccurs="0" maxOccurs="5000"/>
+            <xs:element name="dateOfBirth" type="xs:date" minOccurs="0"/>
+            <xs:element name="dateOfDeath" type="xs:date" minOccurs="0"/>
+            <xs:element name="currentOccupationStartDt" type="xs:date" minOccurs="0"/>
+        </xs:sequence>
+
+        <xs:attribute name="birthCity" type="xs:string"/>
+        <xs:attribute name="birthState_Code" type="xs:string"/>
+        <xs:attribute name="birthCountryCode" type="xs:string"/>
+        <xs:attribute name="causeOfDeath" type="xs:string"/>
+        <xs:attribute name="ssn" type="xs:string"/>
+        <xs:attribute name="ssnValidation" type="xs:string"/>
+        <xs:attribute name="noSsnReason" type="xs:string"/>
+        <xs:attribute name="employment" type="xs:boolean"/>
+        <xs:attribute name="currentOccupation" type="xs:string"/>
+        <xs:attribute name="potentialDangers" type="xs:boolean"/>
+        <xs:attribute name="employmenHdcp" type="xs:boolean"/>
+        <xs:attribute name="birthplaceValidation" type="xs:string"/>
+        <xs:attribute name="dobValidation" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="PowInfo">
+        <xs:sequence>
+            <xs:element name="captureDt" type="xs:date" minOccurs="0"/>
+            <xs:element name="releaseDt" type="xs:date" minOccurs="0"/>
+        </xs:sequence>
+
+        <xs:attribute name="powValidation" type="xs:string"/>
+        <xs:attribute name="powDays" type="xs:integer"/>
+        <xs:attribute name="countryOfCaptivityCd" type="xs:string"/>
+        <xs:attribute name="captivityLocation" type="xs:string"/>
+        <xs:attribute name="captors" type="xs:string"/>
+        <xs:attribute name="militaryTheater" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="ServiceInfo">
+        <xs:sequence>
+            <xs:element name="decoration" type="Decoration" maxOccurs="5000" minOccurs="0"/>
+            <xs:element name="deploymentInfo" type="DeploymentInfo" maxOccurs="5000" minOccurs="0"/>
+            <xs:element name="powInfo" type="PowInfo" maxOccurs="5000" minOccurs="0"/>
+            <xs:element name="enteredOnDutyDt" type="xs:date" minOccurs="0"/>
+            <xs:element name="releasedActiveDutyDt" type="xs:date" minOccurs="0"/>
+        </xs:sequence>
+
+        <xs:attribute name="fileNumber" type="common:FileNumber"/>
+        <xs:attribute name="activeDutyTraining" type="xs:boolean"/>
+        <xs:attribute name="serviceBranch" type="xs:string"/>
+        <xs:attribute name="burialFlagIssue" type="xs:boolean"/>
+        <xs:attribute name="charOfService" type="xs:string"/>
+        <xs:attribute name="dischargeType" type="xs:string"/>
+        <xs:attribute name="dischargeReason" type="xs:string"/>
+        <xs:attribute name="externalKey" type="xs:string"/>
+        <xs:attribute name="frgnSvcNbr" type="xs:string"/>
+        <xs:attribute name="gulfSvc" type="xs:boolean"/>
+        <xs:attribute name="medalOfHonor" type="xs:boolean"/>
+        <xs:attribute name="mltyPerson" type="xs:boolean"/>
+        <xs:attribute name="nonPayDays" type="xs:integer"/>
+        <xs:attribute name="payGrade" type="xs:string"/>
+        <xs:attribute name="purpleHeart" type="xs:boolean"/>
+        <xs:attribute name="reenlisted" type="xs:boolean"/>
+        <xs:attribute name="separationReason" type="xs:string"/>
+        <xs:attribute name="subBranch" type="xs:string"/>
+        <xs:attribute name="seperationPayAmt">
+            <xs:simpleType>
+                <xs:restriction base="xs:decimal">
+                    <xs:fractionDigits value="2"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="serviceNumber" type="xs:string"/>
+        <xs:attribute name="totalActiveSvcDays" type="xs:integer"/>
+        <xs:attribute name="transferReserves" type="xs:boolean"/>
+        <xs:attribute name="typeOfDuty" type="xs:string"/>
+        <xs:attribute name="vet" type="xs:boolean"/>
+        <xs:attribute name="vads" type="xs:boolean"/>
+        <xs:attribute name="vaEmployee" type="xs:boolean"/>
+        <xs:attribute name="verifiedService" type="xs:boolean"/>
+        <xs:attribute name="vietnamSvc" type="xs:boolean"/>
+        <xs:attribute name="anotherNameServedUnder" type="xs:string"/>
+        <xs:attribute name="reserveStatus" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="Veteran">
+        <xs:complexContent>
+            <xs:extension base="Person">
+                <xs:sequence>
+                    <xs:element name="serviceInfo" type="ServiceInfo" maxOccurs="5000" minOccurs="0"/>
+                    <xs:element name="marriageInfo" type="MarriageInfo" minOccurs="0" maxOccurs="5000"/>
+                    <xs:element name="fiduciaries" type="FiduciaryList" minOccurs="0"/>
+                    <xs:element name="veteranServiceOrganization" type="OrganizationAgent" minOccurs="0"/>
+                </xs:sequence>
+                <xs:attribute name="combinedDegree" type="xs:string"/>
+                <xs:attribute name="competencyRating" type="xs:string"/>
+                <xs:attribute name="competency" type="xs:string"/>
+                <xs:attribute name="fileNumber" type="common:FileNumber"/>
+                <xs:attribute name="survivingSpouse" type="xs:boolean"/>
+                <xs:attribute name="marriageStatus">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="Married"/>
+                            <xs:enumeration value="Divorced"/>
+                            <xs:enumeration value="Never Married"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Dependent">
+        <xs:annotation>
+            <xs:documentation>
+                A person who relies on a participant. A Dependent is a Person and in the real world may also be
+                a Veteran.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="Person">
+                <xs:sequence>
+                    <xs:element name="relationship" type="DependentRelationship" minOccurs="1" maxOccurs="1">
+                        <xs:annotation>
+                            <xs:documentation>
+                                EnumeratedList that indicates the relationship of this dependent to the veteran (Child,
+                                Spouse, Parent).
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="marriageInfo" type="MarriageInfo" minOccurs="0" maxOccurs="1">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Contains only the marriage info that establish the dependency relationship if any.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:simpleType name="DependentRelationship">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Spouse"/>
+            <xs:enumeration value="Child"/>
+            <xs:enumeration value="Parent"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

@@ -19,13 +19,11 @@
         <dependency>
             <groupId>gov.va.vba</groupId>
             <artifactId>bcds-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>gov.va.vba</groupId>
             <artifactId>bcds-persistence</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>

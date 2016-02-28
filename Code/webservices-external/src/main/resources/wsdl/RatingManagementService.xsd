@@ -1,0 +1,1013 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is Oracle JAX-WS 2.1.3-07/10/2008 08:41 PM(bt). -->
+<xs:schema xmlns:tns="http://services.rba.benefits.vba.va.gov/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://services.rba.benefits.vba.va.gov/">
+
+    <xs:element name="BenefitsException" nillable="true" type="tns:benefitsExceptionBean" />
+
+    <xs:element name="GetRatingException" nillable="true" type="tns:getRatingFaultBean" />
+
+    <xs:element name="getRating" type="tns:getRating" />
+
+    <xs:element name="getRatingForAwards" type="tns:getRatingForAwards" />
+
+    <xs:element name="getRatingForAwardsResponse" type="tns:getRatingForAwardsResponse" />
+
+    <xs:element name="getRatingResponse" type="tns:getRatingResponse" />
+
+    <xs:element name="readCombinedRatingDetail" type="tns:readCombinedRatingDetail" />
+
+    <xs:element name="readCombinedRatingDetailResponse" type="tns:readCombinedRatingDetailResponse" />
+
+    <xs:element name="readCompletedRating" type="tns:readCompletedRating" />
+
+    <xs:element name="readCompletedRatingResponse" type="tns:readCompletedRatingResponse" />
+
+    <xs:element name="readIncompleteRating" type="tns:readIncompleteRating" />
+
+    <xs:element name="readIncompleteRatingResponse" type="tns:readIncompleteRatingResponse" />
+
+    <xs:element name="readNewRating" type="tns:readNewRating" />
+
+    <xs:element name="readNewRatingDESWrap" type="tns:readNewRatingDESWrap" />
+
+    <xs:element name="readNewRatingDESWrapResponse" type="tns:readNewRatingDESWrapResponse" />
+
+    <xs:element name="readNewRatingNoDES" type="tns:readNewRatingNoDES" />
+
+    <xs:element name="readNewRatingNoDESResponse" type="tns:readNewRatingNoDESResponse" />
+
+    <xs:element name="readNewRatingNoDESWrap" type="tns:readNewRatingNoDESWrap" />
+
+    <xs:element name="readNewRatingNoDESWrapResponse" type="tns:readNewRatingNoDESWrapResponse" />
+
+    <xs:element name="readNewRatingResponse" type="tns:readNewRatingResponse" />
+
+    <xs:element name="recalculateCombinedRatingDetail" type="tns:recalculateCombinedRatingDetail" />
+
+    <xs:element name="recalculateCombinedRatingDetailResponse" type="tns:recalculateCombinedRatingDetailResponse" />
+
+    <xs:element name="reprintRating" type="tns:reprintRating" />
+
+    <xs:element name="reprintRatingResponse" type="tns:reprintRatingResponse" />
+
+    <xs:element name="strictUnlockRating" type="tns:strictUnlockRating" />
+
+    <xs:element name="strictUnlockRatingResponse" type="tns:strictUnlockRatingResponse" />
+
+    <xs:element name="unlockRating" type="tns:unlockRating" />
+
+    <xs:element name="unlockRatingResponse" type="tns:unlockRatingResponse" />
+
+    <xs:complexType name="readCombinedRatingDetail">
+        <xs:sequence>
+            <xs:element name="ptcpntVetId" type="xs:string" minOccurs="0" />
+            <xs:element name="beneId" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="readCombinedRatingDetailResponse">
+        <xs:sequence>
+            <xs:element name="combinedPercent" type="tns:combinedRatingDetail" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="combinedRatingDetail">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="desSCCombined" type="tns:nscCombinedPercent" minOccurs="0" />
+                    <xs:element name="nscCombined" type="tns:nscCombinedPercent" minOccurs="0" />
+                    <xs:element name="pebReferredCombined" type="tns:nscCombinedPercent" minOccurs="0" />
+                    <xs:element name="ratingAwardDetails" type="tns:ratingAwardDetail" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="rbaRatingDetails" type="tns:rbaRatingDetail" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="spccode" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="transferObject" abstract="true">
+        <xs:sequence>
+            <xs:element name="callId" type="xs:long" minOccurs="0" />
+            <xs:element name="jrnDt" type="xs:dateTime" minOccurs="0" />
+            <xs:element name="jrnLctnId" type="xs:string" minOccurs="0" />
+            <xs:element name="jrnObjId" type="xs:string" minOccurs="0" />
+            <xs:element name="jrnSttTc" type="xs:string" minOccurs="0" />
+            <xs:element name="jrnUserId" type="xs:string" minOccurs="0" />
+            <xs:element name="parentId" type="xs:long" minOccurs="0" />
+            <xs:element name="parentName" type="xs:string" minOccurs="0" />
+            <xs:element name="rowCnt" type="xs:long" minOccurs="0" />
+            <xs:element name="rowId" type="xs:long" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="nscCombinedPercent">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="bilateralDiagTxt" type="xs:string" minOccurs="0" />
+                    <xs:element name="bilateralFactor" type="xs:double" minOccurs="0" />
+                    <xs:element name="bilateralPercent" type="xs:long" minOccurs="0" />
+                    <xs:element name="efctvDtOvrideInd" type="xs:string" minOccurs="0" />
+                    <xs:element name="highestPercent" type="xs:long" minOccurs="0" />
+                    <xs:element name="isNull" type="xs:long" minOccurs="0" />
+                    <xs:element name="nscType" type="xs:string" minOccurs="0" />
+                    <xs:element name="percent" type="xs:long" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="ratingAwardDetail">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="awardEventInd" type="xs:string" minOccurs="0" />
+                    <xs:element name="bilateralDiagTxt" type="xs:string" minOccurs="0" />
+                    <xs:element name="compSvcPerTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="efctvDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="efctvDtOvrideInd" type="xs:string" minOccurs="0" />
+                    <xs:element name="hospInd" type="xs:string" minOccurs="0" />
+                    <xs:element name="inactvDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="iuInd" type="xs:string" minOccurs="0" />
+                    <xs:element name="nscBilatNo" type="xs:double" minOccurs="0" />
+                    <xs:element name="nscPercent" type="xs:long" minOccurs="0" />
+                    <xs:element name="paySmcTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="penSvcPerTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="perWoReca" type="xs:long" minOccurs="0" />
+                    <xs:element name="perWoSev" type="xs:long" minOccurs="0" />
+                    <xs:element name="perWoTort" type="xs:long" minOccurs="0" />
+                    <xs:element name="perWoWrk" type="xs:long" minOccurs="0" />
+                    <xs:element name="prfilDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ptInd" type="xs:string" minOccurs="0" />
+                    <xs:element name="ptcpntIdA" type="xs:string" minOccurs="0" />
+                    <xs:element name="ptcpntVetId" type="xs:string" minOccurs="0" />
+                    <xs:element name="ratingAwardSumryId" type="xs:string" minOccurs="0" />
+                    <xs:element name="ratingDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="rbaUserId" type="xs:string" minOccurs="0" />
+                    <xs:element name="recaWhPer" type="xs:long" minOccurs="0" />
+                    <xs:element name="scBilatNo" type="xs:double" minOccurs="0" />
+                    <xs:element name="scPercent" type="xs:long" minOccurs="0" />
+                    <xs:element name="sevWhPer" type="xs:long" minOccurs="0" />
+                    <xs:element name="smcTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="smcWthldCode" type="xs:string" minOccurs="0" />
+                    <xs:element name="smpName" type="xs:string" minOccurs="0" />
+                    <xs:element name="tortWhPer" type="xs:long" minOccurs="0" />
+                    <xs:element name="wrkWhPer" type="xs:long" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="rbaRatingDetail">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="legalEfctvDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="nscBilatNbr" type="xs:double" minOccurs="0" />
+                    <xs:element name="nscPercent" type="xs:long" minOccurs="0" />
+                    <xs:element name="prfilDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ptcpntVetId" type="xs:string" minOccurs="0" />
+                    <xs:element name="scBilatNbr" type="xs:double" minOccurs="0" />
+                    <xs:element name="scPercent" type="xs:long" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="benefitsExceptionBean">
+        <xs:complexContent>
+            <xs:extension base="tns:faultInfoBean">
+                <xs:sequence>
+                    <xs:element name="CALL_ID" type="xs:int" minOccurs="0" />
+                    <xs:element name="DATASOURCE" type="xs:string" minOccurs="0" />
+                    <xs:element name="DS_ERROR" type="xs:string" minOccurs="0" />
+                    <xs:element name="DS_MESSAGE" type="xs:string" minOccurs="0" />
+                    <xs:element name="FIELD_NAME" type="xs:string" minOccurs="0" />
+                    <xs:element name="JRN_DT" type="xs:string" minOccurs="0" />
+                    <xs:element name="JRN_LCTN_ID" type="xs:string" minOccurs="0" />
+                    <xs:element name="JRN_OBJ_ID" type="xs:string" minOccurs="0" />
+                    <xs:element name="JRN_STT_TC" type="xs:string" minOccurs="0" />
+                    <xs:element name="JRN_USER_ID" type="xs:string" minOccurs="0" />
+                    <xs:element name="LOG" type="xs:string" minOccurs="0" />
+                    <xs:element name="ORA_MSG" type="xs:string" minOccurs="0" />
+                    <xs:element name="PARENT_ID" type="xs:int" minOccurs="0" />
+                    <xs:element name="PARENT_NAME" type="xs:string" minOccurs="0" />
+                    <xs:element name="ROW_CNT" type="xs:int" minOccurs="0" />
+                    <xs:element name="ROW_ID" type="xs:int" minOccurs="0" />
+                    <xs:element name="ROW_NUM" type="xs:int" minOccurs="0" />
+                    <xs:element name="TABLE_NAME" type="xs:string" minOccurs="0" />
+                    <xs:element name="VN_ERROR" type="xs:int" minOccurs="0" />
+                    <xs:element name="VN_MSG" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="faultInfoBean">
+        <xs:sequence>
+            <xs:element name="message" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="unlockRating">
+        <xs:sequence>
+            <xs:element name="rbaProfile" type="tns:rbaProfile" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="rbaProfile">
+        <xs:complexContent>
+            <xs:extension base="tns:compositeTransferObject">
+                <xs:sequence>
+                    <xs:element name="addtnlDgnstcCodesQty" type="xs:long" minOccurs="0" />
+                    <xs:element name="ancillaryDecisions" type="tns:ancillary" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="associatedClaims" type="tns:rbaClaim" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="cdshtDcmntId" type="xs:string" minOccurs="0" />
+                    <xs:element name="clientRatingDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="cmbndPcntScopeDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="cnvrsnDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="combatDsbltyCd" type="xs:string" minOccurs="0" />
+                    <xs:element name="competencyDecisions" type="tns:competency" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="copyLocationList" type="tns:copyLocation" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="dcmntTitleTxt" type="xs:string" minOccurs="0" />
+                    <xs:element name="dentalDecisions" type="tns:dental" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="desScBilatNbr" type="xs:double" minOccurs="0" />
+                    <xs:element name="desScPercent" type="xs:long" minOccurs="0" />
+                    <xs:element name="disabilities" type="tns:disability" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="generatedDocs" type="tns:developmentActionGroup" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="indUnemploymentDecisions" type="tns:indUnemployment" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="jrsdtnTxt" type="xs:string" minOccurs="0" />
+                    <xs:element name="lockedInd" type="xs:string" minOccurs="0" />
+                    <xs:element name="militaryServicePeriods" type="tns:militaryServicePeriod" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="narrtvDcmntId" type="xs:string" minOccurs="0" />
+                    <xs:element name="pebRefBilatNbr" type="xs:double" minOccurs="0" />
+                    <xs:element name="pebRefPercent" type="xs:long" minOccurs="0" />
+                    <xs:element name="permanentTotalDecisions" type="tns:permanentTotal" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="pndngPrmlgnDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="poaNm" type="xs:string" minOccurs="0" />
+                    <xs:element name="prflDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="prmlgnDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="prmlngClaimId" type="xs:string" minOccurs="0" />
+                    <xs:element name="ptcpntPoaId" type="xs:string" minOccurs="0" />
+                    <xs:element name="ptcpntVetId" type="xs:string" minOccurs="0" />
+                    <xs:element name="ratingAwardDetails" type="tns:ratingAwardDetail" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="ratingDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ratingIntroTxt" type="xs:base64Binary" minOccurs="0" />
+                    <xs:element name="ratingIssues" type="tns:rbaIssue" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="ratingWebInd" type="xs:string" minOccurs="0" />
+                    <xs:element name="rbaEvidenceList" type="tns:rbaEvidence" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="rbaRatingDetails" type="tns:rbaRatingDetail" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="rbaSupHdgList" type="tns:rbaSupHdg" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="rbaUserId" type="xs:string" minOccurs="0" />
+                    <xs:element name="rcvdDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="scDeathDecisions" type="tns:serviceConnectedDeath" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="secSigntrTxt" type="xs:string" minOccurs="0" />
+                    <xs:element name="smcDecisions" type="tns:specialMonthlyComp" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="smcParagraphDecisions" type="tns:specialMonthlyCompParagraph" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="smpDecisions" type="tns:specialMonthlyPension" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="specialProvisionLawDecisions" type="tns:specialProvisionLaw" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="systemTc" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="compositeTransferObject" abstract="true">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="ancillary">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="ancDecnTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="ancDecnTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="beginDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="convBeginDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="convEndDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="endDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="inactvDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="prevRatingSn" type="xs:string" minOccurs="0" />
+                    <xs:element name="prflDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ptcpntDecnId" type="xs:string" minOccurs="0" />
+                    <xs:element name="ptcpntVetId" type="xs:string" minOccurs="0" />
+                    <xs:element name="ratingDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ratingSn" type="xs:string" minOccurs="0" />
+                    <xs:element name="rbaIssueId" type="xs:string" minOccurs="0" />
+                    <xs:element name="splmntlDecnTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="splmntlDecnTn" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="rbaClaim">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="bnftClmTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="bnftClmTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="claimRcvdDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="clmId" type="xs:string" minOccurs="0" />
+                    <xs:element name="clmntNm" type="xs:string" minOccurs="0" />
+                    <xs:element name="endPrdctTypeCd" type="xs:string" minOccurs="0" />
+                    <xs:element name="lockedInd" type="xs:string" minOccurs="0" />
+                    <xs:element name="prflDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ptcpntClmntId" type="xs:string" minOccurs="0" />
+                    <xs:element name="ptcpntVetId" type="xs:string" minOccurs="0" />
+                    <xs:element name="ratingDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="rbaClmSn" type="xs:string" minOccurs="0" />
+                    <xs:element name="rbaUserNm" type="xs:string" minOccurs="0" />
+                    <xs:element name="statusTc" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="competency">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="beginDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="cmptnyDecnTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="cmptnyDecnTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="convBeginDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="convEndDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="endDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="inactvDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="prevRatingSn" type="xs:string" minOccurs="0" />
+                    <xs:element name="prflDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ptcpntDecnId" type="xs:string" minOccurs="0" />
+                    <xs:element name="ptcpntVetId" type="xs:string" minOccurs="0" />
+                    <xs:element name="ratingDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ratingSn" type="xs:string" minOccurs="0" />
+                    <xs:element name="rbaIssueId" type="xs:string" minOccurs="0" />
+                    <xs:element name="splmntlDecnTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="splmntlDecnTn" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="copyLocation">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="copyToId" type="xs:string" minOccurs="0" />
+                    <xs:element name="copyToTxt" type="xs:string" minOccurs="0" />
+                    <xs:element name="prflDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ptcpntVetId" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="dental">
+        <xs:complexContent>
+            <xs:extension base="tns:compositeTransferObject">
+                <xs:sequence>
+                    <xs:element name="dentalDetails" type="tns:dentalDetail" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="inactvDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="nscCombatInd" type="xs:string" minOccurs="0" />
+                    <xs:element name="nscInd" type="xs:string" minOccurs="0" />
+                    <xs:element name="nscPthlglInd" type="xs:string" minOccurs="0" />
+                    <xs:element name="prevRatingSn" type="xs:string" minOccurs="0" />
+                    <xs:element name="prflDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ptcpntIdA" type="xs:string" minOccurs="0" />
+                    <xs:element name="pthlglCndDesc" type="xs:string" minOccurs="0" />
+                    <xs:element name="ratingDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ratingSn" type="xs:string" minOccurs="0" />
+                    <xs:element name="rbaIssueId" type="xs:string" minOccurs="0" />
+                    <xs:element name="svcCntdInd" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="dentalDetail">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="combatInd" type="xs:string" minOccurs="0" />
+                    <xs:element name="ratingSn" type="xs:string" minOccurs="0" />
+                    <xs:element name="toothNo" type="xs:long" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="disability">
+        <xs:complexContent>
+            <xs:extension base="tns:compositeTransferObject">
+                <xs:sequence>
+                    <xs:element name="additionalDecisionBases" type="tns:disabilityDecisionBasis" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="cncEntlTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="cncEntlTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="combatInd" type="xs:string" minOccurs="0" />
+                    <xs:element name="decnBasisTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="decnBasisTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="decnTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="decnTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="disDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="disRfrncDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="disRfrncSn" type="xs:string" minOccurs="0" />
+                    <xs:element name="disSn" type="xs:string" minOccurs="0" />
+                    <xs:element name="disWhPct" type="xs:long" minOccurs="0" />
+                    <xs:element name="disabilityEvaluations" type="tns:disabilityEvaluation" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="disabilitySpecialIssues" type="tns:disabilitySpecialIssue" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="examAtOnceInd" type="xs:string" minOccurs="0" />
+                    <xs:element name="futureExamDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="inactvDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="indvdlUnemplInd" type="xs:string" minOccurs="0" />
+                    <xs:element name="lastExamDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="origDenialDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="origDenialInd" type="xs:string" minOccurs="0" />
+                    <xs:element name="prevSvcPct" type="xs:long" minOccurs="0" />
+                    <xs:element name="prflDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ptcpntIdA" type="xs:string" minOccurs="0" />
+                    <xs:element name="staticInd" type="xs:string" minOccurs="0" />
+                    <xs:element name="svcEventDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="svcPerTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="svcPerTn" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="disabilityDecisionBasis">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="dsbltyDecnBasisTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="dsbltyDecnSn" type="xs:string" minOccurs="0" />
+                    <xs:element name="dsbltyDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="dsbltyId" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="disabilityEvaluation">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="beginDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="blatrlTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="blatrlTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="convBeginDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="convEndDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="dgnstcTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="dgnstcTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="dgnstcTxt" type="xs:string" minOccurs="0" />
+                    <xs:element name="disDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="disSn" type="xs:string" minOccurs="0" />
+                    <xs:element name="disWhPct" type="xs:long" minOccurs="0" />
+                    <xs:element name="efctvDtOvrideTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="efctvDtOvrideTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="endDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="hypDgnstcTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="inactvDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="majorInd" type="xs:string" minOccurs="0" />
+                    <xs:element name="ovrideActionInd" type="xs:string" minOccurs="0" />
+                    <xs:element name="ovrideBeginDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ovrideDecnDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="prcntNo" type="xs:long" minOccurs="0" />
+                    <xs:element name="prevEvaltnInd" type="xs:string" minOccurs="0" />
+                    <xs:element name="prevRatingSn" type="xs:string" minOccurs="0" />
+                    <xs:element name="prflDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="prgrphTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="prgrphTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="ptcpntIdA" type="xs:string" minOccurs="0" />
+                    <xs:element name="ratingDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ratingSn" type="xs:string" minOccurs="0" />
+                    <xs:element name="rbaIssueId" type="xs:string" minOccurs="0" />
+                    <xs:element name="scheduleTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="scheduleTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="splmntlDecnTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="splmntlDecnTn" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="disabilitySpecialIssue">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="disDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="disSn" type="xs:string" minOccurs="0" />
+                    <xs:element name="spisBasisTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="spisBasisTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="spisTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="spisTn" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="developmentActionGroup">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="awdEventId" type="xs:string" minOccurs="0" />
+                    <xs:element name="barCd" type="xs:string" minOccurs="0" />
+                    <xs:element name="clmId" type="xs:string" minOccurs="0" />
+                    <xs:element name="dcmntDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="docid" type="xs:string" minOccurs="0" />
+                    <xs:element name="dvlpmtTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="estabdDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="fileSttDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="fileSttTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="incldEnclsrInd" type="xs:string" minOccurs="0" />
+                    <xs:element name="lttrTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="lttrTmplatId" type="xs:string" minOccurs="0" />
+                    <xs:element name="lttrTxt" type="xs:base64Binary" minOccurs="0" />
+                    <xs:element name="lttrTxt2" type="xs:base64Binary" minOccurs="0" />
+                    <xs:element name="nm" type="xs:string" minOccurs="0" />
+                    <xs:element name="outdcmtTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="printDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ptcpntDcmntTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="ptcpntId" type="xs:string" minOccurs="0" />
+                    <xs:element name="sn" type="xs:long" minOccurs="0" />
+                    <xs:element name="splitTxt" type="xs:base64Binary" minOccurs="0" />
+                    <xs:element name="templatTc" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="indUnemployment">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="beginDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="convBeginDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="convEndDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="efctvDtOvrideTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="efctvDtOvrideTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="endDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="inactvDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="iuDecnTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="iuDecnTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="ovrideActionInd" type="xs:string" minOccurs="0" />
+                    <xs:element name="ovrideBeginDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ovrideDecnDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="prevRatingSn" type="xs:string" minOccurs="0" />
+                    <xs:element name="prflDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ptcpntIdA" type="xs:string" minOccurs="0" />
+                    <xs:element name="ratingDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ratingSn" type="xs:string" minOccurs="0" />
+                    <xs:element name="rbaIssueId" type="xs:string" minOccurs="0" />
+                    <xs:element name="splmntlDecnTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="splmntlDecnTn" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="militaryServicePeriod">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="beginDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="deathInd" type="xs:string" minOccurs="0" />
+                    <xs:element name="earliestInd" type="xs:string" minOccurs="0" />
+                    <xs:element name="latestInd" type="xs:string" minOccurs="0" />
+                    <xs:element name="ptcpntIdA" type="xs:string" minOccurs="0" />
+                    <xs:element name="svcPerTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="svcPerTn" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="permanentTotal">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="beginDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="convBeginDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="convEndDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="endDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="inactvDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="prevRatingSn" type="xs:string" minOccurs="0" />
+                    <xs:element name="prflDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ptcpntIdA" type="xs:string" minOccurs="0" />
+                    <xs:element name="ptdecnTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="ptdecnTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="ratingDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ratingSn" type="xs:string" minOccurs="0" />
+                    <xs:element name="rbaIssueId" type="xs:string" minOccurs="0" />
+                    <xs:element name="splmntlDecnTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="splmntlDecnTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="svcPerTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="svcPerTn" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="rbaIssue">
+        <xs:complexContent>
+            <xs:extension base="tns:compositeTransferObject">
+                <xs:sequence>
+                    <xs:element name="anlysGenTxt" type="xs:base64Binary" minOccurs="0" />
+                    <xs:element name="anlysGenTxtId" type="xs:string" minOccurs="0" />
+                    <xs:element name="anlysUsrTxt" type="xs:base64Binary" minOccurs="0" />
+                    <xs:element name="anlysUsrTxtId" type="xs:string" minOccurs="0" />
+                    <xs:element name="bestNewsWt" type="xs:long" minOccurs="0" />
+                    <xs:element name="copyFacts" type="xs:string" minOccurs="0" />
+                    <xs:element name="decnRowId" type="xs:string" minOccurs="0" />
+                    <xs:element name="decnTxt" type="xs:string" minOccurs="0" />
+                    <xs:element name="disSn" type="xs:string" minOccurs="0" />
+                    <xs:element name="factUsrTxt" type="xs:base64Binary" minOccurs="0" />
+                    <xs:element name="factUsrTxtId" type="xs:string" minOccurs="0" />
+                    <xs:element name="issueSortSeqNbr" type="xs:string" minOccurs="0" />
+                    <xs:element name="isuCatTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="isuDataRecId" type="xs:string" minOccurs="0" />
+                    <xs:element name="isuDescr" type="xs:string" minOccurs="0" />
+                    <xs:element name="isuTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="isuTxt" type="xs:string" minOccurs="0" />
+                    <xs:element name="prevPrfilInd" type="xs:string" minOccurs="0" />
+                    <xs:element name="prflDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ptcpntIdA" type="xs:string" minOccurs="0" />
+                    <xs:element name="rbaAnlysId" type="xs:string" minOccurs="0" />
+                    <xs:element name="rbaIssueContentions" type="tns:rbaIssueContention" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="rbaIssueId" type="xs:string" minOccurs="0" />
+                    <xs:element name="subjctTxt" type="xs:string" minOccurs="0" />
+                    <xs:element name="tempFactTxt" type="xs:base64Binary" minOccurs="0" />
+                    <xs:element name="tempRbaIssueId" type="xs:string" minOccurs="0" />
+                    <xs:element name="vwNm" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="rbaIssueContention">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="cntntnId" type="xs:string" minOccurs="0" />
+                    <xs:element name="prfilDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ptcpntIdA" type="xs:string" minOccurs="0" />
+                    <xs:element name="rbaIssueId" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="rbaEvidence">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="evdncId" type="xs:string" minOccurs="0" />
+                    <xs:element name="evdncTxt" type="xs:string" minOccurs="0" />
+                    <xs:element name="prflDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ptcpntIdA" type="xs:string" minOccurs="0" />
+                    <xs:element name="sortOrderNo" type="xs:long" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="rbaSupHdg">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="prflDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ptcpntVetId" type="xs:string" minOccurs="0" />
+                    <xs:element name="splmtlHeadngTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="splmtlHeadngTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="splmtlHeadngTxt" type="xs:base64Binary" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="serviceConnectedDeath">
+        <xs:complexContent>
+            <xs:extension base="tns:compositeTransferObject">
+                <xs:sequence>
+                    <xs:element name="beginDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="dgnstcTxt" type="xs:string" minOccurs="0" />
+                    <xs:element name="endDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="inactvDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="prevRatingSn" type="xs:string" minOccurs="0" />
+                    <xs:element name="prflDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ptcpntIdA" type="xs:string" minOccurs="0" />
+                    <xs:element name="ratingDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ratingEfctvDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ratingSn" type="xs:string" minOccurs="0" />
+                    <xs:element name="rbaIssueId" type="xs:string" minOccurs="0" />
+                    <xs:element name="scDeathSpecialIssues" type="tns:serviceConnectedDeathSpecialIssue" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="scDeathdecnTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="scDeathdecnTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="splmntlDecnTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="splmntlDecnTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="svcPerTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="svcPerTn" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="serviceConnectedDeathSpecialIssue">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="prevRatingSn" type="xs:string" minOccurs="0" />
+                    <xs:element name="ptcpntId" type="xs:string" minOccurs="0" />
+                    <xs:element name="ratingSn" type="xs:string" minOccurs="0" />
+                    <xs:element name="spisBasisTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="spisBasisTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="spisTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="spisTn" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="specialMonthlyComp">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="antmclTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="antmclTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="beginDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="convBeginDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="convEndDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="dsbltyPayTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="dsbltyPayTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="efctvDtOvrideTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="efctvDtOvrideTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="endDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="hsptlSmcTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="hsptlSmcTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="inactvDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="lossUseTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="lossUseTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="othLossTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="othLossTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="ovrideActionInd" type="xs:string" minOccurs="0" />
+                    <xs:element name="ovrideBeginDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ovrideDecnDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="paySmcTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="paySmcTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="prevRatingSn" type="xs:string" minOccurs="0" />
+                    <xs:element name="prflDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ptcpntIdA" type="xs:string" minOccurs="0" />
+                    <xs:element name="ratingDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ratingSn" type="xs:string" minOccurs="0" />
+                    <xs:element name="rbaIssueId" type="xs:string" minOccurs="0" />
+                    <xs:element name="smcTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="smcTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="splmntlDecnTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="splmntlDecnTn" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="specialMonthlyCompParagraph">
+        <xs:complexContent>
+            <xs:extension base="tns:compositeTransferObject">
+                <xs:sequence>
+                    <xs:element name="beginDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="endDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="inactvDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="paraSortSn" type="xs:string" minOccurs="0" />
+                    <xs:element name="paraUsrDfndSn" type="xs:string" minOccurs="0" />
+                    <xs:element name="prevRatingSn" type="xs:string" minOccurs="0" />
+                    <xs:element name="prflDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="prgrphEfctvDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="prgrphKey" type="xs:string" minOccurs="0" />
+                    <xs:element name="prgrphText" type="xs:string" minOccurs="0" />
+                    <xs:element name="ptcpntIdA" type="xs:string" minOccurs="0" />
+                    <xs:element name="ratingDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ratingSn" type="xs:string" minOccurs="0" />
+                    <xs:element name="rbaIssueId" type="xs:string" minOccurs="0" />
+                    <xs:element name="smcpgDetails" type="tns:specialMonthlyCompParagraphDetail" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="specialMonthlyCompParagraphDetail">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="prgrphCntrlType" type="xs:string" minOccurs="0" />
+                    <xs:element name="prgrphDataId" type="xs:string" minOccurs="0" />
+                    <xs:element name="prgrphKey" type="xs:string" minOccurs="0" />
+                    <xs:element name="prgrphValueId" type="xs:string" minOccurs="0" />
+                    <xs:element name="prgrphValueTxt" type="xs:string" minOccurs="0" />
+                    <xs:element name="ratingSn" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="specialMonthlyPension">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="beginDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="convBeginDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="convEndDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="endDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="inactvDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="prevRatingSn" type="xs:string" minOccurs="0" />
+                    <xs:element name="prflDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ptcpntDecnId" type="xs:string" minOccurs="0" />
+                    <xs:element name="ptcpntVetId" type="xs:string" minOccurs="0" />
+                    <xs:element name="ratingDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ratingSn" type="xs:string" minOccurs="0" />
+                    <xs:element name="rbaIssueId" type="xs:string" minOccurs="0" />
+                    <xs:element name="smpDecnTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="smpDecnTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="splmntlDecnTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="splmntlDecnTn" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="specialProvisionLaw">
+        <xs:complexContent>
+            <xs:extension base="tns:transferObject">
+                <xs:sequence>
+                    <xs:element name="beginDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="convBeginDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="convEndDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="endDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="inactvDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="prevRatingSn" type="xs:string" minOccurs="0" />
+                    <xs:element name="prflDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ptcpntIdA" type="xs:string" minOccurs="0" />
+                    <xs:element name="ratingDt" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="ratingSn" type="xs:string" minOccurs="0" />
+                    <xs:element name="rbaIssueId" type="xs:string" minOccurs="0" />
+                    <xs:element name="splmntlDecnTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="splmntlDecnTn" type="xs:string" minOccurs="0" />
+                    <xs:element name="splprvTc" type="xs:string" minOccurs="0" />
+                    <xs:element name="splprvTn" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="unlockRatingResponse">
+        <xs:sequence />
+    </xs:complexType>
+
+    <xs:complexType name="getRating">
+        <xs:sequence>
+            <xs:element name="veteranId" type="xs:string" minOccurs="0" />
+            <xs:element name="isBackfill" type="xs:boolean" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="getRatingResponse">
+        <xs:sequence>
+            <xs:element name="rbaProfile" type="tns:rbaProfile" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="getRatingFaultBean">
+        <xs:sequence>
+            <xs:element name="errNbr" type="xs:string" minOccurs="0" />
+            <xs:element name="message" type="xs:string" minOccurs="0" />
+            <xs:element name="prflDt" type="xs:dateTime" minOccurs="0" />
+            <xs:element name="ptcpntVetId" type="xs:string" minOccurs="0" />
+            <xs:element name="rbaUserId" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="strictUnlockRating">
+        <xs:sequence>
+            <xs:element name="rbaProfile" type="tns:rbaProfile" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="strictUnlockRatingResponse">
+        <xs:sequence />
+    </xs:complexType>
+
+    <xs:complexType name="readCompletedRating">
+        <xs:sequence>
+            <xs:element name="rbaProfile" type="tns:rbaProfile" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="readCompletedRatingResponse">
+        <xs:sequence>
+            <xs:element name="rbaProfile" type="tns:rbaProfile" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="readNewRatingNoDES">
+        <xs:sequence>
+            <xs:element name="veteranId" type="xs:string" minOccurs="0" />
+            <xs:element name="isPromulgate" type="xs:boolean" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="readNewRatingNoDESResponse">
+        <xs:sequence>
+            <xs:element name="rbaProfile" type="tns:rbaProfile" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="recalculateCombinedRatingDetail">
+        <xs:sequence>
+            <xs:element name="ptcpntVetId" type="xs:string" minOccurs="0" />
+            <xs:element name="prfilDt" type="xs:dateTime" minOccurs="0" />
+            <xs:element name="beneId" type="xs:string" minOccurs="0" />
+            <xs:element name="awdTc" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="recalculateCombinedRatingDetailResponse">
+        <xs:sequence>
+            <xs:element name="combinedPercent" type="tns:combinedRatingDetail" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="getRatingForAwards">
+        <xs:sequence>
+            <xs:element name="veteranId" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="getRatingForAwardsResponse">
+        <xs:sequence>
+            <xs:element name="rbaProfile" type="tns:rbaProfile" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="reprintRating">
+        <xs:sequence>
+            <xs:element name="fileNbr" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="reprintRatingResponse">
+        <xs:sequence>
+            <xs:element name="RatingDocuments" type="tns:developmentActionGroup" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="readNewRatingNoDESWrap">
+        <xs:sequence>
+            <xs:element name="rbaProfile" type="tns:rbaProfile" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="readNewRatingNoDESWrapResponse">
+        <xs:sequence>
+            <xs:element name="rbaProfile" type="tns:rbaProfile" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="readNewRating">
+        <xs:sequence>
+            <xs:element name="veteranId" type="xs:string" minOccurs="0" />
+            <xs:element name="isPromulgate" type="xs:boolean" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="readNewRatingResponse">
+        <xs:sequence>
+            <xs:element name="rbaProfile" type="tns:rbaProfile" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="readIncompleteRating">
+        <xs:sequence>
+            <xs:element name="rbaProfile" type="tns:rbaProfile" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="readIncompleteRatingResponse">
+        <xs:sequence>
+            <xs:element name="rbaProfile" type="tns:rbaProfile" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="readNewRatingDESWrap">
+        <xs:sequence>
+            <xs:element name="rbaProfile" type="tns:rbaProfile" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="readNewRatingDESWrapResponse">
+        <xs:sequence>
+            <xs:element name="rbaProfile" type="tns:rbaProfile" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

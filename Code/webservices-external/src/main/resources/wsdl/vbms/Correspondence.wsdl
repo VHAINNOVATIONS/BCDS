@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is Oracle JAX-WS 2.1.5. -->
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:tns="http://vbms.vba.va.gov/correspondence-7.0"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  xmlns:wssutil="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+                  xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+                  xmlns:types="http://types.webservices.correspondence.vbms.vba.va.gov/services/v7"
+                  name="developmentservice"
+                  targetNamespace="http://vbms.vba.va.gov/correspondence-7.0">
+
+    <wsp:UsingPolicy wssutil:Required="true"/>
+    <wsp:Policy wssutil:Id="Mtom.xml">
+        <ns0:OptimizedMimeSerialization
+                xmlns:ns0="http://schemas.xmlsoap.org/ws/2004/09/policy/optimizedmimeserialization"/>
+    </wsp:Policy>
+    <wsp:UsingPolicy/>
+    <wsp:Policy wssutil:Id="Mtom.xml">
+        <ns0:OptimizedMimeSerialization
+                xmlns:ns0="http://schemas.xmlsoap.org/ws/2004/09/policy/optimizedmimeserialization"/>
+    </wsp:Policy>
+    <wsdl:types>
+        <xsd:schema>
+            <xsd:import namespace="http://types.webservices.correspondence.vbms.vba.va.gov/services/v7" schemaLocation="Correspondence.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <!-- getParagraphContent -->
+    <wsdl:message name="getParagraphContent">
+        <wsdl:part name="parameters" element="types:getParagraphContent"/>
+    </wsdl:message>
+    <wsdl:message name="getParagraphContentResponse">
+        <wsdl:part name="parameters" element="types:getParagraphContentResponse"/>
+    </wsdl:message>
+    <!-- GetLetterSections -->
+    <wsdl:message name="getLetterSections">
+        <wsdl:part name="parameters" element="types:getLetterSections"/>
+    </wsdl:message>
+    <wsdl:message name="getLetterSectionsResponse">
+        <wsdl:part name="parameters" element="types:getLetterSectionsResponse"/>
+    </wsdl:message>
+    <!-- A generic fault message type -->
+    <wsdl:message name="CorrespondenceFault">
+        <wsdl:part name="correspondenceFault" element="types:correspondenceFault"/>
+    </wsdl:message>
+    <wsdl:message name="UnsupportedDevActionFault">
+        <wsdl:part name="unsupportedDevActionFault" element="types:unsupportedDevActionFault"/>
+    </wsdl:message>
+    <wsdl:message name="UnsupportedLetterTypeFault">
+        <wsdl:part name="unsupportedLetterTypeFault" element="types:unsupportedLetterTypeFault"/>
+    </wsdl:message>
+    <!-- GeneratePreviewDocument -->
+    <wsdl:message name="generatePreviewDocument">
+        <wsdl:part name="parameters" element="types:previewInput"/>
+    </wsdl:message>
+    <wsdl:message name="generatePreviewDocumentResponse">
+        <wsdl:part name="parameters" element="types:DocumentContent"/>
+    </wsdl:message>
+    <!-- GenerateFinalizedDocument -->
+    <wsdl:message name="generateFinalizedDocument">
+        <wsdl:part name="parameters" element="types:finalizeInput"/>
+    </wsdl:message>
+    <wsdl:message name="generateFinalizedDocumentResponse">
+        <wsdl:part name="parameters" element="types:DocumentContent"/>
+    </wsdl:message>
+    <!-- GenerateFinalizedDocumentAndQueue -->
+    <wsdl:message name="generateFinalizedDocumentAndQueue">
+        <wsdl:part name="parameters" element="types:finalizeAndQueueInput"/>
+    </wsdl:message>
+    <wsdl:message name="generateFinalizedDocumentAndQueueResponse">
+        <wsdl:part name="parameters" element="types:finalizeOutput"/>
+    </wsdl:message>
+    <!-- GetVersion -->
+    <wsdl:message name="getVersion"/>
+    <wsdl:message name="getVersionResponse">
+        <wsdl:part name="parameters" element="types:getVersionResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="GenerateCorrespondenceWS">
+        <wsdl:operation name="getParagraphContent">
+            <wsdl:input message="tns:getParagraphContent" name="getParagraphContent"/>
+            <wsdl:output message="tns:getParagraphContentResponse" name="getParagraphContentResponse"/>
+            <wsdl:fault message="tns:CorrespondenceFault" name="CorrespondenceFault"/>
+            <wsdl:fault message="tns:UnsupportedDevActionFault" name="UnsupportedDevActionFault"/>
+        </wsdl:operation>
+        <wsdl:operation name="getLetterSections">
+            <wsdl:input message="tns:getLetterSections" name="getLetterSections"/>
+            <wsdl:output message="tns:getLetterSectionsResponse" name="getLetterSectionsResponse"/>
+            <wsdl:fault message="tns:CorrespondenceFault" name="CorrespondenceFault"/>
+            <wsdl:fault message="tns:UnsupportedLetterTypeFault" name="UnsupportedLetterTypeFault"/>
+        </wsdl:operation>
+        <wsdl:operation name="generatePreviewDocument">
+            <wsdl:input message="tns:generatePreviewDocument" name="generatePreviewDocument"/>
+            <wsdl:output message="tns:generatePreviewDocumentResponse" name="generatePreviewDocumentResponse"/>
+            <wsdl:fault message="tns:CorrespondenceFault" name="CorrespondenceFault"/>
+        </wsdl:operation>
+        <wsdl:operation name="generateFinalizedDocument">
+            <wsdl:input message="tns:generateFinalizedDocument" name="generateFinalizedDocument"/>
+            <wsdl:output message="tns:generateFinalizedDocumentResponse" name="generateFinalizedDocumentResponse"/>
+            <wsdl:fault message="tns:CorrespondenceFault" name="CorrespondenceFault"/>
+        </wsdl:operation>
+        <!--
+		    <wsdl:operation name="generateFinalizedDocumentAndQueue">
+			<wsdl:input message="tns:generateFinalizedDocumentAndQueue"
+				name="generateFinalizedDocumentAndQueue" />
+			<wsdl:output message="tns:generateFinalizedDocumentAndQueueResponse"
+				name="generateFinalizedDocumentAndQueueResponse" />
+			<wsdl:fault message="tns:CorrespondenceFault" name="CorrespondenceFault" />
+		</wsdl:operation>
+		 -->
+        <wsdl:operation name="getVersion">
+            <wsdl:input message="tns:getVersion" name="getVersion"/>
+            <wsdl:output message="tns:getVersionResponse" name="getVersionResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <!-- Bindings -->
+    <wsdl:binding name="CorrespondenceWebServiceSoapBinding" type="tns:GenerateCorrespondenceWS">
+        <wsp:PolicyReference URI="#Mtom.xml"/>
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="getParagraphContent">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input name="getParagraphContent">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="getParagraphContentResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="CorrespondenceFault">
+                <soap:fault name="CorrespondenceFault" use="literal"/>
+            </wsdl:fault>
+            <wsdl:fault name="UnsupportedDevActionFault">
+                <soap:fault name="UnsupportedDevActionFault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="getLetterSections">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input name="getLetterSections">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="getLetterSectionsResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="CorrespondenceFault">
+                <soap:fault name="CorrespondenceFault" use="literal"/>
+            </wsdl:fault>
+            <wsdl:fault name="UnsupportedLetterTypeFault">
+                <soap:fault name="UnsupportedLetterTypeFault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <!--Generate Preview Document Operation -->
+        <wsdl:operation name="generatePreviewDocument">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input name="generatePreviewDocument">
+                <soap:body use="literal" parts="parameters"/>
+            </wsdl:input>
+            <wsdl:output name="generatePreviewDocumentResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="CorrespondenceFault">
+                <soap:fault name="CorrespondenceFault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <!-- Finalize Document Operation -->
+        <wsdl:operation name="generateFinalizedDocument">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input name="generateFinalizedDocument">
+                <!-- <soap:header use="literal" part="request_header" message="tns:generateFinalizedDocument"></soap:header> -->
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="generateFinalizedDocumentResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="CorrespondenceFault">
+                <soap:fault name="CorrespondenceFault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <!-- Finalize Document Operation and Queue -->
+        <!-- <wsdl:operation name="generateFinalizedDocumentAndQueue"> <soap:operation
+			soapAction="" style="document" /> <wsdl:input name="generateFinalizedDocumentAndQueue">
+			<soap:body use="literal" /> </wsdl:input> <wsdl:output name="generateFinalizedDocumentAndQueueResponse">
+			<soap:body use="literal" /> </wsdl:output> <wsdl:fault name="CorrespondenceFault">
+			<soap:fault name="CorrespondenceFault" use="literal" /> </wsdl:fault> </wsdl:operation> -->
+        <!-- Get Version Operation -->
+        <wsdl:operation name="getVersion">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input name="getVersion">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="getVersionResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="GenerateCorrespondenceService">
+        <wsdl:port binding="tns:CorrespondenceWebServiceSoapBinding" name="CorrespondenceWebServicePort">
+            <soap:address location="https://www.dev.vbms.aide.oit.va.gov:443/correspondence/ws"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

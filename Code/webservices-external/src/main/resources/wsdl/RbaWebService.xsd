@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is Oracle JAX-WS 2.1.3-07/10/2008 08:41 PM(bt). -->
+<xs:schema xmlns:tns="http://rba.services.vetsnet.vba.va.gov/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://rba.services.vetsnet.vba.va.gov/">
+
+    <xs:element name="MessageException" nillable="true" type="tns:messageFaultInfoBean" />
+
+    <xs:element name="reassignRbaPrfil" type="tns:reassignRbaPrfil" />
+
+    <xs:element name="reassignRbaPrfilResponse" type="tns:reassignRbaPrfilResponse" />
+
+    <xs:element name="reassignRbaPrfilToUser" type="tns:reassignRbaPrfilToUser" />
+
+    <xs:element name="reassignRbaPrfilToUserResponse" type="tns:reassignRbaPrfilToUserResponse" />
+
+    <xs:complexType name="reassignRbaPrfil">
+        <xs:sequence>
+            <xs:element name="rbaPrfilDTO" type="tns:rbaPrfilDTO" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="rbaPrfilDTO">
+        <xs:sequence>
+            <xs:element name="addtnlDgnstcCodesQty" type="xs:boolean" minOccurs="0" />
+            <xs:element name="cdshtDcmntId" type="xs:long" minOccurs="0" />
+            <xs:element name="clientRatingDt" type="xs:dateTime" minOccurs="0" />
+            <xs:element name="cnvrsnDt" type="xs:dateTime" minOccurs="0" />
+            <xs:element name="combatDsbltyCd" type="xs:string" minOccurs="0" />
+            <xs:element name="combndPrcntScopeDt" type="xs:dateTime" minOccurs="0" />
+            <xs:element name="compId" type="tns:rbaPrfilPK" minOccurs="0" />
+            <xs:element name="dcmntTitleTxt" type="xs:string" minOccurs="0" />
+            <xs:element name="jrnDt" type="xs:dateTime" minOccurs="0" />
+            <xs:element name="jrnLctnId" type="xs:string" minOccurs="0" />
+            <xs:element name="jrnObjId" type="xs:string" minOccurs="0" />
+            <xs:element name="jrnStatusTypeCd" type="xs:string" minOccurs="0" />
+            <xs:element name="jrnUserId" type="xs:string" minOccurs="0" />
+            <xs:element name="jrsdtnTxt" type="xs:string" minOccurs="0" />
+            <xs:element name="lockedInd" type="xs:string" minOccurs="0" />
+            <xs:element name="narrtvDcmntId" type="xs:long" minOccurs="0" />
+            <xs:element name="pndngPrmlgnDt" type="xs:dateTime" minOccurs="0" />
+            <xs:element name="prmlgnDt" type="xs:dateTime" minOccurs="0" />
+            <xs:element name="prmlngClaimId" type="xs:long" minOccurs="0" />
+            <xs:element name="ptcpntPoaId" type="xs:long" minOccurs="0" />
+            <xs:element name="ratingDt" type="xs:dateTime" minOccurs="0" />
+            <xs:element name="ratingIntroTxt" type="xs:string" minOccurs="0" />
+            <xs:element name="rbaUserId" type="xs:string" minOccurs="0" />
+            <xs:element name="rcvdDt" type="xs:dateTime" minOccurs="0" />
+            <xs:element name="secondSigntrTxt" type="xs:string" minOccurs="0" />
+            <xs:element name="systemTypeCd" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="rbaPrfilPK">
+        <xs:sequence>
+            <xs:element name="prfilDt" type="xs:dateTime" minOccurs="0" />
+            <xs:element name="ptcpntVetId" type="xs:long" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="reassignRbaPrfilResponse">
+        <xs:sequence>
+            <xs:element name="return" type="tns:rbaPrfilDTO" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="messageFaultInfoBean">
+        <xs:sequence>
+            <xs:element name="message" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="reassignRbaPrfilToUser">
+        <xs:sequence>
+            <xs:element name="ptcpntVetId" type="xs:long" minOccurs="0" />
+            <xs:element name="prfilDt" type="xs:dateTime" minOccurs="0" />
+            <xs:element name="newUserId" type="xs:string" minOccurs="0" />
+            <xs:element name="newUserStation" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="reassignRbaPrfilToUserResponse">
+        <xs:sequence>
+            <xs:element name="return" type="tns:rbaPrfilDTO" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

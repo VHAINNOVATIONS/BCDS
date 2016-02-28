@@ -1,0 +1,362 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is Oracle JAX-WS 2.1.3-07/10/2008 08:41 PM(bt). --><xs:schema xmlns:tns="http://benefitclaim.services.vetsnet.vba.va.gov/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://benefitclaim.services.vetsnet.vba.va.gov/">
+
+<xs:element name="MessageException" nillable="true" type="tns:messageFaultInfoBean" />
+
+<xs:element name="brokerBnftClaims" type="tns:brokerBnftClaims" />
+
+<xs:element name="brokerBnftClaimsResponse" type="tns:brokerBnftClaimsResponse" />
+
+<xs:element name="deleteBnftClaimSpeclIssue" type="tns:deleteBnftClaimSpeclIssue" />
+
+<xs:element name="deleteBnftClaimSpeclIssueResponse" type="tns:deleteBnftClaimSpeclIssueResponse" />
+
+<xs:element name="findBnftClaim" type="tns:findBnftClaim" />
+
+<xs:element name="findBnftClaimByFileNumber" type="tns:findBnftClaimByFileNumber" />
+
+<xs:element name="findBnftClaimByFileNumberResponse" type="tns:findBnftClaimByFileNumberResponse" />
+
+<xs:element name="findBnftClaimByPtcpntVetId" type="tns:findBnftClaimByPtcpntVetId" />
+
+<xs:element name="findBnftClaimByPtcpntVetIdResponse" type="tns:findBnftClaimByPtcpntVetIdResponse" />
+
+<xs:element name="findBnftClaimByUserPtcpntId" type="tns:findBnftClaimByUserPtcpntId" />
+
+<xs:element name="findBnftClaimByUserPtcpntIdResponse" type="tns:findBnftClaimByUserPtcpntIdResponse" />
+
+<xs:element name="findBnftClaimDetailByBnftClaimId" type="tns:findBnftClaimDetailByBnftClaimId" />
+
+<xs:element name="findBnftClaimDetailByBnftClaimIdResponse" type="tns:findBnftClaimDetailByBnftClaimIdResponse" />
+
+<xs:element name="findBnftClaimDetailByFileNumber" type="tns:findBnftClaimDetailByFileNumber" />
+
+<xs:element name="findBnftClaimDetailByFileNumberResponse" type="tns:findBnftClaimDetailByFileNumberResponse" />
+
+<xs:element name="findBnftClaimDetailByPtcpntId" type="tns:findBnftClaimDetailByPtcpntId" />
+
+<xs:element name="findBnftClaimDetailByPtcpntIdResponse" type="tns:findBnftClaimDetailByPtcpntIdResponse" />
+
+<xs:element name="findBnftClaimResponse" type="tns:findBnftClaimResponse" />
+
+<xs:element name="findBnftClaimSpeclIssue" type="tns:findBnftClaimSpeclIssue" />
+
+<xs:element name="findBnftClaimSpeclIssueBnftClaimId" type="tns:findBnftClaimSpeclIssueBnftClaimId" />
+
+<xs:element name="findBnftClaimSpeclIssueBnftClaimIdResponse" type="tns:findBnftClaimSpeclIssueBnftClaimIdResponse" />
+
+<xs:element name="findBnftClaimSpeclIssueResponse" type="tns:findBnftClaimSpeclIssueResponse" />
+
+<xs:element name="findBnftClaimSpeclIssueSpeclIssueTypeNm" type="tns:findBnftClaimSpeclIssueSpeclIssueTypeNm" />
+
+<xs:element name="findBnftClaimSpeclIssueSpeclIssueTypeNmResponse" type="tns:findBnftClaimSpeclIssueSpeclIssueTypeNmResponse" />
+
+<xs:element name="findBnftClaimsByBnftClaimIds" type="tns:findBnftClaimsByBnftClaimIds" />
+
+<xs:element name="findBnftClaimsByBnftClaimIdsResponse" type="tns:findBnftClaimsByBnftClaimIdsResponse" />
+
+<xs:element name="insertBnftClaimSpeclIssue" type="tns:insertBnftClaimSpeclIssue" />
+
+<xs:element name="insertBnftClaimSpeclIssueResponse" type="tns:insertBnftClaimSpeclIssueResponse" />
+
+<xs:element name="updateBnftClaim" type="tns:updateBnftClaim" />
+
+<xs:element name="updateBnftClaimResponse" type="tns:updateBnftClaimResponse" />
+
+<xs:complexType name="findBnftClaimDetailByPtcpntId">
+<xs:sequence>
+<xs:element name="ptcpntId" type="xs:long" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="findBnftClaimDetailByPtcpntIdResponse">
+<xs:sequence>
+<xs:element name="BnftClaimDetail" type="tns:bnftClaimDetail" minOccurs="0" maxOccurs="unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="bnftClaimDetail">
+<xs:sequence>
+<xs:element name="bnftClaimId" type="xs:long" minOccurs="0" />
+<xs:element name="bnftClaimTypeCd" type="xs:string" minOccurs="0" />
+<xs:element name="bnftClaimTypeNm" type="xs:string" minOccurs="0" />
+<xs:element name="claimJrsdtnLctnId" type="xs:long" minOccurs="0" />
+<xs:element name="claimRcvdDt" type="xs:dateTime" minOccurs="0" />
+<xs:element name="claimSuspnsLcStatus" type="tns:claimSuspnsLcStatusDTO" minOccurs="0" />
+<xs:element name="cpClaimEndPrdctTypeCd" type="xs:string" minOccurs="0" />
+<xs:element name="fileNbr" type="xs:string" minOccurs="0" />
+<xs:element name="filed5103WaiverInd" type="xs:string" minOccurs="0" />
+<xs:element name="gulfWarRegistryInd" type="xs:string" minOccurs="0" />
+<xs:element name="payeeTypeCd" type="xs:string" minOccurs="0" />
+<xs:element name="payeeTypeNm" type="xs:string" minOccurs="0" />
+<xs:element name="pgmTypeCd" type="xs:string" minOccurs="0" />
+<xs:element name="pgmTypeNm" type="xs:string" minOccurs="0" />
+<xs:element name="preDischargeInd" type="xs:string" minOccurs="0" />
+<xs:element name="prirtyInd" type="xs:string" minOccurs="0" />
+<xs:element name="ptcpntClmantId" type="xs:long" minOccurs="0" />
+<xs:element name="ptcpntVetId" type="xs:long" minOccurs="0" />
+<xs:element name="ssnNbr" type="xs:string" minOccurs="0" />
+<xs:element name="stationOfJurisdiction" type="xs:string" minOccurs="0" />
+<xs:element name="statusTypeCd" type="xs:string" minOccurs="0" />
+<xs:element name="statusTypeNm" type="xs:string" minOccurs="0" />
+<xs:element name="tempJrsdtnLctnId" type="xs:long" minOccurs="0" />
+<xs:element name="temporaryStationOfJurisdiction" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="claimSuspnsLcStatusDTO">
+<xs:sequence>
+<xs:element name="claimSuspnsCd" type="xs:string" minOccurs="0" />
+<xs:element name="claimSuspnsDt" type="xs:dateTime" minOccurs="0" />
+<xs:element name="comntTxt" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="messageFaultInfoBean">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="findBnftClaimByFileNumber">
+<xs:sequence>
+<xs:element name="fileNumber" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="findBnftClaimByFileNumberResponse">
+<xs:sequence>
+<xs:element name="BnftClaimDTO" type="tns:bnftClaimDTO" minOccurs="0" maxOccurs="unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="bnftClaimDTO">
+<xs:sequence>
+<xs:element name="bnftClaimId" type="xs:long" minOccurs="0" />
+<xs:element name="bnftClaimTypeCd" type="xs:string" minOccurs="0" />
+<xs:element name="bnftClaimTypeLabel" type="xs:string" minOccurs="0" />
+<xs:element name="bnftClaimTypeNm" type="xs:string" minOccurs="0" />
+<xs:element name="bnftClaimUserDisplay" type="xs:string" minOccurs="0" />
+<xs:element name="claimJrsdtnLctnId" type="xs:long" minOccurs="0" />
+<xs:element name="claimRcvdDt" type="xs:dateTime" minOccurs="0" />
+<xs:element name="claimSuspnsDt" type="xs:dateTime" minOccurs="0" />
+<xs:element name="cpClaimEndPrdctTypeCd" type="xs:string" minOccurs="0" />
+<xs:element name="filed5103WaiverInd" type="xs:string" minOccurs="0" />
+<xs:element name="infrmlInd" type="xs:string" minOccurs="0" />
+<xs:element name="intakeJrsdtnLctnId" type="xs:long" minOccurs="0" />
+<xs:element name="jrnDt" type="xs:dateTime" minOccurs="0" />
+<xs:element name="jrnLctnId" type="xs:string" minOccurs="0" />
+<xs:element name="jrnObjId" type="xs:string" minOccurs="0" />
+<xs:element name="jrnStatusTypeCd" type="xs:string" minOccurs="0" />
+<xs:element name="jrnUserId" type="xs:string" minOccurs="0" />
+<xs:element name="lastPaidDt" type="xs:dateTime" minOccurs="0" />
+<xs:element name="notfcnPrfilTypeCd" type="xs:string" minOccurs="0" />
+<xs:element name="payeeTypeCd" type="xs:string" minOccurs="0" />
+<xs:element name="payeeTypeNm" type="xs:string" minOccurs="0" />
+<xs:element name="pgmTypeCd" type="xs:string" minOccurs="0" />
+<xs:element name="pgmTypeNm" type="xs:string" minOccurs="0" />
+<xs:element name="ptcpntClmantId" type="xs:long" minOccurs="0" />
+<xs:element name="ptcpntClmantNm" type="xs:string" minOccurs="0" />
+<xs:element name="ptcpntDpositAcntId" type="xs:long" minOccurs="0" />
+<xs:element name="ptcpntMailAddrsId" type="xs:long" minOccurs="0" />
+<xs:element name="ptcpntPymtAddrsId" type="xs:long" minOccurs="0" />
+<xs:element name="ptcpntRvsrId" type="xs:long" minOccurs="0" />
+<xs:element name="ptcpntVetId" type="xs:long" minOccurs="0" />
+<xs:element name="ptcpntVsrId" type="xs:long" minOccurs="0" />
+<xs:element name="rmksTxt" type="xs:string" minOccurs="0" />
+<xs:element name="scrtyLevelTypeCd" type="xs:string" minOccurs="0" />
+<xs:element name="stationOfJurisdiction" type="xs:string" minOccurs="0" />
+<xs:element name="statusTypeCd" type="xs:string" minOccurs="0" />
+<xs:element name="statusTypeNm" type="xs:string" minOccurs="0" />
+<xs:element name="submtrApplcnTypeCd" type="xs:string" minOccurs="0" />
+<xs:element name="submtrRoleTypeCd" type="xs:string" minOccurs="0" />
+<xs:element name="svcTypeCd" type="xs:string" minOccurs="0" />
+<xs:element name="tempJrsdtnLctnId" type="xs:long" minOccurs="0" />
+<xs:element name="tempPtcpntVsrId" type="xs:long" minOccurs="0" />
+<xs:element name="temporaryStationOfJurisdiction" type="xs:string" minOccurs="0" />
+<xs:element name="termnlDigitNbr" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="findBnftClaimByUserPtcpntId">
+<xs:sequence>
+<xs:element name="userPtcpntId" type="xs:long" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="findBnftClaimByUserPtcpntIdResponse">
+<xs:sequence>
+<xs:element name="BnftClaimDTO" type="tns:bnftClaimDTO" minOccurs="0" maxOccurs="unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="findBnftClaim">
+<xs:sequence>
+<xs:element name="bnftClaimId" type="xs:long" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="findBnftClaimResponse">
+<xs:sequence>
+<xs:element name="BnftClaimDTO" type="tns:bnftClaimDTO" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="findBnftClaimSpeclIssueSpeclIssueTypeNm">
+<xs:sequence>
+<xs:element name="speclIssueTypeNm" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="findBnftClaimSpeclIssueSpeclIssueTypeNmResponse">
+<xs:sequence>
+<xs:element name="BnftClaimSpeclIssue" type="tns:bnftClaimSpeclIssue" minOccurs="0" maxOccurs="unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="bnftClaimSpeclIssue">
+<xs:sequence>
+<xs:element name="compId" type="tns:bnftClaimSpeclIssuePK" minOccurs="0" />
+<xs:element name="jrnDt" type="xs:dateTime" minOccurs="0" />
+<xs:element name="jrnLctnId" type="xs:string" minOccurs="0" />
+<xs:element name="jrnObjId" type="xs:string" minOccurs="0" />
+<xs:element name="jrnStatusTypeCd" type="xs:string" minOccurs="0" />
+<xs:element name="jrnUserId" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="bnftClaimSpeclIssuePK">
+<xs:sequence>
+<xs:element name="bnftClaimId" type="xs:long" minOccurs="0" />
+<xs:element name="speclIssueTypeNm" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="brokerBnftClaims">
+<xs:sequence>
+<xs:element name="brokerDTO" type="tns:brokerDTO" minOccurs="0" maxOccurs="unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="brokerDTO">
+<xs:sequence>
+<xs:element name="bnftClaimId" type="xs:long" minOccurs="0" />
+<xs:element name="message" type="xs:string" minOccurs="0" />
+<xs:element name="stationNumber" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="brokerBnftClaimsResponse">
+<xs:sequence>
+<xs:element name="BrokerDTO" type="tns:brokerDTO" minOccurs="0" maxOccurs="unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="findBnftClaimSpeclIssueBnftClaimId">
+<xs:sequence>
+<xs:element name="bnftClaimId" type="xs:long" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="findBnftClaimSpeclIssueBnftClaimIdResponse">
+<xs:sequence>
+<xs:element name="BnftClaimSpeclIssue" type="tns:bnftClaimSpeclIssue" minOccurs="0" maxOccurs="unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="findBnftClaimDetailByBnftClaimId">
+<xs:sequence>
+<xs:element name="bnftClaimId" type="xs:long" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="findBnftClaimDetailByBnftClaimIdResponse">
+<xs:sequence>
+<xs:element name="BnftClaimDetail" type="tns:bnftClaimDetail" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deleteBnftClaimSpeclIssue">
+<xs:sequence>
+<xs:element name="bnftClaimSpeclIssue" type="tns:bnftClaimSpeclIssue" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deleteBnftClaimSpeclIssueResponse">
+<xs:sequence>
+<xs:element name="BnftClaimSpeclIssue" type="tns:bnftClaimSpeclIssue" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateBnftClaim">
+<xs:sequence>
+<xs:element name="bnftClaimDTO" type="tns:bnftClaimDTO" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateBnftClaimResponse">
+<xs:sequence>
+<xs:element name="BnftClaimDTO" type="tns:bnftClaimDTO" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="findBnftClaimSpeclIssue">
+<xs:sequence>
+<xs:element name="bnftClaimId" type="xs:long" minOccurs="0" />
+<xs:element name="speclIssueTypeNm" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="findBnftClaimSpeclIssueResponse">
+<xs:sequence>
+<xs:element name="BnftClaimSpeclIssue" type="tns:bnftClaimSpeclIssue" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="insertBnftClaimSpeclIssue">
+<xs:sequence>
+<xs:element name="bnftClaimSpeclIssue" type="tns:bnftClaimSpeclIssue" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="insertBnftClaimSpeclIssueResponse">
+<xs:sequence>
+<xs:element name="BnftClaimSpeclIssue" type="tns:bnftClaimSpeclIssue" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="findBnftClaimsByBnftClaimIds">
+<xs:sequence>
+<xs:element name="bnftClaimId" type="xs:long" minOccurs="0" maxOccurs="unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="findBnftClaimsByBnftClaimIdsResponse">
+<xs:sequence>
+<xs:element name="BnftClaimDTO" type="tns:bnftClaimDTO" minOccurs="0" maxOccurs="unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="findBnftClaimDetailByFileNumber">
+<xs:sequence>
+<xs:element name="fileNumber" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="findBnftClaimDetailByFileNumberResponse">
+<xs:sequence>
+<xs:element name="BnftClaimDetail" type="tns:bnftClaimDetail" minOccurs="0" maxOccurs="unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="findBnftClaimByPtcpntVetId">
+<xs:sequence>
+<xs:element name="ptcpntVetId" type="xs:long" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="findBnftClaimByPtcpntVetIdResponse">
+<xs:sequence>
+<xs:element name="BnftClaimDTO" type="tns:bnftClaimDTO" minOccurs="0" maxOccurs="unbounded" />
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

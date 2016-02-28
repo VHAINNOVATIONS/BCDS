@@ -1,0 +1,30 @@
+<jaxb:bindings jaxb:version="2.0" jaxb:extensionBindingPrefixes="xjc"
+               xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<!-- Custom bindings to LocalDate for just PersonalInfo's birth and date fields. -->
+	<!-- It would be preferable to map ALL xs:date to LocalTime, in the global settings in mappings.xjb instead. -->
+    <jaxb:bindings schemaLocation="vbms_cdm.xsd">
+        <jaxb:bindings node="//xs:complexType[@name='PersonalInfo']//xs:element[@name='dateOfBirth']">
+            <jaxb:property>
+                <jaxb:baseType>
+                    <jaxb:javaType name="org.joda.time.LocalDate"
+                                   parseMethod="gov.va.vba.vbms.cdm.converters.IsoStringLocalDateConverter.parseLocalDate"
+                                   printMethod="gov.va.vba.vbms.cdm.converters.IsoStringLocalDateConverter.printLocalDate"/>
+                </jaxb:baseType>
+            </jaxb:property>
+        </jaxb:bindings>
+    </jaxb:bindings>
+    <jaxb:bindings schemaLocation="vbms_cdm.xsd">
+        <jaxb:bindings node="//xs:complexType[@name='PersonalInfo']//xs:element[@name='dateOfDeath']">
+            <jaxb:property>
+                <jaxb:baseType>
+                    <jaxb:javaType name="org.joda.time.LocalDate"
+                                   parseMethod="gov.va.vba.vbms.cdm.converters.IsoStringLocalDateConverter.parseLocalDate"
+                                   printMethod="gov.va.vba.vbms.cdm.converters.IsoStringLocalDateConverter.printLocalDate"/>
+                </jaxb:baseType>
+            </jaxb:property>
+        </jaxb:bindings>
+    </jaxb:bindings>
+
+</jaxb:bindings>

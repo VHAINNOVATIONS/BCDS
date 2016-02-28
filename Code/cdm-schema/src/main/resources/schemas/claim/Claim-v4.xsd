@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://vbms.vba.va.gov/cdm/claim/v4"
+           targetNamespace="http://vbms.vba.va.gov/cdm/claim/v4" elementFormDefault="qualified" version="4.2"
+           xmlns:common="http://vbms.vba.va.gov/cdm/common/v4"
+           xmlns:participant="http://vbms.vba.va.gov/cdm/participant/v4">
+    <xs:annotation>
+        <xs:documentation>
+
+            Version 4.1
+            -----------
+            Source: VBMS-Core
+            Author: Eric Buitenhuis
+            Date: 13 May 2014
+            Changes:
+            * Fixed Claim::suspenseReasonComments to have closing element tag
+            * Added ClaimInformationUpdate::fileNumber attribute
+            * Fixed annotation close tag on ClaimInformationUpdate::fileNumber
+
+            Release 4.2
+            ========================
+            WIPT Approved: 01JUL2015
+            TSC Approved:  02JUL2015
+            ------------------------
+            * Replaced maxOccurs="unbounded" with maxOccurs="5000"
+
+        </xs:documentation>
+    </xs:annotation>
+    <xs:import namespace="http://vbms.vba.va.gov/cdm/common/v4" schemaLocation="../common/Common-v4.xsd"/>
+	<xs:import namespace="http://vbms.vba.va.gov/cdm/participant/v4" schemaLocation="../participant/Participant-v4.xsd"/>
+
+    <xs:complexType name="Claim">
+        <xs:sequence>
+            <xs:element name="endProductClaimType" type="common:CodeValue">
+                <xs:annotation>
+                    <xs:documentation>List of VETSNET ClaimTypeCode,ClaimTypeName pairs</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="claimDateDt" type="xs:date" minOccurs="0"/>
+            <xs:element name="flashList" type="Flash" maxOccurs="5000" minOccurs="0"/>
+            <xs:element name="suspenseDate" type="xs:date" minOccurs="0"/>
+            <xs:element name="contentions" type="Contention" minOccurs="0" maxOccurs="5000"/>
+            <xs:element name="inTakeSite" type="xs:string" minOccurs="0"/>
+            <xs:element name="suppressAckLetter" type="xs:boolean" default="false" minOccurs="0"/>
+            <xs:element name="futureReason" type="xs:string" minOccurs="0"/>
+			<xs:element name="suspenseReasonComments" type="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						Any additional comments surrounding the suspenseReason.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+        </xs:sequence>
+
+        <xs:attribute name="id" type="xs:long"/>
+        <xs:attribute name="participantPersonId" type="xs:long"/>
+        <xs:attribute name="powerOfAttorneyId" type="xs:string"/>
+        <xs:attribute name="veteranPersonId" type="xs:long"/>
+        <xs:attribute name="insuranceInfoId" type="xs:long"/>
+        <xs:attribute name="benefitTypeCd" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Maps to BenefitType - Live, Death, CH31</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="claimLevelStatusCd" type="xs:string"/>
+        <xs:attribute name="modifiedEndProductCd" type="xs:string"/>
+        <xs:attribute name="gulfWarRegistry" type="xs:boolean"/>
+        <xs:attribute name="label" type="xs:string"/>
+        <xs:attribute name="payeeCd" type="xs:string"/>
+        <xs:attribute name="sectionUnit" type="xs:string"/>
+        <xs:attribute name="serviceTypeCd" type="xs:string"/>
+        <xs:attribute name="specialIssueCd" type="xs:string"/>
+        <xs:attribute name="stationOfJurisdiction" type="xs:string"/>
+        <xs:attribute name="currentStationOfJurisdiction" type="xs:string"/>
+        <xs:attribute name="suspenseReasonCd" type="xs:string"/>
+        <xs:attribute name="priority" type="xs:string"/>
+        <xs:attribute name="td" type="xs:string"/>
+        <xs:attribute name="disposition" type="xs:string"/>
+        <xs:attribute name="folderWithClaim" type="xs:string"/>
+        <xs:attribute name="preDischarge" type="xs:boolean"/>
+    </xs:complexType>
+
+    <xs:complexType name="Contention">
+        <xs:sequence>
+            <xs:element name="completionDate" type="xs:date" minOccurs="0"/>
+            <xs:element name="source" type="common:Source" minOccurs="0"/>
+            <xs:element name="submitDate" type="xs:date" minOccurs="0"/>
+            <xs:element name="issue" minOccurs="0" type="Issue" maxOccurs="5000">
+                <xs:annotation>
+                    <xs:documentation>Associations between Contentions and Issue are maintained by the
+                        ISSUE_CONTENTION_ASSOC table in the PDM.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="startDate" type="xs:date" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="claimId" type="xs:long"/>
+        <xs:attribute name="actionableItem" type="xs:boolean"/>
+        <xs:attribute name="awaitingResponse" type="xs:string"/>
+        <xs:attribute name="classificationCd" type="xs:string"/>
+        <xs:attribute name="decisionHistoryCd" type="xs:string"/>
+        <xs:attribute name="decisionHistoryNotes" type="xs:string"/>
+        <xs:attribute name="decisionStatusCode" type="xs:string"/>
+        <xs:attribute name="fileNumber" type="xs:string"/>
+        <xs:attribute name="levelStatusCode" type="xs:string"/>
+        <xs:attribute name="medical" type="xs:boolean"/>
+        <xs:attribute name="partcipantContention" type="xs:string"/>
+        <xs:attribute name="secondaryToContentionID" type="xs:string"/>
+        <xs:attribute name="title" type="xs:string"/>
+        <xs:attribute name="typeCode" type="xs:string"/>
+        <xs:attribute name="workingContention" type="xs:string"/>
+        <xs:attribute name="contentionCategory" type="ContentionCategory"/>
+    </xs:complexType>
+
+    <xs:simpleType name="ContentionCategory">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Ancillary"/>
+            <xs:enumeration value="Pension"/>
+            <xs:enumeration value="Service-Connected"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="Flash">
+        <xs:sequence>
+        </xs:sequence>
+        <xs:attribute name="assigned" type="xs:string"/>
+        <xs:attribute name="name" type="xs:string"/>
+        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="id" type="xs:long"/>
+    </xs:complexType>
+
+    <xs:complexType name="Issue">
+        <xs:sequence>
+            <xs:element name="specificRating" maxOccurs="5000" type="xs:string" minOccurs="0"/>
+
+            <!--v4-change-delete: Not required in CDM -->
+            <!--<xs:element name="createDt" type="xs:date" minOccurs="0"/>-->
+            <!--<xs:element name="lastUpdateDt" type="xs:date" minOccurs="0"/>-->
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:long"/>
+        <xs:attribute name="contentionId" type="xs:string"/>
+        <xs:attribute name="inferred" type="xs:boolean" use="required"/>
+        <xs:attribute name="narrative" type="xs:string"/>
+        <xs:attribute name="typeCd" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="ClaimInformationUpdate">
+        <xs:annotation>
+            <xs:documentation>
+                An object used to pass claim related information updates between systems.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="claim" type="Claim" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        The claim associated with this update. The claim data may or may not have changes.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="veteran" type="participant:Person" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        The veteran for whom the claim has been made. This data may or may not have changes.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="claimant" type="participant:Person" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        The person making the claim. This data may or may not have changes.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="terminalDigit" type="common:TwoDigitCode">
+            <xs:annotation>
+                <xs:documentation>
+                    The last two digits of the file number
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="vsrId" type="xs:long">
+            <xs:annotation>
+                <xs:documentation>
+                    The participant Id of the vsr working the claim.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="contentionsCount" type="xs:long">
+            <xs:annotation>
+                <xs:documentation>
+                    The number of contentions associated with the claim.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="fileNumber" type="common:FileNumber">
+            <xs:annotation>
+            <xs:documentation>
+                The file number associated with this veteran.
+            </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+</xs:schema>
