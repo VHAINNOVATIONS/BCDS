@@ -1,0 +1,387 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  xmlns:wssutil="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+                  xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:tns="http://vbms.vba.va.gov/external/eDocumentService/v4"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:participant="http://vbms.vba.va.gov/cdm/participant/v4"
+                  xmlns:document="http://vbms.vba.va.gov/cdm/document/v4"
+                  xmlns:common="http://vbms.vba.va.gov/cdm/common/v4"
+                  name="eDocumentService" targetNamespace="http://vbms.vba.va.gov/external/eDocumentService/v4">
+
+    <wsdl:documentation>Version 4.2</wsdl:documentation>
+    <wsdl:types>
+        <xsd:schema>
+            <xsd:import namespace="http://vbms.vba.va.gov/external/eDocumentService/v4" schemaLocation="eDocumentServiceV4.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="uploadDocumentRequest">
+        <wsdl:part element="tns:uploadDocument" name="parameters">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="uploadDocumentResponse">
+        <wsdl:part element="tns:uploadDocumentResponse" name="parameters">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="uploadLetterDocumentRequest">
+        <wsdl:part element="tns:uploadLetterDocument" name="parameters">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="uploadLetterDocumentResponse">
+        <wsdl:part element="tns:uploadLetterDocumentResponse" name="parameters">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="fetchDocumentRequest">
+        <wsdl:part element="tns:fetchDocument" name="parameters">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="fetchDocumentResponse">
+        <wsdl:part element="tns:fetchDocumentResponse" name="parameters">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getDocumentTypesRequest">
+        <wsdl:part element="tns:getDocumentTypes" name="parameters">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getDocumentTypesResponse">
+        <wsdl:part element="tns:getDocumentTypesResponse" name="parameters">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="uploadFormDocumentRequest">
+        <wsdl:part element="tns:uploadFormDocument" name="parameters">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="uploadFormDocumentResponse">
+        <wsdl:part element="tns:uploadFormDocumentResponse" name="parameters">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getFormFieldsForDocumentTypeRequest">
+        <wsdl:part element="tns:getFormFieldsForDocumentType" name="parameters">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getFormFieldsForDocumentTypeResponse">
+        <wsdl:part element="tns:getFormFieldsForDocumentTypeResponse" name="parameters">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="vbmsServiceException">
+        <wsdl:part element="tns:faultDetailBean" name="fault">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="vbmsDataValidationException">
+        <wsdl:part element="tns:dataValidationFaultDetailBean" name="fault">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="uploadDocumentWithAssociationsRequest">
+        <wsdl:part element="tns:uploadDocumentWithAssociations" name="parameters">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="uploadDocumentWithAssociationsResponse">
+        <wsdl:part element="tns:uploadDocumentWithAssociationsResponse" name="parameters">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="fetchDocumentByIdRequest">
+        <wsdl:part element="tns:fetchDocumentById" name="parameters">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="listDocumentsRequest">
+        <wsdl:part element="tns:listDocuments" name="parameters">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="listDocumentsByDocumentTypeIdRequest">
+        <wsdl:part element="tns:listDocumentsByDocumentTypeId" name="parameters">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="listDocumentsResponse">
+        <wsdl:part element="tns:listDocumentsResponse" name="parameters">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="listDocumentsByDocumentTypeIdResponse">
+        <wsdl:part element="tns:listDocumentsByDocumentTypeIdResponse" name="parameters">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="notifyPackageScannedRequest">
+        <wsdl:part element="tns:notifyPackageScanned" name="parameters">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="notifyPackageScannedResponse">
+        <wsdl:part element="tns:notifyPackageScannedResponse" name="parameters">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="notifyPackageCompleteRequest">
+        <wsdl:part element="tns:notifyPackageComplete" name="parameters">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="notifyPackageCompleteResponse">
+        <wsdl:part element="tns:notifyPackageCompleteResponse" name="parameters">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:portType name="eDocumentServiceV4">
+        <wsdl:operation name="uploadDocument">
+            <wsdl:input message="tns:uploadDocumentRequest">
+            </wsdl:input>
+            <wsdl:output message="tns:uploadDocumentResponse">
+            </wsdl:output>
+            <wsdl:fault message="tns:vbmsServiceException" name="fault">
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="uploadLetterDocument">
+            <wsdl:input message="tns:uploadLetterDocumentRequest">
+            </wsdl:input>
+            <wsdl:output message="tns:uploadLetterDocumentResponse">
+            </wsdl:output>
+            <wsdl:fault message="tns:vbmsServiceException" name="fault">
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="fetchDocument">
+            <wsdl:input message="tns:fetchDocumentRequest">
+            </wsdl:input>
+            <wsdl:output message="tns:fetchDocumentResponse">
+            </wsdl:output>
+            <wsdl:fault message="tns:vbmsServiceException" name="fault">
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="getDocumentTypes">
+            <wsdl:input message="tns:getDocumentTypesRequest">
+            </wsdl:input>
+            <wsdl:output message="tns:getDocumentTypesResponse">
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="uploadFormDocument">
+            <wsdl:input message="tns:uploadFormDocumentRequest">
+            </wsdl:input>
+            <wsdl:output message="tns:uploadFormDocumentResponse">
+            </wsdl:output>
+            <wsdl:fault message="tns:vbmsDataValidationException" name="dataValidationFault">
+            </wsdl:fault>
+            <wsdl:fault message="tns:vbmsServiceException" name="fault">
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="getFormFieldsForDocumentType">
+            <wsdl:input message="tns:getFormFieldsForDocumentTypeRequest">
+            </wsdl:input>
+            <wsdl:output message="tns:getFormFieldsForDocumentTypeResponse">
+            </wsdl:output>
+            <wsdl:fault message="tns:vbmsServiceException" name="fault">
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="uploadDocumentWithAssociations">
+            <wsdl:input message="tns:uploadDocumentWithAssociationsRequest">
+            </wsdl:input>
+            <wsdl:output message="tns:uploadDocumentWithAssociationsResponse">
+            </wsdl:output>
+            <wsdl:fault message="tns:vbmsServiceException" name="fault">
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="fetchDocumentById">
+            <wsdl:input message="tns:fetchDocumentByIdRequest">
+            </wsdl:input>
+            <wsdl:output message="tns:fetchDocumentResponse">
+            </wsdl:output>
+            <wsdl:fault message="tns:vbmsServiceException" name="fault">
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="listDocuments">
+            <wsdl:input message="tns:listDocumentsRequest">
+            </wsdl:input>
+            <wsdl:output message="tns:listDocumentsResponse">
+            </wsdl:output>
+            <wsdl:fault message="tns:vbmsServiceException" name="fault">
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="listDocumentsByDocumentTypeId">
+            <wsdl:input message="tns:listDocumentsByDocumentTypeIdRequest">
+            </wsdl:input>
+            <wsdl:output message="tns:listDocumentsByDocumentTypeIdResponse">
+            </wsdl:output>
+            <wsdl:fault message="tns:vbmsServiceException" name="fault">
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="notifyPackageScanned">
+            <wsdl:input message="tns:notifyPackageScannedRequest">
+            </wsdl:input>
+            <wsdl:output message="tns:notifyPackageScannedResponse">
+            </wsdl:output>
+            <wsdl:fault message="tns:vbmsDataValidationException" name="dataValidationFault">
+            </wsdl:fault>
+            <wsdl:fault message="tns:vbmsServiceException" name="fault">
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="notifyPackageComplete">
+            <wsdl:input message="tns:notifyPackageCompleteRequest">
+            </wsdl:input>
+            <wsdl:output message="tns:notifyPackageCompleteResponse">
+            </wsdl:output>
+            <wsdl:fault message="tns:vbmsDataValidationException" name="dataValidationFault">
+            </wsdl:fault>
+            <wsdl:fault message="tns:vbmsServiceException" name="fault">
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="eDocumentServiceSOAP" type="tns:eDocumentServiceV4">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="uploadDocument">
+            <wsp:PolicyReference URI="#Mtom.xml"/>
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="fault">
+                <soap:fault name="fault" use="literal" wsdl:required="false"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="uploadLetterDocument">
+            <wsp:PolicyReference URI="#Mtom.xml"/>
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="fault">
+                <soap:fault name="fault" use="literal" wsdl:required="false"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="fetchDocument">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="fault">
+                <soap:fault name="fault" use="literal" wsdl:required="false"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="getDocumentTypes">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="uploadFormDocument">
+            <wsp:PolicyReference URI="#Mtom.xml"/>
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="dataValidationFault">
+                <soap:fault name="dataValidationFault" use="literal" wsdl:required="false"/>
+            </wsdl:fault>
+            <wsdl:fault name="fault">
+                <soap:fault name="fault" use="literal" wsdl:required="false"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="getFormFieldsForDocumentType">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="fault">
+                <soap:fault name="fault" use="literal" wsdl:required="false"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="uploadDocumentWithAssociations">
+            <wsp:PolicyReference URI="#Mtom.xml"/>
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="fault">
+                <soap:fault name="fault" use="literal" wsdl:required="false"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="fetchDocumentById">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="fault">
+                <soap:fault name="fault" use="literal" wsdl:required="false"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="listDocuments">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="fault">
+                <soap:fault name="fault" use="literal" wsdl:required="false"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="listDocumentsByDocumentTypeId">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="fault">
+                <soap:fault name="fault" use="literal" wsdl:required="false"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="notifyPackageScanned">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="dataValidationFault">
+                <soap:fault name="dataValidationFault" use="literal" wsdl:required="false"/>
+            </wsdl:fault>
+            <wsdl:fault name="fault">
+                <soap:fault name="fault" use="literal" wsdl:required="false"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="notifyPackageComplete">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="dataValidationFault">
+                <soap:fault name="dataValidationFault" use="literal" wsdl:required="false"/>
+            </wsdl:fault>
+            <wsdl:fault name="fault">
+                <soap:fault name="fault" use="literal" wsdl:required="false"/>
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="eDocumentService-v4">
+        <wsdl:port binding="tns:eDocumentServiceSOAP" name="eDocumentServiceSOAP">
+            <soap:address location="http://filenet.test.vbms.aide.oit.va.gov:80/vbmsp2-cms/streaming/eDocumentService-v4"/>
+        </wsdl:port>
+    </wsdl:service>
+    <wsp:UsingPolicy/>
+    <wsp:Policy wssutil:Id="Mtom.xml">
+        <ns0:OptimizedMimeSerialization xmlns:ns0="http://schemas.xmlsoap.org/ws/2004/09/policy/optimizedmimeserialization"/>
+    </wsp:Policy>
+</wsdl:definitions>

@@ -1,0 +1,61 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://vbms.vba.va.gov/cdm/document/v2" xmlns:v1="http://vbms.vba.va.gov/cdm"
+           xmlns:xmime="http://www.w3.org/2005/05/xmlmime" targetNamespace="http://vbms.vba.va.gov/cdm/document/v2" elementFormDefault="qualified" version="2.1">
+
+    <xs:import namespace="http://vbms.vba.va.gov/cdm" schemaLocation="../vbms_cdm.xsd"/>
+    <xs:complexType name="Document">
+        <xs:sequence>
+            <xs:element maxOccurs="5000" minOccurs="0" name="annotation" type="v1:Annotation"> </xs:element>
+            <xs:element name="trackedItems" type="v1:TrackedItem"/>
+            <xs:element name="documentAssociations" minOccurs="0" maxOccurs="5000" type="v1:DocumentAssociation"/>
+            <xs:element name="createDt" type="xs:date" minOccurs="0"/>
+            <xs:element name="lastUpdateDt" type="xs:date" minOccurs="0"/>
+            <xs:element name="receivedDt" type="xs:date" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="ID" type="xs:string" use="required"/>
+        <xs:attribute name="actionable" type="xs:boolean" use="required"/>
+        <xs:attribute name="externalID" type="xs:string" use="required"/>
+        <xs:attribute name="Veteran_Person_ID" type="xs:long" use="required"/>
+        <xs:attribute name="path" type="xs:string" use="required"/>
+        <xs:attribute name="fileNumber" type="xs:string" use="required"/>
+        <xs:attribute name="filename" type="xs:string" use="required"/>
+        <xs:attribute name="createUser_ID" type="xs:string" use="required"/>
+        <xs:attribute name="category" type="xs:string"/>
+        <xs:attribute name="docType" type="xs:string" use="required"/>
+        <xs:attribute name="metadata" type="xs:string"/>
+        <xs:attribute name="newMail" type="xs:boolean" use="required"/>
+        <xs:attribute name="mimeType" type="xs:string" use="required"/>
+        <!--needs inspection-->
+        <xs:attribute name="subject" type="xs:string"/>
+        <xs:attribute name="endProduct" type="xs:string"/>
+        <xs:attribute name="source" type="xs:string"/>
+        <xs:attribute name="shippingNum" type="xs:string"/>
+        <xs:attribute name="veteranFirstName" type="xs:string"/>
+        <xs:attribute name="veteranMiddleName" type="xs:string"/>
+        <xs:attribute name="veteranLastName" type="xs:string"/>
+        <xs:attribute name="veteranSuffix" type="xs:string"/>
+        <xs:attribute name="dcsId" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="LetterDocument">
+        <xs:complexContent>
+            <xs:extension base="Document">
+                <xs:attribute name="claimId" type="xs:string"/>
+                <xs:attribute name="letterId" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="FormDocument">
+        <xs:complexContent>
+            <xs:extension base="Document">
+                <xs:sequence>
+                    <xs:element maxOccurs="5000" minOccurs="0" name="formFields" type="v1:FormField"/>
+                </xs:sequence>
+                <xs:attribute name="dcsScanningComplete" type="xs:boolean" default="false"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="DocumentContent">
+        <xs:sequence>
+            <xs:element name="data" type="xs:base64Binary" xmime:expectedContentTypes="application/octet-stream"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

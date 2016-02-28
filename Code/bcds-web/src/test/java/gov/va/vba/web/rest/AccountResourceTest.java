@@ -134,7 +134,7 @@ public class AccountResourceTest extends AbstractIntegrationTest {
                 "Shmoe",                // lastName
                 "joe@example.com",      // e-mail
                 "en",                   // langKey
-                Collections.singletonList(AuthoritiesConstants.USER)
+                Collections.singletonList(AuthoritiesConstants.ROLE_MODEL_EXECUTOR)
         );
 
         restMvc.perform(
@@ -156,7 +156,7 @@ public class AccountResourceTest extends AbstractIntegrationTest {
                 "One",                  // lastName
                 "funky@example.com",    // e-mail
                 "en",                   // langKey
-                Collections.singletonList(AuthoritiesConstants.USER)
+                Collections.singletonList(AuthoritiesConstants.ROLE_MODEL_EXECUTOR)
         );
 
         restUserMockMvc.perform(
@@ -178,7 +178,7 @@ public class AccountResourceTest extends AbstractIntegrationTest {
                 "Green",            // lastName
                 "invalid",          // e-mail <-- invalid
                 "en",               // langKey
-                Collections.singletonList(AuthoritiesConstants.USER)
+                Collections.singletonList(AuthoritiesConstants.ROLE_MODEL_EXECUTOR)
         );
 
         restUserMockMvc.perform(
@@ -201,7 +201,7 @@ public class AccountResourceTest extends AbstractIntegrationTest {
                 "Something",            // lastName
                 "alice@example.com",    // e-mail
                 "en",                   // langKey
-                Collections.singletonList(AuthoritiesConstants.USER)
+                Collections.singletonList(AuthoritiesConstants.ROLE_MODEL_EXECUTOR)
         );
 
         // Duplicate login, different e-mail
@@ -236,7 +236,7 @@ public class AccountResourceTest extends AbstractIntegrationTest {
                 "Doe",                  // lastName
                 "john@example.com",     // e-mail
                 "en",                   // langKey
-                Collections.singletonList(AuthoritiesConstants.USER)
+                Collections.singletonList(AuthoritiesConstants.ROLE_MODEL_EXECUTOR)
         );
 
         // Duplicate e-mail, different login
@@ -282,6 +282,6 @@ public class AccountResourceTest extends AbstractIntegrationTest {
         Optional<User> userDup = userRepository.findOneByLogin("badguy");
         assertThat(userDup.isPresent()).isTrue();
         assertThat(userDup.get().getAuthorities()).hasSize(1)
-                .containsExactly(authorityRepository.findOne(AuthoritiesConstants.USER));
+                .containsExactly(authorityRepository.findOne(AuthoritiesConstants.ROLE_MODEL_EXECUTOR));
     }
 }

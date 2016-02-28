@@ -1,0 +1,1079 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:award="http://vbms.vba.va.gov/cdm/award/v4"
+            xmlns:participant="http://vbms.vba.va.gov/cdm/participant/v4"
+            xmlns:claim="http://vbms.vba.va.gov/cdm/claim/v4" targetNamespace="http://vbms.vba.va.gov/cdm/award/v4"
+            elementFormDefault="qualified" attributeFormDefault="unqualified" version="4.4">
+    <xsd:annotation>
+        <xsd:documentation>Title: Automated Development Letter</xsd:documentation>
+        <xsd:documentation>Created Date: 04/21/2014</xsd:documentation>
+        <xsd:documentation>Updated Date:05/13/2014</xsd:documentation>
+        <xsd:documentation>
+
+            Release Notes 4.0
+            -----------------
+            - Initial version of the ADL Award letter
+
+
+            Release 4.1
+            ========================
+            WIPT Approved: 13AUG2014
+            TSC Approved: 14AUG2014
+            ------------
+            * Added approvedDependentsCount to AtIssueDependencyDecision
+
+            Release 4.2
+            ========================
+            WIPT Approved: 3SEP2014
+            TSC Approved: 4SEP2014
+            ------------
+            * Changed AwardDependent::dependentEffectiveDate to be optional
+
+            Release 4.3
+            ========================
+            WIPT Approved: 22APR2015
+            TSC Approved:  23APR2015
+            ------------------------
+            * Added burialBenefits to AwardEvent
+            * Added previousPayment to PaymentInformation
+            * Added BurialPaymentRate
+            * Added BurialBenefitType
+            * Added BurialEligibilityDecision
+            * Added BurialBenefit
+
+            Release 4.4
+            ========================
+            WIPT Approved: 01JUL2015
+            TSC Approved:  02JUL2015
+            ------------------------
+            * Replaced maxOccurs="unbounded" with maxOccurs="5000"
+
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:import namespace="http://vbms.vba.va.gov/cdm/common/v4" schemaLocation="../common/Common-v4.xsd"/>
+    <xsd:import namespace="http://vbms.vba.va.gov/cdm/participant/v4"
+                schemaLocation="../participant/Participant-v4.xsd"/>
+    <xsd:import namespace="http://vbms.vba.va.gov/cdm/claim/v4" schemaLocation="../claim/Claim-v4.xsd"/>
+    <xsd:complexType name="AwardLetterFreeTextParagraphs">
+        <xsd:annotation>
+            <xsd:documentation>Allows the user to introduce optional paragraph for Introduction and Award additional
+                information into specific locations in the letter body
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="introduction" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="paymentSummary" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="payment" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="award" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="decisions" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="ratings" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="dependents" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="additionalBenefits" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="disagree" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="appellate" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="questions" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="Award">
+        <xsd:sequence>
+            <xsd:element name="paymentInformation" type="award:PaymentInformation" minOccurs="1" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Container of the award event that is going to be used to generate the letter.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="atIssueAwardEvent" type="award:AwardEvent" minOccurs="1" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Container of the award event that is going to be used to generate the letter.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="AwardEvent">
+        <xsd:sequence>
+            <xsd:element name="claim" type="claim:Claim" minOccurs="1" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Claim associated with this Award Event
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="atIssueAwardEventLine" type="award:AwardEventLine" minOccurs="0" maxOccurs="5000">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Container of the award lines for an award event
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="atIssueDependencyDecisions" type="award:AtIssueDependencyDecision" minOccurs="0"
+                         maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Container of all the dependents affected by the At Issue Decisions for this Award Event
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="atIssueRatingInformation" type="award:AwardRatingDecision" minOccurs="1" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Container of all the information coming from ratinga associated with this award event.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="atIssuePensionDecisions" type="award:AwardPensionDecision" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Container of all the information regarding the pension decisions
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="burialBenefits" type="award:BurialBenefit" minOccurs="0" maxOccurs="4">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        collection of burial benefit decisions (Service Connected Burial, Plot, Transportation, etc)
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="isGrossBenefitChanged" type="xsd:boolean" use="required">
+            <xsd:annotation>
+                <xsd:documentation>
+                    Derived value that is true if there is a change to the veteran's current payment as a result any of
+                    the award
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="containsWithholding" type="xsd:boolean" use="required">
+            <xsd:annotation>
+                <xsd:documentation>
+                    Indicates if there is any withholding for this award.
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+
+    </xsd:complexType>
+    <xsd:complexType name="AwardEventLine">
+        <xsd:sequence>
+            <xsd:element name="amount" type="xsd:decimal" minOccurs="1" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Monthly Entitlement Amount. Monthly rate starting with original award
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="paymentStartDate" type="xsd:date" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Date the Monthly Entitlement Amount will start. Award effective date from the
+                        first changed date
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="reasonsForChange" type="xsd:string" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>(All reasons will be concatenated to this field). Also called the Award Line
+                        Reason. This entity allows for the assignment of multiple award reasons to an individual award
+                        line. The reason for a change in award (ex: Original Award, Cost of Living Adjustment, Retired
+                        Pay Adjustment, etc. Award line reason from the first changed date Same as Award Reason For
+                        Change)
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="withholding" type="award:AwardEventLineWithholding" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Container for withholding data elements.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="AwardEventLineWithholding">
+        <xsd:sequence>
+            <xsd:element name="amountWithheld" type="xsd:decimal">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Holds the amount withheld for this award line.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="amountPaidAfterWithholding" type="xsd:decimal">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Holds the net amount of pay after withholding is subtracted from the gross benefit.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="grossBenefit" type="xsd:decimal">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Full benefit entitlement before withholding is subtracted.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="sevPayAmount" type="xsd:decimal">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Holds the amount of severance pay for this award line.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="sevPayMedicalCondition" type="xsd:string" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Holds the medical condition for the severance pay.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="retPayDate" type="xsd:date" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Holds the payment date for the retirement.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="sepPayAmount" type="xsd:decimal">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Holds the amount of separation pay for the award line.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="retPayAmount" type="xsd:decimal">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Holds the amount of retirement pay for the award line.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="PaymentInformation">
+        <xsd:sequence>
+            <xsd:element name="paymentType" type="award:PaymentType">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Indicates the selected payment type for this award, Enumeration that holds values like "check"
+                        and "eft"
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="isActivePaperPayment" type="xsd:boolean">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Indicator that is true if the veteran is currently in receipt of recurring (receipt of a regular
+                        payment, monthly, quarterly, etc.) paper check payment
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="isOverPaid" type="xsd:boolean">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Indicates that the veteran has the change in account based on the decision has resulted in an
+                        over payment.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="previousPayment" type="xsd:decimal" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>A previous amount paid related to the award Claim EP</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:simpleType name="PaymentType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="check"/>
+            <xsd:enumeration value="eft"/>
+            <xsd:enumeration value="none"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:complexType name="AtIssueDependencyDecision">
+        <xsd:sequence>
+            <xsd:element name="approvedDependentsCount" type="xsd:int" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Number of approved dependents for this award event.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="dependentDecisionDetail" type="award:AwardDependent" minOccurs="0" maxOccurs="5000">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Container for dependent data items. Contains the decisions and the dependent information.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="developmentDependent" type="award:DependencyDevelopment" minOccurs="0"
+                         maxOccurs="5000">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Container for the additional developments that needs to be done for a dependent.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="AwardDependent">
+        <xsd:complexContent>
+            <xsd:extension base="participant:Dependent">
+                <xsd:sequence>
+                    <xsd:element name="dependencyDecision" type="award:AwardDependencyDecision">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Holds the type of decision made on this dependent (Grant, Denial, Removal, or None)
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="dependencyDecisionReason" type="award:DependencyDecisionReason" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Enumerated value, reason for a dependency decision
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="dependentEffectiveDate" type="xsd:date" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>the effective date for the decision on this dependent
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:simpleType name="AwardDependencyDecision">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Grant"/>
+            <xsd:enumeration value="Denial"/>
+            <xsd:enumeration value="Removal"/>
+            <xsd:enumeration value="None"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="DependencyDecisionReason">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Death"/>
+            <xsd:enumeration value="Failed to Confirm Dependency"/>
+            <xsd:enumeration value="Incarcerated"/>
+            <xsd:enumeration value="Insufficient School Hours"/>
+            <xsd:enumeration value="School Attendance Terminates"/>
+            <xsd:enumeration value="Stepchild Not in Household"/>
+            <xsd:enumeration value="Stepchild Relationship Terminated"/>
+            <xsd:enumeration value="Turns 18"/>
+            <xsd:enumeration value="Turns 23"/>
+            <xsd:enumeration value="Not an Award Dependent"/>
+            <xsd:enumeration value="Marriage"/>
+            <xsd:enumeration value="Rated Not Helpless"/>
+            <xsd:enumeration value="Elects Chapter 35"/>
+            <xsd:enumeration value="Failed to Furnish Requested Evidence"/>
+            <xsd:enumeration value="Whereabouts Unknown"/>
+            <xsd:enumeration value="Relationship Not Established"/>
+            <xsd:enumeration value="Over 18-Not in School or Helpless"/>
+            <xsd:enumeration value="School Not Approved"/>
+            <xsd:enumeration value="No Support to Child Out of Legal Custody"/>
+            <xsd:enumeration value="Estrangement with No Support"/>
+            <xsd:enumeration value="Marriage Terminated"/>
+            <xsd:enumeration value="Adoption Requirements Not Met"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:complexType name="DependencyDevelopment">
+        <xsd:sequence>
+            <xsd:element name="issuesNeedingDependentDevelopment" type="award:IssuesNeedingDependentDevelopment"
+                         minOccurs="0" maxOccurs="5000">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Collected during interview process. This holds the values for dependency development
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="developmentIssueFreeText" type="xsd:string" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Collected during interview process. Issues requiring development provided by the VSR entered as
+                        free text.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="dependentDevelopmentName" type="participant:Name" minOccurs="1" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Collected during interview process. This is the name of the dependent.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="IssuesNeedingDependentDevelopment">
+        <xsd:sequence>
+            <xsd:element name="issueNeedingDependentDevelopment" type="award:IssueNeedingDependentDevelopment"
+                         minOccurs="1" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Container for issues needing dependency development items.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:simpleType name="IssueNeedingDependentDevelopment">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="686CNeeded"/>
+            <xsd:enumeration value="MarriageCertificateNeeded"/>
+            <xsd:enumeration value="DivorceCertificateNeeded"/>
+            <xsd:enumeration value="BirthCertificateNeeded"/>
+            <xsd:enumeration value="SocialSecurityNumberNeeded"/>
+            <xsd:enumeration value="SchoolAttendenceNeeded"/>
+            <xsd:enumeration value="VAF674Needed"/>
+            <xsd:enumeration value="AdoptionDocumentNeeded"/>
+            <xsd:enumeration value="StepchildRelationshipNeeded"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:complexType name="AwardRatingDecision">
+        <xsd:sequence>
+            <xsd:element name="additionalBenefits" type="award:AwardAdditionalBenefit" minOccurs="1" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Container for additional benefits of type: SMC, IU, Ch35, SHA, SAH, HelplessChild,AutoAdaptive,
+                        AASpouse, ThreeTwentyFour
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="disabilities" type="award:AwardRatingDisability" minOccurs="1" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Container for items regarding the veteran's disability rating result.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="appeals" type="award:AwardAppeal" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Container for appeal dates entered by interview process
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="evidences" type="award:Evidences" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Container for appeal dates entered by interview process
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="inferredIssues" type="award:InferredIssue" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Contains issues introduced manually in the interview process
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="deferredIssueEvidencesRequested" type="award:DeferredIssueEvidencesRequested"
+                         minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Container holding items relating to a deferred issue for which evidence is being requested.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="AwardPensionDecision">
+        <xsd:sequence>
+            <xsd:element name="militaryServiceRelatedPensionDecisions"
+                         type="award:MilitaryServiceRelatedPensionDecision">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Container for the information about pension denials extracted from the military service periods
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="dualEntitlement" type="xsd:boolean" use="required">
+            <xsd:annotation>
+                <xsd:documentation>
+                    True if the veteran is eligable for both pension and compensation
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="compensationGreaterBenefit" type="xsd:boolean" use="required">
+            <xsd:annotation>
+                <xsd:documentation>
+                    True if the veteran's compensation benefit is greater than their pension benefit. Only applies when
+                    the dualEntitlement flag is true
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>
+    <xsd:complexType name="MilitaryServiceRelatedPensionDecision">
+        <xsd:sequence>
+            <xsd:element name="militaryServiceDateRange" type="award:MilitaryServiceDateRange" minOccurs="0"
+                         maxOccurs="5000">
+                <xsd:annotation>
+                    <xsd:documentation>The list of service date ranges for a veteran
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="servicePeriodsCount" type="xsd:int" use="required">
+            <xsd:annotation>
+                <xsd:documentation>
+                    How many periods veteran served for.
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="noWartimeService" type="xsd:boolean" use="required">
+            <xsd:annotation>
+                <xsd:documentation>
+                    true if no wartime service is selected in interview
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="lessThan90Days" type="xsd:boolean" use="required">
+            <xsd:annotation>
+                <xsd:documentation>
+                    true if less than 90 days of service is selected in interview
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="noActiveDuty" type="xsd:boolean" use="required">
+            <xsd:annotation>
+                <xsd:documentation>
+                    true if no active duty is selected in interview
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="minimumServiceRequirementsMet" type="xsd:boolean" use="required">
+            <xsd:annotation>
+                <xsd:documentation>
+                    true if minimum service requirements met is selected in interview
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>
+    <xsd:complexType name="MilitaryServiceDateRange">
+        <xsd:sequence>
+            <xsd:element name="EOD" type="xsd:date">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The begin service date for the service period
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="RAD" type="xsd:date">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The end of service date for the service period
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="InferredIssue">
+        <xsd:sequence>
+            <xsd:element name="issueInferredEvidenceDriven" type="xsd:boolean">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Provides indication of any issue inferred by the rating specialist, interview process currently
+                        required
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="claimIssueInferredEvidenceDriven" type="xsd:string" minOccurs="0" maxOccurs="5000">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Provides condition or benefit which rating specialist inferred- User entry
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="AwardAdditionalBenefit">
+        <xsd:sequence>
+            <xsd:element name="benefit" type="award:Benefit" minOccurs="0" maxOccurs="5000">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        A benefit that is at Issue for this award event (Grant, CC, Denial, ...)
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="isIUSolicitationOmitted" type="xsd:boolean" use="required">
+            <xsd:annotation>
+                <xsd:documentation>
+                    Set by the user interview process. If this value is true then the decision point for IU Solicitation
+                    should not show up in the letter.
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>
+    <xsd:complexType name="Benefit">
+        <xsd:sequence>
+            <xsd:element name="description" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        description of this additional benefit.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="issueDecisionOutcome" type="award:IssueDecisionOutcome">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        decision on the veterans special monthly compensation decision
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="explanation" type="award:RatingExplanation" minOccurs="1" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Holds the explanation for the decision acquired from the rating service.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="dateRange" type="award:DateRange" minOccurs="0" maxOccurs="5000">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        date ranges for which this benefit was applied
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="type" type="award:BenefitType">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        stores the type information about this additional benefit
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:simpleType name="BenefitType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="SMC"/>
+            <xsd:enumeration value="IU"/>
+            <xsd:enumeration value="Ch35"/>
+            <xsd:enumeration value="SHA"/>
+            <xsd:enumeration value="SAH"/>
+            <xsd:enumeration value="HelplessChild"/>
+            <xsd:enumeration value="AutoAdaptive"/>
+            <xsd:enumeration value="AASpouse"/>
+            <xsd:enumeration value="ThreeTwentyFour"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:complexType name="DateRange">
+        <xsd:sequence>
+            <xsd:element name="startDate" type="xsd:date">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        A start date
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="endDate" type="xsd:date" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        an end date
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:simpleType name="IssueDecisionOutcome">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="newly s/c"/>
+            <xsd:enumeration value="confirm and continue"/>
+            <xsd:enumeration value="denial"/>
+            <xsd:enumeration value="reduction"/>
+            <xsd:enumeration value="increase"/>
+            <xsd:enumeration value="termination"/>
+            <xsd:enumeration value="deferred"/>
+            <xsd:enumeration value="none"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:complexType name="Evidences">
+        <xsd:sequence>
+            <xsd:element name="evidence" type="award:Evidence" minOccurs="0" maxOccurs="5000"/>
+            <xsd:element name="evidenceFreeTexts" type="award:EvidenceFreeText" minOccurs="0" maxOccurs="5000"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="Evidence">
+        <xsd:sequence>
+            <xsd:element name="evidenceListInfo" type="xsd:string" minOccurs="1" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Evidence List info gather from the ratings application VBMS-R.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="EvidenceFreeText">
+        <xsd:sequence>
+            <xsd:element name="evidenceFreeText" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        A single evidence free text, entered by the vsr in the interview process
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="AwardAppeal">
+        <xsd:sequence>
+            <xsd:element name="appeal" type="award:Appeal" minOccurs="0" maxOccurs="5000"/>
+        </xsd:sequence>
+        <xsd:attribute name="containsNewAppealPeriod" type="xsd:boolean" use="required">
+            <xsd:annotation>
+                <xsd:documentation>
+                    Value set to false if the decision is Based upon New Evidence Received Within the Appeal Period.
+                    Value set to true, if a new appeal period is appropriate. This is set in the interview process with
+                    VSR.
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>
+    <xsd:complexType name="Appeal">
+        <xsd:sequence>
+            <xsd:element name="endofAppealPeriod" type="xsd:date" minOccurs="1" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Date for end of appeal period
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="dateOfLetter" type="xsd:date" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Date for notification letter
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="conditionDecided" type="xsd:string" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Conditions related to end of appeal periods
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="AwardRatingDisability">
+        <xsd:sequence>
+            <xsd:element name="ratingResult" type="award:DisabilityRatingResult" minOccurs="0" maxOccurs="5000">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Rating evaluations that are at Issue for this award event
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="combinatorCombinedTotal" type="award:CombinatorCombinedEvaluationsTotal">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Overall combined rating evaluation level.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="sumCombinedTotalPercent" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Percentage assigned for each disability is added up
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="priorCombinatorCombinedTotal" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Combined Total for a previous rating on this claim
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="confirmAndContinueCategory" type="award:ConfirmAndContinueCategory" use="required">
+            <xsd:annotation>
+                <xsd:documentation>
+                    Categorizes the confirm and continue rating results according to their currentPercentAssigned and
+                    issueDecisionOutcome values. Possible values are "serviceConnected", "notServiceConnected",
+                    "bothServiceConnectedAndNotServiceConnected", and "none".
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="endofAppealPeriodCount" type="xsd:int" use="required">
+            <xsd:annotation>
+                <xsd:documentation>
+                    Counts number of iterations for appeal periods
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="containsElevenFiftyOne" type="xsd:boolean" use="required">
+            <xsd:annotation>
+                <xsd:documentation>
+                    true if AT LEAST ONE item in ratingResult has isElevenFiftyOne flag set to true, false otherwise
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="containsGrantAt10PercentOrMore" type="xsd:boolean" use="required">
+            <xsd:annotation>
+                <xsd:documentation>
+                    True if at least one disability is newly s/c or grant at 10 percent or greater.
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="containsNegativeDecision" type="xsd:boolean" use="required">
+            <xsd:annotation>
+                <xsd:documentation>
+                    True if there is a negative decision on any medical condition OR on any Ancillary benefit.
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>
+    <xsd:simpleType name="ConfirmAndContinueCategory">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="serviceConnected"/>
+            <xsd:enumeration value="notServiceConnected"/>
+            <xsd:enumeration value="bothServiceConnectedAndNotServiceConnected"/>
+            <xsd:enumeration value="none"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:complexType name="CombinatorCombinedEvaluationsTotal">
+        <xsd:sequence>
+            <xsd:element name="combinedEvaluation" type="award:CombinedEvaluation" minOccurs="0" maxOccurs="5000">
+                <xsd:annotation>
+                    <xsd:documentation>Effective Dates and Percentages for individual evaluations within this rating
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="CombinedEvaluation">
+        <xsd:sequence>
+            <xsd:element name="effectiveDate" type="xsd:date">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Effective date for the combined total.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="percentage" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Percentage amount of the combined total.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="currentEffectiveDate" type="xsd:boolean" use="required">
+            <xsd:annotation>
+                <xsd:documentation>
+                    True if the effectiveDate is current.
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="recentEffectiveDate" type="xsd:boolean" use="required">
+            <xsd:annotation>
+                <xsd:documentation>
+                    True if the effectiveDate is recent
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>
+    <xsd:complexType name="DisabilityRatingResult">
+        <xsd:sequence>
+            <xsd:element name="evaluations" type="award:RatingEvaluation">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        contains the list of rating evaluations for this disability.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="isFutureExamNeeded" type="xsd:boolean">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        An indicator that a future exam is needed for this disability/condition.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="isElevenFiftyOne" type="xsd:boolean">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        An indicator that the disability award is associated with an 1151
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="isNoPercentAssigned" type="xsd:boolean">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Indicates whether this rating result has confirm and continue as its issue decision outcome and
+                        at the same time has no percent assigned given to it.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="issueDecisionOutcome" type="award:IssueDecisionOutcome">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Enumerated List that indicates the type of rating awarded to this condition as part of this
+                        decision. ( newly s/c, confirm and continue, denial, reduction, increase, termination, deferred,
+                        none)
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="deferredIssueAtOnceExam" type="xsd:boolean">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Indicates if a VA exam is needed for a deferred disability. Can only be true for disabilities
+                        where the ratingDecision is 'deferred'.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="RatingEvaluation">
+        <xsd:sequence>
+            <xsd:element name="ratingEvaluation" type="award:Evaluation" maxOccurs="5000">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        One of the at issue rating evaluations for this disability. Contains info from the rating
+                        evaluation performed.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="Evaluation">
+        <xsd:sequence>
+            <xsd:element name="description" type="xsd:string" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Medical Description of the condition/disability.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="currentPercentAssigned" type="xsd:int" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Percentage assigned to this condition in this rating decision.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="priorRatingPercentAssigned" type="xsd:int" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Percentage assigned to this condition in a prior evaluation. Equal to prior rating's percentage
+                        if we are looking at the first evaluation for this rating, otherwise equal to the percentage
+                        given this condition in the prior evaluation within this rating.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="effectiveDate" type="xsd:date" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Date the current Percent Assigned was/will be made effective
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="ratingExplanation" type="award:RatingExplanation" minOccurs="1" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        It is description for each Contention or medical condition/disability. (SNL Fragments)
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="DeferredIssueEvidencesRequested">
+        <xsd:sequence>
+            <xsd:element name="description" type="xsd:string" minOccurs="0" maxOccurs="5000">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        A description of the evidence request for this disability.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="RatingExplanation">
+        <xsd:sequence>
+            <xsd:element name="explanation" type="xsd:string" minOccurs="0" maxOccurs="5000">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The rating explanation to be asociated with a rating decision
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+
+    <!-- ===============  Begin Burial Benefits =============== -->
+    <xsd:simpleType name="BurialPaymentRate">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Standard"/>
+            <xsd:enumeration value="Non-Standard"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="BurialBenefitType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Service Connected Burial"/>
+            <xsd:enumeration value="Non-Service Connected Burial"/>
+            <xsd:enumeration value="Transportation"/>
+            <xsd:enumeration value="Plot"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="BurialEligibilityDecision">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Denied - No Active Military Service" />
+            <xsd:enumeration value="Denied - Character of Discharge is a Bar to Burial" />
+            <xsd:enumeration value="C&amp;P Entitlement at Death" />
+            <xsd:enumeration value="Death in Approved State Home" />
+            <xsd:enumeration value="Death While Properly Hospitalized" />
+            <xsd:enumeration value="Death While Traveling at VA Expense" />
+            <xsd:enumeration value="Denied - C&amp;P Claim Pending at Death" />
+            <xsd:enumeration value="Denied - Death in Service" />
+            <xsd:enumeration value="Denied - Failure to Prosecute (FTP)"/>
+            <xsd:enumeration value="Denied - Funeral Home (FH) Not Proper Claimant" />
+            <xsd:enumeration value="Denied - No C&amp;P Entitlement at Death" />
+            <xsd:enumeration value="Denied - No Costs Incurred" />
+            <xsd:enumeration value="Denied - Not Under VA Care" />
+            <xsd:enumeration value="Denied - Payment by Outside Source" />
+            <xsd:enumeration value="Denied - SC Death Denied by Rating Decision" />
+            <xsd:enumeration value="Denied - SC under 38 USC 1151" />
+            <xsd:enumeration value="Denied Claimant Deceased" />
+            <xsd:enumeration value="Denied Not Proper Claimant" />
+            <xsd:enumeration value="Denied Unable to Locate Address" />
+            <xsd:enumeration value="In Receipt of MRP in lieu of Compensation" />
+            <xsd:enumeration value="Qualifying SC Death" />
+            <xsd:enumeration value="SC Death under 38 USC 1318" />
+            <xsd:enumeration value="Unclaimed Remains" />
+            <xsd:enumeration value="Denied - Buried in a State Cemetery" />
+            <xsd:enumeration value="Denied - General" />
+            <xsd:enumeration value="Denied - National Cemetery Burial" />
+            <xsd:enumeration value="Denied - Not Timely Filed" />
+            <xsd:enumeration value="Denied - Service Connected Burial Paid" />
+            <xsd:enumeration value="Unclaimed Burial" />
+            <xsd:enumeration value="Denied - No Evidence of Entitlement to Transportation" />
+            <xsd:enumeration value="Denied - No Evidence of Paid Transportation Cost" />
+            <xsd:enumeration value="Denied - Not buried in National Cemetery" />
+            <xsd:enumeration value="Qualifying National Cemetery Burial" />
+            <xsd:enumeration value="SC under 38 USC 1151" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:complexType name="BurialBenefit">
+        <xsd:sequence>
+            <xsd:element name="benefitType" type="award:BurialBenefitType" minOccurs="1" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>the type of the burial benefit</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="paymentRate" type="award:BurialPaymentRate" minOccurs="1" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Payment rate for the burial benefit</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="eligibilityDecision" type="award:BurialEligibilityDecision" minOccurs="1" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Eligibility decision for the burial benefit</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="costs" type="xsd:decimal" minOccurs="1" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>The incurred costs (burial cost, plot cost, etc) associated with this benefit</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- ===============  End Burial Benefits =============== -->
+</xsd:schema>

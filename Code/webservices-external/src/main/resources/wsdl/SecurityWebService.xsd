@@ -1,0 +1,279 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xs:schema xmlns:tns="http://security.services.vetsnet.vba.va.gov/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://security.services.vetsnet.vba.va.gov/">
+
+    <xs:element name="MessageException" nillable="true" type="tns:messageFaultInfoBean" />
+
+    <xs:element name="authenticateUserIdPassword" type="tns:authenticateUserIdPassword" />
+
+    <xs:element name="authenticateUserIdPasswordResponse" type="tns:authenticateUserIdPasswordResponse" />
+
+    <xs:element name="findActiveDirectoryPersonByUserId" type="tns:findActiveDirectoryPersonByUserId" />
+
+    <xs:element name="findActiveDirectoryPersonByUserIdResponse" type="tns:findActiveDirectoryPersonByUserIdResponse" />
+
+    <xs:element name="findCssPersonDTO" type="tns:findCssPersonDTO" />
+
+    <xs:element name="findCssPersonDTOResponse" type="tns:findCssPersonDTOResponse" />
+
+    <xs:element name="findPersonScrtyLog" type="tns:findPersonScrtyLog" />
+
+    <xs:element name="findPersonScrtyLogByPtcpntId" type="tns:findPersonScrtyLogByPtcpntId" />
+
+    <xs:element name="findPersonScrtyLogByPtcpntIdResponse" type="tns:findPersonScrtyLogByPtcpntIdResponse" />
+
+    <xs:element name="findPersonScrtyLogResponse" type="tns:findPersonScrtyLogResponse" />
+
+    <xs:element name="findPtcpntId" type="tns:findPtcpntId" />
+
+    <xs:element name="findPtcpntIdResponse" type="tns:findPtcpntIdResponse" />
+
+    <xs:element name="findSntvtyLevelByFileNumber" type="tns:findSntvtyLevelByFileNumber" />
+
+    <xs:element name="findSntvtyLevelByFileNumberResponse" type="tns:findSntvtyLevelByFileNumberResponse" />
+
+    <xs:element name="findSntvtyLevelByPtcpntId" type="tns:findSntvtyLevelByPtcpntId" />
+
+    <xs:element name="findSntvtyLevelByPtcpntIdResponse" type="tns:findSntvtyLevelByPtcpntIdResponse" />
+
+    <xs:element name="findSntvtyLevelsBySntvtyLevelsDTO" type="tns:findSntvtyLevelsBySntvtyLevelsDTO" />
+
+    <xs:element name="findSntvtyLevelsBySntvtyLevelsDTOResponse" type="tns:findSntvtyLevelsBySntvtyLevelsDTOResponse" />
+
+    <xs:complexType name="authenticateUserIdPassword">
+        <xs:sequence>
+            <xs:element name="userId" type="xs:string" minOccurs="0" />
+            <xs:element name="password" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="authenticateUserIdPasswordResponse">
+        <xs:sequence>
+            <xs:element name="return" type="xs:boolean" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="messageFaultInfoBean">
+        <xs:sequence>
+            <xs:element name="message" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="findCssPersonDTO">
+        <xs:sequence>
+            <xs:element name="scrtyLevelTypeCd" type="xs:string" minOccurs="0" />
+            <xs:element name="stationNumber" type="xs:string" minOccurs="0" />
+            <xs:element name="applicationName" type="xs:string" minOccurs="0" />
+            <xs:element name="role" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="findCssPersonDTOResponse">
+        <xs:sequence>
+            <xs:element name="CssPersonDTO" type="tns:cssPersonDTO" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="cssPersonDTO">
+        <xs:sequence>
+            <xs:element name="applicationId" type="xs:long" minOccurs="0" />
+            <xs:element name="locationId" type="xs:long" minOccurs="0" />
+            <xs:element name="ptcpntId" type="xs:long" minOccurs="0" />
+            <xs:element name="scrtyLevelTypeCd" type="xs:string" minOccurs="0" />
+            <xs:element name="stationId" type="xs:string" minOccurs="0" />
+            <xs:element name="status" type="xs:string" minOccurs="0" />
+            <xs:element name="userId" type="xs:string" minOccurs="0" />
+            <xs:element name="userName" type="xs:string" minOccurs="0" />
+            <xs:element name="userRoles" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="findSntvtyLevelsBySntvtyLevelsDTO">
+        <xs:sequence>
+            <xs:element name="sntvtyLevelsDTO" type="tns:sntvtyLevelsDTO" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="sntvtyLevelsDTO">
+        <xs:sequence>
+            <xs:element name="sntvtyLevelBnftClaimsDTO" type="tns:sntvtyLevelBnftClaimsDTO" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="sntvtyLevelFileNumbersDTO" type="tns:sntvtyLevelFileNumbersDTO" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="sntvtyLevelPtcpntIdsDTO" type="tns:sntvtyLevelPtcpntIdsDTO" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="sntvtyLevelBnftClaimsDTO">
+        <xs:sequence>
+            <xs:element name="bnftClaimId" type="xs:long" minOccurs="0" />
+            <xs:element name="scrtyLevelTypeCd" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="sntvtyLevelFileNumbersDTO">
+        <xs:sequence>
+            <xs:element name="fileNumber" type="xs:string" minOccurs="0" />
+            <xs:element name="scrtyLevelTypeCd" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="sntvtyLevelPtcpntIdsDTO">
+        <xs:sequence>
+            <xs:element name="ptcpntId" type="xs:long" minOccurs="0" />
+            <xs:element name="scrtyLevelTypeCd" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="findSntvtyLevelsBySntvtyLevelsDTOResponse">
+        <xs:sequence>
+            <xs:element name="SntvtyLevelsDTO" type="tns:sntvtyLevelsDTO" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="findPtcpntId">
+        <xs:sequence>
+            <xs:element name="userId" type="xs:string" minOccurs="0" />
+            <xs:element name="stationNumber" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="findPtcpntIdResponse">
+        <xs:sequence>
+            <xs:element name="return" type="xs:long" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="findPersonScrtyLog">
+        <xs:sequence>
+            <xs:element name="userId" type="xs:string" minOccurs="0" />
+            <xs:element name="stationNumber" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="findPersonScrtyLogResponse">
+        <xs:sequence>
+            <xs:element name="return" type="tns:personScrtyLogDTO" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="personScrtyLogDTO">
+        <xs:sequence>
+            <xs:element name="bdnEmpNbr" type="xs:int" minOccurs="0" />
+            <xs:element name="bdnPswrdTxt" type="xs:string" minOccurs="0" />
+            <xs:element name="beginDt" type="xs:dateTime" minOccurs="0" />
+            <xs:element name="compId" type="tns:personScrtyLogPK" minOccurs="0" />
+            <xs:element name="endDt" type="xs:dateTime" minOccurs="0" />
+            <xs:element name="fteExemptInd" type="xs:string" minOccurs="0" />
+            <xs:element name="fteExemptTxt" type="xs:string" minOccurs="0" />
+            <xs:element name="jrnDt" type="xs:dateTime" minOccurs="0" />
+            <xs:element name="jrnLctnId" type="xs:string" minOccurs="0" />
+            <xs:element name="jrnObjId" type="xs:string" minOccurs="0" />
+            <xs:element name="jrnStatusTypeCd" type="xs:string" minOccurs="0" />
+            <xs:element name="jrnUserId" type="xs:string" minOccurs="0" />
+            <xs:element name="netwrkLogonNm" type="xs:string" minOccurs="0" />
+            <xs:element name="pswrdAtmptQty" type="xs:boolean" minOccurs="0" />
+            <xs:element name="pswrdDsablDt" type="xs:dateTime" minOccurs="0" />
+            <xs:element name="pswrdEfctvDt" type="xs:dateTime" minOccurs="0" />
+            <xs:element name="pswrdReasonNm" type="xs:string" minOccurs="0" />
+            <xs:element name="pswrdTxt" type="xs:string" minOccurs="0" />
+            <xs:element name="scrtyLevelTypeCd" type="xs:string" minOccurs="0" />
+            <xs:element name="stationNumber" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="personScrtyLogPK">
+        <xs:sequence>
+            <xs:element name="lctnId" type="xs:long" minOccurs="0" />
+            <xs:element name="ptcpntId" type="xs:long" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="findSntvtyLevelByFileNumber">
+        <xs:sequence>
+            <xs:element name="fileNumber" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="findSntvtyLevelByFileNumberResponse">
+        <xs:sequence>
+            <xs:element name="return" type="tns:sntvtyLevelDTO" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="sntvtyLevelDTO">
+        <xs:sequence>
+            <xs:element name="bdnStnNbr" type="xs:string" minOccurs="0" />
+            <xs:element name="birlsFolderLctnTxt" type="xs:string" minOccurs="0" />
+            <xs:element name="cd" type="xs:string" minOccurs="0" />
+            <xs:element name="dgnstcSuprsnInd" type="xs:string" minOccurs="0" />
+            <xs:element name="fcltyTypeCd" type="xs:string" minOccurs="0" />
+            <xs:element name="jrnDt" type="xs:dateTime" minOccurs="0" />
+            <xs:element name="jrnLctnId" type="xs:string" minOccurs="0" />
+            <xs:element name="jrnObjId" type="xs:string" minOccurs="0" />
+            <xs:element name="jrnStatusTypeCd" type="xs:string" minOccurs="0" />
+            <xs:element name="jrnUserId" type="xs:string" minOccurs="0" />
+            <xs:element name="mtgeLoanId" type="xs:long" minOccurs="0" />
+            <xs:element name="ptcpntId" type="xs:long" minOccurs="0" />
+            <xs:element name="reviewDt" type="xs:dateTime" minOccurs="0" />
+            <xs:element name="rmksTxt" type="xs:string" minOccurs="0" />
+            <xs:element name="scrtyLevelTypeCd" type="xs:string" minOccurs="0" />
+            <xs:element name="sntvtyLevelId" type="xs:long" minOccurs="0" />
+            <xs:element name="sntvtyReasonTypeNm" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="findActiveDirectoryPersonByUserId">
+        <xs:sequence>
+            <xs:element name="userId" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="findActiveDirectoryPersonByUserIdResponse">
+        <xs:sequence>
+            <xs:element name="return" type="tns:activeDirectoryPerson" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="activeDirectoryPerson">
+        <xs:sequence>
+            <xs:element name="address" type="xs:string" minOccurs="0" />
+            <xs:element name="city" type="xs:string" minOccurs="0" />
+            <xs:element name="company" type="xs:string" minOccurs="0" />
+            <xs:element name="department" type="xs:string" minOccurs="0" />
+            <xs:element name="displayName" type="xs:string" minOccurs="0" />
+            <xs:element name="distinguishedName" type="xs:string" minOccurs="0" />
+            <xs:element name="emailAddress" type="xs:string" minOccurs="0" />
+            <xs:element name="firstName" type="xs:string" minOccurs="0" />
+            <xs:element name="initials" type="xs:string" minOccurs="0" />
+            <xs:element name="lastName" type="xs:string" minOccurs="0" />
+            <xs:element name="office" type="xs:string" minOccurs="0" />
+            <xs:element name="phoneNumber" type="xs:string" minOccurs="0" />
+            <xs:element name="samAccountName" type="xs:string" minOccurs="0" />
+            <xs:element name="state" type="xs:string" minOccurs="0" />
+            <xs:element name="title" type="xs:string" minOccurs="0" />
+            <xs:element name="zipCode" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="findPersonScrtyLogByPtcpntId">
+        <xs:sequence>
+            <xs:element name="ptcpntId" type="xs:long" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="findPersonScrtyLogByPtcpntIdResponse">
+        <xs:sequence>
+            <xs:element name="return" type="tns:personScrtyLogDTO" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="findSntvtyLevelByPtcpntId">
+        <xs:sequence>
+            <xs:element name="ptcpntId" type="xs:long" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="findSntvtyLevelByPtcpntIdResponse">
+        <xs:sequence>
+            <xs:element name="return" type="tns:sntvtyLevelDTO" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

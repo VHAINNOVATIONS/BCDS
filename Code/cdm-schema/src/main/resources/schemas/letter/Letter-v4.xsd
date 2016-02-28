@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://vbms.vba.va.gov/cdm/letter/v4"
+           targetNamespace="http://vbms.vba.va.gov/cdm/letter/v4" elementFormDefault="qualified"
+           xmlns:common="http://vbms.vba.va.gov/cdm/common/v4"
+           xmlns:participant="http://vbms.vba.va.gov/cdm/participant/v4"
+           xmlns:award="http://vbms.vba.va.gov/cdm/award/v4"
+           xmlns:rating="http://vbms.vba.va.gov/cdm/rating/v5"
+           version="4.7">
+    <xs:annotation>
+        <xs:documentation>
+            Version 4.2
+            -----------
+            Source: VBMS-Core
+            Changes:
+            * Added new Standard 5103 Notice in LetterTypeEnum
+
+            Version 4.3
+            -----------
+            Source: VBMS-C
+            Date: 7MAY2014
+            Changes:
+            * Added new ADL Award Letter AwardsCompensationLetter in LetterTypeEnum
+            * Added AwardAutomatedDevelopmentLetter ComplexType
+            * Added dependency on Award subject area to support award letters
+
+            Version 4.4
+            -----------
+            Source: VBMS-C
+            Date: 7MAY2014
+            Changes:
+            * Added new ADL Award Letter AwardsCompensationLetter in LetterTypeEnum
+            * Added AwardAutomatedDevelopmentLetter ComplexType
+            * Added dependency on Rating subject area to support award letters
+
+            Version 4.5
+            ========================
+            WIPT Approved: 22APR2015
+            TSC Approved:  23APR2015
+            Source: VBMS-C
+            Date: 23APR2015
+            ------------------------
+            Changes:
+            * Add the enumeration AwardsBurialCompensationLetter to LetterTypeEnum
+            * Add the enumeration ThirdPartyEmployerLetter to LetterTypeEnum
+
+            Release 4.6
+            ========================
+            WIPT Approved: 01JUL2015
+            TSC Approved:  02JUL2015
+            ------------------------
+            * Replaced maxOccurs="unbounded" with maxOccurs="5000"
+
+            Release 4.7
+            ========================
+            WIPT Approved: 22JUL2015
+            TSC Approved:  23JUL2015
+            ------------------------
+            * New complexType BenefitEstimateLetter
+
+        </xs:documentation>
+    </xs:annotation>
+
+    <xs:import namespace="http://vbms.vba.va.gov/cdm/common/v4" schemaLocation="../common/Common-v4.xsd"/>
+    <xs:import namespace="http://vbms.vba.va.gov/cdm/participant/v4"
+               schemaLocation="../participant/Participant-v4.xsd"/>
+    <xs:import namespace="http://vbms.vba.va.gov/cdm/award/v4" schemaLocation="../award/Award-v4.xsd"/>
+    <xs:import namespace="http://vbms.vba.va.gov/cdm/rating/v5" schemaLocation="../rating/Rating-v5.xsd"/>
+
+    <xs:complexType name="ClaimDevelopmentLetter">
+        <xs:complexContent>
+            <xs:extension base="Letter">
+                <xs:sequence>
+                    <xs:element name="previousVcaaLetterDates" type="xs:date" minOccurs="0" maxOccurs="5000"/>
+                </xs:sequence>
+                <xs:attribute name="suspenseDays" type="xs:int"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="FillIn">
+        <xs:sequence>
+            <xs:choice>
+                <xs:element name="stringValue" type="xs:string" minOccurs="0" maxOccurs="5000"/>
+                <xs:element name="booleanValue" type="xs:boolean" minOccurs="0" maxOccurs="5000"/>
+                <xs:element name="dateValue" type="xs:date" minOccurs="0" maxOccurs="5000"/>
+                <xs:element name="decimalValue" type="xs:decimal" minOccurs="0" maxOccurs="5000"/>
+                <xs:element name="integerValue" type="xs:integer" minOccurs="0" maxOccurs="5000"/>
+            </xs:choice>
+        </xs:sequence>
+
+        <xs:attribute name="standardFillInId" type="xs:long">
+            <xs:annotation>
+                <xs:documentation>
+                    This value identifies the fill-in at a system level, not an instance level. The id can be used to
+                    identify fill-ins across paragraphs and letters so that attributes and behavior (such as
+                    auto-population and validation) can be linked to fill-ins.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="description" type="xs:string"/>
+        <xs:attribute name="type" type="FillinTypeEnum" use="required"/>
+        <xs:attribute name="multipleValuesAllowed" type="xs:boolean" use="required"/>
+    </xs:complexType>
+
+    <xs:simpleType name="FillinTypeEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="string"/>
+            <xs:enumeration value="boolean"/>
+            <xs:enumeration value="date"/>
+            <xs:enumeration value="decimal"/>
+            <xs:enumeration value="integer"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="Letter">
+        <xs:sequence>
+            <xs:element name="sender" type="LetterAddress" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        Information about the sender such as the name and address. Will not be created in most cases,
+                        but allows for user provided overrides of default sender behavior.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="recipient" type="LetterAddress" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        Information about the recipient such as the name and address. Will not be created in most
+                        cases, but allows for user provided overrides of default recipient behavior.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="generationDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        Date the letter was generated. This will not be set prior to the letter being finalized.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="salutation" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        Fully qualified name of the person to whom the letter is written. Will not be created in most
+                        cases, but allows for user provided overrides of default salutation behavior.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="letterContents" type="LetterContentList" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="signatureTitle" type="xs:string" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        Title of the name of the person writing the letter. Ex. Regional Office Manager
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="signature" type="xs:string" maxOccurs="1" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        Name of the person whose signature goes on the letter
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="blameLine" type="xs:string" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="sentDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        Date the letter was sent. This will not be set prior to the letter being finalized.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="regionalOffice" type="common:RegionalOffice" minOccurs="0"/>
+            <xs:element name="claimant" type="participant:Person" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="veteran" type="participant:Veteran" maxOccurs="1" minOccurs="0"/>
+        </xs:sequence>
+
+        <xs:attribute name="letterType" type="LetterTypeEnum"/>
+        <xs:attribute name="claimDate" type="xs:date"/>
+        <xs:attribute name="letterId" type="xs:long"/>
+    </xs:complexType>
+
+    <xs:complexType name="LetterAddress">
+        <xs:sequence>
+            <xs:element name="address" type="common:Address" maxOccurs="1" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="addressee" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="LetterContent" abstract="true">
+        <xs:attribute name="suspenseDays" type="xs:int"/>
+    </xs:complexType>
+
+    <xs:complexType name="LetterContentList">
+        <xs:sequence>
+            <xs:element name="letterContention" type="LetterContention" minOccurs="0" maxOccurs="5000"/>
+            <xs:element name="devActionParagraph" type="DevelopmentActionParagraph" minOccurs="0"
+                        maxOccurs="5000"/>
+            <xs:element name="customParagraph" type="CustomParagraph" minOccurs="0" maxOccurs="5000"/>
+            <xs:element name="letterEvidence" type="LetterEvidence" minOccurs="0" maxOccurs="5000"/>
+            <xs:element name="awardAdjustment" type="AwardAdjustment" minOccurs="0" maxOccurs="5000"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="LetterContention">
+        <xs:complexContent>
+            <xs:extension base="LetterContent">
+                <xs:attribute name="startDate" type="xs:date"/>
+                <xs:attribute name="endDate" type="xs:date"/>
+                <xs:attribute name="title" type="xs:string"/>
+                <xs:attribute name="receivedDate" type="xs:date"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="DevelopmentActionParagraph">
+        <xs:complexContent>
+            <xs:extension base="LetterContent">
+                <xs:sequence>
+                    <xs:element name="fillIn" type="FillIn" minOccurs="0" maxOccurs="5000"/>
+                </xs:sequence>
+
+                <xs:attribute name="standardDevelopmentActionId" type="xs:long" use="required">
+                    <xs:annotation>
+                        <xs:documentation>
+                            This value identifies the dev action at a system level, not an instance level.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="CustomParagraph">
+        <xs:complexContent>
+            <xs:extension base="LetterContent">
+                <xs:sequence>
+                    <xs:element name="text" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                </xs:sequence>
+                <xs:attribute name="sectionHeader" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="LetterEvidence">
+        <xs:complexContent>
+            <xs:extension base="LetterContent">
+                <xs:attribute name="receivedDate" type="xs:date"/>
+                <xs:attribute name="descriptionText" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="AwardAdjustment">
+        <xs:complexContent>
+            <xs:extension base="LetterContent">
+                <xs:sequence>
+                    <xs:element name="adjustments" type="AwardAdjustmentItem" minOccurs="0" maxOccurs="5000"/>
+                    <xs:element name="totalEvaluationAdjustment" type="AwardAdjustmentItem" minOccurs="0"
+                                maxOccurs="1"/>
+                    <xs:element name="totalAwardAdjustment" type="AwardAdjustmentItem" minOccurs="0" maxOccurs="1"/>
+                </xs:sequence>
+                <xs:attribute name="awardDate" type="xs:date"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="AwardAdjustmentItem">
+        <xs:attribute name="title" type="xs:string"/>
+        <xs:attribute name="currentValue" type="xs:double"/>
+        <xs:attribute name="proposedValue" type="xs:double"/>
+        <xs:attribute name="examDate" type="xs:date"/>
+    </xs:complexType>
+
+    <xs:complexType name="LetterSectionInfo">
+        <xs:annotation>
+            <xs:documentation>
+                For use in communicating section header names for specific letter types.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="letterType" type="LetterTypeEnum" use="required"/>
+        <xs:attribute name="sectionHeader" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <xs:simpleType name="LetterTypeEnum">
+        <xs:restriction base="xs:string">
+            <!-- Claim Development Letters -->
+            <xs:enumeration value="RequestForApplication"/>
+            <xs:enumeration value="Standard5103Notice"/>
+            <xs:enumeration value="Initial5103Notice"/>
+            <xs:enumeration value="Subsequent5103Notice"/>
+            <xs:enumeration value="SubsequentClaimantDevelopmentLetter"/>
+            <xs:enumeration value="ServiceConnectedVCAALetter"/>
+            <xs:enumeration value="SubsequentVCAALetter"/>
+            <xs:enumeration value="ClaimantNotificationFollowUp"/>
+
+            <!-- Third Party Letters -->
+            <xs:enumeration value="FederalThirdPartyPTSDVetCenterRecords"/>
+            <xs:enumeration value="FederalThirdPartyPTSDMCHistoricalCtr"/>
+            <xs:enumeration value="FederalThirdPartyPTSDInvestigativeReports"/>
+            <xs:enumeration value="FederalThirdPartyReserveOrGuardUnitRecords"/>
+            <xs:enumeration value="PrivateInitialThirdParty"/>
+            <xs:enumeration value="PrivatePartyFollowUp"/>
+            <xs:enumeration value="FederalPartyFollowUp"/>
+            <xs:enumeration value="ThirdPartyEmployerLetter"/>
+
+            <!-- Due Process Letters -->
+            <xs:enumeration value="ProposedIncompetency"/>
+            <xs:enumeration value="CompensationReduction"/>
+            <xs:enumeration value="DrillPayAdjustment"/>
+            <xs:enumeration value="CharacterOfDischarge"/>
+            <xs:enumeration value="FailureToSubmitDependencyQuestionnaireReduction"/>
+            <xs:enumeration value="FailureToReportForExamReduction"/>
+            <xs:enumeration value="SchoolChildVerificationReduction"/>
+
+            <!-- General Claimant Letters -->
+            <xs:enumeration value="InformalClaim"/>
+
+            <!-- Award ADL Letter -->
+            <xs:enumeration value="AwardsCompensationLetter"/>
+            <xs:enumeration value="AwardsBurialCompensationLetter"/>
+
+            <!-- Rating letters  -->
+            <xs:enumeration value="CodesheetRatingLetter"/>
+            <xs:enumeration value="NarrativeRatingLetter"/>
+            <xs:enumeration value="BenefitEstimateLetter"/>
+
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="ParagraphContent">
+        <xs:annotation>
+            <xs:documentation>
+                For use in communicating the fill-ins and paragraph text associated with a specified dev action.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="fillIn" type="FillIn" minOccurs="0" maxOccurs="5000"/>
+        </xs:sequence>
+
+        <xs:attribute name="standardDevelopmentActionId" type="xs:long" use="required">
+            <xs:annotation>
+                <xs:documentation>
+                    This value identifies the dev action at a system level, not an instance level.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="text" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="ThirdPartyFollowUpLetter">
+        <xs:complexContent>
+            <xs:extension base="ThirdPartyLetter">
+                <xs:sequence>
+                    <xs:element name="parentLetter" type="ThirdPartyLetter" minOccurs="1"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="ThirdPartyLetter">
+        <xs:complexContent>
+            <xs:extension base="Letter">
+                <xs:sequence>
+                    <xs:element name="providerAddress" type="LetterAddress" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="AwardAutomatedDevelopmentLetter">
+        <xs:annotation>
+            <xs:documentation>
+                ADL letter for VBMS-A. Element that contains the necessary information to generate a Template 16 Staged
+                Award Compensation Letter
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="Letter">
+                <xs:sequence>
+                    <xs:element name="letterFreeTextParagraphs" type="award:AwardLetterFreeTextParagraphs" minOccurs="0"
+                                maxOccurs="1"/>
+                    <xs:element name="letterAward" type="award:Award" minOccurs="1" maxOccurs="1"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="NarrativeLetter">
+        <xs:complexContent>
+            <xs:extension base="Letter">
+                <xs:sequence>
+                    <xs:element name="narrativeProfile" type="rating:NarrativeProfile"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="CodesheetLetter">
+        <xs:complexContent>
+            <xs:extension base="Letter">
+                <xs:sequence>
+                    <xs:element name="codesheetProfile" type="rating:CodesheetProfile"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="BenefitEstimateLetter">
+        <xs:complexContent>
+            <xs:extension base="Letter">
+                <xs:sequence>
+                    <xs:element name="benefitEstimate" type="rating:BenefitEstimate"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+</xs:schema>

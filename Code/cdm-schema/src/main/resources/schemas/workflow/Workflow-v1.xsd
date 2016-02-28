@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://vbms.vba.va.gov/cdm/worfkflow/v1"
+           xmlns:tns="http://vbms.vba.va.gov/cdm/worfkflow/v1"
+           targetNamespace="http://vbms.vba.va.gov/cdm/worfkflow/v1"
+           elementFormDefault="qualified" version="1.0">
+    <xs:annotation>
+        <xs:documentation>
+
+            Version 1.0
+            -----------
+            Source: VBMS-Core
+            Author: Eric Buitenhuis
+            Date: 4 March 2015
+            Changes:
+            * Initial submission
+
+        </xs:documentation>
+    </xs:annotation>
+    <xs:complexType name="ClaimWorkflowEvent" abstract="true">
+        <xs:annotation>
+            <xs:documentation>
+                This is the base class and contains all data common to all workflow events, including claim id and
+                process id. The data in this object would serve to facilitate the creation of a start event or
+                intermediate event on the destination engine.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="processId" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>
+                    The process id assigned by the process engine. This is the key that would allow a separate
+                    workflow engine to continue the work on a process.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="claimId" type="xs:long">
+            <xs:annotation>
+                <xs:documentation>
+                    Optional reference to the related claim id.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="eventDateTime" type="xs:dateTime" use="required">
+            <xs:annotation>
+                <xs:documentation>
+                    The date and time that the event happened. This is NOT the time the event was sent, rather when the
+                    thing that caused the event happened.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+    <xs:simpleType name="ClaimLifecyclePhase" final="restriction">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Development"/>
+            <xs:enumeration value="Rating"/>
+            <xs:enumeration value="Awards"/>
+            <xs:enumeration value="Authorization"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="PhaseChangeEvent" abstract="true">
+        <xs:annotation>
+            <xs:documentation>
+                The base class for all events that entail a VBMS phase change. The phases are considered development,
+                rating, award, and authorization.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="tns:ClaimWorkflowEvent">
+                <xs:attribute name="sourcePhase" type="tns:ClaimLifecyclePhase" use="required">
+                    <xs:annotation>
+                        <xs:documentation>
+                            What phase was the claim in when at the source of the event.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="ProgressionEvent" abstract="true">
+        <xs:annotation>
+            <xs:documentation>
+                The abstract base class for a "happy path" transition from one phase to another. For example, when
+                development is done and the claim is ready for rating.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="tns:PhaseChangeEvent">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="DevelopmentCompleteEvent">
+        <xs:complexContent>
+            <xs:extension base="tns:ProgressionEvent">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="RatingCompleteEvent">
+        <xs:complexContent>
+            <xs:extension base="tns:ProgressionEvent">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="AwardCompleteEvent">
+        <xs:complexContent>
+            <xs:extension base="tns:ProgressionEvent">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="AuthorizationCompleteEvent">
+        <xs:complexContent>
+            <xs:extension base="tns:ProgressionEvent">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="AssignmentEvent">
+        <xs:annotation>
+            <xs:documentation>
+                This is a potential hook for NWQ events to utilize this tree.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="tns:ClaimWorkflowEvent">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="RegressionEvent">
+        <xs:complexContent>
+            <xs:extension base="tns:PhaseChangeEvent">
+                <xs:sequence>
+                    <xs:element name="summaryText" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="detailedReason" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="contention" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="documentBookmark" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="detailsText" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                </xs:sequence>
+                <xs:attribute name="avoidable" type="xs:boolean" use="required"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="ExamDeferralEvent">
+        <xs:complexContent>
+            <xs:extension base="tns:RegressionEvent">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="EvidenceDeferralEvent">
+        <xs:complexContent>
+            <xs:extension base="tns:RegressionEvent">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="IssueDeferralEvent">
+        <xs:complexContent>
+            <xs:extension base="tns:RegressionEvent">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="RatingCorrectionDeferralEvent">
+        <xs:complexContent>
+            <xs:extension base="tns:RegressionEvent">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="NotificationCorrectionDeferralEvent">
+        <xs:complexContent>
+            <xs:extension base="tns:RegressionEvent">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="EPErrorsDeferralEvent">
+        <xs:complexContent>
+            <xs:extension base="tns:RegressionEvent">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="IncorrectPaymentDeferralEvent">
+        <xs:complexContent>
+            <xs:extension base="tns:RegressionEvent">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+
+</xs:schema>

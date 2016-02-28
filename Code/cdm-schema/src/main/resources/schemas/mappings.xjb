@@ -1,0 +1,13 @@
+<jaxb:bindings jaxb:version="2.0" jaxb:extensionBindingPrefixes="xjc"
+               xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <jaxb:globalBindings>
+        <jaxb:serializable/>
+        <jaxb:javaType name="java.util.Date" xmlType="xs:date"
+                       parseMethod="gov.va.vba.vbms.cdm.converters.DateConverter.parseDate"
+                       printMethod="gov.va.vba.vbms.cdm.converters.DateConverter.printDate"/>
+        <jaxb:javaType name="java.util.Date" xmlType="xs:dateTime"/>
+    </jaxb:globalBindings>
+
+</jaxb:bindings>

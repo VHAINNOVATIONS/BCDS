@@ -21,6 +21,8 @@
     </prerequisites>
 
     <modules>
+		<module>../cdm-schema</module>
+		<module>../webservices-external</module>
         <module>../bcds-api</module>
 		<module>../bcds-impl</module>
 		<module>../bcds-persistence</module>
@@ -414,6 +416,37 @@
             <version>${spring-security.version}</version>
         </dependency>
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>gov.va.vba</groupId>
+                <artifactId>bcds-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>gov.va.vba</groupId>
+                <artifactId>bcds-impl</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>gov.va.vba</groupId>
+                <artifactId>bcds-persistence</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>gov.va.vba</groupId>
+                <artifactId>cdm-schema</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>gov.va.vba</groupId>
+                <artifactId>webservices-external</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
 
     <build>
         <resources>

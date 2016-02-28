@@ -1,4 +1,25 @@
 <div ng-controller="DashboardController">
     <h2 class="text-center">Dashboard</h2>
     <div class="v-spacer"></div>
+	<ul class="nav nav-tabs" has-role="ROLE_MODEL_EXECUTOR">
+	  <li class="active"><a data-toggle="tab" href="#feeds">Data Feeds</a></li>
+	  <li><a data-toggle="tab" href="#targets">Target Data Sets</a></li>
+	  <li><a data-toggle="tab" href="#jobs">Jobs</a></li>	 
+	</ul>
+	
+	<div class="tab-content">
+	  <div id="feeds" class="tab-pane fade in active">
+		<h3>Current Data Feeds</h3>
+		<p>Some content.</p>
+	  </div>
+	  <div id="targets" class="tab-pane fade">
+		<h3>Current Targets</h3>
+		<p>Listing of target data sets.</p>
+	  </div>
+	  <div id="jobs" class="tab-pane fade">
+		<h3>Active Jobs</h3>
+		<p>Listing of active jobs.</p>
+	  </div>
+	</div>
+
 </div>

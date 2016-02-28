@@ -1,0 +1,228 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://security.services.vetsnet.vba.va.gov/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://security.services.vetsnet.vba.va.gov/" name="SecurityWebService">
+    <types>
+        <xsd:schema>
+            <xsd:import namespace="http://security.services.vetsnet.vba.va.gov/" schemaLocation="SecurityWebService.xsd" />
+        </xsd:schema>
+    </types>
+    <message name="findActiveDirectoryPersonByUserId">
+        <part name="parameters" element="tns:findActiveDirectoryPersonByUserId" />
+    </message>
+    <message name="findActiveDirectoryPersonByUserIdResponse">
+        <part name="parameters" element="tns:findActiveDirectoryPersonByUserIdResponse" />
+    </message>
+    <message name="MessageException">
+        <part name="fault" element="tns:MessageException" />
+    </message>
+    <message name="findSntvtyLevelByPtcpntId">
+        <part name="parameters" element="tns:findSntvtyLevelByPtcpntId" />
+    </message>
+    <message name="findSntvtyLevelByPtcpntIdResponse">
+        <part name="parameters" element="tns:findSntvtyLevelByPtcpntIdResponse" />
+    </message>
+    <message name="findCssPersonDTO">
+        <part name="parameters" element="tns:findCssPersonDTO" />
+    </message>
+    <message name="findCssPersonDTOResponse">
+        <part name="parameters" element="tns:findCssPersonDTOResponse" />
+    </message>
+    <message name="findPersonScrtyLog">
+        <part name="parameters" element="tns:findPersonScrtyLog" />
+    </message>
+    <message name="findPersonScrtyLogResponse">
+        <part name="parameters" element="tns:findPersonScrtyLogResponse" />
+    </message>
+    <message name="findPersonScrtyLogByPtcpntId">
+        <part name="parameters" element="tns:findPersonScrtyLogByPtcpntId" />
+    </message>
+    <message name="findPersonScrtyLogByPtcpntIdResponse">
+        <part name="parameters" element="tns:findPersonScrtyLogByPtcpntIdResponse" />
+    </message>
+    <message name="findPtcpntId">
+        <part name="parameters" element="tns:findPtcpntId" />
+    </message>
+    <message name="findPtcpntIdResponse">
+        <part name="parameters" element="tns:findPtcpntIdResponse" />
+    </message>
+    <message name="findSntvtyLevelByFileNumber">
+        <part name="parameters" element="tns:findSntvtyLevelByFileNumber" />
+    </message>
+    <message name="findSntvtyLevelByFileNumberResponse">
+        <part name="parameters" element="tns:findSntvtyLevelByFileNumberResponse" />
+    </message>
+    <message name="authenticateUserIdPassword">
+        <part name="parameters" element="tns:authenticateUserIdPassword" />
+    </message>
+    <message name="authenticateUserIdPasswordResponse">
+        <part name="parameters" element="tns:authenticateUserIdPasswordResponse" />
+    </message>
+    <message name="findSntvtyLevelsBySntvtyLevelsDTO">
+        <part name="parameters" element="tns:findSntvtyLevelsBySntvtyLevelsDTO" />
+    </message>
+    <message name="findSntvtyLevelsBySntvtyLevelsDTOResponse">
+        <part name="parameters" element="tns:findSntvtyLevelsBySntvtyLevelsDTOResponse" />
+    </message>
+    <portType name="SecurityWebService">
+        <operation name="findActiveDirectoryPersonByUserId">
+            <input message="tns:findActiveDirectoryPersonByUserId" />
+            <output message="tns:findActiveDirectoryPersonByUserIdResponse" />
+            <fault message="tns:MessageException" name="MessageException" />
+        </operation>
+        <operation name="findSntvtyLevelByPtcpntId">
+            <input message="tns:findSntvtyLevelByPtcpntId" />
+            <output message="tns:findSntvtyLevelByPtcpntIdResponse" />
+            <fault message="tns:MessageException" name="MessageException" />
+        </operation>
+        <operation name="findCssPersonDTO">
+            <input message="tns:findCssPersonDTO" />
+            <output message="tns:findCssPersonDTOResponse" />
+            <fault message="tns:MessageException" name="MessageException" />
+        </operation>
+        <operation name="findPersonScrtyLog">
+            <input message="tns:findPersonScrtyLog" />
+            <output message="tns:findPersonScrtyLogResponse" />
+            <fault message="tns:MessageException" name="MessageException" />
+        </operation>
+        <operation name="findPersonScrtyLogByPtcpntId">
+            <input message="tns:findPersonScrtyLogByPtcpntId" />
+            <output message="tns:findPersonScrtyLogByPtcpntIdResponse" />
+            <fault message="tns:MessageException" name="MessageException" />
+        </operation>
+        <operation name="findPtcpntId">
+            <input message="tns:findPtcpntId" />
+            <output message="tns:findPtcpntIdResponse" />
+            <fault message="tns:MessageException" name="MessageException" />
+        </operation>
+        <operation name="findSntvtyLevelByFileNumber">
+            <input message="tns:findSntvtyLevelByFileNumber" />
+            <output message="tns:findSntvtyLevelByFileNumberResponse" />
+            <fault message="tns:MessageException" name="MessageException" />
+        </operation>
+        <operation name="authenticateUserIdPassword">
+            <input message="tns:authenticateUserIdPassword" />
+            <output message="tns:authenticateUserIdPasswordResponse" />
+            <fault message="tns:MessageException" name="MessageException" />
+        </operation>
+        <operation name="findSntvtyLevelsBySntvtyLevelsDTO">
+            <input message="tns:findSntvtyLevelsBySntvtyLevelsDTO" />
+            <output message="tns:findSntvtyLevelsBySntvtyLevelsDTOResponse" />
+            <fault message="tns:MessageException" name="MessageException" />
+        </operation>
+    </portType>
+    <binding name="SecurityWebServicePortBinding" type="tns:SecurityWebService">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+        <operation name="findActiveDirectoryPersonByUserId">
+            <soap:operation soapAction="" />
+            <input>
+                <soap:body use="literal" />
+            </input>
+            <output>
+                <soap:body use="literal" />
+            </output>
+            <fault name="MessageException">
+                <soap:fault name="MessageException" use="literal" />
+            </fault>
+        </operation>
+        <operation name="findSntvtyLevelByPtcpntId">
+            <soap:operation soapAction="" />
+            <input>
+                <soap:body use="literal" />
+            </input>
+            <output>
+                <soap:body use="literal" />
+            </output>
+            <fault name="MessageException">
+                <soap:fault name="MessageException" use="literal" />
+            </fault>
+        </operation>
+        <operation name="findCssPersonDTO">
+            <soap:operation soapAction="" />
+            <input>
+                <soap:body use="literal" />
+            </input>
+            <output>
+                <soap:body use="literal" />
+            </output>
+            <fault name="MessageException">
+                <soap:fault name="MessageException" use="literal" />
+            </fault>
+        </operation>
+        <operation name="findPersonScrtyLog">
+            <soap:operation soapAction="" />
+            <input>
+                <soap:body use="literal" />
+            </input>
+            <output>
+                <soap:body use="literal" />
+            </output>
+            <fault name="MessageException">
+                <soap:fault name="MessageException" use="literal" />
+            </fault>
+        </operation>
+        <operation name="findPersonScrtyLogByPtcpntId">
+            <soap:operation soapAction="" />
+            <input>
+                <soap:body use="literal" />
+            </input>
+            <output>
+                <soap:body use="literal" />
+            </output>
+            <fault name="MessageException">
+                <soap:fault name="MessageException" use="literal" />
+            </fault>
+        </operation>
+        <operation name="findPtcpntId">
+            <soap:operation soapAction="" />
+            <input>
+                <soap:body use="literal" />
+            </input>
+            <output>
+                <soap:body use="literal" />
+            </output>
+            <fault name="MessageException">
+                <soap:fault name="MessageException" use="literal" />
+            </fault>
+        </operation>
+        <operation name="findSntvtyLevelByFileNumber">
+            <soap:operation soapAction="" />
+            <input>
+                <soap:body use="literal" />
+            </input>
+            <output>
+                <soap:body use="literal" />
+            </output>
+            <fault name="MessageException">
+                <soap:fault name="MessageException" use="literal" />
+            </fault>
+        </operation>
+        <operation name="authenticateUserIdPassword">
+            <soap:operation soapAction="" />
+            <input>
+                <soap:body use="literal" />
+            </input>
+            <output>
+                <soap:body use="literal" />
+            </output>
+            <fault name="MessageException">
+                <soap:fault name="MessageException" use="literal" />
+            </fault>
+        </operation>
+        <operation name="findSntvtyLevelsBySntvtyLevelsDTO">
+            <soap:operation soapAction="" />
+            <input>
+                <soap:body use="literal" />
+            </input>
+            <output>
+                <soap:body use="literal" />
+            </output>
+            <fault name="MessageException">
+                <soap:fault name="MessageException" use="literal" />
+            </fault>
+        </operation>
+    </binding>
+    <service name="SecurityWebService">
+        <port name="SecurityWebServicePort" binding="tns:SecurityWebServicePortBinding">
+            <soap:address location="http://bepdev.vba.va.gov:80/SecurityWebServiceBean/SecurityWebService" />
+        </port>
+    </service>
+</definitions>
