@@ -1,0 +1,12 @@
+Entity Name,Object Type,Definition
+User,Entity,"A VA employee or contractor that has rights to access BCDS application for performing claims analysis"
+Rating Decision,Entity,A historical or past adjudicated Claim Benefit for Knee and Ear claim benefit 
+Ear,Entity,"A predefined set of Ear Claim Benefit data rules, enumerations and statistical model that can be use to predict future VA potential claims for a Claimant "
+Keen,Entity,"A predefined set of Knee Claim Benefit data rules, enumerations and statistical model that can be use to predict future VA potential claims for a Claimant "
+Rating Model,Entity,"A predefined set of data rules, enumerations and statistical model that can be use to predict future VA potential claims for a Claimant "
+Benefit Claim,Entity,A submitted benefit request for benefit entitlement a Claimant has requested to be provided based on service
+Claimant,Entity,A veteran of the US Defense Department that have applied for benefits entitlement 
+Rating Decision Expection,Entity,Past or current exceptions of applying a predictive model to a benefit claim. 
+Role,Entity,"The BCDS role assigned to a VA employee or contractor that is used to determine the person's privileges. List of BCDS roles: Rater, Model Agent, Administrator, Modeling Analyst"
+Rating Model Result,Entity,The result of applying Ear or Knee predictive model to historical and current benefit claim to determine the future supplemental benefit claim that BCDS user need to be aware of
+Permission,Entity,The security rights that is used to determine what a role can perform within BCDS application
