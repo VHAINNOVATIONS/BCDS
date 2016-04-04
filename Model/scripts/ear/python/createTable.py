@@ -39,6 +39,9 @@ class EarFeatureVector:
 		self.C4210 = 0
 		self.C4700 = 0
 		self.C4920 = 0
+		self.C5000 = 0
+		self.C5010 = 0
+		self.C5710 = 0
 		self.C6850 = 0
 		self.A6100 = 0
 		self.A6200 = 0
@@ -83,7 +86,7 @@ class AggregateDecision:
 		return str(vars(self))
 		
 class AggregateContention:
-	def __init__(self,VET_ID,CLAIM_ID,DOB,END_PRODUCT_CODE,RO_NUMBER,CLAIM_DATE,MAX_PROFILE_DATE,CONTENTION_COUNT,EAR_CONTENTION_COUNT,C2200,C2210,C2220,C3140,C3150,C4130,C4210,C4700,C4920,C6850):
+	def __init__(self,VET_ID,CLAIM_ID,DOB,END_PRODUCT_CODE,RO_NUMBER,CLAIM_DATE,MAX_PROFILE_DATE,CONTENTION_COUNT,EAR_CONTENTION_COUNT,C2200,C2210,C2220,C3140,C3150,C4130,C4210,C4700,C4920,C5000,C5010,C5710,C6850):
 		self.VET_ID = VET_ID
 		self.CLAIM_ID = CLAIM_ID
 		self.DOB = DOB
@@ -102,6 +105,9 @@ class AggregateContention:
 		self.C4210 = C4210
 		self.C4700 = C4700
 		self.C4920 = C4920
+		self.C5000 = C5000
+		self.C5010 = C5010
+		self.C5710 = C5710
 		self.C6850 = C6850
 		
 	def __str__(self):
@@ -112,9 +118,9 @@ print(str(datetime.datetime.now()))
 connection = cx_Oracle.connect('developer/D3vVV0Rd@127.0.0.1:1521/DEV.BCDSS')
 writeCursor = connection.cursor()
 writeCursor.prepare('INSERT INTO DEVELOPER.EAR_FEATURE_VECTOR (VET_ID, CLAIM_ID, CLAIMANT_AGE, DOB, END_PRODUCT_CODE, RO_NUMBER, CLAIM_DATE, PROFILE_DATE, PROMULGATION_DATE, RECENT_EAR_DATE, CONTENTION_COUNT, EAR_CONTENTION_COUNT, PRIOR_EAR_CDD, CURR_EAR_CDD, CLAIM_AGE, EAR_CDD_AGE, \
-A6100, A6200,A6201,A6202,A6204,A6205,A6207,A6209,A6210,A6211,A6260,C2200,C2210, C2220,C3140,C3150,C4130,C4210,C4700,C4920,C6850) \
+A6100, A6200,A6201,A6202,A6204,A6205,A6207,A6209,A6210,A6211,A6260,C2200,C2210, C2220,C3140,C3150,C4130,C4210,C4700,C4920,C5000, C5010, C5710, C6850) \
 VALUES (:VET_ID, :CLAIM_ID, :CLAIMANT_AGE, :DOB, :END_PRODUCT_CODE, :RO_NUMBER, :CLAIM_DATE, :PROFILE_DATE, :PROMULGATION_DATE, :RECENT_EAR_DATE, :CONTENTION_COUNT, :EAR_CONTENTION_COUNT, :PRIOR_EAR_CDD, :CURR_EAR_CDD, :CLAIM_AGE, :EAR_CDD_AGE, \
-:A6100, :A6200, :A6201, :A6202, :A6204, :A6205, :A6207, :A6209, :A6210, :A6211, :A6260, :C2200, :C2210, :C2220, :C3140, :C3150, :C4130 , :C4210, :C4700, :C4920, :C6850)')
+:A6100, :A6200, :A6201, :A6202, :A6204, :A6205, :A6207, :A6209, :A6210, :A6211, :A6260, :C2200, :C2210, :C2220, :C3140, :C3150, :C4130 , :C4210, :C4700, :C4920, :C5000, :C5010, :C5710, :C6850)')
 
 #Query used to pull decisions prior to claim.
 #We use a rating profiles promulgation date before the claim date and for the given participant.
@@ -144,7 +150,7 @@ for row in cursor:
 		connection.commit()
 		counter=0
 		
-	aggregateContention = AggregateContention(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9],row[10],row[11],row[12],row[13],row[14],row[15],row[16],row[17],row[18])
+	aggregateContention = AggregateContention(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9],row[10],row[11],row[12],row[13],row[14],row[15],row[16],row[17],row[18],row[19],row[20],row[21])
 	
 	priorDecisionCursor.execute(None, {'VET_ID' :aggregateContention.VET_ID, 'CLAIM_DATE' :aggregateContention.CLAIM_DATE.strftime('%d-%b-%y')}) #rowcount always shows 0!!!!!!!!!!!!!!
 	aggregateDecision = None
@@ -176,7 +182,10 @@ for row in cursor:
 	earFeatureVector = EarFeatureVector()
 	earFeatureVector.VET_ID = aggregateContention.VET_ID
 	earFeatureVector.CLAIM_ID = aggregateContention.CLAIM_ID
-	earFeatureVector.CLAIMANT_AGE = int(((aggregateContention.CLAIM_DATE.year - aggregateContention.DOB) + 9/10)) * 10  #Below the nearest 10, If you are 30 then show 30, if 31-39 show 40.
+	if aggregateContention.DOB is None:
+		earFeatureVector.CLAIMANT_AGE = None
+	else:
+		earFeatureVector.CLAIMANT_AGE = int((((aggregateContention.CLAIM_DATE.year - aggregateContention.DOB) + 9)/10)) * 10  #Below the nearest 10, If you are 30 then show 30, if 31-39 show 40.	
 	earFeatureVector.DOB = aggregateContention.DOB
 	earFeatureVector.END_PRODUCT_CODE = aggregateContention.END_PRODUCT_CODE
 	earFeatureVector.RO_NUMBER = aggregateContention.RO_NUMBER
@@ -206,6 +215,9 @@ for row in cursor:
 	earFeatureVector.C4210 = aggregateContention.C4210
 	earFeatureVector.C4700 = aggregateContention.C4700
 	earFeatureVector.C4920 = aggregateContention.C4920
+	earFeatureVector.C5000 = aggregateContention.C5000
+	earFeatureVector.C5010 = aggregateContention.C5010
+	earFeatureVector.C5710 = aggregateContention.C5710
 	earFeatureVector.C6850 = aggregateContention.C6850
 	earFeatureVector.A6100 = aggregateDecision.A6100
 	earFeatureVector.A6200 = aggregateDecision.A6200
@@ -222,8 +234,8 @@ for row in cursor:
 	
 		
 	writeCursor.execute(None, {'VET_ID' :earFeatureVector.VET_ID, 'CLAIM_ID' :earFeatureVector.CLAIM_ID, 'CLAIMANT_AGE' :earFeatureVector.CLAIMANT_AGE, 'DOB' :earFeatureVector.DOB, 'END_PRODUCT_CODE' :earFeatureVector.END_PRODUCT_CODE, 'RO_NUMBER' :earFeatureVector.RO_NUMBER, 'CLAIM_DATE' :earFeatureVector.CLAIM_DATE, 'PROFILE_DATE' :earFeatureVector.PROFILE_DATE, 'PROMULGATION_DATE' :earFeatureVector.PROMULGATION_DATE, 'CONTENTION_COUNT' :earFeatureVector.CONTENTION_COUNT, 'EAR_CONTENTION_COUNT' :earFeatureVector.EAR_CONTENTION_COUNT,
-	'PRIOR_CDD' :earFeatureVector.PRIOR_CDD, 'PRIOR_EAR_CDD' :earFeatureVector.PRIOR_EAR_CDD, 'CURR_CDD' :earFeatureVector.CURR_CDD, 'CURR_EAR_CDD' :earFeatureVector.CURR_EAR_CDD, 'AGE_OF_CLAIM' :earFeatureVector.AGE_OF_CLAIM, 'AGE_OF_EAR_CDD' :earFeatureVector.AGE_OF_EAR_CDD, 'RECENT_EAR_DATE' :earFeatureVector.RECENT_EAR_DATE, 'AGE_OF_CDD' :earFeatureVector.AGE_OF_CDD,
-	'C2200' :earFeatureVector.C2200, 'C2210' :earFeatureVector.C2210, 'C2220' :earFeatureVector.C2220, 'C3140' :earFeatureVector.C3140, 'C3150' :earFeatureVector.C3150, 'C4130' :earFeatureVector.C4130, 'C4210' :earFeatureVector.C4210, 'C4700' :earFeatureVector.C4700, 'C4920' :earFeatureVector.C4920, 'C6850' :earFeatureVector.C6850,
+	'PRIOR_EAR_CDD' :earFeatureVector.PRIOR_EAR_CDD, 'CURR_EAR_CDD' :earFeatureVector.CURR_EAR_CDD, 'CLAIM_AGE' :earFeatureVector.CLAIM_AGE, 'EAR_CDD_AGE' :earFeatureVector.EAR_CDD_AGE, 'RECENT_EAR_DATE' :earFeatureVector.RECENT_EAR_DATE,
+	'C2200' :earFeatureVector.C2200, 'C2210' :earFeatureVector.C2210, 'C2220' :earFeatureVector.C2220, 'C3140' :earFeatureVector.C3140, 'C3150' :earFeatureVector.C3150, 'C4130' :earFeatureVector.C4130, 'C4210' :earFeatureVector.C4210, 'C4700' :earFeatureVector.C4700, 'C4920' :earFeatureVector.C4920, 'C5000' :earFeatureVector.C5000, 'C5010' :earFeatureVector.C5010, 'C5710' :earFeatureVector.C5710, 'C6850' :earFeatureVector.C6850,
 	'A6100' :earFeatureVector.A6100, 'A6200' :earFeatureVector.A6200, 'A6201' :earFeatureVector.A6201, 'A6202' :earFeatureVector.A6202, 'A6204' :earFeatureVector.A6204, 'A6205' :earFeatureVector.A6205, 'A6207' :earFeatureVector.A6207, 'A6209' :earFeatureVector.A6209, 'A6210' :earFeatureVector.A6210, 'A6211' :earFeatureVector.A6211, 'A6260' :earFeatureVector.A6260})
 	
 	

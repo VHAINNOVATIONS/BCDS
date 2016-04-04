@@ -4,7 +4,7 @@ import cx_Oracle
 import collections
 import datetime
 
-earContentionCode = [2200,2210,2220,3140,3150,4130,4210,4700,4920,6850]
+earContentionCode = [2200,2210,2220,3140,3150,4130,4210,4700,4920,5000,5010,5710,6850]
 
 #Primary query, Look for all claims/contentions where the participant has at least one contention with an ear-related contention code.
 #Organize them based first by participant id, then claim id and finally by profile date descending.
@@ -44,6 +44,9 @@ class AggregateContention:
 		self.C4210 = 0
 		self.C4700 = 0
 		self.C4920 = 0
+		self.C5000 = 0
+		self.C5010 = 0
+		self.C5710 = 0
 		self.C6850 = 0
 		
 	def __str__(self):
@@ -74,9 +77,9 @@ class Contention:
 
 connection = cx_Oracle.connect('developer/D3vVV0Rd@127.0.0.1:1521/DEV.BCDSS')
 writeCursor = connection.cursor()
-writeCursor.prepare('INSERT INTO DEVELOPER.EAR_AGGREGATE_CONTENTION (VET_ID, CLAIM_ID, END_PRODUCT_CODE, CLAIM_DATE, CONTENTION_COUNT, EAR_CONTENTION_COUNT, C2200,C2210, C2220,C3140,C3150,C4130,C4210,C4700,C4920,C6850, DOB, RO_NUMBER, MAX_PROFILE_DATE) \
+writeCursor.prepare('INSERT INTO DEVELOPER.EAR_AGGREGATE_CONTENTION (VET_ID, CLAIM_ID, END_PRODUCT_CODE, CLAIM_DATE, CONTENTION_COUNT, EAR_CONTENTION_COUNT, C2200,C2210, C2220,C3140,C3150,C4130,C4210,C4700,C4920,C5000,C5010,C5710, C6850, DOB, RO_NUMBER, MAX_PROFILE_DATE) \
 VALUES (:VET_ID, :CLAIM_ID, :END_PRODUCT_CODE, :CLAIM_DATE, :CONTENTION_COUNT, :EAR_CONTENTION_COUNT, \
- :C2200, :C2210, :C2220, :C3140, :C3150, :C4130 , :C4210, :C4700, :C4920, :C6850, \
+ :C2200, :C2210, :C2220, :C3140, :C3150, :C4130 , :C4210, :C4700, :C4920, :C5000, :C5010, :C5710, :C6850, \
  :DOB, :RO_NUMBER, :MAX_PROFILE_DATE)')
 
 
@@ -111,7 +114,7 @@ for row in cursor:
 			aggregateContention.MAX_PROFILE_DATE = maxProfileDate[currBenefitClaim]
 			
 			writeCursor.execute(None, {'VET_ID' :aggregateContention.VET_ID, 'CLAIM_ID' :aggregateContention.CLAIM_ID, 'END_PRODUCT_CODE' :aggregateContention.END_PRODUCT_CODE, 'CLAIM_DATE' :aggregateContention.CLAIM_DATE, 'CONTENTION_COUNT' :aggregateContention.CONTENTION_COUNT, 'EAR_CONTENTION_COUNT' :aggregateContention.EAR_CONTENTION_COUNT, 
-			'C2200' :counterAggregateContention.C2200, 'C2210' :counterAggregateContention.C2210, 'C2220' :counterAggregateContention.C2220, 'C3140' :counterAggregateContention.C3140, 'C3150' :counterAggregateContention.C3150, 'C4130' :counterAggregateContention.C4130, 'C4210' :counterAggregateContention.C4210, 'C4700' :counterAggregateContention.C4700, 'C4920' :counterAggregateContention.C4920, 'C6850' :counterAggregateContention.C6850,
+			'C2200' :counterAggregateContention.C2200, 'C2210' :counterAggregateContention.C2210, 'C2220' :counterAggregateContention.C2220, 'C3140' :counterAggregateContention.C3140, 'C3150' :counterAggregateContention.C3150, 'C4130' :counterAggregateContention.C4130, 'C4210' :counterAggregateContention.C4210, 'C4700' :counterAggregateContention.C4700, 'C4920' :counterAggregateContention.C4920, 'C5000' :counterAggregateContention.C5000, 'C5010' :counterAggregateContention.C5010, 'C5710' :counterAggregateContention.C5710, 'C6850' :counterAggregateContention.C6850,
 			'DOB' :aggregateContention.DOB, 'RO_NUMBER' :aggregateContention.RO_NUMBER, 'MAX_PROFILE_DATE' :aggregateContention.MAX_PROFILE_DATE})
 
 			counter += 1
@@ -163,6 +166,12 @@ for row in cursor:
 		counterAggregateContention.C4700 += 1
 	if contention.cntntn_clsfcn_id == 4920:
 		counterAggregateContention.C4920 += 1
+	if contention.cntntn_clsfcn_id == 5000:
+		counterAggregateContention.C5000 += 1
+	if contention.cntntn_clsfcn_id == 5010:
+		counterAggregateContention.C5010 += 1
+	if contention.cntntn_clsfcn_id == 5710:
+		counterAggregateContention.C5710 += 1
 	if contention.cntntn_clsfcn_id == 6850:
 		counterAggregateContention.C6850 += 1
 		
@@ -172,7 +181,7 @@ aggregateContention.EAR_CONTENTION_COUNT = sum(totalEarContentions.values())
 aggregateContention.MAX_PROFILE_DATE = maxProfileDate[currBenefitClaim]
 			
 writeCursor.execute(None, {'VET_ID' :aggregateContention.VET_ID, 'CLAIM_ID' :aggregateContention.CLAIM_ID, 'END_PRODUCT_CODE' :aggregateContention.END_PRODUCT_CODE, 'CLAIM_DATE' :aggregateContention.CLAIM_DATE, 'CONTENTION_COUNT' :aggregateContention.CONTENTION_COUNT, 'EAR_CONTENTION_COUNT' :aggregateContention.EAR_CONTENTION_COUNT, 
-'C2200' :counterAggregateContention.C2200, 'C2210' :counterAggregateContention.C2210, 'C2220' :counterAggregateContention.C2220, 'C3140' :counterAggregateContention.C3140, 'C3150' :counterAggregateContention.C3150, 'C4130' :counterAggregateContention.C4130, 'C4210' :counterAggregateContention.C4210, 'C4700' :counterAggregateContention.C4700, 'C4920' :counterAggregateContention.C4920, 'C6850' :counterAggregateContention.C6850,
+'C2200' :counterAggregateContention.C2200, 'C2210' :counterAggregateContention.C2210, 'C2220' :counterAggregateContention.C2220, 'C3140' :counterAggregateContention.C3140, 'C3150' :counterAggregateContention.C3150, 'C4130' :counterAggregateContention.C4130, 'C4210' :counterAggregateContention.C4210, 'C4700' :counterAggregateContention.C4700, 'C4920' :counterAggregateContention.C4920, 'C5000' :counterAggregateContention.C5000, 'C5010' :counterAggregateContention.C5010, 'C5710' :counterAggregateContention.C5710, 'C6850' :counterAggregateContention.C6850,
 'DOB' :aggregateContention.DOB, 'RO_NUMBER' :aggregateContention.RO_NUMBER, 'MAX_PROFILE_DATE' :aggregateContention.MAX_PROFILE_DATE})
 
 connection.commit()

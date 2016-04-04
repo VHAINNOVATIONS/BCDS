@@ -7,7 +7,7 @@ select * from
   inner join ( 
     select rcc.ptcpnt_vet_id 
     from ah4929_rating_corp_claim rcc 
-    where cntntn_clsfcn_id in (2200,2210,2220,3140,3150,4130,4210,4700,4920,6850) and prfil_dt >= date_of_claim 
+    where cntntn_clsfcn_id in (2200,2210,2220,3140,3150,4130,4210,4700,4920,5000,5010,5710,6850) and prfil_dt >= date_of_claim 
     group by rcc.ptcpnt_vet_id 
   ) tmp on tmp.ptcpnt_vet_id = rcc.ptcpnt_vet_id 
 	where prfil_dt >= date_of_claim 
