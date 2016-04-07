@@ -12,7 +12,7 @@ earDiagnosisCode = [6100,6200,6201,6202,6204,6205,6207,6209,6210,6211,6260]
 SQL="select rd.ptcpnt_vet_id, rd.prfil_dt, rd.begin_dt, rd.end_dt, rd.prmlgn_dt, rd.dgnstc_txt, rd.dsblty_id, rd.diagnosis_code, rd.hypntd_dgnstc_type_cd, rd.prcnt_nbr \
 	from AH4929_RATING_DECISION rd \
 	inner join EAR_AGGREGATE_CONTENTION ac on ac.vet_id = rd.ptcpnt_vet_id \
-	where rd.begin_dt IS NOT NULL and rd.begin_dt < rd.prmlgn_dt and (rd.end_dt is NULL or rd.end_dt >= rd.prmlgn_dt) and rd.system_type_cd = 'C' and rd.dsblty_decn_type_cd = 'SVCCONNCTED' and (rd.prev_evaltn_ind IS NULL OR rd.prev_evaltn_ind = 'N') \
+	where rd.begin_dt IS NOT NULL and rd.begin_dt < rd.prmlgn_dt and (rd.end_dt is NULL or rd.end_dt >= rd.prmlgn_dt) and rd.system_type_cd = 'C' and rd.dsblty_decn_type_cd in ('SVCCONNCTED','1151GRANTED') and (rd.prev_evaltn_ind IS NULL OR rd.prev_evaltn_ind = 'N') \
 	group by rd.begin_dt, rd.end_dt, rd.prmlgn_dt, rd.dgnstc_txt, rd.dsblty_id, rd.diagnosis_code, rd.hypntd_dgnstc_type_cd, rd.prcnt_nbr, rd.ptcpnt_vet_id, rd.prfil_dt \
 	order by ptcpnt_vet_id,prfil_dt,dsblty_id,begin_dt,diagnosis_code,prcnt_nbr"
 
@@ -40,6 +40,8 @@ class AggregateDecision:
 		self.A6210 = 0
 		self.A6211 = 0
 		self.A6260 = 0
+		self.TXT_LOSS = 0
+		self.TXT_TINITU = 0
 		
 	def __str__(self):
 		from pprint import pprint
@@ -80,9 +82,10 @@ cursor = connection.cursor()
 cursor.execute(SQL)
 
 writeCursor = connection.cursor()
-writeCursor.prepare('INSERT INTO DEVELOPER.EAR_AGGREGATE_DECISION (VET_ID, PROFILE_DATE, PROMULGATION_DATE, RECENT_EAR_DATE, CDD, EAR_CDD, A6100, A6200,A6201,A6202,A6204,A6205,A6207,A6209,A6210,A6211,A6260) \
+writeCursor.prepare('INSERT INTO DEVELOPER.EAR_AGGREGATE_DECISION (VET_ID, PROFILE_DATE, PROMULGATION_DATE, RECENT_EAR_DATE, CDD, EAR_CDD, A6100, A6200,A6201,A6202,A6204,A6205,A6207,A6209,A6210,A6211,A6260,TXT_LOSS,TXT_TINITU) \
 VALUES (:VET_ID, :PROFILE_DATE, :PROMULGATION_DATE, :RECENT_EAR_DATE, :CDD, :EAR_CDD, \
-:A6100, :A6200, :A6201, :A6202, :A6204, :A6205, :A6207, :A6209, :A6210, :A6211, :A6260)')
+:A6100, :A6200, :A6201, :A6202, :A6204, :A6205, :A6207, :A6209, :A6210, :A6211, :A6260, \
+:TXT_LOSS, :TXT_TINITU)')
 
 aggregateDecision = None
 currRatingProfile = -1
@@ -118,7 +121,8 @@ for row in cursor:
 				aggregateDecision.RECENT_EAR_DATE = recentEarBeginDate[currRatingProfile]
 
 			writeCursor.execute(None, {'VET_ID' :aggregateDecision.VET_ID, 'PROFILE_DATE' :aggregateDecision.PROFILE_DATE, 'PROMULGATION_DATE' :aggregateDecision.PROMULGATION_DATE, 'RECENT_EAR_DATE' :aggregateDecision.RECENT_EAR_DATE, 'CDD' :aggregateDecision.CDD, 'EAR_CDD' :aggregateDecision.EAR_CDD, 
-			'A6100' :aggregateDecision.A6100, 'A6200' :aggregateDecision.A6200, 'A6201' :aggregateDecision.A6201, 'A6202' :aggregateDecision.A6202, 'A6204' :aggregateDecision.A6204, 'A6205' :aggregateDecision.A6205, 'A6207' :aggregateDecision.A6207, 'A6209' :aggregateDecision.A6209, 'A6210' :aggregateDecision.A6210, 'A6211' :aggregateDecision.A6211, 'A6260' :aggregateDecision.A6260})
+			'A6100' :aggregateDecision.A6100, 'A6200' :aggregateDecision.A6200, 'A6201' :aggregateDecision.A6201, 'A6202' :aggregateDecision.A6202, 'A6204' :aggregateDecision.A6204, 'A6205' :aggregateDecision.A6205, 'A6207' :aggregateDecision.A6207, 'A6209' :aggregateDecision.A6209, 'A6210' :aggregateDecision.A6210, 'A6211' :aggregateDecision.A6211, 'A6260' :aggregateDecision.A6260,
+			'TXT_LOSS' :aggregateDecision.TXT_LOSS, 'TXT_TINITU' :aggregateDecision.TXT_TINITU})
 			
 			counter += 1
 			
@@ -144,7 +148,11 @@ for row in cursor:
 		
 			
 	#Use regex to look for a hit and then if it hits make it true. No need to track how many times, just true or false
-
+	if re.search("Loss",decision.dgnstc_txt,re.IGNORECASE):
+		aggregateDecision.TXT_LOSS += 1
+	if re.search("Tinnitus",decision.dgnstc_txt,re.IGNORECASE):
+		aggregateDecision.TXT_TINITU += 1
+			
 	#Simply test the codes and again true or false
 	if decision.diagnosis_code == 6100:
 		aggregateDecision.A6100 += 1
@@ -184,7 +192,8 @@ else:
 	aggregateDecision.RECENT_EAR_DATE = recentEarBeginDate[currRatingProfile]
 
 writeCursor.execute(None, {'VET_ID' :aggregateDecision.VET_ID, 'PROFILE_DATE' :aggregateDecision.PROFILE_DATE, 'PROMULGATION_DATE' :aggregateDecision.PROMULGATION_DATE, 'RECENT_EAR_DATE' :aggregateDecision.RECENT_EAR_DATE, 'CDD' :aggregateDecision.CDD, 'EAR_CDD' :aggregateDecision.EAR_CDD, 
-			'A6100' :aggregateDecision.A6100, 'A6200' :aggregateDecision.A6200, 'A6201' :aggregateDecision.A6201, 'A6202' :aggregateDecision.A6202, 'A6204' :aggregateDecision.A6204, 'A6205' :aggregateDecision.A6205, 'A6207' :aggregateDecision.A6207, 'A6209' :aggregateDecision.A6209, 'A6210' :aggregateDecision.A6210, 'A6211' :aggregateDecision.A6211, 'A6260' :aggregateDecision.A6260})
+			'A6100' :aggregateDecision.A6100, 'A6200' :aggregateDecision.A6200, 'A6201' :aggregateDecision.A6201, 'A6202' :aggregateDecision.A6202, 'A6204' :aggregateDecision.A6204, 'A6205' :aggregateDecision.A6205, 'A6207' :aggregateDecision.A6207, 'A6209' :aggregateDecision.A6209, 'A6210' :aggregateDecision.A6210, 'A6211' :aggregateDecision.A6211, 'A6260' :aggregateDecision.A6260,
+			'TXT_LOSS' :aggregateDecision.TXT_LOSS, 'TXT_TINITU' :aggregateDecision.TXT_TINITU})
 connection.commit()
 print(str(datetime.datetime.now()))
 

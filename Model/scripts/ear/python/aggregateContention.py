@@ -48,6 +48,8 @@ class AggregateContention:
 		self.C5010 = 0
 		self.C5710 = 0
 		self.C6850 = 0
+		self.TXT_LOSS = 0
+		self.TXT_TINITU = 0
 		
 	def __str__(self):
 		from pprint import pprint
@@ -77,9 +79,10 @@ class Contention:
 
 connection = cx_Oracle.connect('developer/D3vVV0Rd@127.0.0.1:1521/DEV.BCDSS')
 writeCursor = connection.cursor()
-writeCursor.prepare('INSERT INTO DEVELOPER.EAR_AGGREGATE_CONTENTION (VET_ID, CLAIM_ID, END_PRODUCT_CODE, CLAIM_DATE, CONTENTION_COUNT, EAR_CONTENTION_COUNT, C2200,C2210, C2220,C3140,C3150,C4130,C4210,C4700,C4920,C5000,C5010,C5710, C6850, DOB, RO_NUMBER, MAX_PROFILE_DATE) \
+writeCursor.prepare('INSERT INTO DEVELOPER.EAR_AGGREGATE_CONTENTION (VET_ID, CLAIM_ID, END_PRODUCT_CODE, CLAIM_DATE, CONTENTION_COUNT, EAR_CONTENTION_COUNT, C2200,C2210, C2220,C3140,C3150,C4130,C4210,C4700,C4920,C5000,C5010,C5710, C6850, TXT_LOSS, TXT_TINITU, DOB, RO_NUMBER, MAX_PROFILE_DATE) \
 VALUES (:VET_ID, :CLAIM_ID, :END_PRODUCT_CODE, :CLAIM_DATE, :CONTENTION_COUNT, :EAR_CONTENTION_COUNT, \
  :C2200, :C2210, :C2220, :C3140, :C3150, :C4130 , :C4210, :C4700, :C4920, :C5000, :C5010, :C5710, :C6850, \
+ :TXT_LOSS, :TXT_TINITU, \
  :DOB, :RO_NUMBER, :MAX_PROFILE_DATE)')
 
 
@@ -115,6 +118,7 @@ for row in cursor:
 			
 			writeCursor.execute(None, {'VET_ID' :aggregateContention.VET_ID, 'CLAIM_ID' :aggregateContention.CLAIM_ID, 'END_PRODUCT_CODE' :aggregateContention.END_PRODUCT_CODE, 'CLAIM_DATE' :aggregateContention.CLAIM_DATE, 'CONTENTION_COUNT' :aggregateContention.CONTENTION_COUNT, 'EAR_CONTENTION_COUNT' :aggregateContention.EAR_CONTENTION_COUNT, 
 			'C2200' :counterAggregateContention.C2200, 'C2210' :counterAggregateContention.C2210, 'C2220' :counterAggregateContention.C2220, 'C3140' :counterAggregateContention.C3140, 'C3150' :counterAggregateContention.C3150, 'C4130' :counterAggregateContention.C4130, 'C4210' :counterAggregateContention.C4210, 'C4700' :counterAggregateContention.C4700, 'C4920' :counterAggregateContention.C4920, 'C5000' :counterAggregateContention.C5000, 'C5010' :counterAggregateContention.C5010, 'C5710' :counterAggregateContention.C5710, 'C6850' :counterAggregateContention.C6850,
+			'TXT_LOSS' :counterAggregateContention.TXT_LOSS, 'TXT_TINITU' :counterAggregateContention.TXT_TINITU,
 			'DOB' :aggregateContention.DOB, 'RO_NUMBER' :aggregateContention.RO_NUMBER, 'MAX_PROFILE_DATE' :aggregateContention.MAX_PROFILE_DATE})
 
 			counter += 1
@@ -146,7 +150,11 @@ for row in cursor:
 		totalEarContentions[currBenefitClaim] +=1 #For any contention that is ear-related, add one
 			
 	#Use regex to look for a hit and then if it hits make it true. No need to track how many times, just true or false
-
+	if re.search("Loss",contention.cntntn_clmant_txt,re.IGNORECASE):
+		counterAggregateContention.TXT_LOSS += 1
+	if re.search("Tinnitus",contention.cntntn_clmant_txt,re.IGNORECASE):
+		counterAggregateContention.TXT_TINITU += 1
+	
 	#Simply test the codes and again true or false
 	if contention.cntntn_clsfcn_id == 2200:
 		counterAggregateContention.C2200 += 1
@@ -182,6 +190,7 @@ aggregateContention.MAX_PROFILE_DATE = maxProfileDate[currBenefitClaim]
 			
 writeCursor.execute(None, {'VET_ID' :aggregateContention.VET_ID, 'CLAIM_ID' :aggregateContention.CLAIM_ID, 'END_PRODUCT_CODE' :aggregateContention.END_PRODUCT_CODE, 'CLAIM_DATE' :aggregateContention.CLAIM_DATE, 'CONTENTION_COUNT' :aggregateContention.CONTENTION_COUNT, 'EAR_CONTENTION_COUNT' :aggregateContention.EAR_CONTENTION_COUNT, 
 'C2200' :counterAggregateContention.C2200, 'C2210' :counterAggregateContention.C2210, 'C2220' :counterAggregateContention.C2220, 'C3140' :counterAggregateContention.C3140, 'C3150' :counterAggregateContention.C3150, 'C4130' :counterAggregateContention.C4130, 'C4210' :counterAggregateContention.C4210, 'C4700' :counterAggregateContention.C4700, 'C4920' :counterAggregateContention.C4920, 'C5000' :counterAggregateContention.C5000, 'C5010' :counterAggregateContention.C5010, 'C5710' :counterAggregateContention.C5710, 'C6850' :counterAggregateContention.C6850,
+'TXT_LOSS' :counterAggregateContention.TXT_LOSS, 'TXT_TINITU' :counterAggregateContention.TXT_TINITU,
 'DOB' :aggregateContention.DOB, 'RO_NUMBER' :aggregateContention.RO_NUMBER, 'MAX_PROFILE_DATE' :aggregateContention.MAX_PROFILE_DATE})
 
 connection.commit()

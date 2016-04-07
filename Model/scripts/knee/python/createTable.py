@@ -14,7 +14,8 @@ class KneeFeatureVector:
 	def __init__(self):
 		self.VET_ID = None
 		self.CLAIM_ID = None
-		self.DOB = 0
+		self.CLAIMANT_AGE = None
+		self.DOB = 0		
 		self.END_PRODUCT_CODE = None
 		self.RO_NUMBER = 0
 		self.CLAIM_DATE = None
@@ -23,13 +24,10 @@ class KneeFeatureVector:
 		self.RECENT_KNEE_DATE = None
 		self.CONTENTION_COUNT = 0
 		self.KNEE_CONTENTION_COUNT = 0
-		self.PRIOR_CDD = 0
 		self.PRIOR_KNEE_CDD = 0
-		self.CURR_CDD = 0
 		self.CURR_KNEE_CDD = 0
-		self.AGE_OF_CLAIM = 0
-		self.AGE_OF_KNEE_CDD = 0
-		self.AGE_OF_CDD = 0
+		self.CLAIM_AGE = 0
+		self.KNEE_CDD_AGE = 0
 		self.C230 = 0 
 		self.C270 = 0 
 		self.C3690 = 0 
@@ -147,13 +145,13 @@ class AggregateContention:
 		return str(vars(self))
 
 print(str(datetime.datetime.now()))
-connection = cx_Oracle.connect('developer/<pass>@127.0.0.1:1521/DEV.BCDSS')
+connection = cx_Oracle.connect('developer/D3vVV0Rd@127.0.0.1:1521/DEV.BCDSS')
 writeCursor = connection.cursor()
-writeCursor.prepare('INSERT INTO DEVELOPER.KNEE_FEATURE_VECTOR (VET_ID, CLAIM_ID, DOB, END_PRODUCT_CODE, RO_NUMBER, CLAIM_DATE, PROFILE_DATE, PROMULGATION_DATE, RECENT_KNEE_DATE, CONTENTION_COUNT, KNEE_CONTENTION_COUNT, PRIOR_CDD, PRIOR_KNEE_CDD, CURR_CDD, CURR_KNEE_CDD, AGE_OF_CLAIM, AGE_OF_CDD, AGE_OF_KNEE_CDD, \
+writeCursor.prepare('INSERT INTO DEVELOPER.KNEE_FEATURE_VECTOR (VET_ID, CLAIM_ID, CLAIMANT_AGE, DOB, END_PRODUCT_CODE, RO_NUMBER, CLAIM_DATE, PROFILE_DATE, PROMULGATION_DATE, RECENT_KNEE_DATE, CONTENTION_COUNT, KNEE_CONTENTION_COUNT, PRIOR_KNEE_CDD, CURR_KNEE_CDD, CLAIM_AGE, KNEE_CDD_AGE, \
 A5164, A5165, A5163, A5162, A5161, A5256, A5258, A5257, A5313, A5314, A5315, A5055, A5261, A5260, A5259, C230, C270, C3690, C3700, C3710, C8919, C3720, C3730, C3780, C3790, C3800, \
 CONTENTION_BILATERAL,CONTENTION_LEFT,CONTENTION_RIGHT,CONTENTION_LEG,CONTENTION_KNEE,CONTENTION_AMPUTATION, \
 DECISION_BILATERAL,DECISION_LEFT,DECISION_RIGHT,DECISION_KNEE,DECISION_IMPAIRMENT,DECISION_LIMITATION,DECISION_AMPUTATION,DECISION_ANKYLOSES) \
-VALUES (:VET_ID, :CLAIM_ID, :DOB, :END_PRODUCT_CODE, :RO_NUMBER, :CLAIM_DATE, :PROFILE_DATE, :PROMULGATION_DATE, :RECENT_KNEE_DATE, :CONTENTION_COUNT, :KNEE_CONTENTION_COUNT, :PRIOR_CDD, :PRIOR_KNEE_CDD, :CURR_CDD, :CURR_KNEE_CDD, :AGE_OF_CLAIM, :AGE_OF_CDD, :AGE_OF_KNEE_CDD, \
+VALUES (:VET_ID, :CLAIM_ID, :CLAIMANT_AGE, :DOB, :END_PRODUCT_CODE, :RO_NUMBER, :CLAIM_DATE, :PROFILE_DATE, :PROMULGATION_DATE, :RECENT_KNEE_DATE, :CONTENTION_COUNT, :KNEE_CONTENTION_COUNT, :PRIOR_KNEE_CDD, :CURR_KNEE_CDD, :CLAIM_AGE, :KNEE_CDD_AGE, \
 :A5164, :A5165, :A5163, :A5162, :A5161, :A5256, :A5258, :A5257, :A5313, :A5314, :A5315, :A5055, :A5261, :A5260, :A5259, \
 :C230, :C270, :C3690, :C3700, :C3710, :C8919, :C3720, :C3730, :C3780, :C3790, :C3800, \
 :CONTENTION_BILATERAL, :CONTENTION_LEFT, :CONTENTION_RIGHT, :CONTENTION_LEG, :CONTENTION_KNEE, :CONTENTION_AMPUTATION, \
@@ -219,6 +217,10 @@ for row in cursor:
 	kneeFeatureVector = KneeFeatureVector()
 	kneeFeatureVector.VET_ID = aggregateContention.VET_ID
 	kneeFeatureVector.CLAIM_ID = aggregateContention.CLAIM_ID
+	if aggregateContention.DOB is None:
+		kneeFeatureVector.CLAIMANT_AGE = None
+	else:
+		kneeFeatureVector.CLAIMANT_AGE = int((((aggregateContention.CLAIM_DATE.year - aggregateContention.DOB) + 9)/10)) * 10  #Below the nearest 10, If you are 30 then show 30, if 31-39 show 40.		
 	kneeFeatureVector.DOB = aggregateContention.DOB
 	kneeFeatureVector.END_PRODUCT_CODE = aggregateContention.END_PRODUCT_CODE
 	kneeFeatureVector.RO_NUMBER = aggregateContention.RO_NUMBER
@@ -227,23 +229,16 @@ for row in cursor:
 	kneeFeatureVector.PROMULGATION_DATE = aggregateDecision.PROMULGATION_DATE
 	kneeFeatureVector.CONTENTION_COUNT = aggregateContention.CONTENTION_COUNT
 	kneeFeatureVector.KNEE_CONTENTION_COUNT = aggregateContention.KNEE_CONTENTION_COUNT
-	kneeFeatureVector.PRIOR_CDD = aggregateDecision.CDD
 	kneeFeatureVector.PRIOR_KNEE_CDD = aggregateDecision.KNEE_CDD
-	kneeFeatureVector.CURR_CDD = currAggregateDecision.CDD
 	kneeFeatureVector.CURR_KNEE_CDD = currAggregateDecision.KNEE_CDD
-	kneeFeatureVector.AGE_OF_CLAIM = (datetime.datetime.now() - aggregateContention.CLAIM_DATE).days  #Today - Claim Date: This is a relative and changing number so should probably be dropped
+	kneeFeatureVector.CLAIM_AGE = int((datetime.datetime.now() - aggregateContention.CLAIM_DATE).days / 365.25)  #Today - Claim Date: This is a relative and changing number so should probably be dropped	
 	kneeFeatureVector.RECENT_KNEE_DATE = currAggregateDecision.RECENT_KNEE_DATE #Most recent knee begin date, from previous profile. We use begin date as promulgation keeps changing and not accurate to when diagnosed
 
 	if kneeCDDChangeDate is None:
-		kneeFeatureVector.AGE_OF_KNEE_CDD	= None
+		kneeFeatureVector.KNEE_CDD_AGE	= None
 	else:
-		kneeFeatureVector.AGE_OF_KNEE_CDD = (aggregateContention.CLAIM_DATE - kneeCDDChangeDate).days #Claim Date (newer) - Promulgation date of previous (or later) profile where knee cdd changed
+		kneeFeatureVector.KNEE_CDD_AGE = (aggregateContention.CLAIM_DATE - kneeCDDChangeDate).days #Claim Date (newer) - Promulgation date of previous (or later) profile where knee cdd changed
 
-	
-	if aggregateDecision.PROMULGATION_DATE is None:
-		kneeFeatureVector.AGE_OF_CDD = 0
-	else:
-		kneeFeatureVector.AGE_OF_CDD = (aggregateContention.CLAIM_DATE - aggregateDecision.PROMULGATION_DATE).days #Claim Date (newer) - Promulgation date of of previous profile
 
 	
 	kneeFeatureVector.C230 = aggregateContention.C230
@@ -290,8 +285,8 @@ for row in cursor:
 	kneeFeatureVector.DECISION_ANKYLOSES = aggregateDecision.TXT_ANKYLOSES	
 	
 		
-	writeCursor.execute(None, {'VET_ID' :kneeFeatureVector.VET_ID, 'CLAIM_ID' :kneeFeatureVector.CLAIM_ID, 'DOB' :kneeFeatureVector.DOB, 'END_PRODUCT_CODE' :kneeFeatureVector.END_PRODUCT_CODE, 'RO_NUMBER' :kneeFeatureVector.RO_NUMBER, 'CLAIM_DATE' :kneeFeatureVector.CLAIM_DATE, 'PROFILE_DATE' :kneeFeatureVector.PROFILE_DATE, 'PROMULGATION_DATE' :kneeFeatureVector.PROMULGATION_DATE, 'CONTENTION_COUNT' :kneeFeatureVector.CONTENTION_COUNT, 'KNEE_CONTENTION_COUNT' :kneeFeatureVector.KNEE_CONTENTION_COUNT,
-	'PRIOR_CDD' :kneeFeatureVector.PRIOR_CDD, 'PRIOR_KNEE_CDD' :kneeFeatureVector.PRIOR_KNEE_CDD, 'CURR_CDD' :kneeFeatureVector.CURR_CDD, 'CURR_KNEE_CDD' :kneeFeatureVector.CURR_KNEE_CDD, 'AGE_OF_CLAIM' :kneeFeatureVector.AGE_OF_CLAIM, 'AGE_OF_KNEE_CDD' :kneeFeatureVector.AGE_OF_KNEE_CDD, 'RECENT_KNEE_DATE' :kneeFeatureVector.RECENT_KNEE_DATE, 'AGE_OF_CDD' :kneeFeatureVector.AGE_OF_CDD,
+	writeCursor.execute(None, {'VET_ID' :kneeFeatureVector.VET_ID, 'CLAIM_ID' :kneeFeatureVector.CLAIM_ID, 'CLAIMANT_AGE' :kneeFeatureVector.CLAIMANT_AGE, 'DOB' :kneeFeatureVector.DOB, 'END_PRODUCT_CODE' :kneeFeatureVector.END_PRODUCT_CODE, 'RO_NUMBER' :kneeFeatureVector.RO_NUMBER, 'CLAIM_DATE' :kneeFeatureVector.CLAIM_DATE, 'PROFILE_DATE' :kneeFeatureVector.PROFILE_DATE, 'PROMULGATION_DATE' :kneeFeatureVector.PROMULGATION_DATE, 'CONTENTION_COUNT' :kneeFeatureVector.CONTENTION_COUNT, 'KNEE_CONTENTION_COUNT' :kneeFeatureVector.KNEE_CONTENTION_COUNT,
+	'PRIOR_KNEE_CDD' :kneeFeatureVector.PRIOR_KNEE_CDD, 'CURR_KNEE_CDD' :kneeFeatureVector.CURR_KNEE_CDD, 'CLAIM_AGE' :kneeFeatureVector.CLAIM_AGE, 'KNEE_CDD_AGE' :kneeFeatureVector.KNEE_CDD_AGE, 'RECENT_KNEE_DATE' :kneeFeatureVector.RECENT_KNEE_DATE, 
 	'C230' :kneeFeatureVector.C230, 'C270' :kneeFeatureVector.C270, 'C3690' :kneeFeatureVector.C3690, 'C3700' :kneeFeatureVector.C3700, 'C3710' :kneeFeatureVector.C3710, 'C8919' :kneeFeatureVector.C8919, 'C3720' :kneeFeatureVector.C3720, 'C3730' :kneeFeatureVector.C3730, 'C3780' :kneeFeatureVector.C3780, 'C3790' :kneeFeatureVector.C3790, 'C3800' :kneeFeatureVector.C3800, 
 	'A5164' :kneeFeatureVector.A5164,  'A5165' :kneeFeatureVector.A5165,  'A5163' :kneeFeatureVector.A5163,  'A5162' :kneeFeatureVector.A5162,  'A5161' :kneeFeatureVector.A5161,  'A5256' :kneeFeatureVector.A5256,  'A5258' :kneeFeatureVector.A5258,  'A5257' :kneeFeatureVector.A5257,  'A5313' :kneeFeatureVector.A5313, 	'A5314' :kneeFeatureVector.A5314,  'A5315' :kneeFeatureVector.A5315,  'A5055' :kneeFeatureVector.A5055,  'A5261' :kneeFeatureVector.A5261, 	'A5260' :kneeFeatureVector.A5260,  'A5259' :kneeFeatureVector.A5259, 
 	'CONTENTION_BILATERAL' :kneeFeatureVector.CONTENTION_BILATERAL, 'CONTENTION_LEFT' :kneeFeatureVector.CONTENTION_LEFT, 'CONTENTION_LEG' :kneeFeatureVector.CONTENTION_LEG,	'CONTENTION_KNEE' :kneeFeatureVector.CONTENTION_KNEE, 'CONTENTION_RIGHT' :kneeFeatureVector.CONTENTION_RIGHT, 'CONTENTION_AMPUTATION' :kneeFeatureVector.CONTENTION_AMPUTATION,

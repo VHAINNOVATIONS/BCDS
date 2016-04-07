@@ -54,7 +54,10 @@ class EarFeatureVector:
 		self.A6210 = 0
 		self.A6211 = 0
 		self.A6260 = 0
-
+		self.CONTENTION_LOSS = 0
+		self.CONTENTION_TINITU = 0
+		self.DECISION_LOSS = 0
+		self.DECISION_TINITU = 0
 		
 	def __str__(self):
 		from pprint import pprint
@@ -62,7 +65,7 @@ class EarFeatureVector:
 		
 		
 class AggregateDecision:
-	def __init__(self,VET_ID,PROFILE_DATE,PROMULGATION_DATE,RECENT_EAR_DATE,CDD,EAR_CDD,A6100,A6200,A6201,A6202,A6204,A6205,A6207,A6209,A6210,A6211,A6260):
+	def __init__(self,VET_ID,PROFILE_DATE,PROMULGATION_DATE,RECENT_EAR_DATE,CDD,EAR_CDD,A6100,A6200,A6201,A6202,A6204,A6205,A6207,A6209,A6210,A6211,A6260,TXT_LOSS,TXT_TINITU):
 		self.VET_ID = VET_ID
 		self.PROFILE_DATE = PROFILE_DATE
 		self.PROMULGATION_DATE = PROMULGATION_DATE
@@ -80,13 +83,15 @@ class AggregateDecision:
 		self.A6210 = A6210
 		self.A6211 = A6211
 		self.A6260 = A6260
+		self.TXT_LOSS = TXT_LOSS
+		self.TXT_TINITU = TXT_TINITU
 		
 	def __str__(self):
 		from pprint import pprint
 		return str(vars(self))
 		
 class AggregateContention:
-	def __init__(self,VET_ID,CLAIM_ID,DOB,END_PRODUCT_CODE,RO_NUMBER,CLAIM_DATE,MAX_PROFILE_DATE,CONTENTION_COUNT,EAR_CONTENTION_COUNT,C2200,C2210,C2220,C3140,C3150,C4130,C4210,C4700,C4920,C5000,C5010,C5710,C6850):
+	def __init__(self,VET_ID,CLAIM_ID,DOB,END_PRODUCT_CODE,RO_NUMBER,CLAIM_DATE,MAX_PROFILE_DATE,CONTENTION_COUNT,EAR_CONTENTION_COUNT,C2200,C2210,C2220,C3140,C3150,C4130,C4210,C4700,C4920,C5000,C5010,C5710,C6850,TXT_LOSS,TXT_TINITU):
 		self.VET_ID = VET_ID
 		self.CLAIM_ID = CLAIM_ID
 		self.DOB = DOB
@@ -109,6 +114,8 @@ class AggregateContention:
 		self.C5010 = C5010
 		self.C5710 = C5710
 		self.C6850 = C6850
+		self.TXT_LOSS = TXT_LOSS
+		self.TXT_TINITU = TXT_TINITU
 		
 	def __str__(self):
 		from pprint import pprint
@@ -118,9 +125,11 @@ print(str(datetime.datetime.now()))
 connection = cx_Oracle.connect('developer/D3vVV0Rd@127.0.0.1:1521/DEV.BCDSS')
 writeCursor = connection.cursor()
 writeCursor.prepare('INSERT INTO DEVELOPER.EAR_FEATURE_VECTOR (VET_ID, CLAIM_ID, CLAIMANT_AGE, DOB, END_PRODUCT_CODE, RO_NUMBER, CLAIM_DATE, PROFILE_DATE, PROMULGATION_DATE, RECENT_EAR_DATE, CONTENTION_COUNT, EAR_CONTENTION_COUNT, PRIOR_EAR_CDD, CURR_EAR_CDD, CLAIM_AGE, EAR_CDD_AGE, \
-A6100, A6200,A6201,A6202,A6204,A6205,A6207,A6209,A6210,A6211,A6260,C2200,C2210, C2220,C3140,C3150,C4130,C4210,C4700,C4920,C5000, C5010, C5710, C6850) \
+A6100, A6200,A6201,A6202,A6204,A6205,A6207,A6209,A6210,A6211,A6260,C2200,C2210, C2220,C3140,C3150,C4130,C4210,C4700,C4920,C5000, C5010, C5710, C6850, \
+CONTENTION_LOSS, CONTENTION_TINITU, DECISION_LOSS, DECISION_TINITU) \
 VALUES (:VET_ID, :CLAIM_ID, :CLAIMANT_AGE, :DOB, :END_PRODUCT_CODE, :RO_NUMBER, :CLAIM_DATE, :PROFILE_DATE, :PROMULGATION_DATE, :RECENT_EAR_DATE, :CONTENTION_COUNT, :EAR_CONTENTION_COUNT, :PRIOR_EAR_CDD, :CURR_EAR_CDD, :CLAIM_AGE, :EAR_CDD_AGE, \
-:A6100, :A6200, :A6201, :A6202, :A6204, :A6205, :A6207, :A6209, :A6210, :A6211, :A6260, :C2200, :C2210, :C2220, :C3140, :C3150, :C4130 , :C4210, :C4700, :C4920, :C5000, :C5010, :C5710, :C6850)')
+:A6100, :A6200, :A6201, :A6202, :A6204, :A6205, :A6207, :A6209, :A6210, :A6211, :A6260, :C2200, :C2210, :C2220, :C3140, :C3150, :C4130 , :C4210, :C4700, :C4920, :C5000, :C5010, :C5710, :C6850, \
+:CONTENTION_LOSS, :CONTENTION_TINITU, :DECISION_LOSS, :DECISION_TINITU)')
 
 #Query used to pull decisions prior to claim.
 #We use a rating profiles promulgation date before the claim date and for the given participant.
@@ -150,7 +159,7 @@ for row in cursor:
 		connection.commit()
 		counter=0
 		
-	aggregateContention = AggregateContention(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9],row[10],row[11],row[12],row[13],row[14],row[15],row[16],row[17],row[18],row[19],row[20],row[21])
+	aggregateContention = AggregateContention(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9],row[10],row[11],row[12],row[13],row[14],row[15],row[16],row[17],row[18],row[19],row[20],row[21],row[22],row[23])
 	
 	priorDecisionCursor.execute(None, {'VET_ID' :aggregateContention.VET_ID, 'CLAIM_DATE' :aggregateContention.CLAIM_DATE.strftime('%d-%b-%y')}) #rowcount always shows 0!!!!!!!!!!!!!!
 	aggregateDecision = None
@@ -158,13 +167,13 @@ for row in cursor:
 	prevEarCDD = -1;
 	earCDDChangeDate = None	
 	for decisionRow in priorDecisionCursor:
-		aggregateDecision = AggregateDecision(decisionRow[0],decisionRow[1],decisionRow[2],decisionRow[3],decisionRow[4],decisionRow[5],decisionRow[6],decisionRow[7],decisionRow[8],decisionRow[9],decisionRow[10],decisionRow[11],decisionRow[12],decisionRow[13],decisionRow[14],decisionRow[15],decisionRow[16])
+		aggregateDecision = AggregateDecision(decisionRow[0],decisionRow[1],decisionRow[2],decisionRow[3],decisionRow[4],decisionRow[5],decisionRow[6],decisionRow[7],decisionRow[8],decisionRow[9],decisionRow[10],decisionRow[11],decisionRow[12],decisionRow[13],decisionRow[14],decisionRow[15],decisionRow[16],decisionRow[17],decisionRow[18])
 		if prevEarCDD != aggregateDecision.EAR_CDD:
 			prevEarCDD = aggregateDecision.EAR_CDD
 			earCDDChangeDate = aggregateDecision.PROMULGATION_DATE
 	
 	if aggregateDecision is None:
-		aggregateDecision = AggregateDecision(None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None)
+		aggregateDecision = AggregateDecision(None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None)
 				
 				
 	currDecisionRow = None
@@ -173,9 +182,9 @@ for row in cursor:
 		currDecisionRow = currDecisionCursor.fetchone()	
 	
 	if not currDecisionRow is None:
-		currAggregateDecision = AggregateDecision(currDecisionRow[0],currDecisionRow[1],currDecisionRow[2],currDecisionRow[3],currDecisionRow[4],currDecisionRow[5],currDecisionRow[6],currDecisionRow[7],currDecisionRow[8],currDecisionRow[9],currDecisionRow[10],currDecisionRow[11],currDecisionRow[12],currDecisionRow[13],currDecisionRow[14],currDecisionRow[15],currDecisionRow[16])
+		currAggregateDecision = AggregateDecision(currDecisionRow[0],currDecisionRow[1],currDecisionRow[2],currDecisionRow[3],currDecisionRow[4],currDecisionRow[5],currDecisionRow[6],currDecisionRow[7],currDecisionRow[8],currDecisionRow[9],currDecisionRow[10],currDecisionRow[11],currDecisionRow[12],currDecisionRow[13],currDecisionRow[14],currDecisionRow[15],currDecisionRow[16],currDecisionRow[17],currDecisionRow[18])
 	else :
-		currAggregateDecision = AggregateDecision(None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None)
+		currAggregateDecision = AggregateDecision(None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None)
 		
 	
 	
@@ -230,13 +239,18 @@ for row in cursor:
 	earFeatureVector.A6210 = aggregateDecision.A6210
 	earFeatureVector.A6211 = aggregateDecision.A6211
 	earFeatureVector.A6260 = aggregateDecision.A6260
+	earFeatureVector.CONTENTION_LOSS = aggregateContention.TXT_LOSS
+	earFeatureVector.CONTENTION_TINITU = aggregateContention.TXT_TINITU
+	earFeatureVector.DECISION_LOSS = aggregateDecision.TXT_LOSS
+	earFeatureVector.DECISION_TINITU = aggregateDecision.TXT_TINITU
 
 	
 		
 	writeCursor.execute(None, {'VET_ID' :earFeatureVector.VET_ID, 'CLAIM_ID' :earFeatureVector.CLAIM_ID, 'CLAIMANT_AGE' :earFeatureVector.CLAIMANT_AGE, 'DOB' :earFeatureVector.DOB, 'END_PRODUCT_CODE' :earFeatureVector.END_PRODUCT_CODE, 'RO_NUMBER' :earFeatureVector.RO_NUMBER, 'CLAIM_DATE' :earFeatureVector.CLAIM_DATE, 'PROFILE_DATE' :earFeatureVector.PROFILE_DATE, 'PROMULGATION_DATE' :earFeatureVector.PROMULGATION_DATE, 'CONTENTION_COUNT' :earFeatureVector.CONTENTION_COUNT, 'EAR_CONTENTION_COUNT' :earFeatureVector.EAR_CONTENTION_COUNT,
 	'PRIOR_EAR_CDD' :earFeatureVector.PRIOR_EAR_CDD, 'CURR_EAR_CDD' :earFeatureVector.CURR_EAR_CDD, 'CLAIM_AGE' :earFeatureVector.CLAIM_AGE, 'EAR_CDD_AGE' :earFeatureVector.EAR_CDD_AGE, 'RECENT_EAR_DATE' :earFeatureVector.RECENT_EAR_DATE,
 	'C2200' :earFeatureVector.C2200, 'C2210' :earFeatureVector.C2210, 'C2220' :earFeatureVector.C2220, 'C3140' :earFeatureVector.C3140, 'C3150' :earFeatureVector.C3150, 'C4130' :earFeatureVector.C4130, 'C4210' :earFeatureVector.C4210, 'C4700' :earFeatureVector.C4700, 'C4920' :earFeatureVector.C4920, 'C5000' :earFeatureVector.C5000, 'C5010' :earFeatureVector.C5010, 'C5710' :earFeatureVector.C5710, 'C6850' :earFeatureVector.C6850,
-	'A6100' :earFeatureVector.A6100, 'A6200' :earFeatureVector.A6200, 'A6201' :earFeatureVector.A6201, 'A6202' :earFeatureVector.A6202, 'A6204' :earFeatureVector.A6204, 'A6205' :earFeatureVector.A6205, 'A6207' :earFeatureVector.A6207, 'A6209' :earFeatureVector.A6209, 'A6210' :earFeatureVector.A6210, 'A6211' :earFeatureVector.A6211, 'A6260' :earFeatureVector.A6260})
+	'A6100' :earFeatureVector.A6100, 'A6200' :earFeatureVector.A6200, 'A6201' :earFeatureVector.A6201, 'A6202' :earFeatureVector.A6202, 'A6204' :earFeatureVector.A6204, 'A6205' :earFeatureVector.A6205, 'A6207' :earFeatureVector.A6207, 'A6209' :earFeatureVector.A6209, 'A6210' :earFeatureVector.A6210, 'A6211' :earFeatureVector.A6211, 'A6260' :earFeatureVector.A6260,
+	'CONTENTION_LOSS' :earFeatureVector.CONTENTION_LOSS, 'CONTENTION_TINITU' :earFeatureVector.CONTENTION_TINITU, 'DECISION_LOSS' :earFeatureVector.DECISION_LOSS, 'DECISION_TINITU' :earFeatureVector.DECISION_TINITU})
 	
 	
 	counter += 1
