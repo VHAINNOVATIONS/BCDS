@@ -79,7 +79,7 @@ class Contention:
 		from pprint import pprint
 		return str(vars(self))		
 
-connection = cx_Oracle.connect('developer/<pass>@127.0.0.1:1521/DEV.BCDSS')
+connection = cx_Oracle.connect('developer/D3vVV0Rd@127.0.0.1:1521/DEV.BCDSS')
 writeCursor = connection.cursor()
 writeCursor.prepare('INSERT INTO DEVELOPER.KNEE_AGGREGATE_CONTENTION (VET_ID, CLAIM_ID, END_PRODUCT_CODE, CLAIM_DATE, CONTENTION_COUNT, KNEE_CONTENTION_COUNT, C230, C270, C3690, C3700, C3710, C8919, C3720, C3730, C3780, C3790, C3800, TXT_BILATERAL,TXT_LEFT,TXT_RIGHT,TXT_LEG,TXT_KNEE,TXT_AMPUTATION, DOB, RO_NUMBER, MAX_PROFILE_DATE) \
 VALUES (:VET_ID, :CLAIM_ID, :END_PRODUCT_CODE, :CLAIM_DATE, :CONTENTION_COUNT, :KNEE_CONTENTION_COUNT, \
@@ -93,11 +93,13 @@ cursor = connection.cursor()
 cursor.execute(SQL)
 
 aggregateContention = None
+counterAggregateContention = None
 totalContentions = None
 totalKneeContentions = None
 maxProfileDate = None
 
 currBenefitClaim = -1
+currParticipant = -1
 counter = 0;
 
 for row in cursor:
@@ -117,13 +119,17 @@ for row in cursor:
 			aggregateContention.MAX_PROFILE_DATE = maxProfileDate[currBenefitClaim]
 			
 			writeCursor.execute(None, {'VET_ID' :aggregateContention.VET_ID, 'CLAIM_ID' :aggregateContention.CLAIM_ID, 'END_PRODUCT_CODE' :aggregateContention.END_PRODUCT_CODE, 'CLAIM_DATE' :aggregateContention.CLAIM_DATE, 'CONTENTION_COUNT' :aggregateContention.CONTENTION_COUNT, 'KNEE_CONTENTION_COUNT' :aggregateContention.KNEE_CONTENTION_COUNT, 
-			'C230' :aggregateContention.C230, 'C270' :aggregateContention.C270, 'C3690' :aggregateContention.C3690, 'C3700' :aggregateContention.C3700, 'C3710' :aggregateContention.C3710, 'C8919' :aggregateContention.C8919, 'C3720' :aggregateContention.C3720, 'C3730' :aggregateContention.C3730, 'C3780' :aggregateContention.C3780, 'C3790' :aggregateContention.C3790, 'C3800' :aggregateContention.C3800, 
-			'TXT_BILATERAL' :aggregateContention.TXT_BILATERAL, 'TXT_LEFT' :aggregateContention.TXT_LEFT, 'TXT_LEG' :aggregateContention.TXT_LEG,	'TXT_KNEE' :aggregateContention.TXT_KNEE, 'TXT_RIGHT' :aggregateContention.TXT_RIGHT, 'TXT_AMPUTATION' :aggregateContention.TXT_AMPUTATION,
+			'C230' :counterAggregateContention.C230, 'C270' :counterAggregateContention.C270, 'C3690' :counterAggregateContention.C3690, 'C3700' :counterAggregateContention.C3700, 'C3710' :counterAggregateContention.C3710, 'C8919' :counterAggregateContention.C8919, 'C3720' :counterAggregateContention.C3720, 'C3730' :counterAggregateContention.C3730, 'C3780' :counterAggregateContention.C3780, 'C3790' :counterAggregateContention.C3790, 'C3800' :counterAggregateContention.C3800, 
+			'TXT_BILATERAL' :counterAggregateContention.TXT_BILATERAL, 'TXT_LEFT' :counterAggregateContention.TXT_LEFT, 'TXT_LEG' :counterAggregateContention.TXT_LEG,	'TXT_KNEE' :counterAggregateContention.TXT_KNEE, 'TXT_RIGHT' :counterAggregateContention.TXT_RIGHT, 'TXT_AMPUTATION' :counterAggregateContention.TXT_AMPUTATION,
 			'DOB' :aggregateContention.DOB, 'RO_NUMBER' :aggregateContention.RO_NUMBER, 'MAX_PROFILE_DATE' :aggregateContention.MAX_PROFILE_DATE})
 
 			counter += 1
 		
 		currBenefitClaim = contention.bnft_claim_id #Reset claim id
+		
+		if currParticipant != contention.ptcpnt_vet_id : 
+			currParticipant = contention.ptcpnt_vet_id #Reset participant id
+			counterAggregateContention = AggregateContention()		
 		
 		#Capture all claim/person level items that do not change per contention
 		aggregateContention = AggregateContention()
@@ -146,41 +152,41 @@ for row in cursor:
 			
 	#Use regex to look for a hit and then if it hits make it true. No need to track how many times, just true or false
 	if re.search("Bilateral",contention.cntntn_clmant_txt,re.IGNORECASE):
-		aggregateContention.TXT_BILATERAL = 1
+		counterAggregateContention.TXT_BILATERAL += 1
 	if re.search("Left",contention.cntntn_clmant_txt,re.IGNORECASE):
-		aggregateContention.TXT_LEFT = 1
+		counterAggregateContention.TXT_LEFT += 1
 	if re.search("Leg",contention.cntntn_clmant_txt,re.IGNORECASE):
-		aggregateContention.TXT_LEG = 1
+		counterAggregateContention.TXT_LEG += 1
 	if re.search("Knee",contention.cntntn_clmant_txt,re.IGNORECASE):
-		aggregateContention.TXT_KNEE = 1
+		counterAggregateContention.TXT_KNEE += 1
 	if re.search("Right",contention.cntntn_clmant_txt,re.IGNORECASE):
-		aggregateContention.TXT_RIGHT = 1
+		counterAggregateContention.TXT_RIGHT += 1
 	if re.search("Amputation",contention.cntntn_clmant_txt,re.IGNORECASE):
-		aggregateContention.TXT_AMPUTATION = 1
+		counterAggregateContention.TXT_AMPUTATION += 1
 
 	#Simply test the codes and again true or false
 	if contention.cntntn_clsfcn_id == 230:
-		aggregateContention.C230 = 1
+		counterAggregateContention.C230 += 1
 	if contention.cntntn_clsfcn_id == 270:
-		aggregateContention.C270 = 1
+		counterAggregateContention.C270 += 1
 	if contention.cntntn_clsfcn_id == 3690:
-		aggregateContention.C3690 = 1
+		counterAggregateContention.C3690 += 1
 	if contention.cntntn_clsfcn_id == 3700:
-		aggregateContention.C3700 = 1
+		counterAggregateContention.C3700 += 1
 	if contention.cntntn_clsfcn_id == 3710:
-		aggregateContention.C3710 = 1
+		counterAggregateContention.C3710 += 1
 	if contention.cntntn_clsfcn_id == 8919:
-		aggregateContention.C8919 = 1
+		counterAggregateContention.C8919 += 1
 	if contention.cntntn_clsfcn_id == 3720:
-		aggregateContention.C3720 = 1
+		counterAggregateContention.C3720 += 1
 	if contention.cntntn_clsfcn_id == 3730:
-		aggregateContention.C3730 = 1
+		counterAggregateContention.C3730 += 1
 	if contention.cntntn_clsfcn_id == 3780:
-		aggregateContention.C3780 = 1
+		counterAggregateContention.C3780 += 1
 	if contention.cntntn_clsfcn_id == 3790:
-		aggregateContention.C3790 = 1
+		counterAggregateContention.C3790 += 1
 	if contention.cntntn_clsfcn_id == 3800:
-		aggregateContention.C3800 = 1
+		counterAggregateContention.C3800 += 1
 		
 #A bit strange looking but due to Python's identation approach this occurs after the for loop in order to capture the last claim.
 aggregateContention.CONTENTION_COUNT = sum(totalContentions.values())
@@ -188,8 +194,8 @@ aggregateContention.KNEE_CONTENTION_COUNT = sum(totalKneeContentions.values())
 aggregateContention.MAX_PROFILE_DATE = maxProfileDate[currBenefitClaim]
 			
 writeCursor.execute(None, {'VET_ID' :aggregateContention.VET_ID, 'CLAIM_ID' :aggregateContention.CLAIM_ID, 'END_PRODUCT_CODE' :aggregateContention.END_PRODUCT_CODE, 'CLAIM_DATE' :aggregateContention.CLAIM_DATE, 'CONTENTION_COUNT' :aggregateContention.CONTENTION_COUNT, 'KNEE_CONTENTION_COUNT' :aggregateContention.KNEE_CONTENTION_COUNT, 
-'C230' :aggregateContention.C230, 'C270' :aggregateContention.C270, 'C3690' :aggregateContention.C3690, 'C3700' :aggregateContention.C3700, 'C3710' :aggregateContention.C3710, 'C8919' :aggregateContention.C8919, 'C3720' :aggregateContention.C3720, 'C3730' :aggregateContention.C3730, 'C3780' :aggregateContention.C3780, 'C3790' :aggregateContention.C3790, 'C3800' :aggregateContention.C3800, 
-'TXT_BILATERAL' :aggregateContention.TXT_BILATERAL, 'TXT_LEFT' :aggregateContention.TXT_LEFT, 'TXT_LEG' :aggregateContention.TXT_LEG,	'TXT_KNEE' :aggregateContention.TXT_KNEE, 'TXT_RIGHT' :aggregateContention.TXT_RIGHT, 'TXT_AMPUTATION' :aggregateContention.TXT_AMPUTATION,
+'C230' :counterAggregateContention.C230, 'C270' :counterAggregateContention.C270, 'C3690' :counterAggregateContention.C3690, 'C3700' :counterAggregateContention.C3700, 'C3710' :counterAggregateContention.C3710, 'C8919' :counterAggregateContention.C8919, 'C3720' :counterAggregateContention.C3720, 'C3730' :counterAggregateContention.C3730, 'C3780' :counterAggregateContention.C3780, 'C3790' :counterAggregateContention.C3790, 'C3800' :counterAggregateContention.C3800, 
+'TXT_BILATERAL' :counterAggregateContention.TXT_BILATERAL, 'TXT_LEFT' :counterAggregateContention.TXT_LEFT, 'TXT_LEG' :counterAggregateContention.TXT_LEG,	'TXT_KNEE' :counterAggregateContention.TXT_KNEE, 'TXT_RIGHT' :counterAggregateContention.TXT_RIGHT, 'TXT_AMPUTATION' :counterAggregateContention.TXT_AMPUTATION,
 'DOB' :aggregateContention.DOB, 'RO_NUMBER' :aggregateContention.RO_NUMBER, 'MAX_PROFILE_DATE' :aggregateContention.MAX_PROFILE_DATE})
 
 connection.commit()

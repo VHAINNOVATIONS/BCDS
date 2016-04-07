@@ -89,7 +89,7 @@ class Decision:
 		return str(vars(self))		
 
 print(str(datetime.datetime.now()))
-connection = cx_Oracle.connect('developer/<pass>@127.0.0.1:1521/DEV.BCDSS')
+connection = cx_Oracle.connect('developer/D3vVV0Rd@127.0.0.1:1521/DEV.BCDSS')
 cursor = connection.cursor()
 cursor.execute(SQL)
 
@@ -162,56 +162,56 @@ for row in cursor:
 	#Use regex to look for a hit and then if it hits make it true. No need to track how many times, just true or false
 	try:
 		if re.search("BilaterAL",decision.dgnstc_txt,re.IGNORECASE):
-			aggregateDecision.TXT_BILATER = 1	
+			aggregateDecision.TXT_BILATERAL += 1	
 		if re.search("Left",decision.dgnstc_txt,re.IGNORECASE):
-			aggregateDecision.TXT_LEFT = 1
+			aggregateDecision.TXT_LEFT += 1
 		if re.search("Right",decision.dgnstc_txt,re.IGNORECASE):
-			aggregateDecision.TXT_RIGHT = 1
+			aggregateDecision.TXT_RIGHT += 1
 		if re.search("Knee",decision.dgnstc_txt,re.IGNORECASE):
-			aggregateDecision.TXT_KNEE = 1
+			aggregateDecision.TXT_KNEE += 1
 		if re.search("Impairment",decision.dgnstc_txt,re.IGNORECASE):
-			aggregateDecision.TXT_IMPAIRMENT = 1
+			aggregateDecision.TXT_IMPAIRMENT += 1
 		if re.search("Limitation",decision.dgnstc_txt,re.IGNORECASE):
-			aggregateDecision.TXT_LIMITATION = 1
+			aggregateDecision.TXT_LIMITATION += 1
 		if re.search("Amputation",decision.dgnstc_txt,re.IGNORECASE):
-			aggregateDecision.TXT_AMPUTATION = 1
+			aggregateDecision.TXT_AMPUTATION += 1
 		if re.search("Ankyloses",decision.dgnstc_txt,re.IGNORECASE):
-			aggregateDecision.TXT_ANKYLOSES = 1
+			aggregateDecision.TXT_ANKYLOSES += 1
 			
 	except TypeError:
 		print(decision)
 
 	#Simply test the codes and again true or false
 	if decision.diagnosis_code == 5164:
-		aggregateDecision.A5164 = 1
+		aggregateDecision.A5164 += 1
 	if decision.diagnosis_code == 5165:
-		aggregateDecision.A5165 = 1
+		aggregateDecision.A5165 += 1
 	if decision.diagnosis_code == 5163:
-		aggregateDecision.A5163 = 1
+		aggregateDecision.A5163 += 1
 	if decision.diagnosis_code == 5162:
-		aggregateDecision.A5162 = 1
+		aggregateDecision.A5162 += 1
 	if decision.diagnosis_code == 5161:
-		aggregateDecision.A5161 = 1
+		aggregateDecision.A5161 += 1
 	if decision.diagnosis_code == 5256:
-		aggregateDecision.A5256 = 1
+		aggregateDecision.A5256 += 1
 	if decision.diagnosis_code == 5258:
-		aggregateDecision.A5258 = 1
+		aggregateDecision.A5258 += 1
 	if decision.diagnosis_code == 5257:
-		aggregateDecision.A5257 = 1
+		aggregateDecision.A5257 += 1
 	if decision.diagnosis_code == 5313:
-		aggregateDecision.A5313 = 1
+		aggregateDecision.A5313 += 1
 	if decision.diagnosis_code == 5314:
-		aggregateDecision.A5314 = 1
+		aggregateDecision.A5314 += 1
 	if decision.diagnosis_code == 5315:
-		aggregateDecision.A5315 = 1
+		aggregateDecision.A5315 += 1
 	if decision.diagnosis_code == 5055:
-		aggregateDecision.A5055 = 1
+		aggregateDecision.A5055 += 1
 	if decision.diagnosis_code == 5261:
-		aggregateDecision.A5261 = 1
+		aggregateDecision.A5261 += 1
 	if decision.diagnosis_code == 5260:
-		aggregateDecision.A5260 = 1
+		aggregateDecision.A5260 += 1
 	if decision.diagnosis_code == 5259:
-		aggregateDecision.A5259 = 1
+		aggregateDecision.A5259 += 1
 		
 #A bit strange looking but due to Python's identation approach this occurs after the for loop in order to capture the last claim.
 for disabilityPercentage in multipleDisabilityCodes.values():
