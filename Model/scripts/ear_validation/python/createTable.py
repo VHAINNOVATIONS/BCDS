@@ -9,7 +9,7 @@ earDiagnosisCode = [6100,6200,6201,6202,6204,6205,6207,6209,6210,6211,6260]
 
 #Primary query, Grab all processed contentions and order by particpant id and then claim date descending
 SQL="select * \
-	from EAR_AGGREGATE_CONTENTION \
+	from V_EAR_AGGREGATE_CONTENTION \
 	order by VET_ID,CLAIM_DATE"
 
 	
@@ -128,7 +128,7 @@ class AggregateContention:
 print(str(datetime.datetime.now()))
 connection = cx_Oracle.connect('developer/D3vVV0Rd@127.0.0.1:1521/DEV.BCDSS')
 writeCursor = connection.cursor()
-writeCursor.prepare('INSERT INTO DEVELOPER.EAR_FEATURE_VECTOR (VET_ID, CLAIM_ID, CLAIMANT_AGE, DOB, END_PRODUCT_CODE, RO_NUMBER, CLAIM_DATE, PROFILE_DATE, PROMULGATION_DATE, RECENT_EAR_DATE, CONTENTION_COUNT, EAR_CONTENTION_COUNT, PRIOR_EAR_CDD, QUANT_PRIOR_EAR_CDD, CURR_EAR_CDD, QUANT_EAR_CDD, CLAIM_AGE, EAR_CDD_AGE, EAR_CLAIM_COUNT, \
+writeCursor.prepare('INSERT INTO DEVELOPER.V_EAR_FEATURE_VECTOR (VET_ID, CLAIM_ID, CLAIMANT_AGE, DOB, END_PRODUCT_CODE, RO_NUMBER, CLAIM_DATE, PROFILE_DATE, PROMULGATION_DATE, RECENT_EAR_DATE, CONTENTION_COUNT, EAR_CONTENTION_COUNT, PRIOR_EAR_CDD, QUANT_PRIOR_EAR_CDD, CURR_EAR_CDD, QUANT_EAR_CDD, CLAIM_AGE, EAR_CDD_AGE, EAR_CLAIM_COUNT, \
 A6100, A6200,A6201,A6202,A6204,A6205,A6207,A6209,A6210,A6211,A6260,C2200,C2210, C2220,C3140,C3150,C4130,C4210,C4700,C4920,C5000, C5010, C5710, C6850, \
 CONTENTION_LOSS, CONTENTION_TINITU, DECISION_LOSS, DECISION_TINITU) \
 VALUES (:VET_ID, :CLAIM_ID, :CLAIMANT_AGE, :DOB, :END_PRODUCT_CODE, :RO_NUMBER, :CLAIM_DATE, :PROFILE_DATE, :PROMULGATION_DATE, :RECENT_EAR_DATE, :CONTENTION_COUNT, :EAR_CONTENTION_COUNT, :PRIOR_EAR_CDD, :QUANT_PRIOR_EAR_CDD, :CURR_EAR_CDD, :QUANT_EAR_CDD, :CLAIM_AGE, :EAR_CDD_AGE, :EAR_CLAIM_COUNT, \
@@ -140,7 +140,7 @@ VALUES (:VET_ID, :CLAIM_ID, :CLAIMANT_AGE, :DOB, :END_PRODUCT_CODE, :RO_NUMBER, 
 priorDecisionCursor = connection.cursor()
 priorDecisionCursor.prepare('SELECT * FROM \
 (SELECT * \
-FROM EAR_AGGREGATE_DECISION \
+FROM V_EAR_AGGREGATE_DECISION \
 WHERE to_date(PROMULGATION_DATE) < :CLAIM_DATE and VET_ID = :VET_ID \
 ORDER BY PROMULGATION_DATE DESC) WHERE ROWNUM =1')
 
@@ -148,7 +148,7 @@ ORDER BY PROMULGATION_DATE DESC) WHERE ROWNUM =1')
 #We use a rating profiles profile date equal to the claims most recent rating profile date and for the given participant.
 currDecisionCursor = connection.cursor()
 currDecisionCursor.prepare('SELECT * \
-FROM EAR_AGGREGATE_DECISION \
+FROM V_EAR_AGGREGATE_DECISION \
 WHERE to_date(PROFILE_DATE) = :MAX_PROFILE_DATE and VET_ID = :VET_ID and ROWNUM = 1')
 
 cursor = connection.cursor()
@@ -172,8 +172,8 @@ for row in cursor:
 	if currParticipant != aggregateContention.VET_ID : 
 		currParticipant = aggregateContention.VET_ID #Reset participant id
 		earClaimCount = 0
-	
-	
+
+		
 	priorDecisionCursor.execute(None, {'VET_ID' :aggregateContention.VET_ID, 'CLAIM_DATE' :aggregateContention.CLAIM_DATE.strftime('%d-%b-%y')}) #rowcount always shows 0!!!!!!!!!!!!!!
 	aggregateDecision = None
 	
@@ -230,8 +230,8 @@ for row in cursor:
 		earFeatureVector.QUANT_EAR_CDD = None
 	else:
 		earFeatureVector.QUANT_EAR_CDD = int(math.ceil(currAggregateDecision.EAR_CDD / 10.0)) * 10 #Quantize CDD to the nearest 10
-	
-	
+
+
 	if earCDDChangeDate is None:
 		earFeatureVector.EAR_CDD_AGE	= None
 	else:

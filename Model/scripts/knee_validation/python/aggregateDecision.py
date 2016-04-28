@@ -11,8 +11,8 @@ kneeDiagnosisCode = [5164,5165,5163,5162,5161,5256,5258,5257,5313,5314,5315,5055
 #Because of historical copies being represented across all rating profiles grouping is required to clean up the data.
 #Organize them based first by participant id, then profile date, disability id, begin date, then code and percent.
 SQL="select rd.ptcpnt_vet_id, rd.prfil_dt, rd.begin_dt, rd.end_dt, rd.prmlgn_dt, rd.dgnstc_txt, rd.dsblty_id, rd.diagnosis_code, rd.hypntd_dgnstc_type_cd, rd.prcnt_nbr \
-	from AH4929_RATING_DECISION rd \
-	inner join KNEE_AGGREGATE_CONTENTION ac on ac.vet_id = rd.ptcpnt_vet_id \
+	from COMBO_KNEE_DECISION rd \
+	inner join V_KNEE_AGGREGATE_CONTENTION ac on ac.vet_id = rd.ptcpnt_vet_id \
 	where rd.begin_dt IS NOT NULL and rd.begin_dt < rd.prmlgn_dt and (rd.end_dt is NULL or rd.end_dt >= rd.prmlgn_dt) and rd.system_type_cd = 'C' \
 	and rd.dsblty_decn_type_cd = 'SVCCONNCTED' and (rd.prev_evaltn_ind IS NULL OR rd.prev_evaltn_ind = 'N') \
 	group by rd.begin_dt, rd.end_dt, rd.prmlgn_dt, rd.dgnstc_txt, rd.dsblty_id, rd.diagnosis_code, rd.hypntd_dgnstc_type_cd, rd.prcnt_nbr, rd.ptcpnt_vet_id, rd.prfil_dt \
@@ -97,7 +97,7 @@ cursor = connection.cursor()
 cursor.execute(SQL)
 
 writeCursor = connection.cursor()
-writeCursor.prepare('INSERT INTO DEVELOPER.KNEE_AGGREGATE_DECISION (VET_ID, PROFILE_DATE, PROMULGATION_DATE, RECENT_KNEE_DATE, CDD, KNEE_CDD, A5164, A5165, A5163, A5162, A5161, A5256, A5258, A5257, A5313, A5314, A5315, A5055, A5261, A5260, A5259, A5262, A5263, A5264, TXT_BILATERAL,TXT_LEFT,TXT_RIGHT,TXT_KNEE,TXT_IMPAIRMENT,TXT_LIMITATION,TXT_AMPUTATION,TXT_ANKYLOSES) \
+writeCursor.prepare('INSERT INTO DEVELOPER.V_KNEE_AGGREGATE_DECISION (VET_ID, PROFILE_DATE, PROMULGATION_DATE, RECENT_KNEE_DATE, CDD, KNEE_CDD, A5164, A5165, A5163, A5162, A5161, A5256, A5258, A5257, A5313, A5314, A5315, A5055, A5261, A5260, A5259, A5262, A5263, A5264, TXT_BILATERAL,TXT_LEFT,TXT_RIGHT,TXT_KNEE,TXT_IMPAIRMENT,TXT_LIMITATION,TXT_AMPUTATION,TXT_ANKYLOSES) \
 VALUES (:VET_ID, :PROFILE_DATE, :PROMULGATION_DATE, :RECENT_KNEE_DATE, :CDD, :KNEE_CDD, \
 :A5164, :A5165, :A5163, :A5162, :A5161, :A5256, :A5258, :A5257, :A5313,	:A5314, :A5315, :A5055, :A5261,	:A5260, :A5259, :A5262, :A5263, :A5264, \
 :TXT_BILATERAL,:TXT_LEFT,:TXT_RIGHT,:TXT_KNEE,:TXT_IMPAIRMENT,:TXT_LIMITATION,:TXT_AMPUTATION,:TXT_ANKYLOSES)')
