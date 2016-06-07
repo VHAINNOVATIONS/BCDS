@@ -1,0 +1,42 @@
+﻿@charset "utf-8";
+/* CSS Document */
+body {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    padding: 0;
+
+}
+.HeaderBackground {
+    background-color: #061D47;
+    height: 120px;
+    width: 100%;
+    color:white;
+    font-family: Verdana, Helvetica, sans-serif;
+	font-size:38px;
+}
+.Header {
+    font-family: Verdana, Helvetica, sans-serif;
+    font-size: 22px;
+    color: #FFFFFF;
+    width: 100%;
+    background-color: #061D47;
+
+}
+.CenterBackground {
+    background-color: #FBFBFB;
+    background-image: url('../../images/Blank_US_Map_(states_only)_m.svg.png');
+    background-repeat:no-repeat;
+    background-position:left;
+}
+
+
+.FooterBackground {
+    background-color: #EBF9FF;    
+    font-family: Arial, Verdana, Helvetica, sans-serif;
+    font-size: 10px;
+    text-align: left;
+    height: 80px;
+}
+
