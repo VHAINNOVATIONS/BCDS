@@ -103,6 +103,14 @@
     </properties>
 
     <repositories>
+	
+		<repository>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <id>aide-repo</id>
+            <url>https://code-tools.aide.oit.va.gov/nexus/content/groups/public</url>
+        </repository>
 
         <repository>
             <id>maven2-repository.dev.java.net</id>
