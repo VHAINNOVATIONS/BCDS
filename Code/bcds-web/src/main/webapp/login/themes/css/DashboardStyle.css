@@ -26,7 +26,7 @@ body {
 }
 .CenterBackground {
     background-color: #FBFBFB;
-    background-image: url('../../images/Blank_US_Map_(states_only)_m.svg.png');
+    background-image: url('../../../images/Blank_US_Map_(states_only)_m.svg.png');
     background-repeat:no-repeat;
     background-position:left;
 }
