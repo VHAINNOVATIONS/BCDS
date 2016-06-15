@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('bcdsApp')
+angular.module('bcdssApp')
     .controller('LoginController', function ($rootScope, $scope, $state, $timeout, Auth) {
         $scope.user = {};
         $scope.errors = {};

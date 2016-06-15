@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('bcdsApp')
+angular.module('bcdssApp')
     .directive('hasAnyRole', ['Principal', function (Principal) {
         return {
             restrict: 'A',

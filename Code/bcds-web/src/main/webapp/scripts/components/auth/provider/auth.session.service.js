@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('bcdsApp')
+angular.module('bcdssApp')
     .factory('AuthServerProvider', function loginService($http, localStorageService, $window) {
         return {
             login: function(credentials) {

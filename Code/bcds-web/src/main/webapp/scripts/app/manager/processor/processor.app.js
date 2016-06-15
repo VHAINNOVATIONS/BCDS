@@ -1,7 +1,7 @@
 'use strict';
 
 angular
-	.module('bcdsApp')
+	.module('bcdssApp')
 	.config(
 		function($stateProvider) {
             $stateProvider

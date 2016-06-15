@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('bcdsApp')
+angular.module('bcdssApp')
     .factory('Auth', function Auth($rootScope, $state, $q, Principal, AuthServerProvider, Account, Register, Activate, Password, PasswordResetInit, PasswordResetFinish) {
         return {
             login: function (credentials, callback) {

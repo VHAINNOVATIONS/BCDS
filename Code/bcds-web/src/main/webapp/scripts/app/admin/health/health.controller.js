@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('bcdsApp')
+angular.module('bcdssApp')
     .controller('HealthController', function ($scope, MonitoringService) {
         $scope.updatingHealth = true;
         $scope.separator = '.';

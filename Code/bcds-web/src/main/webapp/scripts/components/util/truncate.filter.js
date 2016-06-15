@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('bcdsApp')
+angular.module('bcdssApp')
     .filter('characters', function () {
         return function (input, chars, breakOnWord) {
             if (isNaN(chars)) {

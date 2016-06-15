@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('bcdsApp')
+angular.module('bcdssApp')
     .service('DateUtils', function () {
       this.convertLocaleDateToServer = function(date) {
         if (date) {

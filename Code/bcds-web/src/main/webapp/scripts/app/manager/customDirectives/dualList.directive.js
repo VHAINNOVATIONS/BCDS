@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module('bcdsApp').directive('dualList', function() {
+angular.module('bcdssApp').directive('dualList', function() {
     return {
         restrict: 'E',
         replace: true,

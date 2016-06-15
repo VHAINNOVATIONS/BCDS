@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('bcdsApp')
+angular.module('bcdssApp')
     .controller('SettingsController', function ($scope, Principal, Auth) {
         $scope.success = null;
         $scope.error = null;

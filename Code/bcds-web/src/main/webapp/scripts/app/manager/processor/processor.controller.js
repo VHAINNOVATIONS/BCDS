@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('bcdsApp').controller('ProcessorController', function($scope, $uibModal, $stateParams) {
+angular.module('bcdssApp').controller('ProcessorController', function($scope, $uibModal, $stateParams) {
     $scope.results = [{
         "is_collapsed": false,
         "file_number" : "212029876",

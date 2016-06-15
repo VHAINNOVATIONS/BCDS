@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('bcdsApp')
+angular.module('bcdssApp')
     .controller('RegisterController', function ($scope, $timeout, Auth) {
         $scope.success = null;
         $scope.error = null;

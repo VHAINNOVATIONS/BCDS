@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('bcdsApp')
+angular.module('bcdssApp')
     .factory('Generator', function ($http) {
         return {
             getUUID: function () {

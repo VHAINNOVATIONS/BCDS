@@ -1,9 +1,9 @@
 package gov.va.vba.persistence.config;
 
-import com.codahale.metrics.MetricRegistry;
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
-import liquibase.integration.spring.SpringLiquibase;
+import java.util.Arrays;
+
+import javax.sql.DataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +18,12 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.util.StringUtils;
 
-import javax.sql.DataSource;
-import java.util.Arrays;
+import com.codahale.metrics.MetricRegistry;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
+import gov.va.vba.config.Constants;
+import liquibase.integration.spring.SpringLiquibase;
 
 @Configuration
 @EnableJpaRepositories(basePackages = "gov.va.vba.persistence.repository")

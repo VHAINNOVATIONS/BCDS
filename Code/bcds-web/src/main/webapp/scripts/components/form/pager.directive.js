@@ -1,7 +1,7 @@
 /* globals $ */
 'use strict';
 
-angular.module('bcdsApp')
+angular.module('bcdssApp')
     .directive('bcdsAppPager', function() {
         return {
             templateUrl: 'scripts/components/form/pager.html'

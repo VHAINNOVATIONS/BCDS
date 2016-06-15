@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module('bcdsApp').directive('multiselect', function() {
+angular.module('bcdssApp').directive('multiselect', function() {
     return {
         restrict: 'E',
         replace: true,

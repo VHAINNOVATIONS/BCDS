@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('bcdsApp')
+angular.module('bcdssApp')
     .directive('activeLink', function(location) {
         return {
             restrict: 'A',

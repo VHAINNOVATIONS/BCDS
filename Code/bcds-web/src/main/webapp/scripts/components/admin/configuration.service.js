@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('bcdsApp')
+angular.module('bcdssApp')
     .factory('ConfigurationService', function ($rootScope, $filter, $http) {
         return {
             get: function() {
