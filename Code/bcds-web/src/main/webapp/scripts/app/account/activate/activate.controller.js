@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('bcdsApp')
+angular.module('bcdssApp')
     .controller('ActivationController', function ($scope, $stateParams, Auth) {
         Auth.activateAccount({key: $stateParams.key}).then(function () {
             $scope.error = null;

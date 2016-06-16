@@ -22,7 +22,7 @@ import gov.va.vba.async.ExceptionHandlingAsyncTaskExecutor;
 @Configuration
 @EnableAsync
 @EnableScheduling
-@Profile("!" + gov.va.vba.persistence.config.Constants.SPRING_PROFILE_FAST)
+@Profile("!" + gov.va.vba.config.Constants.SPRING_PROFILE_FAST)
 public class AsyncConfiguration implements AsyncConfigurer, EnvironmentAware {
 
     private final Logger log = LoggerFactory.getLogger(AsyncConfiguration.class);

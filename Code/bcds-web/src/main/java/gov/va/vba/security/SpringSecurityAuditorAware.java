@@ -1,6 +1,6 @@
 package gov.va.vba.security;
 
-import gov.va.vba.persistence.config.Constants;
+import gov.va.vba.config.Constants;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.stereotype.Component;
 

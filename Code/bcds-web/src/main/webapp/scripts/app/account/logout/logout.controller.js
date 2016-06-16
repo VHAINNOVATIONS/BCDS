@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('bcdsApp')
+angular.module('bcdssApp')
     .controller('LogoutController', function (Auth) {
         Auth.logout();
     });

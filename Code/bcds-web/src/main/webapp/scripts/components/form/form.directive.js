@@ -1,7 +1,7 @@
 /* globals $ */
 'use strict';
 
-angular.module('bcdsApp')
+angular.module('bcdssApp')
     .directive('showValidation', function() {
         return {
             restrict: 'A',

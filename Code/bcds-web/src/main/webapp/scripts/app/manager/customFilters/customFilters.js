@@ -1,4 +1,4 @@
-angular.module('bcdsApp').filter(
+angular.module('bcdssApp').filter(
 	'daysRemaining',
 	function() {
 

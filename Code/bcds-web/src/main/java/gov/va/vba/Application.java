@@ -1,6 +1,6 @@
 package gov.va.vba;
 
-import gov.va.vba.persistence.config.Constants;
+import gov.va.vba.config.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;

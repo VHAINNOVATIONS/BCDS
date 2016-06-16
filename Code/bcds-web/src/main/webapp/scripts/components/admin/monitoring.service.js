@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('bcdsApp')
+angular.module('bcdssApp')
     .factory('MonitoringService', function ($rootScope, $http) {
         return {
             getMetrics: function () {

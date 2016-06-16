@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('bcdsApp')
+angular.module('bcdssApp')
     .factory('AuditsService', function ($http) {
         return {
             findAll: function () {

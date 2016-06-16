@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('bcdsApp')
+angular.module('bcdssApp')
     .service('ParseLinks', function () {
         this.parse = function (header) {
             if (header.length == 0) {

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('bcdsApp')
+angular.module('bcdssApp')
     .controller('MetricsController', function ($scope, MonitoringService) {
         $scope.metrics = {};
         $scope.updatingMetrics = true;

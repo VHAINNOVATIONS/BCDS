@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('bcdsApp')
+angular.module('bcdssApp')
     .factory('Register', function ($resource) {
         return $resource('api/register', {}, {
         });

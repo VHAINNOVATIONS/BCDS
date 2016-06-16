@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('bcdsApp')
+angular.module('bcdssApp')
     .controller('RequestResetController', function ($rootScope, $scope, $state, $timeout, Auth) {
 
         $scope.success = null;

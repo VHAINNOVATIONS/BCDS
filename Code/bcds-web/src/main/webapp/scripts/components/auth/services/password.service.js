@@ -1,18 +1,18 @@
 'use strict';
 
-angular.module('bcdsApp')
+angular.module('bcdssApp')
     .factory('Password', function ($resource) {
         return $resource('api/account/change_password', {}, {
         });
     });
 
-angular.module('bcdsApp')
+angular.module('bcdssApp')
     .factory('PasswordResetInit', function ($resource) {
         return $resource('api/account/reset_password/init', {}, {
         })
     });
 
-angular.module('bcdsApp')
+angular.module('bcdssApp')
     .factory('PasswordResetFinish', function ($resource) {
         return $resource('api/account/reset_password/finish', {}, {
         })

@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module('bcdsApp').directive('stringCollection', function() {
+angular.module('bcdssApp').directive('stringCollection', function() {
     return {
         restrict: 'E',
         replace: true,

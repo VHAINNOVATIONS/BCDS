@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('bcdsApp').controller('DashboardController',
+angular.module('bcdssApp').controller('DashboardController',
 	function($scope,$state) {
         $scope.searchTerm = undefined;
 

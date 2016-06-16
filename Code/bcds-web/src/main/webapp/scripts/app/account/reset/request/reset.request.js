@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('bcdsApp')
+angular.module('bcdssApp')
     .config(function ($stateProvider) {
         $stateProvider
             .state('requestReset', {

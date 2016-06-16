@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('bcdsApp')
+angular.module('bcdssApp')
     .controller('NavbarController', function ($scope, $location, $state, Auth, Principal) {
         $scope.isAuthenticated = Principal.isAuthenticated;
         $scope.$state = $state;

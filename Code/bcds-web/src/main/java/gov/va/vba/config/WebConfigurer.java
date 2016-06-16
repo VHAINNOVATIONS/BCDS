@@ -38,10 +38,10 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
     public void onStartup(ServletContext servletContext) throws ServletException {
         log.info("Web application configuration, using profiles: {}", Arrays.toString(env.getActiveProfiles()));
         EnumSet<DispatcherType> disps = EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ASYNC);
-        if (!env.acceptsProfiles(gov.va.vba.persistence.config.Constants.SPRING_PROFILE_FAST)) {
+        if (!env.acceptsProfiles(gov.va.vba.config.Constants.SPRING_PROFILE_FAST)) {
             initMetrics(servletContext, disps);
         }
-        if (env.acceptsProfiles(gov.va.vba.persistence.config.Constants.SPRING_PROFILE_PRODUCTION)) {
+        if (env.acceptsProfiles(gov.va.vba.config.Constants.SPRING_PROFILE_PRODUCTION)) {
             initCachingHttpHeadersFilter(servletContext, disps);
             initStaticResourcesProductionFilter(servletContext, disps);
             initGzipFilter(servletContext, disps);

@@ -24,10 +24,11 @@
 		<module>../cdm-schema</module>
 		<module>../webservices-external</module>
         <module>../bcds-api</module>
+        <module>../bcds-config</module>
 		<module>../bcds-impl</module>
 		<module>../bcds-persistence</module>
 		<module>../bcds-web</module>
-    </modules>
+	</modules>
 
     <properties>
         <!-- versions not specified here but referenced by a property variable live

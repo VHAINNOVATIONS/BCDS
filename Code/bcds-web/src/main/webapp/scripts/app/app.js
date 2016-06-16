@@ -1,9 +1,9 @@
 'use strict';
 
-angular.module('bcdsApp', ['LocalStorageModule',
-    'ngResource', 'ui.router', 'ngCookies', 'ngCacheBuster', 'infinite-scroll','ui.bootstrap'])
+angular.module('bcdssApp', ['LocalStorageModule',
+        'ngResource', 'ui.router', 'ngCookies', 'ngCacheBuster', 'infinite-scroll', 'ui.bootstrap'])
 
-    .run(function ($rootScope, $location, $window, $http, $state,  Auth, Principal, ENV, VERSION) {
+    .run(function ($rootScope, $location, $window, $http, $state, Auth, Principal, ENV, VERSION) {
         $rootScope.ENV = ENV;
         $rootScope.VERSION = VERSION;
         $rootScope.$on('$stateChangeStart', function (event, toState, toStateParams) {
@@ -16,8 +16,8 @@ angular.module('bcdsApp', ['LocalStorageModule',
 
         });
 
-        $rootScope.$on('$stateChangeSuccess',  function(event, toState, toParams, fromState, fromParams) {
-            var titleKey = 'BCDS' ;
+        $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+            var titleKey = 'BCDSS';
 
             $rootScope.previousStateName = fromState.name;
             $rootScope.previousStateParams = fromParams;
@@ -29,7 +29,7 @@ angular.module('bcdsApp', ['LocalStorageModule',
             $window.document.title = titleKey;
         });
 
-        $rootScope.back = function() {
+        $rootScope.back = function () {
             // If previous state is 'activate' or do not exist go to 'home'
             if ($rootScope.previousStateName === 'activate' || $state.get($rootScope.previousStateName) === null) {
                 $state.go('home');
@@ -38,12 +38,12 @@ angular.module('bcdsApp', ['LocalStorageModule',
             }
         };
     })
-    .factory('authExpiredInterceptor', function ($rootScope, $q, $injector, localStorageService) {
+    .factory('authExpiredInterceptor', function ($rootScope, $q, $injector) {
         return {
-            responseError: function(response) {
+            responseError: function (response) {
                 // If we have an unauthorized request we redirect to the login page
                 // Don't do this check on the account API to avoid infinite loop
-                if (response.status == 401 && response.data.path !== undefined && response.data.path.indexOf("/api/account") == -1){
+                if (response.status == 401 && response.data.path !== undefined && response.data.path.indexOf("/api/account") == -1) {
                     var Auth = $injector.get('Auth');
                     var $state = $injector.get('$state');
                     var to = $rootScope.toState;
@@ -57,7 +57,7 @@ angular.module('bcdsApp', ['LocalStorageModule',
             }
         };
     })
-    .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider,  httpRequestInterceptorCacheBusterProvider) {
+    .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, httpRequestInterceptorCacheBusterProvider) {
 
         //enable CSRF
         $httpProvider.defaults.xsrfCookieName = 'CSRF-TOKEN';
@@ -84,9 +84,5 @@ angular.module('bcdsApp', ['LocalStorageModule',
             }
         });
 
-
         $httpProvider.interceptors.push('authExpiredInterceptor');
-
-
-
     });
