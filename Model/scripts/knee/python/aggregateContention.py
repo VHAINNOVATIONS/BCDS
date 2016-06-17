@@ -18,9 +18,9 @@ SQL="select rcc.ptcpnt_vet_id, \
 	cntntn_clmant_txt, \
 	p.dob, \
 	end_prdct_type_cd \
-	from ah4929_rating_corp_claim rcc \
-  left join ah4929_person p on p.ptcpnt_vet_id = rcc.ptcpnt_vet_id \
-  inner join knee_claim_source cs on cs.vet_id = rcc.ptcpnt_vet_id and cs.claim_id = rcc.bnft_claim_id \
+	from ah2626_rating_corp_claim rcc \
+  left join ah2626_person p on p.ptcpnt_vet_id = rcc.ptcpnt_vet_id \
+  inner join v_knee_claim_source cs on cs.vet_id = rcc.ptcpnt_vet_id and cs.claim_id = rcc.bnft_claim_id \
 	where prfil_dt >= date_of_claim \
 	order by rcc.ptcpnt_vet_id desc,bnft_claim_id,prfil_dt"
 
