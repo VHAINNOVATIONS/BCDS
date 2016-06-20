@@ -15,7 +15,7 @@ angular.module('bcdssApp')
                 rememberMe: $scope.rememberMe
             }).then(function () {
                 $scope.authenticationError = false;
-                if ($rootScope.previousStateName === 'register') {
+                if ($rootScope.previousStateName === 'register' || $rootScope.previousStateName === 'home') {
                     $state.go('home');
                 } else {
                     $rootScope.back();
