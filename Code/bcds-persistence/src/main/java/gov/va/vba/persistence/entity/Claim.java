@@ -1,8 +1,8 @@
-package gov.va.vba;
+package gov.va.vba.persistence.entity;
 
 import java.util.Date;
 
-public class ClaimDAO {
+public class Claim {
 	
 	private int Vet_ID;
 	private String Vet_Name;
@@ -12,6 +12,17 @@ public class ClaimDAO {
 	private Date CEST_Date;
 	private String Model;
 	private Date Last_Mod_Date;
+	
+	Claim (int vetId, String vetName, String office, int claimId, Date claimDate, Date cestDate, String model, Date lastModDate) {
+		this.Vet_ID = vetId;
+		this.Vet_Name = vetName;
+		this.Office = office;
+		this.Claim_Date = claimDate;
+		this.Claim_ID = claimId;
+		this.CEST_Date = cestDate;
+		this.Model = model;
+		this.Last_Mod_Date = lastModDate;
+	}
 	
 	public int getVetId() {
 		return Vet_ID;
