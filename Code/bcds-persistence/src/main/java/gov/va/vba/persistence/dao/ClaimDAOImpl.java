@@ -1,4 +1,4 @@
-package gov.va.vba.persistence.entity;
+package gov.va.vba.persistence.dao;
 
 import java.util.ArrayList;
 import java.util.List;
