@@ -1,36 +1,51 @@
 'use strict';
 
-angular.module('bcdssApp').controller('DashboardController',
-	function($scope,$state) {
+angular.module('bcdssApp').controller('DashboardController', function($scope, $state, Principal, Auth) {
         $scope.searchTerm = undefined;
-
-	    $scope.claims = [{
+        
+        //console.log($state.current.data);
+        
+        $scope.claims = [{
             "is_collapsed": false,
-            "file_number" : "212029876",
-            "name": "John Doe",
-            "claim_num": "5614193",
-            "claim_date": "03/10/2016",
+            "veteranId" : 212029876,
+            "veteranName": "John Doe",
+            "regionalOffice": "Houston, TX",
+            "claimNumber": 20160621,
+            "dateOfClaim": "03/10/2016",
+            "cestDate": "03/10/2016",
             "contentions": [{
                 "code": 2200,
-                "description": "Hearing"
+                "description": "Hearing",
+                "lastModel": "03/10/2016",
             }, {
                 "code": 2210,
-                "description": "Ear"
+                "description": "Ear",
+                "lastModel": "03/10/2016"
             }]
-    },{
-            "is_collapsed": true,
-            "file_number" : "313029876",
-            "name": "Jane Doe",
-            "claim_num": "5714193",
-            "claim_date": "02/16/2016",
+	    }, {
+            "is_collapsed": false,
+            "veteranId" : 900125836,
+            "veteranName": "Albert Smith",
+            "regionalOffice": "New York City, NY",
+            "claimNumber": 20160516,
+            "dateOfClaim": "03/10/2016",
+            "cestDate": "03/10/2016",
             "contentions": [{
-                "code": 5340,
-                "description": "Knee"
+                "code": 2250,
+                "description": "Elbow",
+                "lastModel": "03/10/2016",
             }, {
-                "code": 9100,
-                "description": "Knee"
+                "code": 2220,
+                "description": "Finger",
+                "lastModel": "03/10/2016"
+            }, {
+                "code": 2230,
+                "description": "Arm",
+                "lastModel": "03/10/2016"
             }]
-    }];
+	    }
+	    
+	    ];
 	    $scope.page = 1;
 
 	    $scope.loadPage = function(page) {

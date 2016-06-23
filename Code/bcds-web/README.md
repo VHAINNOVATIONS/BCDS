@@ -1,2 +1,2 @@
-README for rulesManager
+README for BCDSS
 ==========================
