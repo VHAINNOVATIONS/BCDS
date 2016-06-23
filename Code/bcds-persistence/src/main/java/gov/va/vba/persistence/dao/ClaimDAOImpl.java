@@ -2,18 +2,45 @@ package gov.va.vba.persistence.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import gov.va.vba.persistence.servlet.JDBCUtility;
+import gov.va.vba.persistence.dao.Claim;
 //import org.springframework.dao.DataAccessException;
 
 public class ClaimDAOImpl implements ClaimDAO {
 
-	List<Claim> claims;
+	private Connection dbConnection;
+	private PreparedStatement pStmt;
+	
+	private String SQL_SELECT = "SELECT VET_ID, VET_NM, REGN_OFfC, CLAIM_ID, DATE_OF_CLAIM, CEST_DATE, CNTNTN_CLMANT_TXT FROM MV_STGN_CLAIM";
+
+	ArrayList<Claim> claims = new ArrayList<Claim>();
+	Claim claim = null;
 	
 	public ClaimDAOImpl() {
-		claims = new ArrayList<Claim>();
-		//Claim claim1 = new Claim();
-		//Claim claim2 = new Claim();
-		//claims.add(claim1);
-		//claims.add(claim2);
+		try {
+			dbConnection = JDBCUtility.getConnection();
+			pStmt = dbConnection.prepareStatement(SQL_SELECT);
+			ResultSet rs = pStmt.executeQuery();
+
+			while (rs.next()) {
+				claim.setVetId(rs.getInt("VET_ID"));
+				claim.setVetName(rs.getString("VET_NM"));
+				claim.setOffice(rs.getString("REGN_OFfC"));
+				claim.setClaimId(rs.getInt("CLAIM_ID"));
+				claim.setClaimDate(rs.getDate("DATE_OF_CLAIM"));
+				claim.setCESTDate(rs.getDate("CES_DATE"));
+				claim.setContentions(rs.getString("CNTNTN_CLMANT_TXT"));
+				
+				claims.add(claim);
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 	}
 	
 	@Override
@@ -37,7 +64,8 @@ public class ClaimDAOImpl implements ClaimDAO {
 		claims.get(claim.getClaimId()).setVetName(claim.getVetName());
 		claims.get(claim.getClaimId()).setVetId(claim.getVetId());
 		claims.get(claim.getClaimId()).setOffice(claim.getOffice());
-		claims.get(claim.getClaimId()).setModel(claim.getOffice());
+		claims.get(claim.getClaimId()).setModel(claim.getModel());
+		claims.get(claim.getClaimId()).setContentions(claim.getContentions());
 		claims.get(claim.getClaimId()).setClaimDate(claim.getClaimDate());
 		claims.get(claim.getClaimId()).setCESTDate(claim.getCESTDate());
 		claims.get(claim.getClaimId()).setLastModDate(claim.getLastModDate());

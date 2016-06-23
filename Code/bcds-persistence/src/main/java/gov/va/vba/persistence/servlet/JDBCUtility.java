@@ -1,9 +1,9 @@
-package gov.va.vba.persistence.dao;
+package gov.va.vba.persistence.servlet;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-public class DBUtility {
+public class JDBCUtility {
 	private static Connection connection = null;
 	
 	public static Connection getConnection() throws Exception {
@@ -15,9 +15,13 @@ public class DBUtility {
 			String sid = "Dev";
 			String dbUrl = "jdbc:oracle:thin:@" + serverName + ":" + portNumber + ":" + sid;
 
-			Class.forName("oracle.jdbc.driver.OracleDriver");
+			try {
+				Class.forName("oracle.jdbc.driver.OracleDriver");
+				connection = DriverManager.getConnection(dbUrl, "BCDSS_DEV", "developmentonly");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
-			connection = DriverManager.getConnection(dbUrl, "BCDSS_DEV", "developmentonly");
 			return connection;
 		}
 	}

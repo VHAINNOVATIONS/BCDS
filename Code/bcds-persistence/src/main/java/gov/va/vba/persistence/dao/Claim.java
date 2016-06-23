@@ -11,9 +11,12 @@ public class Claim {
 	private Date Claim_Date;
 	private Date CEST_Date;
 	private String Model;
+	private String Contentions;
 	private Date Last_Mod_Date;
 	
-	Claim (int vetId, String vetName, String office, int claimId, Date claimDate, Date cestDate, String model, Date lastModDate) {
+	public Claim(){}
+	
+	public Claim (int vetId, String vetName, String office, int claimId, Date claimDate, Date cestDate, String model, String contensions, Date lastModDate) {
 		this.Vet_ID = vetId;
 		this.Vet_Name = vetName;
 		this.Office = office;
@@ -21,6 +24,7 @@ public class Claim {
 		this.Claim_ID = claimId;
 		this.CEST_Date = cestDate;
 		this.Model = model;
+		this.Contentions = contensions;
 		this.Last_Mod_Date = lastModDate;
 	}
 	
@@ -78,6 +82,14 @@ public class Claim {
 	
 	public void setModel(String model) {
 		this.Model = model;
+	}
+	
+	public String getContentions() {
+		return Contentions;
+	}
+	
+	public void setContentions(String contensions) {
+		this.Contentions = contensions;
 	}
 	
 	public Date getLastModDate() {
