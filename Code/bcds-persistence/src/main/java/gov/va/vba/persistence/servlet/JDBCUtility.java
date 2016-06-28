@@ -10,9 +10,9 @@ public class JDBCUtility {
 		if (connection != null) {
 			return connection;
 		} else {
-			String serverName = "127.0.0.1";
+			String serverName = "IBCDS408";
 			String portNumber = "1521";
-			String sid = "Dev";
+			String sid = "DEV.BCDSS";
 			String dbUrl = "jdbc:oracle:thin:@" + serverName + ":" + portNumber + ":" + sid;
 
 			try {
