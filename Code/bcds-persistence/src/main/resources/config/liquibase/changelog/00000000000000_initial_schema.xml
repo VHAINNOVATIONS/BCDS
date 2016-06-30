@@ -11,7 +11,7 @@
     <property name="autoIncrement" value="true" dbms="mysql"/>
     <property name="autoIncrement" value="false" dbms="oracle"/>
 
-    <changeSet author="pgrazaitis" id="create_bcds_user" runOnChange="false">
+<!--    <changeSet author="pgrazaitis" id="create_bcds_user" runOnChange="false">
     <sql>
         CREATE TABLESPACE BCDS_TS DATAFILE 'bcds_01.dbf' SIZE 16M AUTOEXTEND ON NEXT 8M MAXSIZE UNLIMITED
         LOGGING
@@ -33,7 +33,7 @@
         GRANT EXECUTE ON SYS.DBMS_LOB TO BCDS WITH GRANT OPTION;
     </sql>
     </changeSet>
-
+-->
     <changeSet id="000000000000" author="jhipster">
         <createSequence schemaName="BCDS" sequenceName="bcds_hibernate_sequence" startValue="1000" incrementBy="1"/>
     </changeSet>

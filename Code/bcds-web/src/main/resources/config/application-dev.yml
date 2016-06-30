@@ -34,7 +34,7 @@ swagger:
     licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.html
 
 server:
-    port: 8181
+    port: 8083
 
 liquibase:
     context: dev
