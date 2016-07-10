@@ -7,6 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.autoconfigure.MetricFilterAutoConfiguration;
 import org.springframework.boot.actuate.autoconfigure.MetricRepositoryAutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.SimpleCommandLinePropertySource;
@@ -20,7 +21,7 @@ import java.net.UnknownHostException;
 import java.util.Arrays;
 
 @ComponentScan
-@EnableAutoConfiguration(exclude = {MetricFilterAutoConfiguration.class, MetricRepositoryAutoConfiguration.class})
+@EnableAutoConfiguration(exclude = {MetricFilterAutoConfiguration.class, MetricRepositoryAutoConfiguration.class, LiquibaseAutoConfiguration.class})
 public class Application {
 
     private static final Logger log = LoggerFactory.getLogger(Application.class);
@@ -54,7 +55,7 @@ public class Application {
         app.setShowBanner(false);
         SimpleCommandLinePropertySource source = new SimpleCommandLinePropertySource(args);
         addDefaultProfile(app, source);
-        addLiquibaseScanPackages();
+        //addLiquibaseScanPackages();
         Environment env = app.run(args).getEnvironment();
         log.info("Access URLs:\n----------------------------------------------------------\n\t" +
             "Local: \t\thttp://127.0.0.1:{}\n\t" +
@@ -78,7 +79,7 @@ public class Application {
     /**
      * Set the liquibases.scan.packages to avoid an exception from ServiceLocator.
      */
-    private static void addLiquibaseScanPackages() {
+    /*private static void addLiquibaseScanPackages() {
         System.setProperty("liquibase.scan.packages", Joiner.on(",").join(
             "liquibase.change", "liquibase.database", "liquibase.parser",
             "liquibase.precondition", "liquibase.datatype",
@@ -86,5 +87,5 @@ public class Application {
             "liquibase.snapshot", "liquibase.logging", "liquibase.diff",
             "liquibase.structure", "liquibase.structurecompare", "liquibase.lockservice",
             "liquibase.ext", "liquibase.changelog"));
-    }
+    }*/
 }
