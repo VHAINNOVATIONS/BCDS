@@ -1,13 +1,9 @@
 'use strict';
 
-angular.module('bcdssApp').controller('DashboardController', function($scope, $state) {
+angular.module('bcdssApp').controller('DashboardController', function($scope, $state, Principal, Auth) {
         $scope.searchTerm = undefined;
         
-        $scope.userName = "User";
-        
-//        $scope.userName = $scope.$watch($scope.account.firstName, function(){
-//        	return $scope.account.firstName;
-//        }, true);
+        //console.log($state.current.data);
         
         $scope.claims = [{
             "is_collapsed": false,
@@ -19,7 +15,7 @@ angular.module('bcdssApp').controller('DashboardController', function($scope, $s
             "cestDate": "03/10/2016",
             "contentions": [{
                 "code": 2200,
-                "description": "Hand",
+                "description": "Hearing",
                 "lastModel": "03/10/2016",
             }, {
                 "code": 2210,

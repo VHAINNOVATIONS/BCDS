@@ -25,9 +25,9 @@ public abstract class AbstractEntity implements Serializable {
      */
     /**record ID. */
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    //@SequenceGenerator(name = "SEQUENCE_GEN", sequenceName = "BCDS.BCDS_HIBERNATE_SEQUENCE", allocationSize = 1)
-    //@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQUENCE_GEN")
+//    @GeneratedValue(strategy= GenerationType.AUTO)
+    @SequenceGenerator(name = "SEQUENCE_GEN", sequenceName = "BCDS.BCDS_HIBERNATE_SEQUENCE", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQUENCE_GEN")
     public Long getId(){
         return id;
     }

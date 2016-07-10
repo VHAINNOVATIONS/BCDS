@@ -12,12 +12,12 @@ import java.util.Map;
  * @see org.springframework.boot.actuate.audit.AuditEvent
  */
 @Entity
-@Table(schema="BCDSS_DEV", name = "AUDT_EVENT")
+@Table(schema="BCDS", name = "JHI_PERSISTENT_AUDIT_EVENT")
 public class PersistentAuditEvent  {
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.AUTO)
-    @SequenceGenerator(name = "SEQUENCE_GEN", sequenceName = "BCDSS_DEV.BCDSS_HIBERNATE_SEQUENCE")
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "SEQUENCE_GEN", sequenceName = "BCDS.BCDS_HIBERNATE_SEQUENCE")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQUENCE_GEN")
     @Column(name = "event_id")
     private Long id;
@@ -35,7 +35,7 @@ public class PersistentAuditEvent  {
     @ElementCollection
     @MapKeyColumn(name="name")
     @Column(name="value")
-    @CollectionTable(schema="BCDSS_DEV", name="AUDT_EVENT_DATA", joinColumns=@JoinColumn(name="event_id"))
+    @CollectionTable(schema="BCDS", name="JHI_PERSISTENT_AUDIT_EVT_DATA", joinColumns=@JoinColumn(name="event_id"))
     private Map<String, String> data = new HashMap<>();
 
     public Long getId() {

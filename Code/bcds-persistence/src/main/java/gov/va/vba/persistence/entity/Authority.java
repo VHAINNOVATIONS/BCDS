@@ -14,14 +14,14 @@ import java.io.Serializable;
  * An authority (a security role) used by Spring Security.
  */
 @Entity
-@Table(schema="BCDSS_DEV", name = "SEC_APP_ROLE")
+@Table(schema="BCDS", name = "JHI_AUTHORITY")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Authority implements Serializable {
 
     @NotNull
     @Size(min = 0, max = 50)
     @Id
-    @Column(length = 50, name="role_nm")
+    @Column(length = 50)
     private String name;
 
     public String getName() {

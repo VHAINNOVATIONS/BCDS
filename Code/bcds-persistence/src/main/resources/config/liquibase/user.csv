@@ -1,4 +1,0 @@
-user_id,user_nm,user_login,pswd,stas,crdt_by
-1,Administrator,admin,$2a$10$gSAhZrxMllrbgj/kkK9UceBPpChGWJA7SYIb1Mqo.n5aNLq1/oRrC,TRUE,auto-generated-by-liquibase
-2,Rater,rater,$2a$08$gNZ6m8oqswxntNutDhyf2OApjBRtTclGL5c9o4NbU4MU28s1CjQDC,TRUE,auto-generated-by-liquibase
-3,Modeler,modeler,$2a$08$5rNWsRKaiNOzSNeIxfAnOe0HzOlR6KZZ71GlnQ9qFkWzAQvvixPR2,TRUE,auto-generated-by-liquibase
