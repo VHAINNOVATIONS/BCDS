@@ -35,7 +35,7 @@ public class AccountResourceTest extends AbstractIntegrationTest {
     @Inject
     private UserRepository userRepository;
 
-    @Inject
+    /*@Inject
     private AuthorityRepository authorityRepository;
 
     @Inject
@@ -283,5 +283,5 @@ public class AccountResourceTest extends AbstractIntegrationTest {
         assertThat(userDup.isPresent()).isTrue();
         assertThat(userDup.get().getAuthorities()).hasSize(1)
                 .containsExactly(authorityRepository.findOne(AuthoritiesConstants.ROLE_MODEL_EXECUTOR));
-    }
+    }*/
 }

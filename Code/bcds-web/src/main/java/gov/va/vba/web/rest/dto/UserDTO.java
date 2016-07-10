@@ -24,29 +24,29 @@ public class UserDTO {
     @Size(max = 50)
     private String firstName;
 
-    @Size(max = 50)
-    private String lastName;
+    /*@Size(max = 50)
+    private String lastName;*/
 
-    @Email
+    /*@Email
     @Size(min = 5, max = 100)
     private String email;
 
     @Size(min = 2, max = 5)
-    private String langKey;
+    private String langKey;*/
 
     private List<String> roles;
 
     public UserDTO() {
     }
 
-    public UserDTO(String login, String password, String firstName, String lastName, String email, String langKey,
+    public UserDTO(String login, String password, String firstName, //String lastName, String email, String langKey,
                    List<String> roles) {
         this.login = login;
         this.password = password;
         this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.langKey = langKey;
+        //this.lastName = lastName;
+        //this.email = email;
+        //this.langKey = langKey;
         this.roles = roles;
     }
 
@@ -62,7 +62,7 @@ public class UserDTO {
         return firstName;
     }
 
-    public String getLastName() {
+    /*public String getLastName() {
         return lastName;
     }
 
@@ -72,7 +72,7 @@ public class UserDTO {
 
     public String getLangKey() {
         return langKey;
-    }
+    }*/
 
     public List<String> getRoles() {
         return roles;
@@ -84,9 +84,9 @@ public class UserDTO {
         "login='" + login + '\'' +
         ", password='" + password + '\'' +
         ", firstName='" + firstName + '\'' +
-        ", lastName='" + lastName + '\'' +
-        ", email='" + email + '\'' +
-        ", langKey='" + langKey + '\'' +
+        //", lastName='" + lastName + '\'' +
+        //", email='" + email + '\'' +
+        //", langKey='" + langKey + '\'' +
         ", roles=" + roles +
         '}';
     }

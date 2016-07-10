@@ -26,25 +26,25 @@ public abstract class AbstractAuditingEntity {
 
     @CreatedBy
     @NotNull
-    @Column(name = "created_by", nullable = false, length = 50, updatable = false)
+    @Column(name = "crdt_by", nullable = false, length = 50, updatable = false)
     @JsonIgnore
     private String createdBy;
 
     @CreatedDate
     @NotNull
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-    @Column(name = "created_date", nullable = false)
+    @Column(name = "crdt_dtm", nullable = false)
     @JsonIgnore
     private DateTime createdDate = DateTime.now();
 
     @LastModifiedBy
-    @Column(name = "last_modified_by", length = 50)
+    @Column(name = "updt_by", length = 50)
     @JsonIgnore
     private String lastModifiedBy;
 
     @LastModifiedDate
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-    @Column(name = "last_modified_date")
+    @Column(name = "updt_dtm")
     @JsonIgnore
     private DateTime lastModifiedDate = DateTime.now();
 

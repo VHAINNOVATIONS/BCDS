@@ -21,7 +21,7 @@ public class UserServiceTest extends AbstractIntegrationTest {
     @Inject
     private PersistentTokenRepository persistentTokenRepository;
 
-    @Inject
+    /*@Inject
     private UserRepository userRepository;
 
     @Inject
@@ -142,5 +142,5 @@ public class UserServiceTest extends AbstractIntegrationTest {
         token.setIpAddress("127.0.0.1");
         token.setUserAgent("Test agent");
         persistentTokenRepository.saveAndFlush(token);
-    }
+    }*/
 }
