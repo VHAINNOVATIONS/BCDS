@@ -36,20 +36,17 @@ swagger:
 server:
     port: 8181
 
-liquibase:
-    context: dev
-
 spring:
     profiles:
         active: dev
     datasource:
       driverClassName: oracle.jdbc.OracleDriver
       dataSourceClassName: oracle.jdbc.pool.OracleDataSource
-      url: jdbc:oracle:thin:@bcdsdb:1521/DEV
+      url: jdbc:oracle:thin:@localhost:1521/xe
       databaseName:
       serverName:
       username: SYS as sysdba
-      password: D3vVV0Rd
+      password: welcome1
       cachePrepStmts: true
       prepStmtCacheSize: 250
       prepStmtCacheSqlLimit: 2048

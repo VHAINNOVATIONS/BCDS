@@ -50,7 +50,7 @@ public class AccountResource {
     /**
      * POST  /register -> register the user.
      */
-    @RequestMapping(value = "/register",
+    /*@RequestMapping(value = "/register",
             method = RequestMethod.POST,
             produces = MediaType.TEXT_PLAIN_VALUE)
     @Timed
@@ -73,12 +73,12 @@ public class AccountResource {
                     return new ResponseEntity<>(HttpStatus.CREATED);
                 })
         );
-    }
+    }*/
 
     /**
      * GET  /activate -> activate the registered user.
      */
-    @RequestMapping(value = "/activate",
+    /*@RequestMapping(value = "/activate",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
@@ -86,7 +86,7 @@ public class AccountResource {
         return Optional.ofNullable(userService.activateRegistration(key))
             .map(user -> new ResponseEntity<String>(HttpStatus.OK))
             .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
-    }
+    }*/
 
     /**
      * GET  /authenticate -> check if the user is authenticated, and return its login.
@@ -115,9 +115,9 @@ public class AccountResource {
                         user.getLogin(),
                         null,
                         user.getFirstName(),
-                        user.getLastName(),
-                        user.getEmail(),
-                        user.getLangKey(),
+                        //user.getLastName(),
+                        //user.getEmail(),
+                        //user.getLangKey(),
                         user.getAuthorities().stream().map(Authority::getName)
                             .collect(Collectors.toList())),
                 HttpStatus.OK);
@@ -128,7 +128,7 @@ public class AccountResource {
     /**
      * POST  /account -> update the current user information.
      */
-    @RequestMapping(value = "/account",
+   /*@RequestMapping(value = "/account",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
@@ -142,12 +142,12 @@ public class AccountResource {
                 return new ResponseEntity<String>(HttpStatus.OK);
             })
             .orElseGet(() -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
-    }
+    }*/
 
     /**
      * POST  /change_password -> changes the current user's password
      */
-    @RequestMapping(value = "/account/change_password",
+    /*@RequestMapping(value = "/account/change_password",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
@@ -157,7 +157,7 @@ public class AccountResource {
         }
         userService.changePassword(password);
         return new ResponseEntity<>(HttpStatus.OK);
-    }
+    }*/
 
     /**
      * GET  /account/sessions -> get the current open sessions.
@@ -199,7 +199,7 @@ public class AccountResource {
         });
     }
 
-    @RequestMapping(value = "/account/reset_password/init",
+    /*@RequestMapping(value = "/account/reset_password/init",
         method = RequestMethod.POST,
         produces = MediaType.TEXT_PLAIN_VALUE)
     @Timed
@@ -216,9 +216,9 @@ public class AccountResource {
             return new ResponseEntity<>("e-mail was sent", HttpStatus.OK);
             }).orElse(new ResponseEntity<>("e-mail address not registered", HttpStatus.BAD_REQUEST));
         
-    }
+    }*/
 
-    @RequestMapping(value = "/account/reset_password/finish",
+    /*@RequestMapping(value = "/account/reset_password/finish",
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
@@ -228,9 +228,9 @@ public class AccountResource {
         }
         return userService.completePasswordReset(newPassword, key)
               .map(user -> new ResponseEntity<String>(HttpStatus.OK)).orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
-    }
+    }*/
 
-    private boolean checkPasswordLength(String password) {
+    /*private boolean checkPasswordLength(String password) {
       return (!StringUtils.isEmpty(password) && password.length() >= UserDTO.PASSWORD_MIN_LENGTH && password.length() <= UserDTO.PASSWORD_MAX_LENGTH);
-    }
+    }*/
 }

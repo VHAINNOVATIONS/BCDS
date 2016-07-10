@@ -1,0 +1,4 @@
+user_id,user_role_nm
+1,ROLE_ADMIN
+2,ROLE_RATER
+3,ROLE_MODELER

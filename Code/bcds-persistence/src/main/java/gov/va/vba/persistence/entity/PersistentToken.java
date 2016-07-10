@@ -20,7 +20,7 @@ import java.io.Serializable;
  * @see gov.va.vba.security.CustomPersistentRememberMeServices
  */
 @Entity
-@Table(schema="BCDS", name = "JHI_PERSISTENT_TOKEN")
+@Table(schema="BCDSS_DEV", name = "AUDT_PERSISTENT_TOKEN")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class PersistentToken implements Serializable {
 

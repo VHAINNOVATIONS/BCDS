@@ -34,7 +34,7 @@ public class DatabaseConfiguration implements EnvironmentAware {
 
     private RelaxedPropertyResolver dataSourcePropertyResolver;
 
-    private RelaxedPropertyResolver liquiBasePropertyResolver;
+    //private RelaxedPropertyResolver liquiBasePropertyResolver;
 
     private Environment env;
 
@@ -45,7 +45,7 @@ public class DatabaseConfiguration implements EnvironmentAware {
     public void setEnvironment(Environment env) {
         this.env = env;
         this.dataSourcePropertyResolver = new RelaxedPropertyResolver(env, "spring.datasource.");
-        this.liquiBasePropertyResolver = new RelaxedPropertyResolver(env, "liquiBase.");
+        //this.liquiBasePropertyResolver = new RelaxedPropertyResolver(env, "liquiBase.");
     }
 
     @Bean(destroyMethod = "shutdown")
@@ -76,7 +76,7 @@ public class DatabaseConfiguration implements EnvironmentAware {
         return new HikariDataSource(config);
     }
 
-    @Bean
+    /*@Bean
     public SpringLiquibase liquibase(DataSource dataSource) {
         SpringLiquibase liquibase = new SpringLiquibase();
         liquibase.setDataSource(dataSource);
@@ -94,6 +94,6 @@ public class DatabaseConfiguration implements EnvironmentAware {
             log.debug("Configuring Liquibase");
         }
         return liquibase;
-    }
+    }*/
 
 }

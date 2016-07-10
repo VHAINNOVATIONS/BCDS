@@ -36,16 +36,13 @@ swagger:
 server:
     port: 8181
 
-liquibase:
-    context: local
-
 spring:
     profiles:
         active: local
     datasource:
       driverClassName: oracle.jdbc.OracleDriver
       dataSourceClassName: oracle.jdbc.pool.OracleDataSource
-      url: jdbc:oracle:thin:@bcdsdb:1521/XE
+      url: jdbc:oracle:thin:@localhost:1521/xe
       databaseName:
       serverName:
       username: SYS as sysdba

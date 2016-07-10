@@ -1,0 +1,4 @@
+role_id,role_nm,role_dscn,crdt_by
+1,ROLE_ADMIN,Administrator,auto-generated-by-liquibase
+2,ROLE_RATER,Rater,auto-generated-by-liquibase
+3,ROLE_MODELER,Modeler,auto-generated-by-liquibase
