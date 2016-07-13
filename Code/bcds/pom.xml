@@ -700,7 +700,7 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<schemaDirectory>src/main/resources/schemas</schemaDirectory>
+							<schemaDirectory>../cdm-schema/src/main/resources/schemas</schemaDirectory>
 							<schemaIncludes>
 								<include>**/*.xsd</include>
 							</schemaIncludes>
