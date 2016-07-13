@@ -113,6 +113,7 @@
             <plugin>
                 <groupId>org.jvnet.jax-ws-commons</groupId>
                 <artifactId>jaxws-maven-plugin</artifactId>
+				<version>2.2</version>
                 <configuration>
                     <!-- Needed due to Java 8 Security Requirements -->
                     <vmArgs>
