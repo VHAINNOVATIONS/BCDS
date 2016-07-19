@@ -1,4 +1,4 @@
-package gov.va.vba.persistence.dao;
+package main.java.gov.va.vba.persistence.dao;
 
 import java.util.Date;
 

@@ -73,8 +73,7 @@ angular.module('bcdssApp').controller('DashboardController', function($scope, $s
         $scope.toggleCollapse = function(claim) {
             if (claim.isCollapsed == undefined) {
                 claim.isCollapsed = true;
-            }
-            else {
+            } else {
                 claim.isCollapsed = !claim.isCollapsed;
             }
         };

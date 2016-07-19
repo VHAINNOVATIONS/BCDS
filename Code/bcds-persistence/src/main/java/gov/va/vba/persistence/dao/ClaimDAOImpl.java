@@ -1,20 +1,22 @@
-package gov.va.vba.persistence.dao;
+package main.java.gov.va.vba.persistence.dao;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+//import java.sql.SQLException;
+import java.sql.Statement;
+//import java.sql.PreparedStatement;
 
-import gov.va.vba.persistence.servlet.JDBCUtility;
-import gov.va.vba.persistence.dao.Claim;
+import main.java.gov.va.vba.persistence.database.DBConnectionFactory;
+import main.java.gov.va.vba.persistence.database.DBUtil;
 //import org.springframework.dao.DataAccessException;
 
 public class ClaimDAOImpl implements ClaimDAO {
 
 	private Connection dbConnection;
-	private PreparedStatement pStmt;
+	private Statement statement;
 	
 	private String SQL_SELECT = "SELECT VET_ID, VET_NM, REGN_OFfC, CLAIM_ID, DATE_OF_CLAIM, CEST_DATE, CNTNTN_CLMANT_TXT FROM MV_STGN_CLAIM";
 
@@ -23,9 +25,9 @@ public class ClaimDAOImpl implements ClaimDAO {
 	
 	public ClaimDAOImpl() {
 		try {
-			dbConnection = JDBCUtility.getConnection();
-			pStmt = dbConnection.prepareStatement(SQL_SELECT);
-			ResultSet rs = pStmt.executeQuery();
+			dbConnection = DBConnectionFactory.getConnection();
+			statement = dbConnection.createStatement();
+			ResultSet rs = statement.executeQuery(SQL_SELECT);
 
 			while (rs.next()) {
 				claim.setVetId(rs.getInt("VET_ID"));
@@ -46,7 +48,7 @@ public class ClaimDAOImpl implements ClaimDAO {
 	@Override
 	public void deleteClaim(Claim claim) {
 		claims.remove(claim.getClaimId());
-		//System.out.pring("Claim ID: " + claim.getClaimId() + " deleted from database");
+		System.out.print("Claim ID: " + claim.getClaimId() + " deleted from database");
 	}
 	
 	@Override
