@@ -18,7 +18,7 @@ public class ClaimDAOImpl implements ClaimDAO {
 	private Connection dbConnection;
 	private Statement statement;
 	
-	private String SQL_SELECT = "SELECT VET_ID, VET_NM, REGN_OFfC, CLAIM_ID, DATE_OF_CLAIM, CEST_DATE, CNTNTN_CLMANT_TXT FROM MV_STGN_CLAIM";
+	private String SQL_SELECT = "SELECT VET_ID, VET_NM, \"REGN_OFfC\", CLAIM_ID, DATE_OF_CLAIM, CEST_DATE, CNTNTN_CLMANT_TXT FROM MV_STGN_CLAIM";
 
 	ArrayList<Claim> claims = new ArrayList<Claim>();
 	Claim claim = null;

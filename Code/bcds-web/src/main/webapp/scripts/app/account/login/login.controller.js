@@ -12,7 +12,7 @@ angular.module('bcdssApp')
             Auth.login({
                 username: $scope.username,
                 password: $scope.password,
-                rememberMe: $scope.rememberMe
+               // rememberMe: $scope.rememberMe
             }).then(function () {
                 $scope.authenticationError = false;
                 if ($rootScope.previousStateName === 'register' || $rootScope.previousStateName === 'home') {
