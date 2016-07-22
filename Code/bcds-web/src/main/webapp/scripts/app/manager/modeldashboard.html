@@ -1,0 +1,135 @@
+<div ng-controller="DashboardController">
+	<h4 class="text-right">Welcome {{userName}}!</h4>
+	<h2 class="text-center">Modelling Agent's Dashboard</h2>
+	<div class="row v-spacer">
+		<div class="col-sm-3 col-md-3 pull-right">
+			<form class="navbar-form" role="search">
+				<div class="input-group">
+					<input type="text" class="form-control" placeholder="File Number" name="srch-term" id="srch-term" ng-model="fileNumber">
+					<div class="input-group-btn">
+						<button class="btn btn-default" type="submit" ng-click="search(fileNumber)">
+							<i class="glyphicon glyphicon-search"></i>
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	
+	<div class="row v-spacer">
+		<div id="exportable" class="table-responsive well">
+			<table width="100%" class="table table-striped">
+				<thead>
+					<tr>
+						<th></th>
+						<th>Veteran ID</th>
+						<th>Veteran Name</th>
+						<th>Regional Office</th>
+						<th>Claim Number</th>
+						<th>Date of Claim</th>
+						<th>CEST Date</th>
+						<th>Contentions</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody ng-repeat="claim in claims">
+					<tr>
+						<td>
+							<button type="button" class="btn btn-xs btn-default" ng-click="toggleCollapse(claim)">
+								<span class="glyphicon" ng-class="{'glyphicon-minus': !claim.isCollapsed, 'glyphicon-plus': claim.isCollapsed}"></span>
+							</button>
+						</td>
+						<td>{{claim.veteranId}}</td>
+						<td>{{claim.veteranName}}</td>
+						<td>{{claim.regionalOffice}}</td>
+						<td>{{claim.claimNumber}}</td>
+						<td>{{claim.dateOfClaim}}</td>
+						<td>{{claim.cestDate}}</td>
+						<td>{{claim.contentions.length}} contention(s)</td>
+						<td>{{claim.lastModel}}</td>
+					</tr>
+					<tr uib-collapse="isCollapsed(claim)" class="contention{{claim.file_number}}">
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th>Contention Code</th>
+						<th>Name</th>
+						<th>Last Model</th>
+					</tr>
+					<tr uib-collapse="isCollapsed(claim)" ng-repeat="contention in claim.contentions">
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>{{contention.code}}</td>
+						<td>{{contention.description}}</td>
+						<td>{{contention.lastModel}}</td>
+						<td align="center"><input type="checkbox"/></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<div class="row v-spacer">
+		<div class="col-md-12">
+			<div class="pull-right">
+				<button type="button" class="btn btn-default" ng-click="clear()">
+					<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Clear</span>
+				</button>
+				<button type="button" style="margin-left: 5px" class="btn btn-primary" ng-click="displayProcess()">
+					<span class="glyphicon glyphicon-save"></span>&nbsp;<span>Process</span>
+				</button>
+				<button id="next" type="submit" class="btn btn-default hidden" ui-sref="processor()">
+					<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Next</span>
+				</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="serviceErrorDialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Service Unavailable</h4>
+				</div>
+				<div class="modal-body">
+					<p>Service 'Claimant Retrieve' is unavailable at the moment. Please contact support or try again.</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">
+						<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Close</span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="modelDialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Model Selection</h4>
+				</div>
+				<div class="modal-body">
+					<label>Ear: <input type="checkbox" ng-model="value1">
+					</label><br /> <label>Knee: <input type="checkbox"
+						ng-model="value2">
+					</label><br/>
+					<label class="text-danger">Scars: 
+						<input type="checkbox" ng-model="value3" disabled>
+					</label><br/>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">
+						<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+					</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="click()">
+						<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Submit</span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
