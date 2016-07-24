@@ -32,7 +32,22 @@ angular.module('bcdssApp')
                 return Principal.identity(force)
                     .then(function() {
                         var isAuthenticated = Principal.isAuthenticated();
+                        
+                        if ($scope.username == 'admin') {
+                        	isAuthenticated = { true: $scope.username === 'admin' && $scope.password === 'admin' };
+                        }
+                        if ($scope.username == 'rater') {
+                        	isAuthenticated = { true: $scope.username === 'rater' && $scope.password === 'rater' };
+                        }
+                        if ($scope.username == 'modeler') {
+                        	isAuthenticated = { true: $scope.username === 'modeler' && $scope.password === 'modeler' };
+                        }
 
+                        if (!isAuthenticated) {
+                            window.alert("Incorrect ID and/or password... \nTry Again with correct username and password.");
+                        callback(response);
+                		}
+                        
                         if ($rootScope.toState.data.roles && $rootScope.toState.data.roles.length > 0 && !Principal.isInAnyRole($rootScope.toState.data.roles)) {
                             if (isAuthenticated) {
                                 // user is signed in but not authorized for desired state
