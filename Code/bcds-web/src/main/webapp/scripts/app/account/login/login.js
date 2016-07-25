@@ -7,13 +7,13 @@ angular.module('bcdssApp')
                 parent: 'account',
                 url: '/login',
                 data: {
-                    roles: ['admin', 'rater', 'modeler'], 
+                    roles: [], 
                     pageTitle: 'Authentication'
                 },
                 views: {
                     'content@': {
                         templateUrl: 'scripts/app/account/login/login.html',
-                        controller: 'LoginController'
+                        /*controller: 'LoginController'*/
                     }
                 },
                 resolve: {
