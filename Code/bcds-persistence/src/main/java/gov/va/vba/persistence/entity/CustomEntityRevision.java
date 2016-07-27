@@ -10,7 +10,7 @@ import javax.persistence.*;
  * Created by Pete Grazaitis on 2/9/2015.
  */
 @Entity
-@Table(name="REVISION", schema = "BCDSS_DEV")
+@Table(name="REVISION", schema = "BCDSS")
 @RevisionEntity
 public class CustomEntityRevision {
 

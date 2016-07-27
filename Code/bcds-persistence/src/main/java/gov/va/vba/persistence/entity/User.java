@@ -20,14 +20,14 @@ import org.joda.time.DateTime;
  * A user.
  */
 @Entity
-@Table(schema="BCDSS_DEV", name = "SEC_APP_USER")
+@Table(schema="BCDSS", name = "SEC_APP_USER")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class User extends AbstractAuditingEntity implements Serializable {
 
     @Id
     //@GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="user_id")
-    @SequenceGenerator(name = "SEQUENCE_GEN", sequenceName = "BCDSS_DEV.BCDSS_HIBERNATE_SEQUENCE")
+    @SequenceGenerator(name = "SEQUENCE_GEN", sequenceName = "BCDSS.BCDSS_HIBERNATE_SEQUENCE")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQUENCE_GEN")
     private Long id;
 
@@ -79,7 +79,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @JsonIgnore
     @ManyToMany
     @JoinTable(
-            schema="BCDSS_DEV", name = "SEC_APP_USER_ROLE",
+            schema="BCDSS", name = "SEC_APP_USER_ROLE",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "user_role_nm", referencedColumnName = "role_nm")})
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)

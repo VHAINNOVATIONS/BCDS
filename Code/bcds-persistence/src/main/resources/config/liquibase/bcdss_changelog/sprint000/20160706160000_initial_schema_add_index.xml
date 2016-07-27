@@ -11,22 +11,22 @@
 	<property name="autoIncrement" value="false" dbms="oracle" />
 
 	<changeSet id="20160706160000" author="dhabib">
-		<createIndex schemaName="BCDSS_DEV" tableName="SEC_APP_RSRC_PERM" indexName="ref1111">
+		<createIndex schemaName="BCDSS" tableName="SEC_APP_RSRC_PERM" indexName="ref1111">
 			<column name="APP_RSRC_ID" type="bigint"></column>
 		</createIndex>
-		<createIndex schemaName="BCDSS_DEV" tableName="SEC_APP_RSRC_PERM" indexName="ref912">
+		<createIndex schemaName="BCDSS" tableName="SEC_APP_RSRC_PERM" indexName="ref912">
 			<column name="PERM_ID" type="bigint"></column>
 		</createIndex>
-		<createIndex schemaName="BCDSS_DEV" tableName="SEC_APP_ROLE_PERM" indexName="ref99">
+		<createIndex schemaName="BCDSS" tableName="SEC_APP_ROLE_PERM" indexName="ref99">
 			<column name="PERM_ID" type="bigint"></column>
 		</createIndex>
-		<createIndex schemaName="BCDSS_DEV" tableName="SEC_APP_ROLE_PERM" indexName="ref88">
+		<createIndex schemaName="BCDSS" tableName="SEC_APP_ROLE_PERM" indexName="ref88">
 			<column name="ROLE_ID" type="bigint"></column>
 		</createIndex>
-		<createIndex schemaName="BCDSS_DEV" tableName="SEC_APP_USER_ROLE" indexName="sec_user_pk">
+		<createIndex schemaName="BCDSS" tableName="SEC_APP_USER_ROLE" indexName="sec_user_pk">
 			<column name="USER_ID" type="bigint"></column>
 		</createIndex>
-		<createIndex schemaName="BCDSS_DEV" tableName="SEC_APP_USER_ROLE" indexName="sec_role_pk">
+		<createIndex schemaName="BCDSS" tableName="SEC_APP_USER_ROLE" indexName="sec_role_pk">
 			<column name="USER_ROLE_NM" type="varchar(25)"></column>
 		</createIndex>
 	</changeSet>

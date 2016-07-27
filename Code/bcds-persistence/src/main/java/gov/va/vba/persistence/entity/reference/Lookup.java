@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @Inheritance
 @DiscriminatorColumn(name = "discriminator")
-@Table(schema="BCDS", name="LOOKUP")
+@Table(schema="BCDSS", name="LOOKUP")
 public class Lookup extends AbstractEntity {
 
     protected String name;

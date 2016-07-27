@@ -6,17 +6,17 @@
 
 
 	<!-- the following change set only to be uncommented and used in the local development purpose -->
-	<!-- <include file="config/liquibase/changelog/20160706000000_create_inital_local_schema.xml" relativeToChangelogFile="false"/> -->
+	<include file="config/liquibase/bcdss_changelog/sprint000/20160706000000_create_inital_local_schema.xml" relativeToChangelogFile="false"/>
 
 	<!-- change sets for database version control in all environment -->
-    <include file="config/liquibase/sprint000/20160706153000_initial_schema_add_tables.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/sprint000/20160706160000_initial_schema_add_index.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/sprint000/20160706173000_initial_schema_add_fk.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/sprint000/20160706180000_initial_schema_add_auditing_table.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/sprint000/20160706190000_initial_schema_add_auditing_index.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/sprint000/20160706200000_initial_schema_add_auditing_fk.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/bcdss_changelog/sprint000/20160706153000_initial_schema_add_tables.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/bcdss_changelog/sprint000/20160706160000_initial_schema_add_index.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/bcdss_changelog/sprint000/20160706173000_initial_schema_add_fk.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/bcdss_changelog/sprint000/20160706180000_initial_schema_add_auditing_table.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/bcdss_changelog/sprint000/20160706190000_initial_schema_add_auditing_index.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/bcdss_changelog/sprint000/20160706200000_initial_schema_add_auditing_fk.xml" relativeToChangelogFile="false"/>
     
-    <include file="config/liquibase/sprint000/20160706210000_initial_schema_populate_default_data.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/bcdss_changelog/sprint000/20160706210000_initial_schema_populate_default_data.xml" relativeToChangelogFile="false"/>
 
     
 

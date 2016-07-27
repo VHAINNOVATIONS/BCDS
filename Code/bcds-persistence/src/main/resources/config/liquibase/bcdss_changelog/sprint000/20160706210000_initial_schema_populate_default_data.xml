@@ -11,17 +11,17 @@
 	<property name="autoIncrement" value="false" dbms="oracle" />
 
 	<changeSet id="20160706210000" author="dhabib">
-		<loadData encoding="UTF-8" file="config/liquibase/role.csv" separator="," schemaName="BCDSS_DEV" tableName="SEC_APP_ROLE" />
+		<loadData encoding="UTF-8" file="config/liquibase/role.csv" separator="," schemaName="BCDSS" tableName="SEC_APP_ROLE" />
 	</changeSet>
 	
 	<changeSet id="20160706220000" author="dhabib">
-		<loadData encoding="UTF-8" file="config/liquibase/user.csv" separator="," schemaName="BCDSS_DEV" tableName="SEC_APP_USER">
+		<loadData encoding="UTF-8" file="config/liquibase/user.csv" separator="," schemaName="BCDSS" tableName="SEC_APP_USER">
 			<column name="stas" type="boolean"/>
 			<column name="crdt_dtm" type="timestamp"/>
 		</loadData>
 	</changeSet>
 	
 	<changeSet id="20160706230000" author="dhabib">
-		<loadData encoding="UTF-8" file="config/liquibase/user_role.csv" separator="," schemaName="BCDSS_DEV" tableName="SEC_APP_USER_ROLE" />
+		<loadData encoding="UTF-8" file="config/liquibase/user_role.csv" separator="," schemaName="BCDSS" tableName="SEC_APP_USER_ROLE" />
 	</changeSet>
 </databaseChangeLog>

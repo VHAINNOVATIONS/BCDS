@@ -14,7 +14,7 @@ import java.io.Serializable;
  * An authority (a security role) used by Spring Security.
  */
 @Entity
-@Table(schema="BCDSS_DEV", name = "SEC_APP_ROLE")
+@Table(schema="BCDSS", name = "SEC_APP_ROLE")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Authority implements Serializable {
 

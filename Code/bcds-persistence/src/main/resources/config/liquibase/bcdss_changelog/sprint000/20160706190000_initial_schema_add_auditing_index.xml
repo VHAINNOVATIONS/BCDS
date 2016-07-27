@@ -11,12 +11,12 @@
 	<property name="autoIncrement" value="false" dbms="oracle" />
 	
 	<changeSet id="20160706190000" author="dhabib">
-		<createIndex indexName="idx_audit_event" schemaName="BCDSS_DEV" tableName="AUDT_EVENT" unique="false">
+		<createIndex indexName="idx_audit_event" schemaName="BCDSS" tableName="AUDT_EVENT" unique="false">
 			<column name="principal" type="varchar(255)" />
 			<column name="event_date" type="timestamp" />
 		</createIndex>
 
-		<createIndex indexName="idx_audit_event_data" schemaName="BCDSS_DEV" tableName="AUDT_EVENT_DATA" unique="false">
+		<createIndex indexName="idx_audit_event_data" schemaName="BCDSS" tableName="AUDT_EVENT_DATA" unique="false">
 			<column name="event_id" type="bigint" />
 		</createIndex>
 	</changeSet>

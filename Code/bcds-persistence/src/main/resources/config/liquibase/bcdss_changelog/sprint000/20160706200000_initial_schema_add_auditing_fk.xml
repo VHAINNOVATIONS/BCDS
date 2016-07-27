@@ -12,11 +12,11 @@
 
 	<changeSet id="20160706200000" author="dhabib">
 		<addForeignKeyConstraint constraintName="fk_user_persistent_token" 
-			baseTableSchemaName="BCDSS_DEV" baseColumnNames="user_id" baseTableName="AUDT_PERSISTENT_TOKEN"
-			referencedColumnNames="user_id" referencedTableSchemaName="BCDSS_DEV" referencedTableName="SEC_APP_USER" />
+			baseTableSchemaName="BCDSS" baseColumnNames="user_id" baseTableName="AUDT_PERSISTENT_TOKEN"
+			referencedColumnNames="user_id" referencedTableSchemaName="BCDSS" referencedTableName="SEC_APP_USER" />
 		
 		<addForeignKeyConstraint constraintName="fk_evt_pers_audit_evt_data"
-			baseColumnNames="event_id" baseTableSchemaName="BCDSS_DEV" baseTableName="AUDT_EVENT_DATA"
-			referencedColumnNames="event_id" referencedTableSchemaName="BCDSS_DEV" referencedTableName="AUDT_EVENT" />
+			baseColumnNames="event_id" baseTableSchemaName="BCDSS" baseTableName="AUDT_EVENT_DATA"
+			referencedColumnNames="event_id" referencedTableSchemaName="BCDSS" referencedTableName="AUDT_EVENT" />
 	</changeSet>
 </databaseChangeLog>

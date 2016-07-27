@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+	<property name="now" value="now()" dbms="mysql,h2" />
+	<property name="now" value="current_timestamp" dbms="postgresql" />
+	<property name="now" value="sysdate" dbms="oracle" />
+
+	<property name="autoIncrement" value="true" dbms="mysql" />
+	<property name="autoIncrement" value="false" dbms="oracle" />
+
+	<changeSet id="20160706173000" author="dhabib">
+		<addForeignKeyConstraint constraintName="refsec_app_rsrc11" 
+			baseTableSchemaName="BCDSS" baseTableName="SEC_APP_RSRC_PERM" baseColumnNames="APP_RSRC_ID"
+			referencedTableSchemaName="BCDSS" referencedTableName="SEC_APP_RSRC" referencedColumnNames="APP_RSRC_ID" />
+	
+		<addForeignKeyConstraint constraintName="refsec_perm12" 
+			baseTableSchemaName="BCDSS" baseTableName="SEC_APP_RSRC_PERM" baseColumnNames="PERM_ID"
+			referencedTableSchemaName="BCDSS" referencedTableName="SEC_PERM" referencedColumnNames="PERM_ID" />
+		
+		<addForeignKeyConstraint constraintName="refsec_app_role8" 
+			baseTableSchemaName="BCDSS" baseTableName="SEC_APP_ROLE_PERM" baseColumnNames="ROLE_ID"
+			referencedTableSchemaName="BCDSS" referencedTableName="SEC_APP_ROLE" referencedColumnNames="ROLE_ID" />
+	
+		<addForeignKeyConstraint constraintName="refsec_perm9" 
+			baseTableSchemaName="BCDSS" baseTableName="SEC_APP_ROLE_PERM" baseColumnNames="PERM_ID"
+			referencedTableSchemaName="BCDSS" referencedTableName="SEC_PERM" referencedColumnNames="PERM_ID" />
+	
+		<addForeignKeyConstraint constraintName="refsec_app_role7" 
+			baseTableSchemaName="BCDSS" baseTableName="SEC_APP_USER_ROLE" baseColumnNames="user_role_nm"
+			referencedTableSchemaName="BCDSS" referencedTableName="SEC_APP_ROLE" referencedColumnNames="ROLE_NM" />
+		
+		<addForeignKeyConstraint constraintName="refsec_app_role6" 
+			baseTableSchemaName="BCDSS" baseTableName="SEC_APP_USER_ROLE" baseColumnNames="USER_ID"
+			referencedTableSchemaName="BCDSS" referencedTableName="SEC_APP_USER" referencedColumnNames="USER_ID" />
+			
+			
+	</changeSet>
+
+</databaseChangeLog>
