@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('bcdssApp')
-    .controller('SessionsController', function ($scope, Sessions, Principal) {
+    .controller('SessionsController', function ($rootScope, $scope, Sessions, Principal) {
         Principal.identity().then(function(account) {
             $scope.account = account;
+            $rootScope.userName = account.firstName;
         });
 
         $scope.success = null;

@@ -1,13 +1,17 @@
 'use strict';
 
-angular.module('bcdssApp').controller('DashboardController', function($scope, $state) {
-        $scope.searchTerm = undefined;
-        
-        $scope.userName = "User";
-        
-//        $scope.userName = $scope.$watch($scope.account.firstName, function(){
-//        	return $scope.account.firstName;
-//        }, true);
+angular.module('bcdssApp').controller('DashboardController', function($rootScope, $scope, $state, Account, USER_ROLE, $stateParams) {
+    $scope.searchTerm = undefined;
+    //$scope.USER_ROLE = USER_ROLE;
+    
+    $scope.getUserName = function(){
+    	if ($rootScope.userName != null) {
+    		$scope.userName = $rootScope.userName;
+    	} else {
+    		$scope.userName = $scope.account.firstName;
+    	}
+    };
+    $scope.getUserName();
         
         $scope.claims = [{
             "is_collapsed": false,
@@ -50,11 +54,11 @@ angular.module('bcdssApp').controller('DashboardController', function($scope, $s
 	    }
 	    
 	    ];
-	    $scope.page = 1;
+	    /*$scope.page = 1;
 
 	    $scope.loadPage = function(page) {
 		    $scope.page = page;
-	    };
+	    };*/
 
         $scope.formatDate = function(date) {
             var date = new Date(date);
@@ -119,6 +123,49 @@ angular.module('bcdssApp').controller('DashboardController', function($scope, $s
         $scope.clear = function(){
             $scope.claims = [];
         }
+        
+        $scope.isActiveRoleTab = function (userRoleTab) {
+        	$stateParams.userRoleType == userRoleTab;
+        	return userRoleTab;
+        };
+        
+        /*$scope.loadTabView = function (tabUserRole) {
+        	if(tabUserRole == USER_ROLE.userRoleRater){
+        		console.log("rater");
+        		$state.go('home', {userRoleType: USER_ROLE.userRoleRater});
+        	} else if (tabUserRole == USER_ROLE.userRoleModeler){
+        		console.log("modeler")
+        		$state.go('home', {userRoleType: USER_ROLE.userRoleModeler})
+        	} else {
+        		console.log("admin")
+        		$state.go('home', {userRoleType: USER_ROLE.userRoleAdmin})
+        	}
+        };*/
+        
+        
+        $scope.userRoleTabs = [
+                           {title: "Rater", active: $scope.isActiveRoleTab(USER_ROLE.userRoleRater)},
+                           {title: "Modeler", active: $scope.isActiveRoleTab(USER_ROLE.userRoleModeler)}, 
+                           {title: "Admin", active: $scope.isActiveRoleTab(USER_ROLE.userRoleAdmin)}
+                       ];
+        
+        
 
+        $scope.loadRaterTab = function () {
+        	console.log("rater");
+        	console.log(USER_ROLE);
+            $state.go('home', {userRoleType: USER_ROLE.userRoleRater});
+        };
+        
+        
+        $scope.loadModelerTab = function () {
+        	console.log("modeler");
+            $state.go('home', {userRoleType: USER_ROLE.userRoleModeler});
+        };
+        
+        $scope.loadAdminTab = function () {
+        	console.log("admin");
+            $state.go('home', {userRoleType: USER_ROLE.userRoleAdmin});
+        };
 
     });
