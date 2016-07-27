@@ -10,7 +10,7 @@ angular.module('bcdssApp')
                 AuthServerProvider.login(credentials).then(function (data) {
                     // retrieve the logged account information
                     Principal.identity(true).then(function(account) {
-                      
+                    	$rootScope.userName = account.firstName;
                         deferred.resolve(data);
                     });
                     return cb();
