@@ -15,6 +15,9 @@ angular.module('bcdssApp')
             userRole: function () {
             	return _identity.roles;
             },
+			userName: function () {
+				return _identity.firstName;
+			},
             isInRole: function (role) {
                 if (!_authenticated || !_identity || !_identity.roles) {
                     return false;

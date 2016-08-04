@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('bcdssApp').controller('DashboardController', function($rootScope, $scope, $state, Account, USER_ROLE, $stateParams) {
+angular.module('bcdssApp').controller('RaterDashboardController', function($rootScope, $scope, $state, Account, USER_ROLE, $stateParams) {
     $scope.searchTerm = undefined;
     //$scope.USER_ROLE = USER_ROLE;
     

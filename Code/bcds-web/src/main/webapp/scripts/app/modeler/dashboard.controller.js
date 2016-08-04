@@ -1,9 +1,8 @@
 'use strict';
 
-angular.module('bcdssApp').controller('DashboardController', function($scope, $state) {
+angular.module('bcdssApp').controller('ModelerDashboardController', function($scope, $state) {
         $scope.searchTerm = undefined;
-        
-        $scope.userName = "User";
+        //$scope.userName = "User";
         
 //        $scope.userName = $scope.$watch($scope.account.firstName, function(){
 //        	return $scope.account.firstName;

@@ -21,6 +21,7 @@ angular.module('bcdssApp')
                     $rootScope.back();
                 }
             }).catch(function () {
+            	alert("Invalid Username and Password!!!\n     Please verify and try again...");
                 $scope.authenticationError = true;
             });
         };

@@ -1,0 +1,36 @@
+<div ng-controller="AdminDashboardController">
+	<h2 class="text-center">Administrator's Dashboard</h2>
+	<div class="row v-spacer">
+		<div class="col-sm-3 col-md-3 pull-right">
+			<form class="navbar-form" role="search">
+				<div class="input-group">
+					<input type="text" class="form-control" placeholder="File Number" name="srch-term" id="srch-term" ng-model="fileNumber">
+					<div class="input-group-btn">
+						<button class="btn btn-default" type="submit" ng-click="search(fileNumber)">
+							<i class="glyphicon glyphicon-search"></i>
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="serviceErrorDialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Service Unavailable</h4>
+				</div>
+				<div class="modal-body">
+					<p>Service 'Claimant Retrieve' is unavailable at the moment. Please contact support or try again.</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">
+						<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Close</span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
