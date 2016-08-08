@@ -49,8 +49,8 @@ spring:
       url: jdbc:oracle:thin:@bcdsdb:1521/XE
       databaseName:
       serverName:
-      username: SYS as sysdba
-      password: welcome1
+      username: BCDSS
+      password: developmentonly
       cachePrepStmts: true
       prepStmtCacheSize: 250
       prepStmtCacheSqlLimit: 2048

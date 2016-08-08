@@ -10,7 +10,7 @@ public class DBConnectionFactory {
 	public static final String portNumber = "1521";
 	public static final String sid = "DEV.BCDSS";
 	public static final String dbUrl = "jdbc:oracle:thin:@" + serverName + ":" + portNumber + ":" + sid;
-	public static final String dbuser = "BCDSS_DEV";
+	public static final String dbuser = "BCDSS";
 	public static final String dbpassword = "developmentonly";
 	public static final String driver_class = "com.mysql.jdbc.Driver";
 

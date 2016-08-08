@@ -43,7 +43,7 @@ spring:
       driverClassName: oracle.jdbc.OracleDriver
       dataSourceClassName: oracle.jdbc.pool.OracleDataSource
       url: jdbc:oracle:thin:@IBCDS408:1521/DEV.BCDSS
-      username: BCDSS_DEV
+      username: BCDSS
       password: developmentonly
       cachePrepStmts: true
       prepStmtCacheSize: 250
