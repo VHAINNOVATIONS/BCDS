@@ -1,8 +1,9 @@
 'use strict';
 
-angular.module('bcdssApp').controller('RaterDashboardController', function($rootScope, $scope, $state, Account, USER_ROLE, $stateParams) {
+angular.module('bcdssApp').controller('RaterDashboardController', function($rootScope, $scope, $state, Account, USER_ROLE, $stateParams, ClaimService) {
     $scope.searchTerm = undefined;
     //$scope.USER_ROLE = USER_ROLE;
+    $scope.claims = [];
     
     $scope.getUserName = function(){
     	if ($rootScope.userName != null) {
@@ -13,7 +14,7 @@ angular.module('bcdssApp').controller('RaterDashboardController', function($root
     };
     $scope.getUserName();
         
-        $scope.claims = [{
+        /*$scope.claims = [{
             "is_collapsed": false,
             "veteranId" : 212029876,
             "veteranName": "John Doe",
@@ -53,12 +54,19 @@ angular.module('bcdssApp').controller('RaterDashboardController', function($root
             }]
 	    }
 	    
-	    ];
+	    ];*/
 	    /*$scope.page = 1;
 
 	    $scope.loadPage = function(page) {
 		    $scope.page = page;
 	    };*/
+    $scope.loadClaims = function(){
+    	ClaimService.query(function(result){
+    		$scope.claims = result;
+    		console.log($scope.claims);
+    	});
+    };
+    $scope.loadClaims();
 
         $scope.formatDate = function(date) {
             var date = new Date(date);
