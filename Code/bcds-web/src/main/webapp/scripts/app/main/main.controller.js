@@ -6,6 +6,7 @@ angular.module('bcdssApp').controller('MainController',	function($rootScope, $sc
 		$scope.userName = Principal.userName;
 		$scope.userRole = Principal.userRole;
 		$scope.isAuthenticated = Principal.isAuthenticated;
+		$scope.date = new Date();
 		});
 	}
 );

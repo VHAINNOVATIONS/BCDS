@@ -1,20 +1,67 @@
 <div ng-controller="AdminDashboardController">
 	<h2 class="text-center">Administrator's Dashboard</h2>
-	<div class="row v-spacer">
+	<h2 class="text-center">Users</h2>
+<!--	<div class="row v-spacer">
 		<div class="col-sm-3 col-md-3 pull-right">
 			<form class="navbar-form" role="search">
 				<div class="input-group">
-					<input type="text" class="form-control" placeholder="File Number" name="srch-term" id="srch-term" ng-model="fileNumber">
+					<input type="text" class="form-control" placeholder="User ID" name="srch-term" id="srch-term" ng-model="userId">
 					<div class="input-group-btn">
-						<button class="btn btn-default" type="submit" ng-click="search(fileNumber)">
+						<button class="btn btn-default" type="submit" ng-click="search(userId)">
 							<i class="glyphicon glyphicon-search"></i>
 						</button>
 					</div>
 				</div>
 			</form>
 		</div>
-	</div>
+	</div> -->
 	
+	<div class="row v-spacer">
+		<div id="exportable" class="table-responsive well">
+			<table width="100%" class="table table-striped">
+				<thead>
+					<tr>
+						<th></th>
+						<th>First Name</th>
+						<th>Last Name</th>
+						<th>User ID</th>
+						<th>Role</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody ng-repeat="user in users">
+					<tr>
+						<td>
+							<button type="button" class="btn btn-xs btn-default" ng-click="toggleCollapse(user)">
+								<span class="glyphicon" ng-class="{'glyphicon-minus': !user.isCollapsed, 'glyphicon-plus': user.isCollapsed}"></span>
+							</button>
+						</td>
+						<td>{{user.firstName}}</td>
+						<td>{{user.lastName}}</td>
+						<td>{{user.userID}}</td>
+						<td>{{user.role}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<div class="row v-spacer">
+		<div class="col-md-12">
+			<div class="pull-right">
+				<button type="button" class="btn btn-default" ng-click="clear()">
+					<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Clear</span>
+				</button>
+				<button type="button" style="margin-left: 5px" class="btn btn-primary" ng-click="displayProcess()">
+					<span class="glyphicon glyphicon-save"></span>&nbsp;<span>Creat New User</span>
+				</button>
+				<button id="next" type="submit" class="btn btn-default hidden" ui-sref="processor()">
+					<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Next</span>
+				</button>
+			</div>
+		</div>
+	</div>
+
 	<div class="modal fade" id="serviceErrorDialog">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -22,10 +69,10 @@
 					<h4 class="modal-title">Service Unavailable</h4>
 				</div>
 				<div class="modal-body">
-					<p>Service 'Claimant Retrieve' is unavailable at the moment. Please contact support or try again.</p>
+					<p>Service 'User Retrieve' is unavailable at the moment. Please contact support or try again.</p>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">
+					<button type="button" class="btn btn-default" data-dismiss="User">
 						<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Close</span>
 					</button>
 				</div>
@@ -33,4 +80,33 @@
 		</div>
 	</div>
 
+	<div class="user fade" id="userDialog">
+		<div class="user-dialog">
+			<div class="user-content">
+				<div class="user-header">
+					<h4 class="user-title">Create New User</h4>
+				</div>
+				<div class="user-body">
+					<label>First Name: <input type="text" ng-model="value1">
+					</label><br />
+					<label>Last Name: <input type="text" ng-model="value2">
+					</label><br/>
+					<label class="text-danger">User ID: <input type="text" ng-model="value3" disabled>
+					</label><br/>
+					<label class="text-danger">Password: <input type="text" ng-model="value4" disabled>
+					</label><br/>
+					<label class="text-danger">Role: <input type="text" ng-model="value5" disabled>
+					</label><br/>
+				</div>
+				<div class="user-footer">
+					<button type="button" class="btn btn-default" data-dismiss="user">
+						<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+					</button>
+					<button type="button" class="btn btn-default" data-dismiss="user" ng-click="click()">
+						<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Save</span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

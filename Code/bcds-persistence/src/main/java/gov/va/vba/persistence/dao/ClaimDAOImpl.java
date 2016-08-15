@@ -3,22 +3,21 @@ package main.java.gov.va.vba.persistence.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import main.java.gov.va.vba.persistence.db.DBConnectionFactory;
+//import main.java.gov.va.vba.persistence.db.DBUtil;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 //import java.sql.SQLException;
 import java.sql.Statement;
 //import java.sql.PreparedStatement;
 
-import main.java.gov.va.vba.persistence.database.DBConnectionFactory;
-import main.java.gov.va.vba.persistence.database.DBUtil;
-//import org.springframework.dao.DataAccessException;
-
 public class ClaimDAOImpl implements ClaimDAO {
 
 	private Connection dbConnection;
 	private Statement statement;
 	
-	private String SQL_SELECT = "SELECT VET_ID, VET_NM, \"REGN_OFfC\", CLAIM_ID, DATE_OF_CLAIM, CEST_DATE, CNTNTN_CLMANT_TXT FROM MV_STGN_CLAIM";
+	private String SQL_SELECT = "SELECT VET_ID, VET_NM, \"REGN_OFfC\", CLAIM_ID, DATE_OF_CLAIM, CEST_DATE, CNTNTN_CLMANT_TXT FROM BCDSS.MV_STGN_CLAIM";
 
 	ArrayList<Claim> claims = new ArrayList<Claim>();
 	Claim claim = null;

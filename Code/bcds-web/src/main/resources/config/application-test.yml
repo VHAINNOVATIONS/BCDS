@@ -34,7 +34,7 @@ swagger:
     licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.html
 
 server:
-    port: 8181
+    port: 8084
 
 liquibase:
     context: test
@@ -46,11 +46,9 @@ spring:
     datasource:
       driverClassName: oracle.jdbc.OracleDriver
       dataSourceClassName: oracle.jdbc.pool.OracleDataSource
-      url: jdbc:oracle:thin:@bcdsdb:1521/XE
-      databaseName:
-      serverName:
+      url: jdbc:oracle:thin:@IBCDS408:1521/TST
       username: BCDSS
-      password: developmentonly
+      password: w8ITbTXS
       cachePrepStmts: true
       prepStmtCacheSize: 250
       prepStmtCacheSqlLimit: 2048
