@@ -27,9 +27,9 @@ public class ClaimResource {
 
 	@RequestMapping(value = "/claims", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	public List<Claim> getAll() {
-		LOGGER.debug("REST request to get all Claims");
-		return claimDataService.findAll();
+	public List<Claim> getFirstFewClaims() {
+		LOGGER.debug("REST request to get first few Claims");
+		return claimDataService.findFirstNumberedRow();
 	}
 
 }

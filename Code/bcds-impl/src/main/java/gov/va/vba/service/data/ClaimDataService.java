@@ -19,7 +19,13 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
 		List<Claim> output = new ArrayList<>();
 		List<gov.va.vba.persistence.entity.Claim> input = ((ClaimRepository) repository).findAll();
 		mapper.mapAsCollection(input, output, outputClass);
-
+		return output;
+	}
+	
+	public List<Claim> findFirstNumberedRow() {
+		List<Claim> output = new ArrayList<>();
+		List<gov.va.vba.persistence.entity.Claim> input = ((ClaimRepository) repository).findFirstNumberedRow();
+		mapper.mapAsCollection(input, output, outputClass);
 		return output;
 	}
 }
