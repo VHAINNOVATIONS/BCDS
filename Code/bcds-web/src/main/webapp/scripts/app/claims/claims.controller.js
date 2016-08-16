@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('bcdssApp').controller('RaterDashboardController', function($rootScope, $scope, $state, Account, USER_ROLE, $stateParams, ClaimService) {
+angular.module('bcdssApp').controller('ClaimsDashboardController', function($rootScope, $scope, $state, Account, USER_ROLE, $stateParams, ClaimService) {
     $scope.searchTerm = undefined;
     //$scope.USER_ROLE = USER_ROLE;
     $scope.claims = [];
@@ -13,7 +13,7 @@ angular.module('bcdssApp').controller('RaterDashboardController', function($root
     	}
     };
     $scope.getUserName();
-        
+
     $scope.loadClaims = function(){
     	ClaimService.query(function(result){
     		$scope.claims = result;

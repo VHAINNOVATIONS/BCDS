@@ -1,8 +1,17 @@
 body {
+	min-height: 100%;
+    height: auto !important;
+    height: 100%;
     /*background: #fafafa;*/
     background: #ffffff;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #333;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 80%;
 }
 
 /* ==========================================================================

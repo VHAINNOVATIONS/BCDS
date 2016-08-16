@@ -14,58 +14,13 @@ angular.module('bcdssApp').controller('RaterDashboardController', function($root
     };
     $scope.getUserName();
         
-        /*$scope.claims = [{
-            "is_collapsed": false,
-            "veteranId" : 212029876,
-            "veteranName": "John Doe",
-            "regionalOffice": "Houston, TX",
-            "claimNumber": 20160621,
-            "dateOfClaim": "03/10/2016",
-            "cestDate": "03/10/2016",
-            "contentions": [{
-                "code": 2200,
-                "description": "Hand",
-                "lastModel": "03/10/2016",
-            }, {
-                "code": 2210,
-                "description": "Ear",
-                "lastModel": "03/10/2016"
-            }]
-	    }, {
-            "is_collapsed": false,
-            "veteranId" : 900125836,
-            "veteranName": "Albert Smith",
-            "regionalOffice": "New York City, NY",
-            "claimNumber": 20160516,
-            "dateOfClaim": "03/10/2016",
-            "cestDate": "03/10/2016",
-            "contentions": [{
-                "code": 2250,
-                "description": "Elbow",
-                "lastModel": "03/10/2016",
-            }, {
-                "code": 2220,
-                "description": "Finger",
-                "lastModel": "03/10/2016"
-            }, {
-                "code": 2230,
-                "description": "Arm",
-                "lastModel": "03/10/2016"
-            }]
-	    }
-	    
-	    ];*/
-	    /*$scope.page = 1;
-
-	    $scope.loadPage = function(page) {
-		    $scope.page = page;
-	    };*/
     $scope.loadClaims = function(){
     	ClaimService.query(function(result){
     		$scope.claims = result;
     		console.log($scope.claims);
     	});
     };
+
     $scope.loadClaims();
 
         $scope.formatDate = function(date) {
@@ -99,10 +54,9 @@ angular.module('bcdssApp').controller('RaterDashboardController', function($root
         }
 
         $scope.search = function(searchTerm) {
-            if(searchTerm == 1234){
+            if (searchTerm == 1234) {
                 $('#serviceErrorDialog').modal('show');
-            }
-            else {
+            } else {
                 $scope.claims.push({
                     "is_collapsed": false,
                     "file_number": "515049876",
@@ -149,31 +103,26 @@ angular.module('bcdssApp').controller('RaterDashboardController', function($root
         		$state.go('home', {userRoleType: USER_ROLE.userRoleAdmin})
         	}
         };*/
-        
-        
+
         $scope.userRoleTabs = [
                            {title: "Rater", active: $scope.isActiveRoleTab(USER_ROLE.userRoleRater)},
                            {title: "Modeler", active: $scope.isActiveRoleTab(USER_ROLE.userRoleModeler)}, 
                            {title: "Admin", active: $scope.isActiveRoleTab(USER_ROLE.userRoleAdmin)}
                        ];
-        
-        
 
         $scope.loadRaterTab = function () {
         	console.log("rater");
         	console.log(USER_ROLE);
             $state.go('home', {userRoleType: USER_ROLE.userRoleRater});
         };
-        
-        
+
         $scope.loadModelerTab = function () {
         	console.log("modeler");
             $state.go('home', {userRoleType: USER_ROLE.userRoleModeler});
         };
-        
+
         $scope.loadAdminTab = function () {
         	console.log("admin");
             $state.go('home', {userRoleType: USER_ROLE.userRoleAdmin});
         };
-
     });
