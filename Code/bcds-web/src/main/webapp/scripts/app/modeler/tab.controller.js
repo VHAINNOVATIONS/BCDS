@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('bcdssApp', [])
+angular.module('bcdssApp')
   .controller('TabController', ['$scope', function($scope) {
     $scope.tab = 1;
 
