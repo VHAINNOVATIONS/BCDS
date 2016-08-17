@@ -40,10 +40,10 @@
 						</td>
 						<td>{{claim.veteranId}}</td>
 						<td>{{claim.veteranName}}</td>
-						<td>{{claim.regionalOffice}}</td>
+						<td>{{claim.regionalOfficeOfClaim}}</td>
 						<td>{{claim.claimId}}</td>
-						<td>{{claim.dateOfClaim}}</td>
-						<td>{{claim.cestDate}}</td>
+						<td>{{claim.claimDate | date:'MM/dd/yyyy h:mma'}}</td>
+						<td>{{claim.cestDate | date:'MM/dd/yyyy h:mma'}}</td>
 						<td>{{claim.contentions.length}} contention(s)</td>
 						<td>{{claim.lastModel}}</td>
 					</tr>
@@ -62,7 +62,7 @@
 						<td></td>
 						<td></td>
 						<td>{{contention.code}}</td>
-						<td>{{contention.description}}</td>
+						<td>{{contention.contentionClaimTextKeyForModel}}</td>
 						<td>{{contention.lastModel}}</td>
 						<td align="center"><input type="checkbox"/></td>
 					</tr>

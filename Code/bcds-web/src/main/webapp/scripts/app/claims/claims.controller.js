@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('bcdssApp').controller('ClaimsDashboardController', function($rootScope, $scope, $state, Account, USER_ROLE, $stateParams, ClaimService) {
+angular.module('bcdssApp').controller('ClaimsDashboardController', function($rootScope, $scope, $state, Account, /*USER_ROLE,*/ $stateParams, ClaimService) {
     $scope.searchTerm = undefined;
     //$scope.USER_ROLE = USER_ROLE;
     $scope.claims = [];
@@ -102,7 +102,7 @@ angular.module('bcdssApp').controller('ClaimsDashboardController', function($roo
         		console.log("admin")
         		$state.go('home', {userRoleType: USER_ROLE.userRoleAdmin})
         	}
-        };*/
+        };
 
         $scope.userRoleTabs = [
                            {title: "Rater", active: $scope.isActiveRoleTab(USER_ROLE.userRoleRater)},
@@ -124,5 +124,5 @@ angular.module('bcdssApp').controller('ClaimsDashboardController', function($roo
         $scope.loadAdminTab = function () {
         	console.log("admin");
             $state.go('home', {userRoleType: USER_ROLE.userRoleAdmin});
-        };
+        };*/
     });
