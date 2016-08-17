@@ -16,21 +16,38 @@ body {
     font-family: Verdana, Helvetica, sans-serif;
 	font-size:38px;
 }
-.Header {
+/* .Header {
     font-family: Verdana, Helvetica, sans-serif;
     font-size: 22px;
     color: #FFFFFF;
     width: 100%;
     background-color: #061D47;
 
-}
-.CenterBackground {
+}*/
+/* .CenterBackground {
     background-color: #FBFBFB;
     background-image: url('../images/Blank_US_Map_(states_only)_m.svg.png');
     background-repeat:no-repeat;
     background-position:left;
-}
+} */
 
+.Header {
+    font-family: Verdana, Helvetica, sans-serif;
+    font-size: 22px;
+    color: #FFFFFF;
+    width: 100%;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#01143F ), to(#03329B));
+	background: -webkit-linear-gradient(top, #03329B, #01143F);
+	background: -moz-linear-gradient(top, #03329B, #01143F);
+	background: -ms-linear-gradient(top, #03329B, #01143F);
+	background: -o-linear-gradient(top, #03329B, #01143F);
+}
+ 
+.CenterBackground {
+    background-color: #FBFBFB;
+    background-image: url('../images/BCDS_LoginPage.jpg');
+    background-repeat:no-repeat;
+    }
 
 .FooterBackground {
     background-color: #EBF9FF;    

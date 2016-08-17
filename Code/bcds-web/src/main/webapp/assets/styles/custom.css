@@ -103,3 +103,8 @@ ul.multiselect li.select-highlight-blur {
     background-color: #d4d4d4;
     color: black;
 }
+
+.container-custom {
+  margin-right: auto;
+  margin-left: auto;
+}

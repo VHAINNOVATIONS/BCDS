@@ -1,5 +1,5 @@
-<nav class="navbar navbar-default" role="navigation">
-    <div class="container Header">
+<nav class="navbar navbar-default container-custom" role="navigation">
+    <div class="Header">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
@@ -8,9 +8,9 @@
                 <span class="icon-bar"></span>
             </button>
             <!-- <h1 style="margin:0"><a class="navbar-brand" href="#/">BCDS</a></h1> -->
-            <span class="Header"><img src="assets/images/600px-US-DeptOfVeteransAffairs-Seal-Large.png" alt="BCDSS" ui-sref="home" uib-tooltip="VA logo, will take to BCDSS Home" tooltip-placement="bottom-right">
-								Benefits Claims Decision Support System
-								</span>
+            <span class="Header">
+            	<img src="assets/images/BCDSS_Header.png">
+			</span>
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse" ng-switch="isAuthenticated()">
             <ul class="nav navbar-nav nav-pills navbar-right">
@@ -23,7 +23,7 @@
                 <li uib-tooltip="Help" tooltip-placement="bottom" ng-switch-when="true">
                     <a><span class="glyphicon glyphicon-question-sign"></span></a>
                 </li>
-                <li ng-class="{active: $state.includes('account')}" class="dropdown pointer">
+                <li ng-class="{active: $state.includes('account')}" class="dropdown pointer" ng-switch-when="true">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="">
                                 <span>
                                     <span class="glyphicon glyphicon-user"></span>
