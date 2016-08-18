@@ -33,38 +33,15 @@
 				</thead>
 				<tbody ng-repeat="claim in claims">
 					<tr>
-						<td>
-							<button type="button" class="btn btn-xs btn-default" ng-click="toggleCollapse(claim)">
-								<span class="glyphicon" ng-class="{'glyphicon-minus': !claim.isCollapsed, 'glyphicon-plus': claim.isCollapsed}"></span>
-							</button>
-						</td>
+						<td align="center"><input type="checkbox"/></td>
 						<td>{{claim.veteranId}}</td>
-						<td>{{claim.veteranName}}</td>
+						<td>veteran {{claim.veteranId}}</td>
 						<td>{{claim.regionalOfficeOfClaim}}</td>
 						<td>{{claim.claimId}}</td>
 						<td>{{claim.claimDate | date:'MM/dd/yyyy h:mma'}}</td>
 						<td>{{claim.cestDate | date:'MM/dd/yyyy h:mma'}}</td>
-						<td>{{claim.contentions.length}} contention(s)</td>
-						<td>{{claim.lastModel}}</td>
-					</tr>
-					<tr uib-collapse="isCollapsed(claim)" class="contention{{claim.file_number}}">
-						<th></th>
-						<th></th>
-						<th></th>
-						<th></th>
-						<th>Contention Code</th>
-						<th>Name</th>
-						<th>Last Model</th>
-					</tr>
-					<tr uib-collapse="isCollapsed(claim)" ng-repeat="contention in claim.contentions">
+						<td>{{claim.contentionClaimTextKeyForModel}}</td>
 						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td>{{contention.code}}</td>
-						<td>{{contention.contentionClaimTextKeyForModel}}</td>
-						<td>{{contention.lastModel}}</td>
-						<td align="center"><input type="checkbox"/></td>
 					</tr>
 				</tbody>
 			</table>
