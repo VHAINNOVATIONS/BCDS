@@ -107,4 +107,7 @@ ul.multiselect li.select-highlight-blur {
 .container-custom {
   margin-right: auto;
   margin-left: auto;
+  overflow-x: hidden;
+  padding-right: 1%;
+  padding-left: 1%;
 }
