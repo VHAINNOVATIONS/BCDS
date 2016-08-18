@@ -18,7 +18,7 @@ public class Claim implements Serializable {
 
 	//private static final long serialVersionUID = 1L;
 	private Long veteranId;
-	private String veteranName;
+	//private String veteranName;
 	private String regionalOfficeOfClaim;
 	private Long claimId;
 	private Date claimDate;
@@ -34,12 +34,12 @@ public class Claim implements Serializable {
 		this.veteranId = veteranId;
 	}
 	
-	public String getVeteranName() {
+	/*public String getVeteranName() {
 		return "Veteran"+ getVeteranId().toString();
 	}
 	public void setVeteranName(String veteranName) {
 		this.veteranName = veteranName;
-	}
+	}*/
 
 	@Column(name="CLAIM_RO_NAME")
 	public String getRegionalOfficeOfClaim() {

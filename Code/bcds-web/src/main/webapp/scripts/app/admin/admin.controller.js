@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('bcdssApp').controller('AdminDashboardController', function($rootScope, $scope, $state, Account, USER_ROLE, $stateParams) {
+angular.module('bcdssApp').controller('AdminDashboardController', function($rootScope, $scope, $state, Account, /*USER_ROLE,*/ $stateParams) {
     $scope.searchTerm = undefined;
     //$scope.USER_ROLE = USER_ROLE;
     
@@ -41,7 +41,7 @@ angular.module('bcdssApp').controller('AdminDashboardController', function($root
         	return userRoleTab;
         };
         
-        $scope.userRoleTabs = [
+/*        $scope.userRoleTabs = [
                            {title: "Rater", active: $scope.isActiveRoleTab(USER_ROLE.userRoleRater)},
                            {title: "Modeler", active: $scope.isActiveRoleTab(USER_ROLE.userRoleModeler)}, 
                            {title: "Admin", active: $scope.isActiveRoleTab(USER_ROLE.userRoleAdmin)}
@@ -61,5 +61,5 @@ angular.module('bcdssApp').controller('AdminDashboardController', function($root
         $scope.loadAdminTab = function () {
         	console.log("admin");
             $state.go('home', {userRoleType: USER_ROLE.userRoleAdmin});
-        };
+        };*/
     });
