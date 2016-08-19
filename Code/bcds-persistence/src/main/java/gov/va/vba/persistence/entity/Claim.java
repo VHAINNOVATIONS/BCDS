@@ -22,7 +22,7 @@ public class Claim implements Serializable {
 	private String regionalOfficeOfClaim;
 	private Long claimId;
 	private Date claimDate;
-	//private LocalDateTime cestDate;
+	//private Date cestDate;
 	private String contentionClaimTextKeyForModel;
 
 	@Id
@@ -65,10 +65,10 @@ public class Claim implements Serializable {
 		this.claimDate = claimDate;
 	}
 
-	/*public LocalDateTime getCestDate() {
+	/*public Date getCestDate() {
 		return cestDate;
 	}
-	public void setCestDate(LocalDateTime cestDate) {
+	public void setCestDate(Date cestDate) {
 		this.cestDate = cestDate;
 	}*/
 

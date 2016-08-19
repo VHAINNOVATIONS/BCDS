@@ -1,8 +1,8 @@
 package gov.va.vba.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 
-import org.joda.time.LocalDateTime;
 
 public class Claim implements Serializable{
 
@@ -10,8 +10,8 @@ public class Claim implements Serializable{
 	//private String veteranName;
 	private String regionalOfficeOfClaim;
 	private Long claimId;
-	private LocalDateTime claimDate;
-	//private LocalDateTime cestDate;
+	private Date claimDate;
+	//private Date cestDate;
 	private String contentionClaimTextKeyForModel;
 	
 	public Long getVeteranId() {
@@ -43,18 +43,18 @@ public class Claim implements Serializable{
 		this.claimId = claimId;
 	}
 	
-	public LocalDateTime getClaimDate() {
+	public Date getClaimDate() {
 		return claimDate;
 	}
-	public void setClaimDate(LocalDateTime claimDate) {
+	public void setClaimDate(Date claimDate) {
 		this.claimDate = claimDate;
 	}
 	
 	
-	/*public LocalDateTime getCestDate() {
+	/*public Date getCestDate() {
 		return cestDate;
 	}
-	public void setCestDate(LocalDateTime cestDate) {
+	public void setCestDate(Date cestDate) {
 		this.cestDate = cestDate;
 	}*/
 	
@@ -64,8 +64,4 @@ public class Claim implements Serializable{
 	public void setContentionClaimTextKeyForModel(String contentionClaimTextKeyForModel) {
 		this.contentionClaimTextKeyForModel = contentionClaimTextKeyForModel;
 	}
-	
-	
-	
-	
 }

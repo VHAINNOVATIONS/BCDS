@@ -23,6 +23,10 @@ angular.module('bcdssApp').controller('ClaimsDashboardController', function($roo
 
     $scope.loadClaims();
 
+	    $scope.getCestDate = function(date) {
+			return (date + (10*24*60*60*1000));
+		};
+	
         $scope.formatDate = function(date) {
             var date = new Date(date);
             return ('0' + (date.getMonth()+1)).slice(-2) + '/' +

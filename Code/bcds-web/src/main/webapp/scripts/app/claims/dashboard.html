@@ -38,8 +38,8 @@
 						<td>veteran {{claim.veteranId}}</td>
 						<td>{{claim.regionalOfficeOfClaim}}</td>
 						<td>{{claim.claimId}}</td>
-						<td>{{claim.claimDate | date:'MM/dd/yyyy h:mma'}}</td>
-						<td>{{claim.cestDate | date:'MM/dd/yyyy h:mma'}}</td>
+						<td>{{claim.claimDate | date:'MM/dd/yyyy'}}</td>
+						<td>{{getCestDate(claim.claimDate) | date:'MM/dd/yyyy'}}</td>
 						<td>{{claim.contentionClaimTextKeyForModel}}</td>
 						<td></td>
 					</tr>
