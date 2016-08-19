@@ -1,5 +1,5 @@
 <div ng-controller="ClaimsDashboardController">
-	<h2 class="text-center">Claims</h2>
+	<h2 class="text-center">BCDSS Claims</h2>
 <!--	<div class="row v-spacer">
 		<div class="col-sm-3 col-md-3 pull-right">
 			<form class="navbar-form" role="search">
@@ -14,13 +14,13 @@
 			</form>
 		</div>
 	</div> -->
-	
+
 	<div class="row v-spacer">
 		<div id="exportable" class="table-responsive well">
 			<table width="100%" class="table table-striped">
 				<thead>
 					<tr>
-						<th></th>
+						<td align="center"><b>Select</b><br/><input type="checkbox"/></td>
 						<th>Veteran ID</th>
 						<th>Veteran Name</th>
 						<th>Regional Office</th>
@@ -52,13 +52,16 @@
 		<div class="col-md-12">
 			<div class="pull-right">
 				<button type="button" class="btn btn-default" ng-click="clear()">
-					<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Reset</span>
+					<!-- <span class="glyphicon glyphicon-ban-circle"></span>&nbsp; -->
+					<span>Reset</span>
 				</button>
 				<button type="button" style="margin-left: 5px" class="btn btn-primary" ng-click="displayProcess()">
-					<span class="glyphicon glyphicon-save"></span>&nbsp;<span>Select Model</span>
+					<!-- <span class="glyphicon glyphicon-save"></span>&nbsp; -->
+					<span>Select Model</span>
 				</button>
 				<button id="next" type="submit" class="btn btn-default hidden" ui-sref="processor()">
-					<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Next</span>
+					<!-- <span class="glyphicon glyphicon-ban-circle"></span>&nbsp; -->
+					<span>Next</span>
 				</button>
 			</div>
 		</div>
@@ -75,7 +78,8 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">
-						<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Close</span>
+						<!-- <span class="glyphicon glyphicon-ban-circle"></span>&nbsp; -->
+						<span>Close</span>
 					</button>
 				</div>
 			</div>
@@ -96,10 +100,12 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">
-						<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+						<!-- <span class="glyphicon glyphicon-ban-circle"></span>&nbsp; -->
+						<span>Cancel</span>
 					</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="click()">
-						<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Submit</span>
+						<!-- <span class="glyphicon glyphicon-ban-circle"></span>&nbsp; -->
+						<span>Submit</span>
 					</button>
 				</div>
 			</div>
