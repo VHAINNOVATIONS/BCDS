@@ -16,13 +16,10 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Claim implements Serializable {
 
-	//private static final long serialVersionUID = 1L;
 	private Long veteranId;
-	//private String veteranName;
 	private String regionalOfficeOfClaim;
 	private Long claimId;
 	private Date claimDate;
-	//private Date cestDate;
 	private String contentionClaimTextKeyForModel;
 
 	@Id
@@ -34,13 +31,6 @@ public class Claim implements Serializable {
 		this.veteranId = veteranId;
 	}
 	
-	/*public String getVeteranName() {
-		return "Veteran"+ getVeteranId().toString();
-	}
-	public void setVeteranName(String veteranName) {
-		this.veteranName = veteranName;
-	}*/
-
 	@Column(name="CLAIM_RO_NAME")
 	public String getRegionalOfficeOfClaim() {
 		return regionalOfficeOfClaim;
@@ -64,13 +54,6 @@ public class Claim implements Serializable {
 	public void setClaimDate(Date claimDate) {
 		this.claimDate = claimDate;
 	}
-
-	/*public Date getCestDate() {
-		return cestDate;
-	}
-	public void setCestDate(Date cestDate) {
-		this.cestDate = cestDate;
-	}*/
 
 	@Column(name="CNTNTN_CLMANT_TXT")
 	public String getContentionClaimTextKeyForModel() {
