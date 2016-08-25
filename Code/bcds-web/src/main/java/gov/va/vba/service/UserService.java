@@ -7,7 +7,6 @@ import gov.va.vba.persistence.repository.PersistentTokenRepository;
 import gov.va.vba.persistence.repository.UserRepository;
 import gov.va.vba.security.SecurityUtils;
 import gov.va.vba.service.util.RandomUtil;
-import gov.va.vba.web.rest.UserResource;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
