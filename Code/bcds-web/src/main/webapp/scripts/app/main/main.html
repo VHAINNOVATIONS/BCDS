@@ -5,7 +5,7 @@
 				<div ng-switch-when="false" align="center">
 					<div ng-include="'scripts/app/account/login/login.html'"></div>
                 </div>
-				<div ng-switch-when="true">
+				<div ng-switch-when="true" class="container-custom">
 				<!-- <h2> Tests: {{account}} </h2> -->
 				<h4 class="text-right">Welcome {{userName()}}!</h4>
 					<div ng-switch="userRole()">
@@ -24,6 +24,6 @@
 		</div>
 	</div>
 	<div>
-		<div ng-include="'scripts/app/main/footer.html'" class="row"></div>
+		<div ng-include="'scripts/app/main/footer.html'" class="container-custom"></div>
 	</div>
 </div>
