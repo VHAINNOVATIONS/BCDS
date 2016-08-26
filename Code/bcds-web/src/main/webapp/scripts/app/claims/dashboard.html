@@ -20,18 +20,18 @@
 			<table width="100%" class="table table-striped">
 				<thead>
 					<tr>
-						<td align="center"><b>Select</b><br/></td>
-						<th>Veteran ID</th>
-						<th>Veteran Name</th>
-						<th>Regional Office</th>
-						<th>Claim ID</th>
-						<th>Date of Claim</th>
-						<th>CEST Date</th>
-						<th>Models/Contentions</th>
+						<td align="center"><b>Select</b></td>
+						<th ng-click="orderByField='veteranId'; reverseSort = !reverseSort"><a>Veteran ID <span ng-show="orderByField == 'veteranId'"><span ng-show="!reverseSort"> <span class="glyphicon glyphicon-sort-by-order"></span></span><span ng-show="reverseSort"> <span class="glyphicon glyphicon-sort-by-order-alt"></span></span></a></th>
+						<th ng-click="orderByField='veteranId'; reverseSort = !reverseSort"><a>Veteran Name <span ng-show="orderByField == 'veteranId'"><span ng-show="!reverseSort"> <span class="glyphicon glyphicon-sort-by-order"></span></span><span ng-show="reverseSort"> <span class="glyphicon glyphicon-sort-by-order-alt"></span></span></a></th>
+						<th ng-click="orderByField='regionalOfficeOfClaim'; reverseSort = !reverseSort"><a>Regional Office <span ng-show="orderByField == 'regionalOfficeOfClaim'"><span ng-show="!reverseSort"> <span class="glyphicon glyphicon-sort-by-alphabet"></span></span><span ng-show="reverseSort"> <span class="glyphicon glyphicon-sort-by-alphabet-alt"></span></span></a></th>
+						<th ng-click="orderByField='claimId'; reverseSort = !reverseSort"><a>Claim ID <span ng-show="orderByField == 'claimId'"><span ng-show="!reverseSort"> <span class="glyphicon glyphicon-sort-by-order"></span></span><span ng-show="reverseSort"> <span class="glyphicon glyphicon-sort-by-order-alt"></span></span></a></th>
+						<th ng-click="orderByField='claimDate'; reverseSort = !reverseSort"><a>Date of Claim <span ng-show="orderByField == 'claimDate'"><span ng-show="!reverseSort"> <span class="glyphicon glyphicon-sort-by-order"></span></span><span ng-show="reverseSort"> <span class="glyphicon glyphicon-sort-by-order-alt"></span></span></a></th>
+						<th ng-click="orderByField='claimDate'; reverseSort = !reverseSort"><a>CEST Date<span ng-show="orderByField == 'claimDate'"><span ng-show="!reverseSort"> <span class="glyphicon glyphicon-sort-by-order"></span></span><span ng-show="reverseSort"> <span class="glyphicon glyphicon-sort-by-order-alt"></span></span></a></th>
+						<th ng-click="orderByField='contentionClaimTextKeyForModel'; reverseSort = !reverseSort"><a>Models/Contentions<span ng-show="orderByField == 'contentionClaimTextKeyForModel'"><span ng-show="!reverseSort"> <span class="glyphicon glyphicon-sort-by-alphabet"></span></span><span ng-show="reverseSort"> <span class="glyphicon glyphicon-sort-by-alphabet-alt"></span></span></a></th>
 						<th></th>
 					</tr>
 				</thead>
-				<tbody ng-repeat="claim in claims">
+				<tbody ng-repeat="claim in claims | orderBy:orderByField:reverseSort">
 					<tr>
 						<td align="center"><input type="checkbox"/></td>
 						<td>{{claim.veteranId}}</td>

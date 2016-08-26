@@ -4,7 +4,9 @@ angular.module('bcdssApp').controller('ClaimsDashboardController', function($roo
     $scope.searchTerm = undefined;
     //$scope.USER_ROLE = USER_ROLE;
     $scope.claims = [];
-    
+    $scope.orderByField = 'veteranId';
+    $scope.reverseSort = false;
+        
     $scope.getUserName = function(){
     	if ($rootScope.userName != null) {
     		$scope.userName = $rootScope.userName;
