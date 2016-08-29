@@ -97,6 +97,10 @@ angular.module('bcdssApp').controller('ClaimsDashboardController', function($roo
         	return userRoleTab;
         };
         
+        $scope.clearFilter = function() {
+            $scope.filterKey = '';
+          };
+        
         /*$scope.loadTabView = function (tabUserRole) {
         	if(tabUserRole == USER_ROLE.userRoleRater){
         		console.log("rater");
