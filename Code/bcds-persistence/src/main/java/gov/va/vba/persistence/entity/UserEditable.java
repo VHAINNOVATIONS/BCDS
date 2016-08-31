@@ -28,6 +28,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * A editable user.
  */
@@ -40,10 +42,9 @@ public class UserEditable implements Serializable {
     private boolean activated = false;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            schema="BCDSS", name = "SEC_APP_USER_ROLE",
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "user_role_nm", referencedColumnName = "role_nm")})
+    @JoinTable(schema="BCDSS", name = "SEC_APP_USER_ROLE",
+    	joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
+        inverseJoinColumns = {@JoinColumn(name = "user_role_nm", referencedColumnName = "role_nm")})
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Authority> authorities = new HashSet<>();
 	
@@ -82,6 +83,11 @@ public class UserEditable implements Serializable {
     @Size(min = 1, max = 50)
     @Column(length = 50, unique = true, nullable = false, name="user_login")
     private String login;
+    
+    @NotNull
+    @Size(min = 60, max = 60) 
+    @Column(length = 60, name="pswd")
+    private String password;
 
     public boolean isActivated() {
 		return activated;
@@ -154,6 +160,14 @@ public class UserEditable implements Serializable {
 	public void setLogin(String login) {
 		this.login = login;
 	}
+	
+	public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
 	@Override
     public boolean equals(Object o) {

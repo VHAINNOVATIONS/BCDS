@@ -3,7 +3,7 @@
 angular.module('bcdssApp').controller('UserEditorController',	function($rootScope, $state, $scope, editUser, UserEditable) {
 	$scope.editUser = editUser;
 	
-	$scope.confirmEditUser = function () {
+	$scope.save = function () {
     	console.log($scope.editUser);
     	UserEditable.update($scope.editUser, onSaveFinished);
     };
@@ -15,5 +15,11 @@ angular.module('bcdssApp').controller('UserEditorController',	function($rootScop
 	$scope.cancel = function() {
         $state.go('^', {reload:true});
     };
+    
+    $scope.resetPassword = function(){
+    	
+    }
+    
+    
 	}
 );
