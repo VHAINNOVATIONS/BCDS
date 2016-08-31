@@ -1,0 +1,37 @@
+<div ng-controller="AdminDashboardController">
+	<div class="container" ng-app="bcdssApp">
+		<h2 class="text-center">Administrator's Dashboard</h2>
+		<h2 class="text-center">Users Table</h2>
+	
+		<div class="row v-spacer">
+			<div id="exportable" class="table-responsive well">
+				<table width="100%" class="table table-striped">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Login/User ID</th>
+							<th>User Name</th>
+							<th>Active</th>
+							<th>User Role</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody ng-repeat="editableUser in editableUsers">
+						<tr>
+							<td>{{editableUser.id}}</td>
+							<td>{{editableUser.login}}</td>
+							<td>{{editableUser.firstName}}</td>
+							<td>{{editableUser.activated === "true" ? "disabled" : "active"}}</td>
+							<td><span ng-repeat="role in editableUser.authorities">{{role.name}}</span></td>
+							<td>
+								<button type="button" ui-sref="usereditor({userId: editableUser.id})" class="btn btn-warning">
+	                            	<span class="glyphicon glyphicon-pencil"></span>&nbsp; Edit</span>
+	                        	</button>
+	                        </td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

@@ -10,13 +10,13 @@
 				<h4 class="text-right">Welcome {{userName()}}!</h4>
 					<div ng-switch="userRole()">
 						<div ng-switch-when="ROLE_ADMIN">
-							<div ng-include="'scripts/app/admin/dashboard.html'"></div>
+							<div ng-include="'scripts/app/dashboard/admin/dashboard-admin.html'"></div>
 						</div>
 						<div ng-switch-when="ROLE_MODELER">
-							<div ng-include="'scripts/app/modeler/dashboard.html'"></div>
+							<div ng-include="'scripts/app/dashboard/modeler/dashboard-modeler.html'"></div>
 						</div>
 						<div ng-switch-when="ROLE_RATER">
-							<div ng-include="'scripts/app/manager/dashboard.html'"></div>
+							<div ng-include="'scripts/app/dashboard/rater/dashboard-rater.html'"></div>
 						</div>
 				    </div>
 				</div>

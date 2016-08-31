@@ -1,0 +1,77 @@
+<form name="userEditForm" role="form" novalidate ng-submit="confirmEditUser()">
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="text-left">User Editor</h2>
+        </div>
+    </div>
+    <div class="row">
+		<div class="col-md-2">
+    		<div class="form-group">
+        	<label for="redactionProjectName">User Id:</label>
+                <input type="text" class="form-control" placeholder="Type user name here" ng-model="editUser.id" ng-disabled="true">
+            </div>
+        </div>
+        <div class="col-md-2">
+    		<div class="form-group">
+        	<label for="redactionProjectName">Active user:</label>
+                <input type="text" class="form-control" placeholder="Type user name here" ng-model="editUser.activated" ng-disabled="true">
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+    		<div class="form-group">
+        	<label for="redactionProjectName">User Role:</label>
+                <input type="text" class="form-control" placeholder="Type user name here" ng-model="editUser.authorities[0].name" ng-disabled="true">
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+    		<div class="form-group">
+        	<label for="redactionProjectName">Created By:</label>
+                <input type="text" class="form-control" placeholder="Type user name here" ng-model="editUser.createdBy" ng-disabled="true">
+            </div>
+        </div>
+        
+        <div class="col-md-2">
+    		<div class="form-group">
+        	<label for="redactionProjectName">Date Created:</label>
+                <div required id="userName" class="form-control" placeholder="Type user name here" ng-model="editUser.createdDate" ng-disabled="true">{{editUser.createdDate}}</div>
+            </div>
+        </div>
+        
+        
+    </div>
+    
+     <div class="row">
+		<div class="col-md-3">
+    		<div class="form-group">
+        	<label for="redactionProjectName">User login id:</label>
+                <input required id="userName" type="text" class="form-control" placeholder="Type user name here" ng-model="editUser.login">
+            </div>
+        </div>
+    </div>
+
+	<div class="row">
+		<div class="col-md-7">
+    		<div class="form-group">
+        	<label for="redactionProjectName">User Name:</label>
+                <input required id="userName" type="text" class="form-control" placeholder="Type user name here" ng-model="editUser.firstName">
+            </div>
+        </div>
+    </div>
+    
+       
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pull-right">
+                <button type="button" class="btn btn-success" ng-click="cancel()">
+                    <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" style="margin-left:5px" ng-disabled="userEditForm.$invalid" class="btn btn-warning">
+                    <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,8 +1,7 @@
 'use strict';
 
-angular.module('bcdssApp').controller('ClaimsDashboardController', function($rootScope, $scope, $state, Account, /*USER_ROLE,*/ $stateParams, ClaimService) {
+angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $scope, $state, Account, $stateParams, ClaimService) {
     $scope.searchTerm = undefined;
-    //$scope.USER_ROLE = USER_ROLE;
     $scope.claims = [];
     $scope.orderByField = 'veteranId';
     $scope.reverseSort = false;
