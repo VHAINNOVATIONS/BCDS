@@ -2,7 +2,7 @@
 
 angular.module('bcdssApp')
     .factory('ClaimService', function ($resource, DateUtils) {
-        return $resource('api/claims', {type: '@type', referenceId: '@referenceId'}, {
+        return $resource('api/claims', {}, {
         	'query': {method: 'GET', isArray: true},
             'get': {
                 method: 'GET',

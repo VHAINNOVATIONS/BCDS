@@ -1,7 +1,13 @@
 'use strict';
 
-angular.module('bcdssApp').controller('UserEditorController',	function($rootScope, $state, $scope, editUser, UserEditable) {
+angular.module('bcdssApp').controller('UserEditorController',	function($rootScope, $state, $scope, editUser, UserEditable, ResetPassword) {
 	$scope.editUser = editUser;
+	
+	$scope.resetPassword = function() {
+		ResetPassword.get({login: $scope.editUser.login}, function(result){
+			$scope.editUser.password = result[0];
+		});
+	};
 	
 	$scope.save = function () {
     	console.log($scope.editUser);
@@ -13,13 +19,6 @@ angular.module('bcdssApp').controller('UserEditorController',	function($rootScop
     }
 	
 	$scope.cancel = function() {
-        $state.go('^', {reload:true});
+        $state.go('^', {reload:false});
     };
-    
-    $scope.resetPassword = function(){
-    	
-    }
-    
-    
-	}
-);
+});
