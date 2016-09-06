@@ -51,10 +51,11 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(name = "last_name", length = 50)
     private String lastName;*/
 
-    /*@Email
+    @JsonIgnore
+    @Email
     @Size(max = 100)
-    @Column(length = 100, unique = true)
-    private String email;*/
+    @Column(name="email", length = 100)
+    private String email;
 
     @Column(nullable = false, name="stas")
     private boolean activated = false;
@@ -122,13 +123,13 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.lastName = lastName;
     }*/
 
-    /*public String getEmail() {
+    public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
-    }*/
+    }
 
     public boolean getActivated() {
         return activated;
@@ -216,7 +217,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
                 ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 //", lastName='" + lastName + '\'' +
-                //", email='" + email + '\'' +
+                ", email='" + email + '\'' +
                 ", activated='" + activated + '\'' +
                 //", langKey='" + langKey + '\'' +
                 //", activationKey='" + activationKey + '\'' +

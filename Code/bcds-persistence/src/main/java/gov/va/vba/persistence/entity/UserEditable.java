@@ -22,6 +22,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.Email;
 import org.joda.time.DateTime;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -58,6 +59,11 @@ public class UserEditable implements Serializable {
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     @Column(name = "crdt_dtm", nullable = false)
     private DateTime createdDate = DateTime.now();
+    
+    @Email
+    @Size(max = 100)
+    @Column(name = "email", length = 100)
+    private String email;
     
     @Size(max = 50)
     @Column(name = "user_nm", length = 50)
@@ -120,6 +126,14 @@ public class UserEditable implements Serializable {
 	public void setCreatedDate(DateTime createdDate) {
 		this.createdDate = createdDate;
 	}
+	
+	public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
 	public String getFirstName() {
 		return firstName;

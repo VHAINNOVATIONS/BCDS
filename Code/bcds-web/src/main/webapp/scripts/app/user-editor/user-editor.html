@@ -9,20 +9,20 @@
 		<div class="col-md-4">
     		<div class="form-group">
         	<label for="userId">User Id:</label>
-                <input id="userId" type="text" class="form-control" placeholder="Type user name here" ng-model="editUser.id" ng-disabled="true">
+                <input id="userId" type="text" class="form-control" ng-model="editUser.id" ng-disabled="true">
             </div>
         </div>
         <div class="col-md-4">
     		<div class="form-group">
         	<label for="activeUser">Active user:</label>
-                <input id="activeUser" type="text" class="form-control" placeholder="Type user name here" ng-model="editUser.activated" ng-disabled="true">
+                <input id="activeUser" type="text" class="form-control" ng-model="editUser.activated" ng-disabled="true">
             </div>
         </div>
         
         <div class="col-md-4">
     		<div class="form-group">
         	<label for="userRole">User Role:</label>
-                <input id="userRole" type="text" class="form-control" placeholder="Type user name here" ng-model="editUser.authorities[0].name" ng-disabled="true">
+                <input id="userRole" type="text" class="form-control" ng-model="editUser.authorities[0].name" ng-disabled="true">
             </div>
         </div>
     </div>
@@ -31,35 +31,41 @@
 		<div class="col-md-4">
     		<div class="form-group">
         	<label for="userName">User Name:</label>
-                <input required id="userName" type="text" class="form-control" placeholder="Type user name here" ng-model="editUser.firstName">
+                <input required id="userName" type="text" class="form-control" ng-model="editUser.firstName">
             </div>
         </div>
         <div class="col-md-4">
     		<div class="form-group">
         	<label for="createdBy">Created By:</label>
-                <input id="createdBy" type="text" class="form-control" placeholder="Type user name here" ng-model="editUser.createdBy" ng-disabled="true"/>
+                <input id="createdBy" type="text" class="form-control" ng-model="editUser.createdBy" ng-disabled="true"/>
             </div>
         </div>
         
         <div class="col-md-4">
     		<div class="form-group">
         	<label for="userName">Date Created:</label>
-                <div required id="userName" class="form-control" placeholder="Type user name here" ng-model="editUser.createdDate" ng-disabled="true">{{editUser.createdDate}}</div>
+                <div required id="userName" class="form-control" ng-model="editUser.createdDate" ng-disabled="true">{{editUser.createdDate}}</div>
             </div>
         </div>
     </div>
     
     <div class="row">
-		<div class="col-md-6">
+		<div class="col-md-4">
     		<div class="form-group">
         	<label for="userLoginId">User login id:</label>
                 <input required id="userLoginId" type="text" class="form-control" placeholder="Type user name here" ng-model="editUser.login">
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
         	<div class="form-group">
         		<label for="userPassword">Password:</label>
-             	<input required id="userPassword" type="text" class="form-control" placeholder="Type user name here" ng-model="editUser.password" ng-disabled="true"/>
+             	<input required id="userPassword" type="text" class="form-control" placeholder="Type password here" ng-model="editUser.password" ng-disabled="true"/>
+            </div>
+        </div>
+        <div class="col-md-4">
+        	<div class="form-group">
+        		<label for="userEmail">e-mail:</label>
+             	<input required id="userEmail" type="text" class="form-control" placeholder="Type user email here" ng-model="editUser.email"/>
             </div>
         </div>
     </div>    
