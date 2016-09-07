@@ -9,6 +9,9 @@
 				<li ng-class="{ active: isSet(2) }">
 					<a href ng-click="setTab(2)">Models</a>
 				</li>
+				<li ng-class="{ active: isSet(3) }">
+					<a href ng-click="setTab(3)">Report</a>
+				</li>
 			</ul>
 		</div>
 
@@ -17,12 +20,15 @@
 				<div ng-show="isSet(1)">
 					<div class="row">
 						<div align="center">
-							<div ng-include="'scripts/app/claims/dashboard.html'"></div>
+							<div ng-include="'scripts/app/claims/claims.html'"></div>
 						</div>
 					</div>
 				</div>
 				<div ng-show="isSet(2)">
 					<h4 align="center">Models Page</h4>
+				</div>
+				<div ng-show="isSet(3)">
+					<h4 align="center">Report</h4>
 				</div>
 			</div>
 		</div>
