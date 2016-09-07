@@ -2,7 +2,14 @@
 
 angular.module('bcdssApp').controller('UserEditorController',	function($rootScope, $state, $scope, editUser, UserEditable, ResetPassword) {
 	$scope.editUser = editUser;
-	
+
+	$scope.formatCreatedDate = function(date) {
+		var date = new Date(date);
+            return ('0' + (date.getMonth()+1)).slice(-2) + '/' +
+                ('0' + date.getDate()).slice(-2) + '/'
+                + date.getFullYear();
+	};
+
 	$scope.resetPassword = function() {
 		ResetPassword.get({login: $scope.editUser.login}, function(result){
 			$scope.editUser.password = result[0];

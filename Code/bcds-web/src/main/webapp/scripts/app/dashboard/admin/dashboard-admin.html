@@ -17,17 +17,15 @@
 				<table width="100%" class="table table-striped">
 					<thead>
 						<tr>
-							<th>ID</th>
-							<th>Login/User ID</th>
-							<th>User Name</th>
-							<th>Active</th>
-							<th>User Role</th>
+							<th>Login ID</th>
+							<th>Name</th>
+							<th>Status</th>
+							<th>Role</th>
 							<th></th>
 						</tr>
 					</thead>
 					<tbody ng-repeat="editableUser in editableUsers">
 						<tr>
-							<td>{{editableUser.id}}</td>
 							<td>{{editableUser.login}}</td>
 							<td>{{editableUser.firstName}}</td>
 							<td>{{editableUser.activated === "true" ? "disabled" : "active"}}</td>
