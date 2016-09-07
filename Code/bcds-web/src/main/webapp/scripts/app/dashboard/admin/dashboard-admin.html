@@ -17,10 +17,19 @@
 				<table width="100%" class="table table-striped">
 					<thead>
 						<tr>
+<<<<<<< HEAD
 							<th>Login ID</th>
 							<th>Name</th>
 							<th>Status</th>
 							<th>Role</th>
+=======
+							<th>ID</th>
+							<th>Login/User ID</th>
+							<th>User Name</th>
+							<th>e-mail</th>
+							<th>Active</th>
+							<th>User Role</th>
+>>>>>>> 3335a3fe4d9b1b1dcc89e68ed9ff2c873a6b648a
 							<th></th>
 						</tr>
 					</thead>
@@ -28,6 +37,7 @@
 						<tr>
 							<td>{{editableUser.login}}</td>
 							<td>{{editableUser.firstName}}</td>
+							<td>{{editableUser.email}}</td>
 							<td>{{editableUser.activated === "true" ? "disabled" : "active"}}</td>
 							<td><span ng-repeat="role in editableUser.authorities">{{role.name}}</span></td>
 							<td>
