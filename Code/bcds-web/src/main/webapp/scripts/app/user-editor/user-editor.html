@@ -1,20 +1,21 @@
 <form name="userEditForm" role="form" novalidate ng-submit="save()">
-
+	<br>
     <div class="row">
         <div class="col-md-12">
             <h2 class="text-left">User Editor</h2>
         </div>
     </div>
+	<br>
     <div class="row">
 		<div class="col-md-4">
     		<div class="form-group">
-        	<label for="userLoginId">User login id:</label>
+        	<label for="userLoginId">User Login ID:</label>
                 <input required id="userLoginId" type="text" class="form-control" placeholder="Type user name here" ng-model="editUser.login">
             </div>
         </div>
         <div class="col-md-4">
     		<div class="form-group">
-        	<label for="activeUser">Active user:</label>
+        	<label for="activeUser">Active User:</label>
                 <input id="activeUser" type="text" class="form-control" ng-model="editUser.activated" ng-disabled="true">
             </div>
         </div>
@@ -26,7 +27,7 @@
             </div>
         </div>
     </div>
-    
+    <br>
 	<div class="row">
 		<div class="col-md-4">
     		<div class="form-group">
@@ -48,23 +49,23 @@
             </div>
         </div>
     </div>
-    
+    <br>
     <div class="row">
         <div class="col-md-4">
         	<div class="form-group">
-        		<label for="userEmail">e-mail:</label>
+        		<label for="userEmail">E-Mail:</label>
              	<input required id="userEmail" type="text" class="form-control" placeholder="Type user email here" ng-model="editUser.email"/>
             </div>
         </div>
     </div>    
-
+	<br>
     <div class="row">
         <div class="col-md-12">
             <div class="pull-right">
-            	<button type="button" class="btn btn-danger" ng-click="resetPassword()">
+            	<button type="button" style="margin-left:5px" class="btn btn-danger" ng-click="resetPassword()">
                     <span class="glyphicon glyphicon-flash"></span>&nbsp;<span>Reset Password</span>
                 </button>
-                <button type="button" class="btn btn-success" ng-click="cancel()">
+                <button type="button" style="margin-left:5px" class="btn btn-success" ng-click="cancel()">
                     <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
                 </button>
                 <button type="submit" style="margin-left:5px" ng-disabled="userEditForm.$invalid" class="btn btn-primary">
