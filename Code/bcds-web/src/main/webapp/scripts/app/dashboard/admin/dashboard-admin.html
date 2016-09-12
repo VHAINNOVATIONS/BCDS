@@ -8,7 +8,7 @@
 				<div class="row">
 			        <div class="col-md-12">
 			            <div class="pull-right">
-			            	<button type="button" class="btn btn-success" ng-click="createUser()">
+			            	<button type="button" class="btn btn-success" ui-sref="usereditor()">
 			                    <span class="glyphicon glyphicon-plus"></span>&nbsp;<span>Create User</span>
 			                </button>
 			            </div>
@@ -17,6 +17,7 @@
 				<table width="100%" class="table table-striped">
 					<thead>
 						<tr>
+							<th>ID</th>
 							<th>Login ID</th>
 							<th>Name</th>
 							<th>e-mail</th>
@@ -27,6 +28,7 @@
 					</thead>
 					<tbody ng-repeat="editableUser in editableUsers">
 						<tr>
+							<td>{{editableUser.id}}</td>
 							<td>{{editableUser.login}}</td>
 							<td>{{editableUser.firstName}}</td>
 							<td>{{editableUser.email}}</td>

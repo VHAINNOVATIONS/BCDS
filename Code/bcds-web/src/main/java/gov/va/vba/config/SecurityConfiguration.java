@@ -133,7 +133,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/configuration/security").hasAuthority(AuthoritiesConstants.ADMIN)
             .antMatchers("/configuration/ui").hasAuthority(AuthoritiesConstants.ADMIN)
             .antMatchers("/swagger-ui.html").hasAuthority(AuthoritiesConstants.ADMIN)
-            .antMatchers("/protected/**").authenticated();
+            .antMatchers("/protected/**").authenticated()
+        	.antMatchers("/usercontrol/**").hasAuthority(AuthoritiesConstants.ADMIN);
 
     }
 

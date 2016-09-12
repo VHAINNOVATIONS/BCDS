@@ -2,7 +2,7 @@
 
 angular.module('bcdssApp')
     .factory('UserEditable', function ($resource) {
-        return $resource('api/allusers/:id', {}, {
+        return $resource('usercontrol/allusers/:id', {}, {
                 'query': {method: 'GET', isArray: true},
                 'get': {
                     method: 'GET',

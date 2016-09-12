@@ -16,14 +16,16 @@
         <div class="col-md-4">
     		<div class="form-group">
         	<label for="activeUser">Active User:</label>
-                <input id="activeUser" type="text" class="form-control" ng-model="editUser.activated" ng-disabled="true">
+                <input id="activeUser" type="text" class="form-control" ng-model="editUser.activated" ng-disabled="editUser.id">
             </div>
         </div>
         
         <div class="col-md-4">
     		<div class="form-group">
         	<label for="userRole">User Role:</label>
-                <input id="userRole" type="text" class="form-control" ng-model="editUser.authorities[0].name" ng-disabled="true">
+                <select required id="userRole" type="text" class="form-control" ng-model="editUser.authorities[0]" ng-disabled="editUser.id" ng-options="userrole.name for userrole in userroles track by userrole.name">
+                	<option selected="selected" disabled="disabled" value=""></option>
+                </select>
             </div>
         </div>
     </div>
@@ -44,8 +46,9 @@
         
         <div class="col-md-4">
     		<div class="form-group">
-        	<label for="userName">Date Created:</label>
-                <div required id="userName" class="form-control" placeholder="Type user name here" ng-model="editUser.createdDate" ng-disabled="true">{{formatCreatedDate(editUser.createdDate)}}</div>
+        	<label for="dateCreated">Date Created:</label>
+                <!-- <div id="dateCreated" class="form-control" ng-model="editUser.createdDate" ng-disabled="true">{{formatCreatedDate(editUser.createdDate)}}</div> -->
+                <input id="dateCreated" class="form-control" ng-model="editUser.createdDate" ng-disabled="true"/>
             </div>
         </div>
     </div>
@@ -57,12 +60,33 @@
              	<input required id="userEmail" type="text" class="form-control" placeholder="Type user email here" ng-model="editUser.email"/>
             </div>
         </div>
+        <div class="col-md-4" >
+        	<div class="form-group">
+        		<label for="lastModifiedBy">Last Modified By:</label>
+             	<input id="lastModifiedBy" type="text" class="form-control" ng-model="editUser.lastModifiedBy" ng-disabled="true"/>
+            </div>
+        </div>
+        <div class="col-md-4" >
+        	<div class="form-group">
+        		<label for="lastModifiedDate">Last Modified Date:</label>
+             	<input id="lastModifiedDate" class="form-control" ng-model="editUser.lastModifiedDate" ng-disabled="true"/>
+            </div>
+        </div>
     </div>    
+	<br>
+	<div class="row">
+        <div class="col-md-4" >
+        	<div class="form-group">
+        		<label for="userPassword">Password:</label>
+             	<input required id="userPassword" type="text" class="form-control" placeholder="Type password here" ng-model="editUser.password" ng-disabled="editUser.id"/>
+            </div>
+        </div>
+    </div> 
 	<br>
     <div class="row">
         <div class="col-md-12">
             <div class="pull-right">
-            	<button type="button" style="margin-left:5px" class="btn btn-danger" ng-click="resetPassword()">
+            	<button type="button" style="margin-left:5px" class="btn btn-danger" ng-click="resetPassword()" ng-disabled="!editUser.id">
                     <span class="glyphicon glyphicon-flash"></span>&nbsp;<span>Reset Password</span>
                 </button>
                 <button type="button" style="margin-left:5px" class="btn btn-success" ng-click="cancel()">

@@ -18,7 +18,6 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     $scope.loadClaims = function(){
     	ClaimService.query(function(result){
     		$scope.claims = result;
-    		console.log($scope.claims);
     	});
     };
 

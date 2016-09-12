@@ -1,7 +1,13 @@
 'use strict';
 
-angular.module('bcdssApp').controller('UserEditorController',	function($rootScope, $state, $scope, editUser, UserEditable, ResetPassword) {
+angular.module('bcdssApp').controller('UserEditorController',	function($rootScope, $state, $scope, editUser, UserEditable, ResetPassword, UserRole) {
 	$scope.editUser = editUser;
+	$scope.userroles = [];
+	
+	$scope.loadRoles = function () {
+		UserRole.query(function(result){$scope.userroles = result})
+	};
+	$scope.loadRoles();
 
 	$scope.formatCreatedDate = function(date) {
 		var date = new Date(date);
@@ -17,11 +23,20 @@ angular.module('bcdssApp').controller('UserEditorController',	function($rootScop
 	};
 	
 	$scope.save = function () {
-    	console.log($scope.editUser);
-    	UserEditable.update($scope.editUser, onSaveFinished);
+		if ($scope.editUser.id != null) {
+			UserEditable.update($scope.editUser, onSaveFinished, onUnsuccess);
+		} else {
+			UserEditable.save($scope.editUser, onSaveFinished, onUnsuccess);
+		}
     };
     
     var onSaveFinished = function(){
+    	console.log('>>>successful');
+    	$state.go('^', {reload:true});
+    }
+    
+    var onUnsuccess = function(){
+    	console.log('###not successful');
     	$state.go('^', {reload:true});
     }
 	

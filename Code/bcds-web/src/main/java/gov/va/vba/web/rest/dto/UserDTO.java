@@ -1,11 +1,12 @@
 package gov.va.vba.web.rest.dto;
 
-import org.hibernate.validator.constraints.Email;
+import java.util.List;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.util.List;
+
+import org.hibernate.validator.constraints.Email;
 
 public class UserDTO {
 
@@ -27,11 +28,11 @@ public class UserDTO {
     /*@Size(max = 50)
     private String lastName;*/
 
-    /*@Email
+    @Email
     @Size(min = 5, max = 100)
     private String email;
 
-    @Size(min = 2, max = 5)
+    /*@Size(min = 2, max = 5)
     private String langKey;*/
 
     private List<String> roles;
@@ -45,7 +46,7 @@ public class UserDTO {
         this.password = password;
         this.firstName = firstName;
         //this.lastName = lastName;
-        //this.email = email;
+        this.email = email;
         //this.langKey = langKey;
         this.roles = roles;
     }
@@ -64,13 +65,13 @@ public class UserDTO {
 
     /*public String getLastName() {
         return lastName;
-    }
+    }*/
 
     public String getEmail() {
         return email;
     }
 
-    public String getLangKey() {
+    /*public String getLangKey() {
         return langKey;
     }*/
 
@@ -85,7 +86,7 @@ public class UserDTO {
         ", password='" + password + '\'' +
         ", firstName='" + firstName + '\'' +
         //", lastName='" + lastName + '\'' +
-        //", email='" + email + '\'' +
+        ", email='" + email + '\'' +
         //", langKey='" + langKey + '\'' +
         ", roles=" + roles +
         '}';

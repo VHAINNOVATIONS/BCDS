@@ -1,30 +1,35 @@
 package gov.va.vba.web.rest;
 
-import com.codahale.metrics.annotation.Timed;
-import gov.va.vba.persistence.entity.Authority;
-import gov.va.vba.persistence.entity.PersistentToken;
-import gov.va.vba.persistence.entity.User;
-import gov.va.vba.persistence.repository.PersistentTokenRepository;
-import gov.va.vba.persistence.repository.UserRepository;
-import gov.va.vba.security.SecurityUtils;
-import gov.va.vba.service.MailService;
-import gov.va.vba.service.UserService;
-import gov.va.vba.web.rest.dto.UserDTO;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.*;
-import java.util.stream.Collectors;
+import com.codahale.metrics.annotation.Timed;
+
+import gov.va.vba.persistence.entity.Authority;
+import gov.va.vba.persistence.entity.PersistentToken;
+import gov.va.vba.persistence.repository.PersistentTokenRepository;
+import gov.va.vba.persistence.repository.UserRepository;
+import gov.va.vba.security.SecurityUtils;
+import gov.va.vba.service.MailService;
+import gov.va.vba.service.UserService;
+import gov.va.vba.web.rest.dto.UserDTO;
 
 /**
  * REST controller for managing the current user's account.

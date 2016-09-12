@@ -10,7 +10,7 @@ angular.module('bcdssApp')
                     roles: [],
                     pageTitle: 'User Editor'
                 },
-                params: {},
+                params: {userId: {value : null, squash: true} },
                 views: {
                     'content@': {
                         templateUrl: 'scripts/app/user-editor/user-editor.html',
@@ -18,10 +18,24 @@ angular.module('bcdssApp')
                     }
                 },
                 resolve: {
-                	editUser: ['$stateParams', 'UserEditable', function($stateParams, UserEditable){
+                	editUser: ['$stateParams', 'UserEditable', function($stateParams, UserEditable){if($stateParams.userId != null){
                 		return UserEditable.get({id: $stateParams.userId}, function(result){
                 			return result;
                 		})
+                	} else {
+                		return {activated: false,
+                    		authorities:[],
+                            createdBy: null,
+                            createdDate: null,
+                            email: null,
+                            firstName: null,
+                            id: null,
+                            login: null,
+                            password: null,
+                            lastModifiedBy: null,
+                            lastModifiedDate: null};
+                	}
+                		
                 	}]
 
                 }
