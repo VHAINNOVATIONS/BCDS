@@ -9,7 +9,7 @@ angular.module('bcdssApp').controller('UserEditorController',	function($rootScop
 	};
 	$scope.loadRoles();
 
-	$scope.formatCreatedDate = function(date) {
+	$scope.formatDate = function(date) {
 		var date = new Date(date);
             return ('0' + (date.getMonth()+1)).slice(-2) + '/' +
                 ('0' + date.getDate()).slice(-2) + '/'
