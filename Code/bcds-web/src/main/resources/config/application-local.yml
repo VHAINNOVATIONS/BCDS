@@ -35,7 +35,7 @@ swagger:
 
 server:
     port: 8083
-    sessionTimeout: 900
+    sessionTimeout: 3600
 
 spring:
     profiles:
