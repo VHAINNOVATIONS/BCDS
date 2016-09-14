@@ -35,6 +35,7 @@ swagger:
 
 server:
     port: 8083
+    sessionTimeout: 900
 
 spring:
     profiles:
@@ -89,5 +90,5 @@ cache:
 
 spring.jpa.properties.org.hibernate.envers.audit_table_prefix: AUDIT_
 spring.jpa.properties.org.hibernate.envers.audit_table_suffix:
-spring.jpa.properties.org.hibernate.envers.default_schema: BCDS
+spring.jpa.properties.org.hibernate.envers.default_schema: BCDSS
 spring.jpa.properties.org.hibernate.envers.do_not_audit_optimistic_locking_field: true

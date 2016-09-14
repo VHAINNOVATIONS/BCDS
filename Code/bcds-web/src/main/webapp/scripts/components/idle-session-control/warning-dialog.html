@@ -1,0 +1,10 @@
+<div>
+  <div class="modal-header">
+	<h2>Hello, Are you there?</h1>
+	<h4>You've been idle for a long period of time!!!</h4>
+  </div>
+  <div idle-countdown="countdown" ng-init="countdown=120" class="modal-body">
+  	<span>You'll be logged out in <b>{{countdown}} seconds</b>.</span><br/><br/>
+   	<uib-progressbar max="120" value="countdown" animate="true" class="progress-striped active"><b>{{countdown}}</b></uib-progressbar>
+  </div>
+</div>

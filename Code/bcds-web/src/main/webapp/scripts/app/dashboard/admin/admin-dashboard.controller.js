@@ -6,7 +6,6 @@ angular.module('bcdssApp').controller('AdminDashboardController', function($root
 	$scope.loadAllUsers = function (){
 		UserEditable.query(function(result){
 			$scope.editableUsers = result;
-			console.log($scope.editableUsers);
 		})
 	};
 	$scope.loadAllUsers();
