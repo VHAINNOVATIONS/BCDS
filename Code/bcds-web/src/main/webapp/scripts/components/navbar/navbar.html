@@ -13,6 +13,7 @@
 			</span>
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse" ng-switch="isAuthenticated()">
+        	<div ng-switch-when="true"><section data-ng-controller='IdleController'></section></div>
             <ul class="nav navbar-nav nav-pills navbar-right"  ng-switch-when="true">
                 <li>
                     <a ui-sref="home" uib-tooltip="Home" tooltip-placement="bottom"><span class="glyphicon glyphicon-home"></span></a>
