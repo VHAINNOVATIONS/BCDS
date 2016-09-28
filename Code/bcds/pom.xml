@@ -27,6 +27,7 @@
 		<module>../bcds-config</module>
 		<module>../bcds-impl</module>
 		<module>../bcds-persistence</module>
+		<module>../bcds-soap-producer</module>
 		<module>../bcds-web</module>
 	</modules>
 
@@ -69,6 +70,7 @@
 		<poi-ooxml.version>3.12</poi-ooxml.version>
 		<spring-boot.version>1.2.4.RELEASE</spring-boot.version>
 		<spring-security.version>4.0.1.RELEASE</spring-security.version>
+		<spring-webservice.version>2.2.0.RELEASE</spring-webservice.version>
 		<springfox.version>2.0.3</springfox.version>
 		<usertype-core.version>4.0.0.GA</usertype-core.version>
 		<sonar-maven-plugin.version>2.7.1</sonar-maven-plugin.version>
@@ -142,6 +144,22 @@
 	</repositories>
 
 	<dependencies>
+	
+	<dependency>
+    		<groupId>wsdl4j</groupId>
+    		<artifactId>wsdl4j</artifactId>
+    	</dependency>
+		<dependency>
+	    	<groupId>javax.xml.bind</groupId>
+	    	<artifactId>jaxb-api</artifactId>
+	    	<version>2.2.12</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.ws</groupId>
+		    <artifactId>spring-ws-core</artifactId>
+		    <version>2.3.0.RELEASE</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.jacoco</groupId>
 			<artifactId>jacoco-maven-plugin</artifactId>
@@ -453,6 +471,11 @@
 			<dependency>
 				<groupId>gov.va.vba</groupId>
 				<artifactId>webservices-external</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>gov.va.vba</groupId>
+				<artifactId>bcds-soap-producer</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 

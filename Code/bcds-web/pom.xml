@@ -29,6 +29,11 @@
             <groupId>gov.va.vba</groupId>
             <artifactId>webservices-external</artifactId>
         </dependency>
+        
+        <dependency>
+            <groupId>gov.va.vba</groupId>
+            <artifactId>bcds-soap-producer</artifactId>
+        </dependency>
 
         <!-- fasterxml dependencies -->
         <dependency>

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://bcdss.vba.va.gov/models" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://bcdss.vba.va.gov/models">
+
+
+    <complexType name="Claim">
+    	<sequence>
+    		<element name="ClaimId" type="int"></element>
+    		<element name="ProfileDate" type="date"></element>
+    		<element name="ProductTypeCode" type="string"></element>
+    		<element name="ClaimDate" type="date"></element>
+            <element name="ContentionId" type="int"></element>
+            <element name="ContentionClassificationId" type="string"></element>
+    		<element name="ContentionBeginDate" type="date"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="VeteranClaim">
+    	<sequence>
+    		<element name="Veteran" type="tns:Veteran"></element>
+    		<element name="Claim" type="tns:Claim" minOccurs="1"
+    			maxOccurs="unbounded">
+    		</element>
+
+    	</sequence>
+    </complexType>
+
+    <complexType name="ClaimRating">
+    	<sequence>
+    		<element name="Claim" type="tns:Claim"></element>
+    		<element name="Rating" type="tns:Rating"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="Rating">
+    	<sequence>
+    		<element name="ClaimantAge" type="int"></element>
+    		<element name="PromulgationDate" type="date"></element>
+    		<element name="RecentDate" type="date"></element>
+    		<element name="ContationCount" type="int"></element>
+    		<element name="PriorCDD" type="int"></element>
+    		<element name="QuantPriorCDD" type="int"></element>
+    		<element name="CurrentCDD" type="int"></element>
+    		<element name="ClaimAge" type="int"></element>
+    		<element name="CDDAge" type="int"></element>
+    		<element name="ClaimCount" type="int"></element>
+    		<element name="ProcessId" type="int"></element>
+    		<element name="PatternId" type="int"></element>
+    		<element name="ProcessDate" type="date"></element>
+    		<element name="ModelType" type="string"></element>
+    		<element name="ModelContentionCount" type="int"></element>
+    		<element name="QuantCDD" type="int"></element>
+    		<element name="RatingDecisions"
+    			type="tns:RatingDecisions">
+    		</element>
+    		<element name="Status" type="tns:RatingStatus" minOccurs="1"
+    			maxOccurs="unbounded">
+    		</element>
+    		<element name="DiagnosisCodeCounts" type="tns:CodesCount"
+    			minOccurs="1" maxOccurs="unbounded">
+    		</element>
+    		<element name="ContentionsCodeCounts" type="tns:CodesCount" minOccurs="1" maxOccurs="unbounded"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="VeteranClaimRating">
+    	<sequence>
+    		<element name="Veteran" type="tns:Veteran"></element>
+    		<element name="ClaimRating" type="tns:ClaimRating" minOccurs="1" maxOccurs="unbounded"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="Veteran">
+    	<sequence>
+    		<element name="VeteranId" type="int"></element>
+    		<element name="VeteranName" type="string"></element>
+    		<element name="dob" type="date"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="DDMModelRequest">
+    	<sequence>
+    		<element name="ModelType" type="string"></element>
+    		<element name="ClaimantAge" type="int"></element>
+    		<element name="ClaimCount" type="int"></element>
+    		<element name="ContentionCount" type="int"></element>
+    		<element name="PriorCDD" type="int"></element>
+    		<element name="CDDAge" type="int"></element>
+    		<element name="ContentionCodeCounts" type="tns:CodesCount"
+    			minOccurs="1" maxOccurs="unbounded">
+    		</element>
+    		<element name="DiagnosisCodeCounts" type="tns:CodesCount" minOccurs="1" maxOccurs="unbounded"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="DDMModelResponse">
+    	<sequence>
+    		<element name="PattrenId" type="int"></element>
+    		<element name="ClaimantAge" type="int"></element>
+    		<element name="ClaimCount " type="int"></element>
+    		<element name="ContentionCount" type="int"></element>
+    		<element name="PriorCDD" type="int"></element>
+    		<element name="CCDAge" type="int"></element>
+    		<element name="ModelType" type="string"></element>
+    		<element name="PatternIndex" type="tns:DDMPatternIndex"></element>
+    		<element name="DiagnosisCodeCounts" type="tns:CodesCount"
+    			minOccurs="1" maxOccurs="unbounded">
+    		</element>
+    		<element name="ContentionCodeCounts" type="tns:CodesCount" minOccurs="1" maxOccurs="unbounded"></element>
+    	</sequence>
+    </complexType>
+
+
+    <complexType name="EditModel">
+    	<sequence>
+    		<element name="ModelType" type="string"></element>
+    		<element name="ModelPatternIndex" type="tns:DDMPatternIndex"></element>
+    	</sequence>
+    </complexType>
+
+
+    <complexType name="RatingStatus">
+    	<sequence>
+    		<element name="ProcessId" type="int"></element>
+    		<element name="Status" type="string"></element>
+    		<element name="Reasons" type="string"></element>
+    		<element name="CreatedBy" type="string"></element>
+    		<element name="CreatedDate" type="date"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="RatingDecisions">
+    	<sequence>
+    		<element name="ProcessId" type="int"></element>
+    		<element name="KneeRatings" type="tns:KneeDecision"></element>
+    		<element name="EarRatings" type="tns:EarDecision"></element>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="KneeDecision">
+    	<sequence>
+    		<element name="ContentionKnee" type="int"></element>
+    		<element name="ContentionLeft" type="int"></element>
+    		<element name="ContentionRight " type="int"></element>
+    		<element name="ContentionBilateral" type="int"></element>
+    		<element name="ContentionLeg" type="int"></element>
+    		<element name="ContentionAmputation" type="int"></element>
+    		<element name="DecisionKnee" type="int"></element>
+    		<element name="DecisionLeft" type="int"></element>
+    		<element name="DecisionRight" type="int"></element>
+    		<element name="DecisionBilateral" type="int"></element>
+    		<element name="DecisionLimitation" type="int"></element>
+    		<element name="DecisionImpairment" type="int"></element>
+    		<element name="DecisionAnkyloses" type="int"></element>
+    		<element name="DecisionAmputation" type="int"></element>
+    	</sequence>
+    </complexType>
+
+
+    <complexType name="EarDecision">
+    	<sequence>
+    		<element name="ContentionLoss" type="int"></element>
+    		<element name="ContentionTinitu" type="int"></element>
+    		<element name="DecisionLoss" type="int"></element>
+    		<element name="DecisionTinitu" type="int"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="CodesCount">
+    	<sequence>
+    		<element name="DiagnosisCode" type="string"></element>
+    		<element name="Count" type="int"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="DDMPatternIndex">
+    	<sequence>
+    		<element name="PatternId" type="int"></element>
+    		<element name="Accuracy" type="int"></element>
+    		<element name="CDD" type="int"></element>
+    		<element name="NumberOfOccurances" type="int"></element>
+    		<element name="CatelogId" type="int"></element>
+    		<element name="CreatedBy" type="string"></element>
+    		<element name="CreatedDate" type="date"></element>
+    	</sequence>
+    </complexType>
+</schema>

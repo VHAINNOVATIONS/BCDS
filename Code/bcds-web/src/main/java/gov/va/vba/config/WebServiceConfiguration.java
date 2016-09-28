@@ -28,18 +28,33 @@ public class WebServiceConfiguration extends WsConfigurerAdapter {
         MessageDispatcherServlet servlet = new MessageDispatcherServlet();
         servlet.setApplicationContext(applicationContext);
         servlet.setTransformWsdlLocations(true);
-        return new ServletRegistrationBean(servlet, "/ws/*");
+        return new ServletRegistrationBean(servlet, "/api/ws/*");
     }
 
     @Bean(name = "ratings")
     public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema ratingInformationServiceSchema) {
         DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
         wsdl11Definition.setPortTypeName("RatingInformationServicePort");
-        wsdl11Definition.setLocationUri("/ws");
+        wsdl11Definition.setLocationUri("/api/ws");
         wsdl11Definition.setTargetNamespace("http://services.rba.benefits.vba.va.gov/");
         wsdl11Definition.setSchema(ratingInformationServiceSchema);
         return wsdl11Definition;
     }
+    
+    @Bean(name = "models")
+    public DefaultWsdl11Definition defaultWsdl11Countries(XsdSchema modelsSchema) {
+        DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
+        wsdl11Definition.setPortTypeName("ModelInformationServicePort");
+        wsdl11Definition.setLocationUri("/api/ws");
+        wsdl11Definition.setTargetNamespace("http://services.rba.benefits.vba.va.gov/");
+        wsdl11Definition.setSchema(modelsSchema);
+        return wsdl11Definition;
+    }
+    
+    @Bean
+	public XsdSchema modelsSchema() {
+		return new SimpleXsdSchema(new ClassPathResource("models.xsd"));
+	}
 
     @Bean
     public XsdSchema ratingInformationServiceSchema() {
