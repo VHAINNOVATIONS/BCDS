@@ -6,26 +6,26 @@
 //
 
 
-package gov.va.vba.bcdss.models;
+package io.spring.guides.gs_producing_web_service;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for CodesCount complex type.
+ * <p>Java class for anonymous complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="CodesCount">
+ * &lt;complexType>
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="DiagnosisCode" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="Count" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -35,55 +35,37 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CodesCount", propOrder = {
-    "diagnosisCode",
-    "count"
+@XmlType(name = "", propOrder = {
+    "name"
 })
-public class CodesCount {
+@XmlRootElement(name = "getCountryRequest")
+public class GetCountryRequest {
 
-    @XmlElement(name = "DiagnosisCode", required = true)
-    protected String diagnosisCode;
-    @XmlElement(name = "Count")
-    protected int count;
+    @XmlElement(required = true)
+    protected String name;
 
     /**
-     * Gets the value of the diagnosisCode property.
+     * Gets the value of the name property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getDiagnosisCode() {
-        return diagnosisCode;
+    public String getName() {
+        return name;
     }
 
     /**
-     * Sets the value of the diagnosisCode property.
+     * Sets the value of the name property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setDiagnosisCode(String value) {
-        this.diagnosisCode = value;
-    }
-
-    /**
-     * Gets the value of the count property.
-     * 
-     */
-    public int getCount() {
-        return count;
-    }
-
-    /**
-     * Sets the value of the count property.
-     * 
-     */
-    public void setCount(int value) {
-        this.count = value;
+    public void setName(String value) {
+        this.name = value;
     }
 
 }

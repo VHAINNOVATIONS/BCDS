@@ -5,5 +5,5 @@
 // Generated on: 2016.10.11 at 02:39:20 PM EDT 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://bcdss.vba.va.gov/models", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
-package gov.va.vba.bcdss.models;
+@javax.xml.bind.annotation.XmlSchema(namespace = "http://spring.io/guides/gs-producing-web-service", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+package io.spring.guides.gs_producing_web_service;
