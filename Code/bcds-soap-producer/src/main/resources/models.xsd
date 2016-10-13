@@ -1,186 +1,174 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<schema targetNamespace="http://bcdss.vba.va.gov/models" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://bcdss.vba.va.gov/models">
+<xs:schema targetNamespace="http://va.gov/vba/bcdss/models" elementFormDefault="qualified" 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"	xmlns:tns="http://va.gov/vba/bcdss/models">
 
+	<xs:complexType name="claim">
+		<xs:sequence>
+			<xs:element name="claimId" type="xs:int"></xs:element>
+			<xs:element name="profileDate" type="xs:date"></xs:element>
+			<xs:element name="productTypeCode" type="xs:string"></xs:element>
+			<xs:element name="claimDate" type="xs:date"></xs:element>
+			<xs:element name="contentionId" type="xs:int"></xs:element>
+			<xs:element name="contentionClassificationId" type="xs:string"></xs:element>
+			<xs:element name="contentionBeginDate" type="xs:date"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
 
-    <complexType name="Claim">
-    	<sequence>
-    		<element name="ClaimId" type="int"></element>
-    		<element name="ProfileDate" type="date"></element>
-    		<element name="ProductTypeCode" type="string"></element>
-    		<element name="ClaimDate" type="date"></element>
-            <element name="ContentionId" type="int"></element>
-            <element name="ContentionClassificationId" type="string"></element>
-    		<element name="ContentionBeginDate" type="date"></element>
-    	</sequence>
-    </complexType>
+	<xs:complexType name="veteranClaim">
+		<xs:sequence>
+			<xs:element name="veteran" type="tns:veteran"></xs:element>
+			<xs:element name="claim" type="tns:claim" minOccurs="1" maxOccurs="unbounded">
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
 
-    <complexType name="VeteranClaim">
-    	<sequence>
-    		<element name="Veteran" type="tns:Veteran"></element>
-    		<element name="Claim" type="tns:Claim" minOccurs="1"
-    			maxOccurs="unbounded">
-    		</element>
+	<xs:complexType name="claimRating">
+		<xs:sequence>
+			<xs:element name="claim" type="tns:claim"></xs:element>
+			<xs:element name="rating" type="tns:rating"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
 
-    	</sequence>
-    </complexType>
+	<xs:complexType name="rating">
+		<xs:sequence>
+			<xs:element name="claimantAge" type="xs:int"></xs:element>
+			<xs:element name="promulgationDate" type="xs:date"></xs:element>
+			<xs:element name="recentDate" type="xs:date"></xs:element>
+			<xs:element name="contationCount" type="xs:int"></xs:element>
+			<xs:element name="priorCDD" type="xs:int"></xs:element>
+			<xs:element name="quantPriorCDD" type="xs:int"></xs:element>
+			<xs:element name="currentCDD" type="xs:int"></xs:element>
+			<xs:element name="claimAge" type="xs:int"></xs:element>
+			<xs:element name="cDDAge" type="xs:int"></xs:element>
+			<xs:element name="claimCount" type="xs:int"></xs:element>
+			<xs:element name="processId" type="xs:int"></xs:element>
+			<xs:element name="patternId" type="xs:int"></xs:element>
+			<xs:element name="processDate" type="xs:date"></xs:element>
+			<xs:element name="modelType" type="xs:string"></xs:element>
+			<xs:element name="modelContentionCount" type="xs:int"></xs:element>
+			<xs:element name="quantCDD" type="xs:int"></xs:element>
+			<xs:element name="ratingDecisions" type="tns:ratingDecisions"></xs:element>
+			<xs:element name="status" type="tns:ratingStatus" minOccurs="1" maxOccurs="unbounded"></xs:element>
+			<xs:element name="diagnosisCodeCounts" type="tns:codesCount" minOccurs="1" maxOccurs="unbounded"></xs:element>
+			<xs:element name="contentionsCodeCounts" type="tns:codesCount" minOccurs="1" maxOccurs="unbounded"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
 
-    <complexType name="ClaimRating">
-    	<sequence>
-    		<element name="Claim" type="tns:Claim"></element>
-    		<element name="Rating" type="tns:Rating"></element>
-    	</sequence>
-    </complexType>
+	<xs:complexType name="veteranClaimRating">
+		<xs:sequence>
+			<xs:element name="veteran" type="tns:veteran"></xs:element>
+			<xs:element name="claimRating" type="tns:claimRating" minOccurs="1" maxOccurs="unbounded"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
 
-    <complexType name="Rating">
-    	<sequence>
-    		<element name="ClaimantAge" type="int"></element>
-    		<element name="PromulgationDate" type="date"></element>
-    		<element name="RecentDate" type="date"></element>
-    		<element name="ContationCount" type="int"></element>
-    		<element name="PriorCDD" type="int"></element>
-    		<element name="QuantPriorCDD" type="int"></element>
-    		<element name="CurrentCDD" type="int"></element>
-    		<element name="ClaimAge" type="int"></element>
-    		<element name="CDDAge" type="int"></element>
-    		<element name="ClaimCount" type="int"></element>
-    		<element name="ProcessId" type="int"></element>
-    		<element name="PatternId" type="int"></element>
-    		<element name="ProcessDate" type="date"></element>
-    		<element name="ModelType" type="string"></element>
-    		<element name="ModelContentionCount" type="int"></element>
-    		<element name="QuantCDD" type="int"></element>
-    		<element name="RatingDecisions"
-    			type="tns:RatingDecisions">
-    		</element>
-    		<element name="Status" type="tns:RatingStatus" minOccurs="1"
-    			maxOccurs="unbounded">
-    		</element>
-    		<element name="DiagnosisCodeCounts" type="tns:CodesCount"
-    			minOccurs="1" maxOccurs="unbounded">
-    		</element>
-    		<element name="ContentionsCodeCounts" type="tns:CodesCount" minOccurs="1" maxOccurs="unbounded"></element>
-    	</sequence>
-    </complexType>
+	<xs:complexType name="veteran">
+		<xs:sequence>
+			<xs:element name="veteranId" type="xs:int"></xs:element>
+			<xs:element name="veteranName" type="xs:string"></xs:element>
+			<xs:element name="dob" type="xs:date"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:element name="getDDMModelRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="modelType" type="xs:string"></xs:element>
+				<xs:element name="claimantAge" type="xs:int"></xs:element>
+				<xs:element name="claimCount" type="xs:int"></xs:element>
+				<xs:element name="contentionCount" type="xs:int"></xs:element>
+				<xs:element name="priorCDD" type="xs:int"></xs:element>
+				<xs:element name="cDDAge" type="xs:int"></xs:element>
+				<xs:element name="contentionCodeCounts" type="tns:codesCount" minOccurs="1" maxOccurs="unbounded"></xs:element>
+				<xs:element name="diagnosisCodeCounts" type="tns:codesCount" minOccurs="1" maxOccurs="unbounded"></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
 
-    <complexType name="VeteranClaimRating">
-    	<sequence>
-    		<element name="Veteran" type="tns:Veteran"></element>
-    		<element name="ClaimRating" type="tns:ClaimRating" minOccurs="1" maxOccurs="unbounded"></element>
-    	</sequence>
-    </complexType>
+	<xs:element name="getDDMModelResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="pattrenId" type="xs:int"></xs:element>
+				<xs:element name="claimantAge" type="xs:int"></xs:element>
+				<xs:element name="claimCount" type="xs:int"></xs:element>
+				<xs:element name="contentionCount" type="xs:int"></xs:element>
+				<xs:element name="priorCDD" type="xs:int"></xs:element>
+				<xs:element name="cCDAge" type="xs:int"></xs:element>
+				<xs:element name="modelType" type="xs:string"></xs:element>
+				<xs:element name="patternIndex" type="tns:dDMPatternIndex"></xs:element>
+				<xs:element name="diagnosisCodeCounts" type="tns:codesCount" minOccurs="1" maxOccurs="unbounded"></xs:element>
+				<xs:element name="contentionCodeCounts" type="tns:codesCount" minOccurs="1" maxOccurs="unbounded"></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
 
-    <complexType name="Veteran">
-    	<sequence>
-    		<element name="VeteranId" type="int"></element>
-    		<element name="VeteranName" type="string"></element>
-    		<element name="dob" type="date"></element>
-    	</sequence>
-    </complexType>
+	<xs:complexType name="editModel">
+		<xs:sequence>
+			<xs:element name="modelType" type="xs:string"></xs:element>
+			<xs:element name="modelPatternIndex" type="tns:dDMPatternIndex"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
 
-    <complexType name="DDMModelRequest">
-    	<sequence>
-    		<element name="ModelType" type="string"></element>
-    		<element name="ClaimantAge" type="int"></element>
-    		<element name="ClaimCount" type="int"></element>
-    		<element name="ContentionCount" type="int"></element>
-    		<element name="PriorCDD" type="int"></element>
-    		<element name="CDDAge" type="int"></element>
-    		<element name="ContentionCodeCounts" type="tns:CodesCount"
-    			minOccurs="1" maxOccurs="unbounded">
-    		</element>
-    		<element name="DiagnosisCodeCounts" type="tns:CodesCount" minOccurs="1" maxOccurs="unbounded"></element>
-    	</sequence>
-    </complexType>
+	<xs:complexType name="ratingStatus">
+		<xs:sequence>
+			<xs:element name="processId" type="xs:int"></xs:element>
+			<xs:element name="status" type="xs:string"></xs:element>
+			<xs:element name="reasons" type="xs:string"></xs:element>
+			<xs:element name="createdBy" type="xs:string"></xs:element>
+			<xs:element name="createdDate" type="xs:date"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
 
-    <complexType name="DDMModelResponse">
-    	<sequence>
-    		<element name="PattrenId" type="int"></element>
-    		<element name="ClaimantAge" type="int"></element>
-    		<element name="ClaimCount " type="int"></element>
-    		<element name="ContentionCount" type="int"></element>
-    		<element name="PriorCDD" type="int"></element>
-    		<element name="CCDAge" type="int"></element>
-    		<element name="ModelType" type="string"></element>
-    		<element name="PatternIndex" type="tns:DDMPatternIndex"></element>
-    		<element name="DiagnosisCodeCounts" type="tns:CodesCount"
-    			minOccurs="1" maxOccurs="unbounded">
-    		</element>
-    		<element name="ContentionCodeCounts" type="tns:CodesCount" minOccurs="1" maxOccurs="unbounded"></element>
-    	</sequence>
-    </complexType>
+	<xs:complexType name="ratingDecisions">
+		<xs:sequence>
+			<xs:element name="processId" type="xs:int"></xs:element>
+			<xs:element name="kneeRatings" type="tns:kneeDecision"></xs:element>
+			<xs:element name="earRatings" type="tns:earDecision"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
 
+	<xs:complexType name="kneeDecision">
+		<xs:sequence>
+			<xs:element name="contentionKnee" type="xs:int"></xs:element>
+			<xs:element name="contentionLeft" type="xs:int"></xs:element>
+			<xs:element name="contentionRight " type="xs:int"></xs:element>
+			<xs:element name="contentionBilateral" type="xs:int"></xs:element>
+			<xs:element name="contentionLeg" type="xs:int"></xs:element>
+			<xs:element name="contentionAmputation" type="xs:int"></xs:element>
+			<xs:element name="decisionKnee" type="xs:int"></xs:element>
+			<xs:element name="decisionLeft" type="xs:int"></xs:element>
+			<xs:element name="decisionRight" type="xs:int"></xs:element>
+			<xs:element name="decisionBilateral" type="xs:int"></xs:element>
+			<xs:element name="decisionLimitation" type="xs:int"></xs:element>
+			<xs:element name="decisionImpairment" type="xs:int"></xs:element>
+			<xs:element name="decisionAnkyloses" type="xs:int"></xs:element>
+			<xs:element name="decisionAmputation" type="xs:int"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
 
-    <complexType name="EditModel">
-    	<sequence>
-    		<element name="ModelType" type="string"></element>
-    		<element name="ModelPatternIndex" type="tns:DDMPatternIndex"></element>
-    	</sequence>
-    </complexType>
+	<xs:complexType name="earDecision">
+		<xs:sequence>
+			<xs:element name="contentionLoss" type="xs:int"></xs:element>
+			<xs:element name="contentionTinitu" type="xs:int"></xs:element>
+			<xs:element name="decisionLoss" type="xs:int"></xs:element>
+			<xs:element name="decisionTinitu" type="xs:int"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
 
+	<xs:complexType name="codesCount">
+		<xs:sequence>
+			<xs:element name="diagnosisCode" type="xs:string"></xs:element>
+			<xs:element name="count" type="xs:int"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
 
-    <complexType name="RatingStatus">
-    	<sequence>
-    		<element name="ProcessId" type="int"></element>
-    		<element name="Status" type="string"></element>
-    		<element name="Reasons" type="string"></element>
-    		<element name="CreatedBy" type="string"></element>
-    		<element name="CreatedDate" type="date"></element>
-    	</sequence>
-    </complexType>
-
-    <complexType name="RatingDecisions">
-    	<sequence>
-    		<element name="ProcessId" type="int"></element>
-    		<element name="KneeRatings" type="tns:KneeDecision"></element>
-    		<element name="EarRatings" type="tns:EarDecision"></element>
-    	</sequence>
-    </complexType>
-    
-    <complexType name="KneeDecision">
-    	<sequence>
-    		<element name="ContentionKnee" type="int"></element>
-    		<element name="ContentionLeft" type="int"></element>
-    		<element name="ContentionRight " type="int"></element>
-    		<element name="ContentionBilateral" type="int"></element>
-    		<element name="ContentionLeg" type="int"></element>
-    		<element name="ContentionAmputation" type="int"></element>
-    		<element name="DecisionKnee" type="int"></element>
-    		<element name="DecisionLeft" type="int"></element>
-    		<element name="DecisionRight" type="int"></element>
-    		<element name="DecisionBilateral" type="int"></element>
-    		<element name="DecisionLimitation" type="int"></element>
-    		<element name="DecisionImpairment" type="int"></element>
-    		<element name="DecisionAnkyloses" type="int"></element>
-    		<element name="DecisionAmputation" type="int"></element>
-    	</sequence>
-    </complexType>
-
-
-    <complexType name="EarDecision">
-    	<sequence>
-    		<element name="ContentionLoss" type="int"></element>
-    		<element name="ContentionTinitu" type="int"></element>
-    		<element name="DecisionLoss" type="int"></element>
-    		<element name="DecisionTinitu" type="int"></element>
-    	</sequence>
-    </complexType>
-
-    <complexType name="CodesCount">
-    	<sequence>
-    		<element name="DiagnosisCode" type="string"></element>
-    		<element name="Count" type="int"></element>
-    	</sequence>
-    </complexType>
-
-    <complexType name="DDMPatternIndex">
-    	<sequence>
-    		<element name="PatternId" type="int"></element>
-    		<element name="Accuracy" type="int"></element>
-    		<element name="CDD" type="int"></element>
-    		<element name="NumberOfOccurances" type="int"></element>
-    		<element name="CatelogId" type="int"></element>
-    		<element name="CreatedBy" type="string"></element>
-    		<element name="CreatedDate" type="date"></element>
-    	</sequence>
-    </complexType>
-</schema>
+	<xs:complexType name="dDMPatternIndex">
+		<xs:sequence>
+			<xs:element name="patternId" type="xs:int"></xs:element>
+			<xs:element name="accuracy" type="xs:int"></xs:element>
+			<xs:element name="cDD" type="xs:int"></xs:element>
+			<xs:element name="numberOfOccurances" type="xs:int"></xs:element>
+			<xs:element name="catelogId" type="xs:int"></xs:element>
+			<xs:element name="createdBy" type="xs:string"></xs:element>
+			<xs:element name="createdDate" type="xs:date"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

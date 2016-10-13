@@ -48,7 +48,7 @@ public class WebServiceConfiguration extends WsConfigurerAdapter {
         DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
         wsdl11Definition.setPortTypeName("ModelsPort");
         wsdl11Definition.setLocationUri("/soap-api/");
-        wsdl11Definition.setTargetNamespace("http://bcdss.vba.va.gov/models");
+        wsdl11Definition.setTargetNamespace("http://va.gov/vba/bcdss/models");
         wsdl11Definition.setSchema(modelsSchema);
         return wsdl11Definition;
     }
@@ -63,6 +63,9 @@ public class WebServiceConfiguration extends WsConfigurerAdapter {
         return new SimpleXsdSchema(new ClassPathResource("wsdl/RatingInformationService.xsd"));
     }*/
     
+    //Remove countries xsd and related soap endpoint as needed.
+    //It was used as an working example
+    //MUST BE REMOVED BEFORE DELIVERING IT TO THE CLIENT
     @Bean(name = "countries")
     public DefaultWsdl11Definition defaultWsdl11Countries(XsdSchema countriesSchema) {
         DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
