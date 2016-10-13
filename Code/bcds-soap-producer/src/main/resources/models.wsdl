@@ -1,0 +1,204 @@
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:sch="http://va.gov/vba/bcdss/models" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://va.gov/vba/bcdss/models" targetNamespace="http://va.gov/vba/bcdss/models">
+	<wsdl:types>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+			xmlns:tns="http://va.gov/vba/bcdss/models" elementFormDefault="qualified"
+			targetNamespace="http://va.gov/vba/bcdss/models">
+			<xs:complexType name="claim">
+				<xs:sequence>
+					<xs:element name="claimId" type="xs:int" />
+					<xs:element name="profileDate" type="xs:date" />
+					<xs:element name="productTypeCode" type="xs:string" />
+					<xs:element name="claimDate" type="xs:date" />
+					<xs:element name="contentionId" type="xs:int" />
+					<xs:element name="contentionClassificationId" type="xs:string" />
+					<xs:element name="contentionBeginDate" type="xs:date" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="veteranClaim">
+				<xs:sequence>
+					<xs:element name="veteran" type="tns:veteran" />
+					<xs:element maxOccurs="unbounded" minOccurs="1" name="claim"
+						type="tns:claim"></xs:element>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="claimRating">
+				<xs:sequence>
+					<xs:element name="claim" type="tns:claim" />
+					<xs:element name="rating" type="tns:rating" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="rating">
+				<xs:sequence>
+					<xs:element name="claimantAge" type="xs:int" />
+					<xs:element name="promulgationDate" type="xs:date" />
+					<xs:element name="recentDate" type="xs:date" />
+					<xs:element name="contationCount" type="xs:int" />
+					<xs:element name="priorCDD" type="xs:int" />
+					<xs:element name="quantPriorCDD" type="xs:int" />
+					<xs:element name="currentCDD" type="xs:int" />
+					<xs:element name="claimAge" type="xs:int" />
+					<xs:element name="cDDAge" type="xs:int" />
+					<xs:element name="claimCount" type="xs:int" />
+					<xs:element name="processId" type="xs:int" />
+					<xs:element name="patternId" type="xs:int" />
+					<xs:element name="processDate" type="xs:date" />
+					<xs:element name="modelType" type="xs:string" />
+					<xs:element name="modelContentionCount" type="xs:int" />
+					<xs:element name="quantCDD" type="xs:int" />
+					<xs:element name="ratingDecisions" type="tns:ratingDecisions" />
+					<xs:element maxOccurs="unbounded" minOccurs="1" name="status"
+						type="tns:ratingStatus" />
+					<xs:element maxOccurs="unbounded" minOccurs="1"
+						name="diagnosisCodeCounts" type="tns:codesCount" />
+					<xs:element maxOccurs="unbounded" minOccurs="1"
+						name="contentionsCodeCounts" type="tns:codesCount" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="veteranClaimRating">
+				<xs:sequence>
+					<xs:element name="veteran" type="tns:veteran" />
+					<xs:element maxOccurs="unbounded" minOccurs="1"
+						name="claimRating" type="tns:claimRating" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="veteran">
+				<xs:sequence>
+					<xs:element name="veteranId" type="xs:int" />
+					<xs:element name="veteranName" type="xs:string" />
+					<xs:element name="dob" type="xs:date" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element name="getDDMModelRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="modelType" type="xs:string" />
+						<xs:element name="claimantAge" type="xs:int" />
+						<xs:element name="claimCount" type="xs:int" />
+						<xs:element name="contentionCount" type="xs:int" />
+						<xs:element name="priorCDD" type="xs:int" />
+						<xs:element name="cDDAge" type="xs:int" />
+						<xs:element maxOccurs="unbounded" minOccurs="1"
+							name="contentionCodeCounts" type="tns:codesCount" />
+						<xs:element maxOccurs="unbounded" minOccurs="1"
+							name="diagnosisCodeCounts" type="tns:codesCount" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getDDMModelResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="pattrenId" type="xs:int" />
+						<xs:element name="claimantAge" type="xs:int" />
+						<xs:element name="claimCount" type="xs:int" />
+						<xs:element name="contentionCount" type="xs:int" />
+						<xs:element name="priorCDD" type="xs:int" />
+						<xs:element name="cCDAge" type="xs:int" />
+						<xs:element name="modelType" type="xs:string" />
+						<xs:element name="patternIndex" type="tns:dDMPatternIndex" />
+						<xs:element maxOccurs="unbounded" minOccurs="1"
+							name="diagnosisCodeCounts" type="tns:codesCount" />
+						<xs:element maxOccurs="unbounded" minOccurs="1"
+							name="contentionCodeCounts" type="tns:codesCount" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:complexType name="editModel">
+				<xs:sequence>
+					<xs:element name="modelType" type="xs:string" />
+					<xs:element name="modelPatternIndex" type="tns:dDMPatternIndex" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="ratingStatus">
+				<xs:sequence>
+					<xs:element name="processId" type="xs:int" />
+					<xs:element name="status" type="xs:string" />
+					<xs:element name="reasons" type="xs:string" />
+					<xs:element name="createdBy" type="xs:string" />
+					<xs:element name="createdDate" type="xs:date" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="ratingDecisions">
+				<xs:sequence>
+					<xs:element name="processId" type="xs:int" />
+					<xs:element name="kneeRatings" type="tns:kneeDecision" />
+					<xs:element name="earRatings" type="tns:earDecision" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="kneeDecision">
+				<xs:sequence>
+					<xs:element name="contentionKnee" type="xs:int" />
+					<xs:element name="contentionLeft" type="xs:int" />
+					<xs:element name="contentionRight " type="xs:int" />
+					<xs:element name="contentionBilateral" type="xs:int" />
+					<xs:element name="contentionLeg" type="xs:int" />
+					<xs:element name="contentionAmputation" type="xs:int" />
+					<xs:element name="decisionKnee" type="xs:int" />
+					<xs:element name="decisionLeft" type="xs:int" />
+					<xs:element name="decisionRight" type="xs:int" />
+					<xs:element name="decisionBilateral" type="xs:int" />
+					<xs:element name="decisionLimitation" type="xs:int" />
+					<xs:element name="decisionImpairment" type="xs:int" />
+					<xs:element name="decisionAnkyloses" type="xs:int" />
+					<xs:element name="decisionAmputation" type="xs:int" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="earDecision">
+				<xs:sequence>
+					<xs:element name="contentionLoss" type="xs:int" />
+					<xs:element name="contentionTinitu" type="xs:int" />
+					<xs:element name="decisionLoss" type="xs:int" />
+					<xs:element name="decisionTinitu" type="xs:int" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="codesCount">
+				<xs:sequence>
+					<xs:element name="diagnosisCode" type="xs:string" />
+					<xs:element name="count" type="xs:int" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="dDMPatternIndex">
+				<xs:sequence>
+					<xs:element name="patternId" type="xs:int" />
+					<xs:element name="accuracy" type="xs:int" />
+					<xs:element name="cDD" type="xs:int" />
+					<xs:element name="numberOfOccurances" type="xs:int" />
+					<xs:element name="catelogId" type="xs:int" />
+					<xs:element name="createdBy" type="xs:string" />
+					<xs:element name="createdDate" type="xs:date" />
+				</xs:sequence>
+			</xs:complexType>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="getDDMModelRequest">
+		<wsdl:part element="tns:getDDMModelRequest" name="getDDMModelRequest"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getDDMModelResponse">
+		<wsdl:part element="tns:getDDMModelResponse" name="getDDMModelResponse"></wsdl:part>
+	</wsdl:message>
+	<wsdl:portType name="ModelsPort">
+		<wsdl:operation name="getDDMModel">
+			<wsdl:input message="tns:getDDMModelRequest" name="getDDMModelRequest"></wsdl:input>
+			<wsdl:output message="tns:getDDMModelResponse" name="getDDMModelResponse"></wsdl:output>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="ModelsPortSoap11" type="tns:ModelsPort">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="getDDMModel">
+			<soap:operation soapAction="" />
+			<wsdl:input name="getDDMModelRequest">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="getDDMModelResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="ModelsPortService">
+		<wsdl:port binding="tns:ModelsPortSoap11" name="ModelsPortSoap11">
+			<soap:address location="http://localhost:8083/soap-api/" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

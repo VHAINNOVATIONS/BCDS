@@ -15,9 +15,6 @@ import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
 import org.springframework.xml.xsd.SimpleXsdSchema;
 import org.springframework.xml.xsd.XsdSchema;
 
-/**
- * Created by 582163 on 2/28/2016.
- */
 @EnableWs
 @Configuration
 @ComponentScan("gov.va.vba.web.soap")
@@ -46,7 +43,7 @@ public class WebServiceConfiguration extends WsConfigurerAdapter {
     @Bean(name = "models")
     public DefaultWsdl11Definition defaultWsdl11Models(XsdSchema modelsSchema) {
         DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
-        wsdl11Definition.setPortTypeName("ModelsPort");
+        wsdl11Definition.setPortTypeName("BcdsModelingPort");
         wsdl11Definition.setLocationUri("/soap-api/");
         wsdl11Definition.setTargetNamespace("http://va.gov/vba/bcdss/models");
         wsdl11Definition.setSchema(modelsSchema);
@@ -62,22 +59,4 @@ public class WebServiceConfiguration extends WsConfigurerAdapter {
     public XsdSchema ratingInformationServiceSchema() {
         return new SimpleXsdSchema(new ClassPathResource("wsdl/RatingInformationService.xsd"));
     }*/
-    
-    //Remove countries xsd and related soap endpoint as needed.
-    //It was used as an working example
-    //MUST BE REMOVED BEFORE DELIVERING IT TO THE CLIENT
-    @Bean(name = "countries")
-    public DefaultWsdl11Definition defaultWsdl11Countries(XsdSchema countriesSchema) {
-        DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
-        wsdl11Definition.setPortTypeName("CountriesPort");
-        wsdl11Definition.setLocationUri("/soap-api/");
-        wsdl11Definition.setTargetNamespace("http://spring.io/guides/gs-producing-web-service");
-        wsdl11Definition.setSchema(countriesSchema);
-        return wsdl11Definition;
-    }
-    
-    @Bean
-	public XsdSchema countriesSchema() {
-		return new SimpleXsdSchema(new ClassPathResource("countries.xsd"));
-	}
 }

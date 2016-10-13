@@ -34,18 +34,18 @@
 			<xs:element name="promulgationDate" type="xs:date"></xs:element>
 			<xs:element name="recentDate" type="xs:date"></xs:element>
 			<xs:element name="contationCount" type="xs:int"></xs:element>
-			<xs:element name="priorCDD" type="xs:int"></xs:element>
-			<xs:element name="quantPriorCDD" type="xs:int"></xs:element>
-			<xs:element name="currentCDD" type="xs:int"></xs:element>
+			<xs:element name="priorCdd" type="xs:int"></xs:element>
+			<xs:element name="quantPriorCdd" type="xs:int"></xs:element>
+			<xs:element name="currentCdd" type="xs:int"></xs:element>
 			<xs:element name="claimAge" type="xs:int"></xs:element>
-			<xs:element name="cDDAge" type="xs:int"></xs:element>
+			<xs:element name="cddAge" type="xs:int"></xs:element>
 			<xs:element name="claimCount" type="xs:int"></xs:element>
 			<xs:element name="processId" type="xs:int"></xs:element>
 			<xs:element name="patternId" type="xs:int"></xs:element>
 			<xs:element name="processDate" type="xs:date"></xs:element>
 			<xs:element name="modelType" type="xs:string"></xs:element>
 			<xs:element name="modelContentionCount" type="xs:int"></xs:element>
-			<xs:element name="quantCDD" type="xs:int"></xs:element>
+			<xs:element name="quantCdd" type="xs:int"></xs:element>
 			<xs:element name="ratingDecisions" type="tns:ratingDecisions"></xs:element>
 			<xs:element name="status" type="tns:ratingStatus" minOccurs="1" maxOccurs="unbounded"></xs:element>
 			<xs:element name="diagnosisCodeCounts" type="tns:codesCount" minOccurs="1" maxOccurs="unbounded"></xs:element>
@@ -68,42 +68,10 @@
 		</xs:sequence>
 	</xs:complexType>
 	
-	<xs:element name="getDDMModelRequest">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="modelType" type="xs:string"></xs:element>
-				<xs:element name="claimantAge" type="xs:int"></xs:element>
-				<xs:element name="claimCount" type="xs:int"></xs:element>
-				<xs:element name="contentionCount" type="xs:int"></xs:element>
-				<xs:element name="priorCDD" type="xs:int"></xs:element>
-				<xs:element name="cDDAge" type="xs:int"></xs:element>
-				<xs:element name="contentionCodeCounts" type="tns:codesCount" minOccurs="1" maxOccurs="unbounded"></xs:element>
-				<xs:element name="diagnosisCodeCounts" type="tns:codesCount" minOccurs="1" maxOccurs="unbounded"></xs:element>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-
-	<xs:element name="getDDMModelResponse">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="pattrenId" type="xs:int"></xs:element>
-				<xs:element name="claimantAge" type="xs:int"></xs:element>
-				<xs:element name="claimCount" type="xs:int"></xs:element>
-				<xs:element name="contentionCount" type="xs:int"></xs:element>
-				<xs:element name="priorCDD" type="xs:int"></xs:element>
-				<xs:element name="cCDAge" type="xs:int"></xs:element>
-				<xs:element name="modelType" type="xs:string"></xs:element>
-				<xs:element name="patternIndex" type="tns:dDMPatternIndex"></xs:element>
-				<xs:element name="diagnosisCodeCounts" type="tns:codesCount" minOccurs="1" maxOccurs="unbounded"></xs:element>
-				<xs:element name="contentionCodeCounts" type="tns:codesCount" minOccurs="1" maxOccurs="unbounded"></xs:element>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-
 	<xs:complexType name="editModel">
 		<xs:sequence>
 			<xs:element name="modelType" type="xs:string"></xs:element>
-			<xs:element name="modelPatternIndex" type="tns:dDMPatternIndex"></xs:element>
+			<xs:element name="modelPatternIndex" type="tns:ddmPatternIndex"></xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -160,15 +128,98 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="dDMPatternIndex">
+	<xs:complexType name="ddmPatternIndex">
 		<xs:sequence>
 			<xs:element name="patternId" type="xs:int"></xs:element>
 			<xs:element name="accuracy" type="xs:int"></xs:element>
-			<xs:element name="cDD" type="xs:int"></xs:element>
+			<xs:element name="cdd" type="xs:int"></xs:element>
 			<xs:element name="numberOfOccurances" type="xs:int"></xs:element>
 			<xs:element name="catelogId" type="xs:int"></xs:element>
 			<xs:element name="createdBy" type="xs:string"></xs:element>
 			<xs:element name="createdDate" type="xs:date"></xs:element>
 		</xs:sequence>
 	</xs:complexType>
+	
+	<!-- SOAP Methods and response begin -->
+	<xs:element name="getDdmModelRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="modelType" type="xs:string"></xs:element>
+				<xs:element name="claimantAge" type="xs:int"></xs:element>
+				<xs:element name="claimCount" type="xs:int"></xs:element>
+				<xs:element name="contentionCount" type="xs:int"></xs:element>
+				<xs:element name="priorCdd" type="xs:int"></xs:element>
+				<xs:element name="cddAge" type="xs:int"></xs:element>
+				<xs:element name="contentionCodeCounts" type="tns:codesCount" minOccurs="1" maxOccurs="unbounded"></xs:element>
+				<xs:element name="diagnosisCodeCounts" type="tns:codesCount" minOccurs="1" maxOccurs="unbounded"></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="getDdmModelResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="pattrenId" type="xs:int"></xs:element>
+				<xs:element name="claimantAge" type="xs:int"></xs:element>
+				<xs:element name="claimCount" type="xs:int"></xs:element>
+				<xs:element name="contentionCount" type="xs:int"></xs:element>
+				<xs:element name="priorCdd" type="xs:int"></xs:element>
+				<xs:element name="ccdAge" type="xs:int"></xs:element>
+				<xs:element name="modelType" type="xs:string"></xs:element>
+				<xs:element name="patternIndex" type="tns:ddmPatternIndex"></xs:element>
+				<xs:element name="diagnosisCodeCounts" type="tns:codesCount" minOccurs="1" maxOccurs="unbounded"></xs:element>
+				<xs:element name="contentionCodeCounts" type="tns:codesCount" minOccurs="1" maxOccurs="unbounded"></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="getProcessClaimRequest">
+		<xs:complexType>
+          <xs:sequence>
+            <xs:element name="veteranClaimInput" type="tns:veteranClaim" minOccurs="1" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+	</xs:element>
+	
+	<xs:element name="getProcessClaimResponse">
+		<xs:complexType>
+          <xs:sequence>
+            <xs:element name="veteranClaimRatingOutput" type="tns:veteranClaimRating" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+	</xs:element>
+	
+	<xs:element name="getCurrentRatingRequest">
+		<xs:complexType>
+      		<xs:sequence>
+				<xs:element name="processId" type="xs:int"></xs:element>
+      			<xs:element name="veternClaim" type="tns:veteranClaim"></xs:element>
+      		</xs:sequence>
+      	</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="getCurrentRatingResponse">
+		<xs:complexType>
+      		<xs:sequence>
+				<xs:element name="ratingResult" type="tns:rating"></xs:element>
+      		</xs:sequence>
+      	</xs:complexType>
+	</xs:element>
+
+	<xs:element name="editModelRequest">
+		<xs:complexType>
+      		<xs:sequence>
+				<xs:element name="in" type="tns:editModel"></xs:element>
+      		</xs:sequence>
+      	</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="editModelResponse">
+		<xs:complexType>
+      		<xs:sequence>
+				<xs:element name="out" type="xs:string"></xs:element>
+      		</xs:sequence>
+      	</xs:complexType>
+	</xs:element>
+	<!-- SOAP Methods and response ends -->
 </xs:schema>
