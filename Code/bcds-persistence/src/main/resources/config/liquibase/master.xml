@@ -5,7 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
 	<!-- the following change set only to be uncommented and used in the local development purpose -->
-	<include file="config/liquibase/bcdss_changelog/sprint000/20160606000000_create_inital_local_schema.xml" relativeToChangelogFile="false"/>
+	<!-- <include file="config/liquibase/bcdss_changelog/sprint000/20160606000000_create_inital_local_schema.xml" relativeToChangelogFile="false"/> -->
 	
 	<!-- change sets for database version control in all environment -->
     <include file="config/liquibase/bcdss_changelog/sprint000/20160706153000_initial_schema_add_tables.xml" relativeToChangelogFile="false"/>
@@ -16,10 +16,10 @@
     <include file="config/liquibase/bcdss_changelog/sprint000/20160706200000_initial_schema_add_auditing_fk.xml" relativeToChangelogFile="false"/>
     
     <!-- the following change set only to be uncommented and used in the local development purpose and/or other environment depending on the need-->
-	<include file="config/liquibase/bcdss_changelog/sprint000/20160706210000_initial_schema_populate_default_data.xml" relativeToChangelogFile="false"/>
+	<!-- <include file="config/liquibase/bcdss_changelog/sprint000/20160706210000_initial_schema_populate_default_data.xml" relativeToChangelogFile="false"/> -->
 	
 	<!-- the following change set only to be uncommented and used in the local development purpose -->
-    <include file="config/liquibase/bcdss_changelog/sprint010/20160906135500_create_claim_table.xml" relativeToChangelogFile="false"/>
+    <!-- <include file="config/liquibase/bcdss_changelog/sprint010/20160906135500_create_claim_table.xml" relativeToChangelogFile="false"/> -->
 
 	<!-- change sets for database version control in all environment -->
     <include file="config/liquibase/bcdss_changelog/sprint010/20160906135600_add_email_secappuser.xml" relativeToChangelogFile="false"/>
