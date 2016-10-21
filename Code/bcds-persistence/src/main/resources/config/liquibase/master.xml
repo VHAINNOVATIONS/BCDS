@@ -24,4 +24,10 @@
 	<!-- change sets for database version control in all environment -->
     <include file="config/liquibase/bcdss_changelog/sprint010/20160906135600_add_email_secappuser.xml" relativeToChangelogFile="false"/>
     
+    <!-- the following change sets only to be uncommented and used in the local development purpose -->
+    <!-- <include file="config/liquibase/bcdss_changelog/sprint013/20161019125600_insert_ddm_for_modelling_engine.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/bcdss_changelog/sprint013/20161020124000_insert_ddm_for_modelling_engine2.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/bcdss_changelog/sprint013/20161021104100_modify_ah4929_rating_corp_claim.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/bcdss_changelog/sprint013/20161021105100_add_notnull_add_pk.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/bcdss_changelog/sprint013/20161021113300_add_fk.xml" relativeToChangelogFile="false"/> -->
 </databaseChangeLog>

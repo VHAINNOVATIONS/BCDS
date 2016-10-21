@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+	<property name="now" value="now()" dbms="mysql,h2" />
+	<property name="now" value="current_timestamp" dbms="postgresql" />
+	<property name="now" value="sysdate" dbms="oracle" />
+
+	<property name="autoIncrement" value="true" dbms="mysql" />
+	<property name="autoIncrement" value="false" dbms="oracle" />
+
+	<changeSet id="20161019125600" author="dhabib">
+		<createSequence 
+			schemaName="BCDSS" 
+			sequenceName="DDM_CNTNT_SEQ"
+			minValue="1" 
+			maxValue="9999999999999999999999999999" 
+			incrementBy="1"
+			startValue="101" 
+			ordered="false" 
+			cycle="false" />
+		
+		<createSequence 
+			schemaName="BCDSS" 
+			sequenceName="DDM_MODEL_PATTERN_SEQ"
+			minValue="1" 
+			maxValue="9999999999999999999999999999" 
+			incrementBy="1"
+			startValue="101" 
+			ordered="false" 
+			cycle="false" />
+		
+		<createSequence 
+			schemaName="BCDSS" 
+			sequenceName="DDM_DIAG_SEQ"
+			minValue="1" 
+			maxValue="9999999999999999999999999999" 
+			incrementBy="1"
+			startValue="101" 
+			ordered="false" 
+			cycle="false" />
+	</changeSet>
+	
+	<changeSet id="20161019135600" author="dhabib">
+		<createTable tableName="AH4929_RATING_DECISION" schemaName="BCDSS">
+			<column name="PTCPNT_VET_ID" type="BIGINT"></column>
+			<column name="PRFIL_DT" type="DATE"></column> 
+			<column name="INACTV_DT" type="DATE"></column> 
+			<column name="SYSTEM_TYPE_CD" type="VARCHAR2(12)"></column> 
+			<column name="RATING_DECN_ID" type="BIGINT"></column> 
+			<column name="POA" type="VARCHAR2(200)"></column> 
+			<column name="PRMLGN_DT" type="DATE"></column> 
+			<column name="RATING_DT" type="DATE"></column>
+			<column name="VBMS_R_IND" type="VARCHAR2(1)"></column> 
+			<column name="JRSDTN_TXT" type="VARCHAR2(50)"></column> 
+			<column name="RATING_RCVD_DT" type="DATE"></column> 
+			<column name="STATION_NUMBER" type="NUMBER"></column> 
+			<column name="STATION_NAME" type="VARCHAR2(100)"></column> 
+			<column name="MILITARY_SVC_PERIOD_CODE" type="VARCHAR2(12)"></column> 
+			<column name="MILITARY_SVC_PERIOD_DESC" type="VARCHAR2(250)"></column> 
+			<column name="RATING_DECN_TYPE_CD" type="VARCHAR2(15)"></column> 
+			<column name="RATING_DECN_TYPE_DESC" type="VARCHAR2(50)"></column> 
+			<column name="NARRATIVE_CODESHEET_IND" type="VARCHAR2(1)"></column> 
+			<column name="ISSUE_TXT" type="VARCHAR2(2048)"></column> 
+			<column name="DECN_TXT" type="VARCHAR2(2048)"></column> 
+			<column name="DSBLTY_DECN_TYPE_CD" type="VARCHAR2(12)"></column> 
+			<column name="DSBLTY_DECN_TYPE_DESC" type="VARCHAR2(50)"></column> 
+			<column name="DSBLTY_DECN_BASIS_TYPE_CD" type="VARCHAR2(12)"></column> 
+			<column name="DSBLTY_DECN_BASIS_TYPE_DESC" type="VARCHAR2(50)"></column> 
+			<column name="BLATRL_TYPE_CD" type="VARCHAR2(12)"></column> 
+			<column name="BLATRL_TYPE_DESC" type="VARCHAR2(50)"></column> 
+			<column name="DIAGNOSIS_CODE" type="VARCHAR2(12)"></column> 
+			<column name="DIAGNOSIS_DESCRIPTION" type="VARCHAR2(250)"></column> 
+			<column name="DSBLTY_ID" type="BIGINT"></column> 
+			<column name="DSBLTY_DT" type="DATE"></column> 
+			<column name="DGNSTC_TXT" type="VARCHAR2(300)"></column> 
+			<column name="RELATD_DSBLTY_ID" type="BIGINT"></column> 
+			<column name="RELATD_DSBLTY_DT" type="DATE"></column> 
+			<column name="RELATD_DGNSTC_TXT" type="VARCHAR2(300)"></column> 
+			<column name="FULL_DGNSTC_TXT" type="VARCHAR2(617)"></column> 
+			<column name="SPLMTL_DECN_TYPE_CD" type="VARCHAR2(12)"></column> 
+			<column name="HYPNTD_DGNSTC_TYPE_CD" type="VARCHAR2(12)"></column> 
+			<column name="SHED_TYPE_CD" type="VARCHAR2(12)"></column> 
+			<column name="PRGRPH_TYPE_CD" type="VARCHAR2(12)"></column> 
+			<column name="PRCNT_NBR" type="VARCHAR2(10)"></column> 
+			<column name="MAJOR_IND" type="VARCHAR2(1)"></column> 
+			<column name="COMBAT_IND" type="VARCHAR2(1)"></column> 
+			<column name="PREV_EVALTN_IND" type="VARCHAR2(1)"></column> 
+			<column name="BEGIN_DT" type="DATE"></column> 
+			<column name="END_DT" type="DATE"></column> 
+			<column name="FUTURE_EXAM_DT" type="DATE"></column> 
+			<column name="STATIC_IND" type="VARCHAR2(1)"></column> 
+			<column name="ANCILY_DECN_TYPE_CD" type="VARCHAR2(12)"></column> 
+			<column name="ANCILY_DECN_TYPE_DESC" type="VARCHAR2(50)"></column> 
+			<column name="CMPTNY_DECN_TYPE_CD" type="VARCHAR2(12)"></column> 
+			<column name="CMPTNY_DECN_TYPE_DESC" type="VARCHAR2(50)"></column> 
+			<column name="DENTAL_SVC_CNECTD_IND" type="VARCHAR2(1)"></column> 
+			<column name="INDVDL_UNEMPL_DECN_TYPE_CD" type="VARCHAR2(12)"></column> 
+			<column name="INDVDL_UNEMPL_DECN_TYPE_DESC" type="VARCHAR2(50)"></column> 
+			<column name="PERMNT_TOTAL_DECN_TYPE_CD" type="VARCHAR2(12)"></column> 
+			<column name="PERMNT_TOTAL_DECN_TYPE_DESC" type="VARCHAR2(50)"></column> 
+			<column name="SC_DEATH_DECN_TYPE_CD" type="VARCHAR2(12)"></column> 
+			<column name="SC_DEATH_DECN_TYPE_DESC" type="VARCHAR2(50)"></column> 
+			<column name="SMP_DECN_TYPE_CD" type="VARCHAR2(12)"></column> 
+			<column name="SMP_DECN_TYPE_DESC" type="VARCHAR2(50)"></column> 
+			<column name="SPECL_PRVSN_LAW_DECN_TYPE_CD" type="VARCHAR2(12)"></column> 
+			<column name="SPECL_PRVSN_LAW_DECN_TYPE_DESC" type="VARCHAR2(50)"></column> 
+			<column name="SMC_TYPE_CD" type="VARCHAR2(12)"></column> 
+			<column name="SMC_TYPE_DESC" type="VARCHAR2(50)"></column> 
+			<column name="HSPTL_SMC_TYPE_CD" type="VARCHAR2(12)"></column> 
+			<column name="HSPTL_SMC_TYPE_DESC" type="VARCHAR2(50)"></column> 
+			<column name="LOSS_USE_TYPE_CD" type="VARCHAR2(12)"></column> 
+			<column name="LOSS_USE_TYPE_DESC" type="VARCHAR2(50)"></column> 
+			<column name="ANTMCL_LOSS_TYPE_CD" type="VARCHAR2(12)"></column> 
+			<column name="ANTMCL_LOSS_TYPE_DESC" type="VARCHAR2(50)"></column> 
+			<column name="OTHER_LOSS_TYPE_CD" type="VARCHAR2(12)"></column> 
+			<column name="OTHER_LOSS_TYPE_DESC" type="VARCHAR2(50)"></column> 
+			<column name="SMC_PRGRPH_KEY_CD" type="VARCHAR2(12)"></column> 
+			<column name="SMC_PRGRPH_TXT" type="VARCHAR2(2000)"></column> 
+		</createTable>
+	</changeSet>
+		
+	<changeSet id="20161019145600" author="dhabib">
+		<createTable tableName="DDM_CNTNT" schemaName="BCDSS">
+			<column name="CNTNT_ID" type="NUMBER"></column>  
+			<column name="CTLG_ID" type="NUMBER"></column>  
+			<column name="CNTNT_CD" type="NUMBER"></column>  
+			<column name="MODEL_TYPE" type="VARCHAR2(50)"></column>  
+			<column name="CNTNT_CD_DESC" type="VARCHAR2(500)"></column>  
+			<column name="CRTD_BY" type="VARCHAR2(50)"></column>  
+			<column name="CRTD_DTM" type="DATE"></column>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="20161019155600" author="dhabib">
+		<createTable tableName="DDM_CTLG" schemaName="BCDSS">
+			<column name="CTLG_ID" type="NUMBER"></column> 
+			<column name="CTLG_DESC" type="VARCHAR2(50)"></column>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="20161019165600" author="dhabib">
+		<createTable tableName="DDM_DIAG" schemaName="BCDSS">
+			<column name="DIAG_ID" type="NUMBER"></column>  
+			<column name="CTLG_ID" type="NUMBER"></column>  
+			<column name="DIAG_CD" type="NUMBER"></column>  
+			<column name="DIAG_CD_DESC" type="VARCHAR2(500)"></column>  
+			<column name="CRTD_BY" type="VARCHAR2(50)"></column>  
+			<column name="CRTD_DTM" type="DATE"></column>  
+			<column name="MODEL_TYPE" type="VARCHAR2(50)"></column>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="20161019175600" author="dhabib">
+		<createTable tableName="DDM_MODEL_CNTNT" schemaName="BCDSS">
+			<column name="PATTERN_ID" type="NUMBER"></column> 
+			<column name="CNTNT_ID" type="NUMBER"></column> 
+			<column name="COUNT" type="NUMBER"></column> 
+			<column name="MODEL_TYPE" type="VARCHAR2(50)"></column>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="20161019185600" author="dhabib">
+		<createTable tableName="DDM_MODEL_DIAG" schemaName="BCDSS">
+			<column name="PATTERN_ID" type="NUMBER"></column> 
+			<column name="DIAG_ID" type="NUMBER"></column> 
+			<column name="COUNT" type="NUMBER"></column> 
+			<column name="MODEL_TYPE" type="VARCHAR2(50)"></column>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="20161019195600" author="dhabib">
+		<createTable tableName="DDM_MODEL_PATTERN" schemaName="BCDSS">
+			<column name="PATTERN_ID" type="NUMBER"></column> 
+			<column name="MODEL_TYPE" type="VARCHAR2(50)"></column> 
+			<column name="CLAIMANT_AGE" type="NUMBER"></column> 
+			<column name="CLAIM_COUNT" type="NUMBER"></column> 
+			<column name="CONTENTION_COUNT" type="NUMBER"></column> 
+			<column name="PRIOR_CDD" type="NUMBER"></column> 
+			<column name="CDD_AGE" type="NUMBER"></column>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="20161020085600" author="dhabib">
+		<createTable tableName="DDM_MODEL_PATTERN_INDX" schemaName="BCDSS">
+			<column name="PATTERN_ID" type="NUMBER"></column> 
+			<column name="ACCURACY" type="NUMBER"></column> 
+			<column name="CDD" type="NUMBER"></column> 
+			<column name="PATTERN_INDX_NUMBER" type="NUMBER"></column> 
+			<column name="CRTD_BY" type="VARCHAR2(50)"></column> 
+			<column name="CRTD_DTM" type="DATE"></column> 
+			<column name="CTLG_ID" type="NUMBER"></column> 
+			<column name="MODEL_TYPE" type="VARCHAR2(50)"></column>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="20161020095600" author="dhabib">
+		<createTable tableName="MODEL_RATING_RESULTS" schemaName="BCDSS">
+			<column name="PROCESS_ID" type="NUMBER"></column> 
+			<column name="VET_ID" type="NUMBER"></column> 
+			<column name="PATTERN_ID" type="NUMBER"></column> 
+			<column name="PROCESS_DATE" type="DATE"></column> 
+			<column name="CLAIM_ID" type="NUMBER"></column> 
+			<column name="CLAIMANT_AGE" type="NUMBER"></column> 
+			<column name="DOB" type="DATE"></column> 
+			<column name="END_PRODUCT_CODE" type="VARCHAR2(50)"></column> 
+			<column name="RO_NUMBER" type="NUMBER"></column> 
+			<column name="CLAIM_DATE" type="DATE"></column> 
+			<column name="PROFILE_DATE" type="DATE"></column> 
+			<column name="PROMULGATION_DATE" type="DATE"></column> 
+			<column name="RECENT_DATE" type="DATE"></column> 
+			<column name="MODEL_TYPE" type="VARCHAR2(50)"></column> 
+			<column name="MODEL_CONTENTION_COUNT" type="NUMBER"></column> 
+			<column name="CONTENTION_COUNT" type="NUMBER"></column> 
+			<column name="PRIOR_CDD" type="NUMBER"></column> 
+			<column name="QUANT_PRIOR_CDD" type="NUMBER"></column> 
+			<column name="CURR_CDD" type="NUMBER"></column> 
+			<column name="QUANT_CDD" type="NUMBER"></column> 
+			<column name="CLAIM_AGE" type="NUMBER"></column> 
+			<column name="CDD_AGE" type="NUMBER"></column> 
+			<column name="CLAIM_COUNT" type="NUMBER"></column>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="20161020105600" author="dhabib">
+		<createTable tableName="MODEL_RATING_RESULTS_CNTNT" schemaName="BCDSS">
+			<column name="CNTNT_ID" type="NUMBER"></column> 
+			<column name="PROCESS_ID" type="NUMBER"></column> 
+			<column name="COUNT" type="NUMBER"></column>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="20161020115600" author="dhabib">
+		<createTable tableName="MODEL_RATING_RESULTS_DIAG" schemaName="BCDSS">
+			<column name="DIAG_ID" type="NUMBER"></column> 
+			<column name="PROCESS_ID" type="NUMBER"></column> 
+			<column name="COUNT" type="NUMBER"></column>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="20161020121000" author="dhabib">
+		<createTable tableName="MODEL_RATING_RESULTS_STATUS" schemaName="BCDSS">
+			<column name="PROCESS_ID" type="NUMBER"></column> 
+			<column name="PROCESS_STATUS" type="VARCHAR2(50)"></column> 
+			<column name="REASON" type="VARCHAR2(50)"></column> 
+			<column name="CRTD_BY" type="VARCHAR2(50)"></column> 
+			<column name="CRTD_DTM" type="DATE"></column>
+		</createTable>
+	</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+	<property name="now" value="now()" dbms="mysql,h2" />
+	<property name="now" value="current_timestamp" dbms="postgresql" />
+	<property name="now" value="sysdate" dbms="oracle" />
+
+	<property name="autoIncrement" value="true" dbms="mysql" />
+	<property name="autoIncrement" value="false" dbms="oracle" />
+
+		
+	<changeSet id="20161020124000" author="dhabib">
+		<createIndex schemaName="BCDSS" tableName="AH4929_RATING_DECISION" indexName="IX_RATING_DECISION_01">
+			<column name="PTCPNT_VET_ID" type="BIGINT"></column>
+		</createIndex>
+	</changeSet>
+	
+	<changeSet id="20161020124001" author="dhabib">
+		<createIndex schemaName="BCDSS" tableName="AH4929_RATING_DECISION" indexName="IX_RATING_DECISION_02">
+			<column name="PRFIL_DT" type="DATE"></column>
+		</createIndex>
+	</changeSet>
+	
+	<changeSet id="20161020124002" author="dhabib">
+		<createIndex schemaName="BCDSS" tableName="AH4929_RATING_DECISION" indexName="IX_RATING_DECISION_10">
+			<column name="SYSTEM_TYPE_CD" type="VARCHAR2(12)"></column>
+		</createIndex>
+	</changeSet>
+	
+	<changeSet id="20161020124003" author="dhabib">
+		<createIndex schemaName="BCDSS" tableName="AH4929_RATING_DECISION" indexName="IX_RATING_DECISION_11">
+			<column name="BEGIN_DT" type="DATE"></column>
+		</createIndex>
+	</changeSet>
+	
+	<changeSet id="20161020124004" author="dhabib">
+		<createIndex schemaName="BCDSS" tableName="AH4929_RATING_DECISION" indexName="IX_RATING_DECISION_12">
+			<column name="END_DT" type="DATE"></column>
+		</createIndex>
+	</changeSet>
+	
+	<changeSet id="20161020124005" author="dhabib">
+		<createIndex schemaName="BCDSS" tableName="AH4929_RATING_DECISION" indexName="IX_RATING_DECISION_13">
+			<column name="DSBLTY_DECN_TYPE_CD" type="VARCHAR2(12)"></column>
+		</createIndex>
+	</changeSet>
+	
+	<changeSet id="20161020124006" author="dhabib">
+		<createIndex schemaName="BCDSS" tableName="AH4929_RATING_DECISION" indexName="IX_RATING_DECISION_16">
+			<column name="PRMLGN_DT" type="DATE"></column>
+		</createIndex>
+	</changeSet>
+	
+	<changeSet id="20161020124007" author="dhabib">
+		<createIndex schemaName="BCDSS" tableName="AH4929_RATING_DECISION" indexName="IX_RATING_DECISION_19">
+			<column name="PREV_EVALTN_IND" type="VARCHAR2(1)"></column>
+		</createIndex>
+	</changeSet>
+	
+	<changeSet id="20161020124008" author="dhabib">
+		<createIndex schemaName="BCDSS" tableName="AH4929_RATING_DECISION" indexName="IX_RATING_DECISION_20">
+			<column name="DSBLTY_ID" type="BIGINT"></column>
+		</createIndex>
+	</changeSet>
+	
+	<changeSet id="20161020155200" author="dhabib">
+		<createIndex schemaName="BCDSS" tableName="DDM_MODEL_CNTNT" indexName="XIF1DDM_MODEL_CNTNT">
+			<column name="PATTERN_ID" type="NUMBER"></column>
+			<column name="MODEL_TYPE" type="VARCHAR2(50)"></column>
+		</createIndex>
+	</changeSet>
+	
+	<changeSet id="20161020155201" author="dhabib">
+		<createIndex schemaName="BCDSS" tableName="DDM_MODEL_DIAG" indexName="XIF1DDM_MODEL_DIAG">
+			<column name="PATTERN_ID" type="NUMBER"></column>
+			<column name="MODEL_TYPE" type="VARCHAR2(50)"></column>
+		</createIndex>
+	</changeSet>
+	
+	<changeSet id="20161020155202" author="dhabib">
+		<createIndex schemaName="BCDSS" tableName="DDM_MODEL_PATTERN_INDX" indexName="XIF1DDM_MODEL_PATTERN_INDX">
+			<column name="PATTERN_ID" type="NUMBER"></column>
+			<column name="MODEL_TYPE" type="VARCHAR2(50)"></column>
+		</createIndex>
+	</changeSet>
+	
+	<changeSet id="20161020155203" author="dhabib">
+		<createIndex schemaName="BCDSS" tableName="DDM_MODEL_CNTNT" indexName="XIF2DDM_MODEL_CNTNT">
+			<column name="CNTNT_ID" type="NUMBER"></column>
+		</createIndex>
+	</changeSet>
+	
+	<changeSet id="20161020161800" author="dhabib">
+		<createIndex schemaName="BCDSS" tableName="DDM_MODEL_DIAG" indexName="XIF2DDM_MODEL_DIAG">
+			<column name="DIAG_ID" type="NUMBER"></column>
+		</createIndex>
+	</changeSet>
+	
+	<changeSet id="20161020162000" author="dhabib">
+		<createIndex schemaName="BCDSS" tableName="DDM_MODEL_PATTERN_INDX" indexName="XIF2DDM_MODEL_PATTERN_INDX">
+			<column name="CTLG_ID" type="NUMBER"></column>
+		</createIndex>
+	</changeSet>
+	
+	<changeSet id="20161020162200" author="dhabib">
+		<createIndex schemaName="BCDSS" tableName="DDM_CNTNT" indexName="XPKDDM_CNTNT">
+			<column name="CNTNT_ID" type="NUMBER"></column>
+		</createIndex>
+	</changeSet>
+	
+	<changeSet id="20161021081500" author="dhabib">
+		<createIndex schemaName="BCDSS" tableName="DDM_CTLG" indexName="XPKDDM_CTLG">
+			<column name="CTLG_ID" type="NUMBER"></column>
+		</createIndex>
+	</changeSet>
+	
+	<changeSet id="20161021082500" author="dhabib">
+		<createIndex schemaName="BCDSS" tableName="DDM_DIAG" indexName="XPKDDM_DIAG">
+			<column name="DIAG_ID" type="NUMBER"></column>
+		</createIndex>
+	</changeSet>
+	
+	<changeSet id="20161021082700" author="dhabib">
+		<createIndex schemaName="BCDSS" tableName="DDM_MODEL_PATTERN" indexName="XPKDDM_MODELPATTERN">
+			<column name="PATTERN_ID" type="NUMBER"></column>
+			<column name="MODEL_TYPE" type="VARCHAR2(50)"></column>
+		</createIndex>
+	</changeSet>
+	
+	<changeSet id="20161021090700" author="dhabib">
+		<createIndex schemaName="BCDSS" tableName="MODEL_RATING_RESULTS" indexName="XPKMODEL_RATING_RESULTS">
+			<column name="PROCESS_ID" type="NUMBER"></column>
+		</createIndex>
+	</changeSet>
+</databaseChangeLog>
