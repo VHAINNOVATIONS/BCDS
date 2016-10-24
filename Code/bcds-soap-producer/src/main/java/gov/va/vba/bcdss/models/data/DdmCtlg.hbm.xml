@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 21, 2016 1:08:51 PM by Hibernate Tools 5.2.0.Beta1 -->
+<hibernate-mapping>
+    <class name="gov.va.vba.bcdss.data.DdmCtlg" table="DDM_CTLG" optimistic-lock="version">
+        <id name="ctlgId" type="big_decimal">
+            <column name="CTLG_ID" precision="22" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <property name="ctlgDesc" type="string">
+            <column name="CTLG_DESC" length="50" />
+        </property>
+        <set name="ddmCntnts" table="DDM_CNTNT" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="CTLG_ID" precision="22" scale="0" />
+            </key>
+            <one-to-many class="gov.va.vba.bcdss.data.DdmCntnt" />
+        </set>
+        <set name="ddmDiags" table="DDM_DIAG" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="CTLG_ID" precision="22" scale="0" not-null="true" />
+            </key>
+            <one-to-many class="gov.va.vba.bcdss.data.DdmDiag" />
+        </set>
+        <set name="ddmModelPatternIndxes" table="DDM_MODEL_PATTERN_INDX" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="CTLG_ID" precision="22" scale="0" />
+            </key>
+            <one-to-many class="gov.va.vba.bcdss.data.DdmModelPatternIndx" />
+        </set>
+    </class>
+</hibernate-mapping>

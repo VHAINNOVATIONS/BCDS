@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 21, 2016 1:08:51 PM by Hibernate Tools 5.2.0.Beta1 -->
+<hibernate-mapping>
+    <class name="gov.va.vba.bcdss.data.DdmModelPatternIndx" table="DDM_MODEL_PATTERN_INDX" optimistic-lock="version">
+        <composite-id name="id" class="gov.va.vba.bcdss.data.DdmModelPatternIndxId">
+            <key-property name="patternId" type="big_decimal">
+                <column name="PATTERN_ID" precision="22" scale="0" />
+            </key-property>
+            <key-property name="accuracy" type="big_decimal">
+                <column name="ACCURACY" precision="22" scale="0" />
+            </key-property>
+            <key-property name="cdd" type="big_decimal">
+                <column name="CDD" precision="22" scale="0" />
+            </key-property>
+            <key-property name="patternIndxNumber" type="big_decimal">
+                <column name="PATTERN_INDX_NUMBER" precision="22" scale="0" />
+            </key-property>
+            <key-property name="crtdBy" type="string">
+                <column name="CRTD_BY" length="50" />
+            </key-property>
+            <key-property name="crtdDtm" type="date">
+                <column name="CRTD_DTM" length="7" />
+            </key-property>
+            <key-property name="ctlgId" type="big_decimal">
+                <column name="CTLG_ID" precision="22" scale="0" />
+            </key-property>
+            <key-property name="modelType" type="string">
+                <column name="MODEL_TYPE" length="50" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="ddmCtlg" class="gov.va.vba.bcdss.data.DdmCtlg" update="false" insert="false" fetch="select">
+            <column name="CTLG_ID" precision="22" scale="0" />
+        </many-to-one>
+        <many-to-one name="ddmModelPattern" class="gov.va.vba.bcdss.data.DdmModelPattern" update="false" insert="false" fetch="select">
+            <column name="PATTERN_ID" precision="22" scale="0" />
+            <column name="MODEL_TYPE" length="50" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>
