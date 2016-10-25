@@ -16,7 +16,10 @@
         <div class="col-md-4">
     		<div class="form-group">
         	<label for="activeUser">Active User:</label>
-                <input id="activeUser" type="text" class="form-control" ng-model="editUser.activated">
+                <select required id="activeUser" type="text" class="form-control" ng-model="editUser.activated" ng-options="o.value as o.label for o in activeUserOptions">
+                	<option value="false">False</option>
+                	<option value="true">True</option>
+                </select>
             </div>
         </div>
         

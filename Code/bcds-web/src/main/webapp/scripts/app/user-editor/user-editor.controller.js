@@ -3,6 +3,11 @@
 angular.module('bcdssApp').controller('UserEditorController',	function($rootScope, $state, $scope, editUser, UserEditable, ResetPassword, UserRole) {
 	$scope.editUser = editUser;
 	$scope.userroles = [];
+	$scope.activeUserOptions = [
+	    {value: '', label: 'Activate/Deactivate a user'},
+	    {value: false, label: 'False'},
+	    {value: true, label: 'True'},
+	];
 	
 	$scope.loadRoles = function () {
 		UserRole.query(function(result){$scope.userroles = result})
