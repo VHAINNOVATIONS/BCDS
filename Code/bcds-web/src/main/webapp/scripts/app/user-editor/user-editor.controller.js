@@ -1,8 +1,9 @@
 'use strict';
 
-angular.module('bcdssApp').controller('UserEditorController',	function($rootScope, $state, $scope, editUser, UserEditable, ResetPassword, UserRole) {
+angular.module('bcdssApp').controller('UserEditorController',	function($rootScope, $state, $scope, editUser, UserEditable, ResetPassword, UserRole,Principal) {
 	$scope.editUser = editUser;
 	$scope.userroles = [];
+	$scope.userName = Principal.userName;
 	
 	$scope.loadRoles = function () {
 		UserRole.query(function(result){$scope.userroles = result})
