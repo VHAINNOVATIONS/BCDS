@@ -14,7 +14,13 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     	}
     };
     $scope.getUserName();
-
+    
+    $scope.toggleCheckAll = function () {
+        angular.forEach($scope.claims, function (claim) {
+            claim.Selected = $scope.selectAll;
+        });
+    };  
+    
     $scope.loadClaims = function(){
     	ClaimService.query(function(result){
     		$scope.claims = result;
@@ -97,8 +103,8 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
         
         $scope.clearFilter = function() {
             $scope.filterKey = '';
-          };
-        
+          }; 
+          
         /*$scope.loadTabView = function (tabUserRole) {
         	if(tabUserRole == USER_ROLE.userRoleRater){
         		console.log("rater");
