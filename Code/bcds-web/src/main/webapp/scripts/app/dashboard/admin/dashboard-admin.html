@@ -32,7 +32,7 @@
 							<td>{{editableUser.login}}</td>
 							<td>{{editableUser.firstName}}</td>
 							<td>{{editableUser.email}}</td>
-							<td>{{editableUser.activated === "true" ? "disabled" : "active"}}</td>
+							<td>{{editableUser.activated ? "active" : "disabled"}}</td>
 							<td><span ng-repeat="role in editableUser.authorities">{{role.name}}</span></td>
 							<td>
 								<button type="button" ui-sref="usereditor({userId: editableUser.id})" class="btn btn-primary">

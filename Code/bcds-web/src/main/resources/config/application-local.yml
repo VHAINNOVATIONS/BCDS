@@ -43,9 +43,9 @@ spring:
     datasource:
       driverClassName: oracle.jdbc.OracleDriver
       dataSourceClassName: oracle.jdbc.pool.OracleDataSource
-      url: jdbc:oracle:thin:@IBCDS408:1521/DEV.BCDSS
-      username: BCDSS
-      password: developmentonly
+      url: jdbc:oracle:thin:@localhost:1521/xe
+      username: SYS as sysdba
+      password: admin
       cachePrepStmts: true
       prepStmtCacheSize: 250
       prepStmtCacheSqlLimit: 2048

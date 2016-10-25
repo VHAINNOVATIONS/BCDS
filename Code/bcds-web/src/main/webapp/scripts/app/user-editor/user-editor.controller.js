@@ -5,6 +5,12 @@ angular.module('bcdssApp').controller('UserEditorController',	function($rootScop
 	$scope.userroles = [];
 	$scope.userName = Principal.userName;
 	
+	$scope.activeUserOptions = [
+	    {value: '', label: 'Activate/Deactivate a user'},
+	    {value: false, label: 'False'},
+	    {value: true, label: 'True'},
+	];
+	
 	$scope.loadRoles = function () {
 		UserRole.query(function(result){$scope.userroles = result})
 	};
@@ -20,6 +26,7 @@ angular.module('bcdssApp').controller('UserEditorController',	function($rootScop
 	$scope.resetPassword = function() {
 		ResetPassword.get({login: $scope.editUser.login}, function(result){
 			$scope.editUser.password = result[0];
+			$('#passwordResetDialog').modal('show');
 		});
 	};
 	

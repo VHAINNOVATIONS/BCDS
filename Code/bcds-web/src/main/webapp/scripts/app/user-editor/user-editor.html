@@ -17,14 +17,17 @@
         <div class="col-md-4">
     		<div class="form-group">
         	<label for="activeUser">Active User:</label>
-                <input id="activeUser" type="text" class="form-control" ng-model="editUser.activated" ng-disabled="editUser.id">
+                <select required id="activeUser" type="text" class="form-control" ng-model="editUser.activated" ng-options="o.value as o.label for o in activeUserOptions">
+                	<option value="false">False</option>
+                	<option value="true">True</option>
+                </select>
             </div>
         </div>
         
         <div class="col-md-4">
     		<div class="form-group">
         	<label for="userRole">Role:</label>
-                <select required id="userRole" type="text" class="form-control" ng-model="editUser.authorities[0]" ng-disabled="editUser.id" ng-options="userrole.name for userrole in userroles track by userrole.name">
+                <select required id="userRole" type="text" class="form-control" ng-model="editUser.authorities[0]" ng-options="userrole.name for userrole in userroles track by userrole.name">
                 	<option selected="selected" disabled="disabled" value=""></option>
                 </select>
             </div>
@@ -99,6 +102,25 @@
         </div>
     </div>
 </form>
+
+<div class="modal fade" id="passwordResetDialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">BCDS</h4>
+			</div>
+			<div class="modal-body">
+				<p>Password has been reset.</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">
+					<span>Ok</span>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <div>
 	<div ng-include="'scripts/app/main/footer.html'" class="container-custom"></div>
 </div>
