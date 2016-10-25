@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 21, 2016 1:08:51 PM by Hibernate Tools 5.2.0.Beta1 -->
+<hibernate-mapping>
+    <class name="gov.va.vba.bcdss.data.Ah4929RatingCorpClaim" table="AH4929_RATING_CORP_CLAIM" optimistic-lock="version">
+        <composite-id name="id" class="gov.va.vba.bcdss.data.Ah4929RatingCorpClaimId">
+            <key-property name="ptcpntVetId" type="long">
+                <column name="PTCPNT_VET_ID" precision="15" scale="0" />
+            </key-property>
+            <key-property name="prfilDt" type="date">
+                <column name="PRFIL_DT" length="7" />
+            </key-property>
+            <key-property name="bnftClaimId" type="long">
+                <column name="BNFT_CLAIM_ID" precision="15" scale="0" />
+            </key-property>
+            <key-property name="endPrdctTypeCd" type="string">
+                <column name="END_PRDCT_TYPE_CD" length="12" />
+            </key-property>
+            <key-property name="dateOfClaim" type="date">
+                <column name="DATE_OF_CLAIM" length="7" />
+            </key-property>
+            <key-property name="payeeTypeCd" type="string">
+                <column name="PAYEE_TYPE_CD" length="12" />
+            </key-property>
+            <key-property name="bnftClaimTypeCd" type="string">
+                <column name="BNFT_CLAIM_TYPE_CD" length="12" />
+            </key-property>
+            <key-property name="claimLabel" type="string">
+                <column name="CLAIM_LABEL" length="50" />
+            </key-property>
+            <key-property name="statusTypeCd" type="string">
+                <column name="STATUS_TYPE_CD" length="12" />
+            </key-property>
+            <key-property name="claimRoNumber" type="big_decimal">
+                <column name="CLAIM_RO_NUMBER" precision="22" scale="0" />
+            </key-property>
+            <key-property name="claimRoName" type="string">
+                <column name="CLAIM_RO_NAME" length="100" />
+            </key-property>
+            <key-property name="cntntnId" type="string">
+                <column name="CNTNTN_ID" length="40" />
+            </key-property>
+            <key-property name="cntntnClsfcnId" type="java.lang.Long">
+                <column name="CNTNTN_CLSFCN_ID" precision="15" scale="0" />
+            </key-property>
+            <key-property name="cntntnTypeCd" type="string">
+                <column name="CNTNTN_TYPE_CD" length="12" />
+            </key-property>
+            <key-property name="cntntnClmantTxt" type="string">
+                <column name="CNTNTN_CLMANT_TXT" />
+            </key-property>
+            <key-property name="cntntnMedInd" type="string">
+                <column name="CNTNTN_MED_IND" length="1" />
+            </key-property>
+            <key-property name="cntntnWellGrndedAplcblInd" type="string">
+                <column name="CNTNTN_WELL_GRNDED_APLCBL_IND" length="1" />
+            </key-property>
+            <key-property name="cntntnBeginDt" type="date">
+                <column name="CNTNTN_BEGIN_DT" length="7" />
+            </key-property>
+            <key-property name="cntntnSpeclIssueId" type="string">
+                <column name="CNTNTN_SPECL_ISSUE_ID" length="40" />
+            </key-property>
+            <key-property name="cntntnSpeclIssueTypeCd" type="string">
+                <column name="CNTNTN_SPECL_ISSUE_TYPE_CD" length="12" />
+            </key-property>
+        </composite-id>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 21, 2016 1:08:51 PM by Hibernate Tools 5.2.0.Beta1 -->
+<hibernate-mapping>
+    <class name="gov.va.vba.bcdss.data.ModelRatingResultsStatus" table="MODEL_RATING_RESULTS_STATUS" optimistic-lock="version">
+        <composite-id name="id" class="gov.va.vba.bcdss.data.ModelRatingResultsStatusId">
+            <key-property name="processId" type="big_decimal">
+                <column name="PROCESS_ID" precision="22" scale="0" />
+            </key-property>
+            <key-property name="processStatus" type="string">
+                <column name="PROCESS_STATUS" length="50" />
+            </key-property>
+            <key-property name="reason" type="string">
+                <column name="REASON" length="50" />
+            </key-property>
+            <key-property name="crtdBy" type="string">
+                <column name="CRTD_BY" length="50" />
+            </key-property>
+            <key-property name="crtdDtm" type="date">
+                <column name="CRTD_DTM" length="7" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="modelRatingResults" class="gov.va.vba.bcdss.data.ModelRatingResults" update="false" insert="false" fetch="select">
+            <column name="PROCESS_ID" precision="22" scale="0" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

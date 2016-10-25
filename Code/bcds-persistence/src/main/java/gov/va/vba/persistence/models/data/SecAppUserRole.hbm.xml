@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 21, 2016 1:08:51 PM by Hibernate Tools 5.2.0.Beta1 -->
+<hibernate-mapping>
+    <class name="gov.va.vba.bcdss.data.SecAppUserRole" table="SEC_APP_USER_ROLE" optimistic-lock="version">
+        <composite-id name="id" class="gov.va.vba.bcdss.data.SecAppUserRoleId">
+            <key-property name="userId" type="big_decimal">
+                <column name="USER_ID" precision="38" scale="0" />
+            </key-property>
+            <key-property name="userRoleNm" type="string">
+                <column name="USER_ROLE_NM" length="25" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="secAppUser" class="gov.va.vba.bcdss.data.SecAppUser" update="false" insert="false" fetch="select">
+            <column name="USER_ID" precision="38" scale="0" not-null="true" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

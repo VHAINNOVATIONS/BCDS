@@ -1,0 +1,233 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 21, 2016 1:08:51 PM by Hibernate Tools 5.2.0.Beta1 -->
+<hibernate-mapping>
+    <class name="gov.va.vba.bcdss.data.Ah4929RatingDecision" table="AH4929_RATING_DECISION" optimistic-lock="version">
+        <comment>snapshot table for snapshot ADHOC_DMT_RECURR.AH4929_RATING_DECISION</comment>
+        <composite-id name="id" class="gov.va.vba.bcdss.data.Ah4929RatingDecisionId">
+            <key-property name="ptcpntVetId" type="big_decimal">
+                <column name="PTCPNT_VET_ID" precision="22" scale="0" />
+            </key-property>
+            <key-property name="prfilDt" type="date">
+                <column name="PRFIL_DT" length="7" />
+            </key-property>
+            <key-property name="inactvDt" type="date">
+                <column name="INACTV_DT" length="7" />
+            </key-property>
+            <key-property name="systemTypeCd" type="string">
+                <column name="SYSTEM_TYPE_CD" length="12" />
+            </key-property>
+            <key-property name="ratingDecnId" type="big_decimal">
+                <column name="RATING_DECN_ID" precision="22" scale="0" />
+            </key-property>
+            <key-property name="poa" type="string">
+                <column name="POA" length="200" />
+            </key-property>
+            <key-property name="prmlgnDt" type="date">
+                <column name="PRMLGN_DT" length="7" />
+            </key-property>
+            <key-property name="ratingDt" type="date">
+                <column name="RATING_DT" length="7" />
+            </key-property>
+            <key-property name="vbmsRInd" type="string">
+                <column name="VBMS_R_IND" length="1" />
+            </key-property>
+            <key-property name="jrsdtnTxt" type="string">
+                <column name="JRSDTN_TXT" length="50" />
+            </key-property>
+            <key-property name="ratingRcvdDt" type="date">
+                <column name="RATING_RCVD_DT" length="7" />
+            </key-property>
+            <key-property name="stationNumber" type="big_decimal">
+                <column name="STATION_NUMBER" precision="22" scale="0" />
+            </key-property>
+            <key-property name="stationName" type="string">
+                <column name="STATION_NAME" length="100" />
+            </key-property>
+            <key-property name="militarySvcPeriodCode" type="string">
+                <column name="MILITARY_SVC_PERIOD_CODE" length="12" />
+            </key-property>
+            <key-property name="militarySvcPeriodDesc" type="string">
+                <column name="MILITARY_SVC_PERIOD_DESC" length="250" />
+            </key-property>
+            <key-property name="ratingDecnTypeCd" type="string">
+                <column name="RATING_DECN_TYPE_CD" length="15" />
+            </key-property>
+            <key-property name="ratingDecnTypeDesc" type="string">
+                <column name="RATING_DECN_TYPE_DESC" length="50" />
+            </key-property>
+            <key-property name="narrativeCodesheetInd" type="string">
+                <column name="NARRATIVE_CODESHEET_IND" length="1" />
+            </key-property>
+            <key-property name="issueTxt" type="string">
+                <column name="ISSUE_TXT" length="2048" />
+            </key-property>
+            <key-property name="decnTxt" type="string">
+                <column name="DECN_TXT" length="2048" />
+            </key-property>
+            <key-property name="dsbltyDecnTypeCd" type="string">
+                <column name="DSBLTY_DECN_TYPE_CD" length="12" />
+            </key-property>
+            <key-property name="dsbltyDecnTypeDesc" type="string">
+                <column name="DSBLTY_DECN_TYPE_DESC" length="50" />
+            </key-property>
+            <key-property name="dsbltyDecnBasisTypeCd" type="string">
+                <column name="DSBLTY_DECN_BASIS_TYPE_CD" length="12" />
+            </key-property>
+            <key-property name="dsbltyDecnBasisTypeDesc" type="string">
+                <column name="DSBLTY_DECN_BASIS_TYPE_DESC" length="50" />
+            </key-property>
+            <key-property name="blatrlTypeCd" type="string">
+                <column name="BLATRL_TYPE_CD" length="12" />
+            </key-property>
+            <key-property name="blatrlTypeDesc" type="string">
+                <column name="BLATRL_TYPE_DESC" length="50" />
+            </key-property>
+            <key-property name="diagnosisCode" type="string">
+                <column name="DIAGNOSIS_CODE" length="12" />
+            </key-property>
+            <key-property name="diagnosisDescription" type="string">
+                <column name="DIAGNOSIS_DESCRIPTION" length="250" />
+            </key-property>
+            <key-property name="dsbltyId" type="big_decimal">
+                <column name="DSBLTY_ID" precision="22" scale="0" />
+            </key-property>
+            <key-property name="dsbltyDt" type="date">
+                <column name="DSBLTY_DT" length="7" />
+            </key-property>
+            <key-property name="dgnstcTxt" type="string">
+                <column name="DGNSTC_TXT" length="300" />
+            </key-property>
+            <key-property name="relatdDsbltyId" type="big_decimal">
+                <column name="RELATD_DSBLTY_ID" precision="22" scale="0" />
+            </key-property>
+            <key-property name="relatdDsbltyDt" type="date">
+                <column name="RELATD_DSBLTY_DT" length="7" />
+            </key-property>
+            <key-property name="relatdDgnstcTxt" type="string">
+                <column name="RELATD_DGNSTC_TXT" length="300" />
+            </key-property>
+            <key-property name="fullDgnstcTxt" type="string">
+                <column name="FULL_DGNSTC_TXT" length="617" />
+            </key-property>
+            <key-property name="splmtlDecnTypeCd" type="string">
+                <column name="SPLMTL_DECN_TYPE_CD" length="12" />
+            </key-property>
+            <key-property name="hypntdDgnstcTypeCd" type="string">
+                <column name="HYPNTD_DGNSTC_TYPE_CD" length="12" />
+            </key-property>
+            <key-property name="shedTypeCd" type="string">
+                <column name="SHED_TYPE_CD" length="12" />
+            </key-property>
+            <key-property name="prgrphTypeCd" type="string">
+                <column name="PRGRPH_TYPE_CD" length="12" />
+            </key-property>
+            <key-property name="prcntNbr" type="string">
+                <column name="PRCNT_NBR" length="10" />
+            </key-property>
+            <key-property name="majorInd" type="string">
+                <column name="MAJOR_IND" length="1" />
+            </key-property>
+            <key-property name="combatInd" type="string">
+                <column name="COMBAT_IND" length="1" />
+            </key-property>
+            <key-property name="prevEvaltnInd" type="string">
+                <column name="PREV_EVALTN_IND" length="1" />
+            </key-property>
+            <key-property name="beginDt" type="date">
+                <column name="BEGIN_DT" length="7" />
+            </key-property>
+            <key-property name="endDt" type="date">
+                <column name="END_DT" length="7" />
+            </key-property>
+            <key-property name="futureExamDt" type="date">
+                <column name="FUTURE_EXAM_DT" length="7" />
+            </key-property>
+            <key-property name="staticInd" type="string">
+                <column name="STATIC_IND" length="1" />
+            </key-property>
+            <key-property name="ancilyDecnTypeCd" type="string">
+                <column name="ANCILY_DECN_TYPE_CD" length="12" />
+            </key-property>
+            <key-property name="ancilyDecnTypeDesc" type="string">
+                <column name="ANCILY_DECN_TYPE_DESC" length="50" />
+            </key-property>
+            <key-property name="cmptnyDecnTypeCd" type="string">
+                <column name="CMPTNY_DECN_TYPE_CD" length="12" />
+            </key-property>
+            <key-property name="cmptnyDecnTypeDesc" type="string">
+                <column name="CMPTNY_DECN_TYPE_DESC" length="50" />
+            </key-property>
+            <key-property name="dentalSvcCnectdInd" type="string">
+                <column name="DENTAL_SVC_CNECTD_IND" length="1" />
+            </key-property>
+            <key-property name="indvdlUnemplDecnTypeCd" type="string">
+                <column name="INDVDL_UNEMPL_DECN_TYPE_CD" length="12" />
+            </key-property>
+            <key-property name="indvdlUnemplDecnTypeDesc" type="string">
+                <column name="INDVDL_UNEMPL_DECN_TYPE_DESC" length="50" />
+            </key-property>
+            <key-property name="permntTotalDecnTypeCd" type="string">
+                <column name="PERMNT_TOTAL_DECN_TYPE_CD" length="12" />
+            </key-property>
+            <key-property name="permntTotalDecnTypeDesc" type="string">
+                <column name="PERMNT_TOTAL_DECN_TYPE_DESC" length="50" />
+            </key-property>
+            <key-property name="scDeathDecnTypeCd" type="string">
+                <column name="SC_DEATH_DECN_TYPE_CD" length="12" />
+            </key-property>
+            <key-property name="scDeathDecnTypeDesc" type="string">
+                <column name="SC_DEATH_DECN_TYPE_DESC" length="50" />
+            </key-property>
+            <key-property name="smpDecnTypeCd" type="string">
+                <column name="SMP_DECN_TYPE_CD" length="12" />
+            </key-property>
+            <key-property name="smpDecnTypeDesc" type="string">
+                <column name="SMP_DECN_TYPE_DESC" length="50" />
+            </key-property>
+            <key-property name="speclPrvsnLawDecnTypeCd" type="string">
+                <column name="SPECL_PRVSN_LAW_DECN_TYPE_CD" length="12" />
+            </key-property>
+            <key-property name="speclPrvsnLawDecnTypeDesc" type="string">
+                <column name="SPECL_PRVSN_LAW_DECN_TYPE_DESC" length="50" />
+            </key-property>
+            <key-property name="smcTypeCd" type="string">
+                <column name="SMC_TYPE_CD" length="12" />
+            </key-property>
+            <key-property name="smcTypeDesc" type="string">
+                <column name="SMC_TYPE_DESC" length="50" />
+            </key-property>
+            <key-property name="hsptlSmcTypeCd" type="string">
+                <column name="HSPTL_SMC_TYPE_CD" length="12" />
+            </key-property>
+            <key-property name="hsptlSmcTypeDesc" type="string">
+                <column name="HSPTL_SMC_TYPE_DESC" length="50" />
+            </key-property>
+            <key-property name="lossUseTypeCd" type="string">
+                <column name="LOSS_USE_TYPE_CD" length="12" />
+            </key-property>
+            <key-property name="lossUseTypeDesc" type="string">
+                <column name="LOSS_USE_TYPE_DESC" length="50" />
+            </key-property>
+            <key-property name="antmclLossTypeCd" type="string">
+                <column name="ANTMCL_LOSS_TYPE_CD" length="12" />
+            </key-property>
+            <key-property name="antmclLossTypeDesc" type="string">
+                <column name="ANTMCL_LOSS_TYPE_DESC" length="50" />
+            </key-property>
+            <key-property name="otherLossTypeCd" type="string">
+                <column name="OTHER_LOSS_TYPE_CD" length="12" />
+            </key-property>
+            <key-property name="otherLossTypeDesc" type="string">
+                <column name="OTHER_LOSS_TYPE_DESC" length="50" />
+            </key-property>
+            <key-property name="smcPrgrphKeyCd" type="string">
+                <column name="SMC_PRGRPH_KEY_CD" length="12" />
+            </key-property>
+            <key-property name="smcPrgrphTxt" type="string">
+                <column name="SMC_PRGRPH_TXT" length="2000" />
+            </key-property>
+        </composite-id>
+    </class>
+</hibernate-mapping>

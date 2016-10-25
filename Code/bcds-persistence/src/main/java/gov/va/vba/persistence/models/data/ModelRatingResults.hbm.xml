@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 21, 2016 1:08:51 PM by Hibernate Tools 5.2.0.Beta1 -->
+<hibernate-mapping>
+    <class name="gov.va.vba.bcdss.data.ModelRatingResults" table="MODEL_RATING_RESULTS" optimistic-lock="version">
+        <id name="processId" type="big_decimal">
+            <column name="PROCESS_ID" precision="22" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <property name="vetId" type="big_decimal">
+            <column name="VET_ID" precision="22" scale="0" />
+        </property>
+        <property name="patternId" type="big_decimal">
+            <column name="PATTERN_ID" precision="22" scale="0" />
+        </property>
+        <property name="processDate" type="date">
+            <column name="PROCESS_DATE" length="7" />
+        </property>
+        <property name="claimId" type="big_decimal">
+            <column name="CLAIM_ID" precision="22" scale="0" />
+        </property>
+        <property name="claimantAge" type="big_decimal">
+            <column name="CLAIMANT_AGE" precision="22" scale="0" />
+        </property>
+        <property name="dob" type="date">
+            <column name="DOB" length="7" />
+        </property>
+        <property name="endProductCode" type="string">
+            <column name="END_PRODUCT_CODE" length="50" />
+        </property>
+        <property name="roNumber" type="big_decimal">
+            <column name="RO_NUMBER" precision="22" scale="0" />
+        </property>
+        <property name="claimDate" type="date">
+            <column name="CLAIM_DATE" length="7" />
+        </property>
+        <property name="profileDate" type="date">
+            <column name="PROFILE_DATE" length="7" />
+        </property>
+        <property name="promulgationDate" type="date">
+            <column name="PROMULGATION_DATE" length="7" />
+        </property>
+        <property name="recentDate" type="date">
+            <column name="RECENT_DATE" length="7" />
+        </property>
+        <property name="modelType" type="string">
+            <column name="MODEL_TYPE" length="50" />
+        </property>
+        <property name="modelContentionCount" type="big_decimal">
+            <column name="MODEL_CONTENTION_COUNT" precision="22" scale="0" />
+        </property>
+        <property name="contentionCount" type="big_decimal">
+            <column name="CONTENTION_COUNT" precision="22" scale="0" />
+        </property>
+        <property name="priorCdd" type="big_decimal">
+            <column name="PRIOR_CDD" precision="22" scale="0" />
+        </property>
+        <property name="quantPriorCdd" type="big_decimal">
+            <column name="QUANT_PRIOR_CDD" precision="22" scale="0" />
+        </property>
+        <property name="currCdd" type="big_decimal">
+            <column name="CURR_CDD" precision="22" scale="0" />
+        </property>
+        <property name="quantCdd" type="big_decimal">
+            <column name="QUANT_CDD" precision="22" scale="0" />
+        </property>
+        <property name="claimAge" type="big_decimal">
+            <column name="CLAIM_AGE" precision="22" scale="0" />
+        </property>
+        <property name="cddAge" type="big_decimal">
+            <column name="CDD_AGE" precision="22" scale="0" />
+        </property>
+        <property name="claimCount" type="big_decimal">
+            <column name="CLAIM_COUNT" precision="22" scale="0" />
+        </property>
+        <set name="modelRatingResultsCntnts" table="MODEL_RATING_RESULTS_CNTNT" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="PROCESS_ID" precision="22" scale="0" />
+            </key>
+            <one-to-many class="gov.va.vba.bcdss.data.ModelRatingResultsCntnt" />
+        </set>
+        <set name="modelRatingResultsStatuses" table="MODEL_RATING_RESULTS_STATUS" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="PROCESS_ID" precision="22" scale="0" />
+            </key>
+            <one-to-many class="gov.va.vba.bcdss.data.ModelRatingResultsStatus" />
+        </set>
+        <set name="modelRatingResultsDiags" table="MODEL_RATING_RESULTS_DIAG" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="PROCESS_ID" precision="22" scale="0" />
+            </key>
+            <one-to-many class="gov.va.vba.bcdss.data.ModelRatingResultsDiag" />
+        </set>
+    </class>
+</hibernate-mapping>

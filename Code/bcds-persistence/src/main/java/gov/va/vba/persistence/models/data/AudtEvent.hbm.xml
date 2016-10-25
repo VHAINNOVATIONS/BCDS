@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 21, 2016 1:08:51 PM by Hibernate Tools 5.2.0.Beta1 -->
+<hibernate-mapping>
+    <class name="gov.va.vba.bcdss.data.AudtEvent" table="AUDT_EVENT" optimistic-lock="version">
+        <id name="eventId" type="big_decimal">
+            <column name="EVENT_ID" precision="38" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <property name="principal" type="string">
+            <column name="PRINCIPAL" not-null="true" />
+        </property>
+        <property name="eventDate" type="serializable">
+            <column name="EVENT_DATE" />
+        </property>
+        <property name="eventType" type="string">
+            <column name="EVENT_TYPE" />
+        </property>
+        <set name="audtEventDatas" table="AUDT_EVENT_DATA" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="EVENT_ID" precision="38" scale="0" not-null="true" />
+            </key>
+            <one-to-many class="gov.va.vba.bcdss.data.AudtEventData" />
+        </set>
+    </class>
+</hibernate-mapping>
