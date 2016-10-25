@@ -19,6 +19,7 @@ angular.module('bcdssApp').controller('UserEditorController',	function($rootScop
 	$scope.resetPassword = function() {
 		ResetPassword.get({login: $scope.editUser.login}, function(result){
 			$scope.editUser.password = result[0];
+			alert("Password was reset.");
 		});
 	};
 	
