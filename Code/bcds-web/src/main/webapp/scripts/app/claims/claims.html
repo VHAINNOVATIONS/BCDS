@@ -13,7 +13,7 @@
 						<th ng-click="orderByField='claimDate'; reverseSort = !reverseSort"><a>Date of Claim <span ng-show="orderByField == 'claimDate'"><span ng-show="!reverseSort"> <span class="glyphicon glyphicon-sort-by-order"></span></span><span ng-show="reverseSort"> <span class="glyphicon glyphicon-sort-by-order-alt"></span></span></a></th>
 						<th ng-click="orderByField='claimDate'; reverseSort = !reverseSort"><a>CEST Date<span ng-show="orderByField == 'claimDate'"><span ng-show="!reverseSort"> <span class="glyphicon glyphicon-sort-by-order"></span></span><span ng-show="reverseSort"> <span class="glyphicon glyphicon-sort-by-order-alt"></span></span></a></th>
 						<th ng-click="orderByField='contentionClaimTextKeyForModel'; reverseSort = !reverseSort"><a>Models/Contentions<span ng-show="orderByField == 'contentionClaimTextKeyForModel'"><span ng-show="!reverseSort"> <span class="glyphicon glyphicon-sort-by-alphabet"></span></span><span ng-show="reverseSort"> <span class="glyphicon glyphicon-sort-by-alphabet-alt"></span></span></a></th>
-						<th style="float:right"><b style="display:block;margin-left:-15px">Select</b><input type="checkbox" ng-model="selectAll" ng-click="toggleCheckAll()" /></th>
+						<th><div style="text-align:center; vertical-align:middle"><DIV><b>Select</b></DIV><Div><input type="checkbox" ng-model="selectAll" ng-click="toggleCheckAll()" /></Div></div></th>
 					</tr>
 				</thead>
 				<label class="pull-right"><span class="glyphicon glyphicon-filter"></span>Filter: <input ng-model="filterKey"/> &nbsp &nbsp<button class = "btn btn-warning" id="clear-filter" ng-click="clearFilter()" type="button" ng-hide="!filterKey"><span class = "glyphicon glyphicon-ban-circle"/>&nbsp Clear Filter</button></label>
@@ -25,7 +25,7 @@
 						<td>{{claim.claimId}}</td>
 						<td>{{claim.claimDate | date:'MM/dd/yyyy'}}</td>
 						<td>{{getCestDate(claim.claimDate) | date:'MM/dd/yyyy'}}</td>
-						<td align="center">{{claim.contentionClaimTextKeyForModel}}</td>
+						<td>{{claim.contentionClaimTextKeyForModel}}</td>
 						<td align="center"><input type="checkbox" ng-model="claim.Selected"/></td>
 					</tr>
 				</tbody>
