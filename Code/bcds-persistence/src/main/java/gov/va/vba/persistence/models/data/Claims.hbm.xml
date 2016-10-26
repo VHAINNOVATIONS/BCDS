@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="gov.va.vba.persistence.models.data.Claims" table="AH4929_RATING_CORP_CLAIM">
+
+		<id name="ptcpntVetId" column="PTCPNT_VET_ID" type="long" >
+			<generator class="native"/>
+		</id>
+
+		<property name="prfillDt" column="PRFIL_DT" type="date" />
+		<property name="bnftClaimId" column="BNFT_CLAIM_ID" type="long" />
+		<property name="endPrdctTypeCd" column="END_PRDCT_TYPE_CD" type="string" />
+		<property name="dateOfClaim" column="DATE_OF_CLAIM" type="date" />
+		<property name="payeeTypeCD" column="PAYEE_TYPE_CD" type="string" />
+		<property name="bnftClaimTypeCd" column="BNFT_CLAIM_TYPE_CD" type="string" />
+		<property name="claimLabel" column="CLAIM_LABEL" type="string" />
+		<property name="statusTypeCd" column="STATUS_TYPE_CD" type="string" />
+		<property name="claimRoNumber" column="CLAIM_RO_NUMBER" type="long" />
+		<property name="claimRoName" column="CLAIM_RO_NAME" type="string" />
+		<property name="cntntnId" column="CNTNTN_ID" type="string" />
+		<property name="cntntnClsfcnId" column="CNTNTN_CLSFCN_ID" type="long" />
+		<property name="cntntnTypeCd" column="CNTNTN_TYPE_CD" type="string" />
+		<property name="cntntnClmantTxt" column="CNTNTN_CLMANT_TXT" type="string" />
+		<property name="cntntnMedInd" column="CNTNTN_MED_IND" type="string" />
+		<property name="cntntnWellGrnAplInd" column="CNTNTN_WELL_GRNDED_APLCBL_IND" type="string" />
+		<property name="cntntnBeginDt" column="CNTNTN_BEGIN_DT" type="date" />
+		<property name="cntntnSpIssueId" column="CNTNTN_SPECIAL_ISSUE_ID" type="string" />
+		<property name="cntntnSpIssueTypeCd" column="CNTNTN_SPECIAL_ISSUE_TYPE_CD" type="string" />
+		
+    </class>
+
+</hibernate-mapping>

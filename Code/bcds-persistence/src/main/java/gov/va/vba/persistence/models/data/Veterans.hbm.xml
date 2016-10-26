@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="gov.va.vba.persistence.models.data.Veterans" table="AH4929_person">
+
+		<id name="ptcpntVetId" type="long" column="PTCPNT_VET_ID">
+			<generator class="native"/>
+        </id>
+
+		<property name="dateOfBirth" column="DOB" type="date"/>
+		<property name="gender" column="GENDER" type="string"/>
+		<property name="dateOfDec" column="DOD" type="date"/>
+		<property name="stateCd" column="STATE_CODE" type="string"/>
+
+	</class>
+
+</hibernate-mapping>
