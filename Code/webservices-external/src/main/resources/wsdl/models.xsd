@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://bcdss.vba.va.gov/models" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://bcdss.vba.va.gov/models">
+
+
+    <complexType name="Claim">
+    	<sequence>
+    		<element name="ClaimId" type="int"></element>
+    		<element name="ProfileDate" type="date"></element>
+    		<element name="ProductTypeCode" type="string"></element>
+    		<element name="ClaimDate" type="date"></element>
+            <element name="ContentionId" type="int"></element>
+            <element name="ContentionClassificationId" type="string"></element>
+    		<element name="ContentionBeginDate" type="date"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="VeteranClaim">
+    	<sequence>
+    		<element name="Veteran" type="tns:Veteran"></element>
+    		<element name="Claim" type="tns:Claim" minOccurs="1"
+    			maxOccurs="unbounded">
+    		</element>
+
+    	</sequence>
+    </complexType>
+
+    <complexType name="ClaimRating">
+    	<sequence>
+    		<element name="Claim" type="tns:Claim"></element>
+    		<element name="Rating" type="tns:Rating"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="Rating">
+    	<sequence>
+    		<element name="ClaimantAge" type="int"></element>
+    		<element name="PromulgationDate" type="date"></element>
+    		<element name="RecentDate" type="date"></element>
+    		<element name="ContationCount" type="int"></element>
+    		<element name="PriorCDD" type="int"></element>
+    		<element name="QuantPriorCDD" type="int"></element>
+    		<element name="CurrentCDD" type="int"></element>
+    		<element name="ClaimAge" type="int"></element>
+    		<element name="CDDAge" type="int"></element>
+    		<element name="ClaimCount" type="int"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="VeteranClaimRating">
+    	<sequence>
+    		<element name="Veteran" type="tns:Veteran"></element>
+    		<element name="ClaimRating" type="tns:ClaimRating" minOccurs="1" maxOccurs="unbounded"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="Veteran">
+    	<sequence>
+    		<element name="VeteranId" type="int"></element>
+    		<element name="VeteranName" type="string"></element>
+    		<element name="dob" type="date"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="DDMKneeModelRequest">
+    	<sequence>
+    		<element name="ClaimantAge" type="int"></element>
+    		<element name="CDDAge" type="int"></element>
+    		<element name="C230" type="int"></element>
+    		<element name="C270" type="int"></element>
+    		<element name="C3690" type="int"></element>
+    		<element name="C3710" type="int"></element>
+    		<element name="C3720" type="int"></element>
+    		<element name="C3730" type="int"></element>
+    		<element name="C3790" type="int"></element>
+    		<element name="C3800" type="int"></element>
+    		<element name="C3780" type="int"></element>
+    		<element name="C8919" type="int"></element>
+    		<element name="A5055" type="int"></element>
+    		<element name="A5256" type="int"></element>
+    		<element name="A5257" type="int"></element>
+    		<element name="A5258" type="int"></element>
+    		<element name="A5259" type="int"></element>
+    		<element name="A5260" type="int"></element>
+    		<element name="A5261" type="int"></element>
+    		<element name="A5262" type="int"></element>
+    		<element name="A5313" type="int"></element>
+    		<element name="A5314" type="int"></element>
+    		<element name="A5315" type="int"></element>
+    		<element name="C3700" type="int"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="DDMModelResponse">
+    	<sequence>
+    		<element name="PattrenId" type="int"></element>
+    		<element name="ClaimantAge" type="int"></element>
+    		<element name="ClaimCount " type="int"></element>
+    		<element name="ContentionCount" type="int"></element>
+    		<element name="PriorCDD" type="int"></element>
+    		<element name="CCDAge" type="int"></element>
+    		<element name="Accuracy" type="int"></element>
+    		<element name="CDD" type="int"></element>
+    		<element name="NumberOfOccurrences" type="int"></element>
+    		<element name="ModelType" type="string"></element>
+    	</sequence>
+    </complexType>
+
+
+    <complexType name="ModelPattren">
+    	<sequence>
+    		<element name="PattrenId" type="int"></element>
+    		<element name="CDD" type="int"></element>
+    		<element name="version" type="int"></element>
+    		<element name="NumberOfOccurrences" type="int"></element>
+    		<element name="Accuracy" type="int"></element>
+    		<element name="ModelType" type="string"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="DDMEarModelRequest">
+    	<sequence>
+    		<element name="ClaimantAge" type="int"></element>
+    		<element name="CDDAge" type="int"></element>
+    		<element name="C2200" type="int"></element>
+    		<element name="C2210" type="int"></element>
+    		<element name="C2220" type="int"></element>
+    		<element name="C3140 " type="int"></element>
+    		<element name="C3150" type="int"></element>
+    		<element name="C4130" type="int"></element>
+    		<element name="C4210" type="int"></element>
+    		<element name="C4700" type="int"></element>
+    		<element name="C5000" type="int"></element>
+    		<element name="C5010" type="int"></element>
+    		<element name="C5710" type="int"></element>
+    		<element name="C4920" type="int"></element>
+    		<element name="C6850" type="int"></element>
+    		<element name="A6100" type="int"></element>
+    		<element name="A6200" type="int"></element>
+    		<element name="A6201" type="int"></element>
+    		<element name="A6202" type="int"></element>
+    		<element name="A6205" type="int"></element>
+    	</sequence>
+    </complexType>
+</schema>
