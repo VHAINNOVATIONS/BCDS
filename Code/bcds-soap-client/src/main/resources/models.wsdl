@@ -1,0 +1,308 @@
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:sch="http://va.gov/vba/bcdss/models" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://va.gov/vba/bcdss/models" targetNamespace="http://va.gov/vba/bcdss/models">
+	<wsdl:types>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+			xmlns:tns="http://va.gov/vba/bcdss/models" elementFormDefault="qualified"
+			targetNamespace="http://va.gov/vba/bcdss/models">
+			<xs:complexType name="claim">
+				<xs:sequence>
+					<xs:element name="claimId" type="xs:int" />
+					<xs:element name="profileDate" type="xs:date" />
+					<xs:element name="productTypeCode" type="xs:string" />
+					<xs:element name="claimDate" type="xs:date" />
+					<xs:element name="contentionId" type="xs:int" />
+					<xs:element name="contentionClassificationId" type="xs:string" />
+					<xs:element name="contentionBeginDate" type="xs:date" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="veteranClaim">
+				<xs:sequence>
+					<xs:element name="veteran" type="tns:veteran" />
+					<xs:element maxOccurs="unbounded" minOccurs="1" name="claim"
+						type="tns:claim"></xs:element>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="claimRating">
+				<xs:sequence>
+					<xs:element name="claim" type="tns:claim" />
+					<xs:element name="rating" type="tns:rating" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="rating">
+				<xs:sequence>
+					<xs:element name="claimantAge" type="xs:int" />
+					<xs:element name="promulgationDate" type="xs:date" />
+					<xs:element name="recentDate" type="xs:date" />
+					<xs:element name="contationCount" type="xs:int" />
+					<xs:element name="priorCdd" type="xs:int" />
+					<xs:element name="quantPriorCdd" type="xs:int" />
+					<xs:element name="currentCdd" type="xs:int" />
+					<xs:element name="claimAge" type="xs:int" />
+					<xs:element name="cddAge" type="xs:int" />
+					<xs:element name="claimCount" type="xs:int" />
+					<xs:element name="processId" type="xs:int" />
+					<xs:element name="patternId" type="xs:int" />
+					<xs:element name="processDate" type="xs:date" />
+					<xs:element name="modelType" type="xs:string" />
+					<xs:element name="modelContentionCount" type="xs:int" />
+					<xs:element name="quantCdd" type="xs:int" />
+					<xs:element name="ratingDecisions" type="tns:ratingDecisions" />
+					<xs:element maxOccurs="unbounded" minOccurs="1" name="status"
+						type="tns:ratingStatus" />
+					<xs:element maxOccurs="unbounded" minOccurs="1"
+						name="diagnosisCodeCounts" type="tns:codesCount" />
+					<xs:element maxOccurs="unbounded" minOccurs="1"
+						name="contentionsCodeCounts" type="tns:codesCount" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="veteranClaimRating">
+				<xs:sequence>
+					<xs:element name="veteran" type="tns:veteran" />
+					<xs:element maxOccurs="unbounded" minOccurs="1"
+						name="claimRating" type="tns:claimRating" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="veteran">
+				<xs:sequence>
+					<xs:element name="veteranId" type="xs:int" />
+					<xs:element name="veteranName" type="xs:string" />
+					<xs:element name="dob" type="xs:date" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="editModel">
+				<xs:sequence>
+					<xs:element name="modelType" type="xs:string" />
+					<xs:element name="modelPatternIndex" type="tns:ddmPatternIndex" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="ratingStatus">
+				<xs:sequence>
+					<xs:element name="processId" type="xs:int" />
+					<xs:element name="status" type="xs:string" />
+					<xs:element name="reasons" type="xs:string" />
+					<xs:element name="createdBy" type="xs:string" />
+					<xs:element name="createdDate" type="xs:date" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="ratingDecisions">
+				<xs:sequence>
+					<xs:element name="processId" type="xs:int" />
+					<xs:element name="kneeRatings" type="tns:kneeDecision" />
+					<xs:element name="earRatings" type="tns:earDecision" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="kneeDecision">
+				<xs:sequence>
+					<xs:element name="contentionKnee" type="xs:int" />
+					<xs:element name="contentionLeft" type="xs:int" />
+					<xs:element name="contentionRight " type="xs:int" />
+					<xs:element name="contentionBilateral" type="xs:int" />
+					<xs:element name="contentionLeg" type="xs:int" />
+					<xs:element name="contentionAmputation" type="xs:int" />
+					<xs:element name="decisionKnee" type="xs:int" />
+					<xs:element name="decisionLeft" type="xs:int" />
+					<xs:element name="decisionRight" type="xs:int" />
+					<xs:element name="decisionBilateral" type="xs:int" />
+					<xs:element name="decisionLimitation" type="xs:int" />
+					<xs:element name="decisionImpairment" type="xs:int" />
+					<xs:element name="decisionAnkyloses" type="xs:int" />
+					<xs:element name="decisionAmputation" type="xs:int" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="earDecision">
+				<xs:sequence>
+					<xs:element name="contentionLoss" type="xs:int" />
+					<xs:element name="contentionTinitu" type="xs:int" />
+					<xs:element name="decisionLoss" type="xs:int" />
+					<xs:element name="decisionTinitu" type="xs:int" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="codesCount">
+				<xs:sequence>
+					<xs:element name="diagnosisCode" type="xs:string" />
+					<xs:element name="count" type="xs:int" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="ddmPatternIndex">
+				<xs:sequence>
+					<xs:element name="patternId" type="xs:int" />
+					<xs:element name="accuracy" type="xs:int" />
+					<xs:element name="cdd" type="xs:int" />
+					<xs:element name="numberOfOccurances" type="xs:int" />
+					<xs:element name="catelogId" type="xs:int" />
+					<xs:element name="createdBy" type="xs:string" />
+					<xs:element name="createdDate" type="xs:date" />
+				</xs:sequence>
+			</xs:complexType>
+			<!-- SOAP Methods and response begin -->
+			<xs:element name="getDdmModelRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="modelType" type="xs:string" />
+						<xs:element name="claimantAge" type="xs:int" />
+						<xs:element name="claimCount" type="xs:int" />
+						<xs:element name="contentionCount" type="xs:int" />
+						<xs:element name="priorCdd" type="xs:int" />
+						<xs:element name="cddAge" type="xs:int" />
+						<xs:element maxOccurs="unbounded" minOccurs="1"
+							name="contentionCodeCounts" type="tns:codesCount" />
+						<xs:element maxOccurs="unbounded" minOccurs="1"
+							name="diagnosisCodeCounts" type="tns:codesCount" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getDdmModelResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="pattrenId" type="xs:int" />
+						<xs:element name="claimantAge" type="xs:int" />
+						<xs:element name="claimCount" type="xs:int" />
+						<xs:element name="contentionCount" type="xs:int" />
+						<xs:element name="priorCdd" type="xs:int" />
+						<xs:element name="ccdAge" type="xs:int" />
+						<xs:element name="modelType" type="xs:string" />
+						<xs:element name="patternIndex" type="tns:ddmPatternIndex" />
+						<xs:element maxOccurs="unbounded" minOccurs="1"
+							name="diagnosisCodeCounts" type="tns:codesCount" />
+						<xs:element maxOccurs="unbounded" minOccurs="1"
+							name="contentionCodeCounts" type="tns:codesCount" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getProcessClaimRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" minOccurs="1"
+							name="veteranClaimInput" type="tns:veteranClaim" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getProcessClaimResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" minOccurs="0"
+							name="veteranClaimRatingOutput" type="tns:veteranClaimRating" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getCurrentRatingRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="processId" type="xs:int" />
+						<xs:element name="veternClaim" type="tns:veteranClaim" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getCurrentRatingResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ratingResult" type="tns:rating" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="editModelRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="in" type="tns:editModel" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="editModelResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="out" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<!-- SOAP Methods and response ends -->
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="getDdmModelResponse">
+		<wsdl:part element="tns:getDdmModelResponse" name="getDdmModelResponse"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getProcessClaimResponse">
+		<wsdl:part element="tns:getProcessClaimResponse" name="getProcessClaimResponse"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="editModelRequest">
+		<wsdl:part element="tns:editModelRequest" name="editModelRequest"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getCurrentRatingRequest">
+		<wsdl:part element="tns:getCurrentRatingRequest" name="getCurrentRatingRequest"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getCurrentRatingResponse">
+		<wsdl:part element="tns:getCurrentRatingResponse" name="getCurrentRatingResponse"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="editModelResponse">
+		<wsdl:part element="tns:editModelResponse" name="editModelResponse"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getDdmModelRequest">
+		<wsdl:part element="tns:getDdmModelRequest" name="getDdmModelRequest"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getProcessClaimRequest">
+		<wsdl:part element="tns:getProcessClaimRequest" name="getProcessClaimRequest"></wsdl:part>
+	</wsdl:message>
+	<wsdl:portType name="BcdsModelingPort">
+		<wsdl:operation name="getDdmModel">
+			<wsdl:input message="tns:getDdmModelRequest" name="getDdmModelRequest"></wsdl:input>
+			<wsdl:output message="tns:getDdmModelResponse" name="getDdmModelResponse"></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getProcessClaim">
+			<wsdl:input message="tns:getProcessClaimRequest" name="getProcessClaimRequest"></wsdl:input>
+			<wsdl:output message="tns:getProcessClaimResponse" name="getProcessClaimResponse"></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="editModel">
+			<wsdl:input message="tns:editModelRequest" name="editModelRequest"></wsdl:input>
+			<wsdl:output message="tns:editModelResponse" name="editModelResponse"></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getCurrentRating">
+			<wsdl:input message="tns:getCurrentRatingRequest" name="getCurrentRatingRequest"></wsdl:input>
+			<wsdl:output message="tns:getCurrentRatingResponse" name="getCurrentRatingResponse"></wsdl:output>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="BcdsModelingPortSoap11" type="tns:BcdsModelingPort">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="getDdmModel">
+			<soap:operation soapAction="" />
+			<wsdl:input name="getDdmModelRequest">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="getDdmModelResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getProcessClaim">
+			<soap:operation soapAction="" />
+			<wsdl:input name="getProcessClaimRequest">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="getProcessClaimResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="editModel">
+			<soap:operation soapAction="" />
+			<wsdl:input name="editModelRequest">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="editModelResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getCurrentRating">
+			<soap:operation soapAction="" />
+			<wsdl:input name="getCurrentRatingRequest">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="getCurrentRatingResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="BcdsModelingPortService">
+		<wsdl:port binding="tns:BcdsModelingPortSoap11" name="BcdsModelingPortSoap11">
+			<soap:address location="http://127.0.0.1:8083/soap-api/" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

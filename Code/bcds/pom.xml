@@ -28,6 +28,7 @@
 		<module>../bcds-impl</module>
 		<module>../bcds-persistence</module>
 		<module>../bcds-soap-producer</module>
+		<module>../bcds-soap-client</module>
 		<module>../bcds-web</module>
 	</modules>
 
@@ -455,6 +456,11 @@
 			</dependency>
 			<dependency>
 				<groupId>gov.va.vba</groupId>
+				<artifactId>bcds-config</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>gov.va.vba</groupId>
 				<artifactId>bcds-impl</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -476,6 +482,11 @@
 			<dependency>
 				<groupId>gov.va.vba</groupId>
 				<artifactId>bcds-soap-producer</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>gov.va.vba</groupId>
+				<artifactId>bcds-soap-client</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<artifactId>bcds-parent</artifactId>
+		<groupId>gov.va.vba</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../bcds</relativePath>
+	</parent>
+
+	<artifactId>bcds-soap-client</artifactId>
+	<name>BCDS - SOAP Consumer</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>gov.va.vba</groupId>
+			<artifactId>bcds-config</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jaxws-maven-plugin</artifactId>
+				<version>1.9</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>wsimport</goal>
+						</goals>
+						<phase>generate-sources</phase>
+					</execution>
+				</executions>
+				<configuration>
+					<keep>true</keep>
+					<bindingFiles>
+						<bindingFile>${basedir}/src/main/resources/dateconverter.xml</bindingFile>
+					</bindingFiles>
+					<sourceDestDir>target/generated-sources/soap-client-classes</sourceDestDir>
+					<wsdlDirectory>${basedir}/src/main/resources</wsdlDirectory>
+					<wsdlFiles>
+						<wsdlFile>models.wsdl</wsdlFile>
+					</wsdlFiles>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
