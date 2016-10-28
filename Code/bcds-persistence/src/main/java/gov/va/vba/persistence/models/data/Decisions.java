@@ -1,9 +1,10 @@
 package main.java.gov.va.vba.persistence.models.data;
 
+import java.io.Serializable;
 import java.lang.String;
 import java.util.Date;
 
-public class Decisions {
+public class Decisions implements Serializable {
 
 	private long ptcpntVetId;
 	private Date prfilDt;

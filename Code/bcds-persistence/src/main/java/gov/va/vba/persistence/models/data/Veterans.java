@@ -1,38 +1,42 @@
 package main.java.gov.va.vba.persistence.models.data;
 
+import java.io.Serializable;
 import java.lang.String;
 import java.util.Date;
+import java.util.Set;
 
-public class Veterans {
+public class Veterans implements Serializable {
 
-	private long ptcpntVetId;
+	private long veteranId;
 	private Date dateOfBirth;
-	private String gender;
+	private String veteranGender;
 	private Date dateOfDec;
 	private String stateCd;
+
+	private Set<Claims> claims;
 
 	public Veterans() {
 	}
 
-	public Veterans(long ptcpntVetId, Date dateOfBirth) {
-		this.ptcpntVetId = ptcpntVetId;
+	public Veterans(long veteranId, Date dateOfBirth) {
+		this.veteranId = veteranId;
 		this.dateOfBirth = dateOfBirth;
 	}
 
-	public Veterans(long ptcpntVetId, Date dateOfBirth, String gender, Date dateOfDec, String stateCd) {
-		this.ptcpntVetId = ptcpntVetId;
+	public Veterans(long veteranId, Date dateOfBirth, String veteranGender, Date dateOfDec, String stateCd) {
+		this.veteranId = veteranId;
 		this.dateOfBirth = dateOfBirth;
-		this.gender = gender;
+		this.veteranGender = veteranGender;
 		this.dateOfDec = dateOfDec;
 		this.stateCd = stateCd;
 	}
 
-	public long getPtcpntVetId() {
-		return this.ptcpntVetId;
+	public long getVeteranId() {
+		return this.veteranId;
 	}
 
-	public void setPtcpntVetId(long ptcpntVetId) {
-		this.ptcpntVetId = ptcpntVetId;
+	public void setVeteranId(long veteranId) {
+		this.veteranId = veteranId;
 	}
 
 	public Date getDateOfBirth() {
@@ -43,12 +47,12 @@ public class Veterans {
 		this.dateOfBirth = dateOfBirth;
 	}
 
-	public String getGender() {
-		return this.gender;
+	public String getVeteranGender() {
+		return this.veteranGender;
 	}
 
-	public void setGender(String gender) {
-		this.gender = gender;
+	public void setVeteranGender(String veteranGender) {
+		this.veteranGender = veteranGender;
 	}
 
 	public Date getDateOfDec() {
@@ -67,6 +71,14 @@ public class Veterans {
 		this.stateCd = stateCd;
 	}
 
+	public Set<Claims> getClaims() {
+		return claims;
+	}
+
+	public void setClaims(Set<Claims> claims) {
+		this.claims = claims;
+	}
+
 	public boolean equals(Object other) {
 		if ((this == other))
 			return true;
@@ -76,13 +88,13 @@ public class Veterans {
 			return false;
 		Veterans castOther = (Veterans) other;
 
-		return (this.getPtcpntVetId() == castOther.getPtcpntVetId())
+		return (this.getVeteranId() == castOther.getVeteranId())
 				&& ((this.getDateOfBirth() == castOther.getDateOfBirth())
 						|| (this.getDateOfBirth() != null && castOther.getDateOfBirth() != null
 								&& this.getDateOfBirth().equals(castOther.getDateOfBirth())))
-				&& ((this.getGender() == castOther.getGender())
-						|| (this.getGender() != null && castOther.getGender() != null
-								&& this.getGender().equals(castOther.getGender())))
+				&& ((this.getVeteranGender() == castOther.getVeteranGender())
+						|| (this.getVeteranGender() != null && castOther.getVeteranGender() != null
+								&& this.getVeteranGender().equals(castOther.getVeteranGender())))
 				&& ((this.getDateOfDec() == castOther.getDateOfDec())
 						|| (this.getDateOfDec() != null && castOther.getDateOfDec() != null
 								&& this.getDateOfDec().equals(castOther.getDateOfDec())))
@@ -93,9 +105,9 @@ public class Veterans {
 	public int hashCode() {
 		int result = 17;
 
-		result = 37 * result + (int) this.getPtcpntVetId();
+		result = 37 * result + (int) this.getVeteranId();
 		result = 37 * result + (getDateOfBirth() == null ? 0 : this.getDateOfBirth().hashCode());
-		result = 37 * result + (getGender() == null ? 0 : this.getGender().hashCode());
+		result = 37 * result + (getVeteranGender() == null ? 0 : this.getVeteranGender().hashCode());
 		result = 37 * result + (getDateOfDec() == null ? 0 : this.getDateOfDec().hashCode());
 		result = 37 * result + (getStateCd() == null ? 0 : this.getStateCd().hashCode());
 		return result;

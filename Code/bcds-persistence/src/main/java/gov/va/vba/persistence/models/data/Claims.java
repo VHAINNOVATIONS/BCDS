@@ -1,129 +1,133 @@
 package main.java.gov.va.vba.persistence.models.data;
 
+import java.io.Serializable;
+import java.util.Set;
 import java.lang.String;
 import java.util.Date;
 
-public class Claims {
+public class Claims implements Serializable {
 
-	private long ptcpntVetId;
-	private Date prfilDt;
-	private long bnftClaimId;
-	private String endPrdctTypeCd;
-	private Date dateOfClaim;
-	private String payeeTypeCd;
-	private String bnftClaimTypeCd;
+	private long veteranId;
+	private Date profileDate;
+	private long claimId;
+	private String endPrdctTypeCode;
+	private Date claimDate;
+	private String payeeTypeCode;
+	private String claimTypeCode;
 	private String claimLabel;
-	private String statusTypeCd;
-	private long claimRoNumber;
-	private String claimRoName;
-	private String cntntnId;
-	private Long cntntnClsfcnId;
-	private String cntntnTypeCd;
-	private String cntntnClmantTxt;
-	private String cntntnMedInd;
-	private String cntntnWellGrndedAplcblInd;
-	private Date cntntnBeginDt;
-	private String cntntnSpeclIssueId;
-	private String cntntnSpeclIssueTypeCd;
+	private String statusTypeCode;
+	private long claimRegionalOfficeNumber;
+	private String regionalOfficeOfClaim;
+	private String contentionId;
+	private Long contentionClsfcnId;
+	private String contentionTypeCode;
+	private String contentionClaimTextKeyForModel;
+	private String contentionMedInd;
+	private String contentionWellGrndedAplcblInd;
+	private Date contentionBeginDate;
+	private String contentionSpeclIssueId;
+	private String contentionSpeclIssueTypeCode;
+	
+	private Set<Veterans> veterans;
 
 	public Claims() {
 	}
 
-	public Claims(long ptcpntVetId, Date prfilDt, long bnftClaimId, Date dateOfClaim,
-			String bnftClaimTypeCd, String claimLabel, String statusTypeCd, long claimRoNumber,
-			String claimRoName) {
-		this.ptcpntVetId = ptcpntVetId;
-		this.prfilDt = prfilDt;
-		this.bnftClaimId = bnftClaimId;
-		this.dateOfClaim = dateOfClaim;
-		this.bnftClaimTypeCd = bnftClaimTypeCd;
+	public Claims(long veteranId, Date profileDate, long claimId, Date claimDate,
+			String claimTypeCode, String claimLabel, String statusTypeCode, long claimRegionalOfficeNumber,
+			String regionalOfficeOfClaim) {
+		this.veteranId = veteranId;
+		this.profileDate = profileDate;
+		this.claimId = claimId;
+		this.claimDate = claimDate;
+		this.claimTypeCode = claimTypeCode;
 		this.claimLabel = claimLabel;
-		this.statusTypeCd = statusTypeCd;
-		this.claimRoNumber = claimRoNumber;
-		this.claimRoName = claimRoName;
+		this.statusTypeCode = statusTypeCode;
+		this.claimRegionalOfficeNumber = claimRegionalOfficeNumber;
+		this.regionalOfficeOfClaim = regionalOfficeOfClaim;
 	}
 
-	public Claims(long ptcpntVetId, Date prfilDt, long bnftClaimId, String endPrdctTypeCd,
-			Date dateOfClaim, String payeeTypeCd, String bnftClaimTypeCd, String claimLabel, String statusTypeCd,
-			long claimRoNumber, String claimRoName, String cntntnId, Long cntntnClsfcnId, String cntntnTypeCd,
-			String cntntnClmantTxt, String cntntnMedInd, String cntntnWellGrndedAplcblInd, Date cntntnBeginDt,
-			String cntntnSpeclIssueId, String cntntnSpeclIssueTypeCd) {
-		this.ptcpntVetId = ptcpntVetId;
-		this.prfilDt = prfilDt;
-		this.bnftClaimId = bnftClaimId;
-		this.endPrdctTypeCd = endPrdctTypeCd;
-		this.dateOfClaim = dateOfClaim;
-		this.payeeTypeCd = payeeTypeCd;
-		this.bnftClaimTypeCd = bnftClaimTypeCd;
+	public Claims(long veteranId, Date profileDate, long claimId, String endPrdctTypeCode,
+			Date claimDate, String payeeTypeCode, String claimTypeCode, String claimLabel, String statusTypeCode,
+			long claimRegionalOfficeNumber, String regionalOfficeOfClaim, String contentionId, Long contentionClsfcnId, String contentionTypeCode,
+			String contentionClaimTextKeyForModel, String contentionMedInd, String contentionWellGrndedAplcblInd, Date contentionBeginDate,
+			String contentionSpeclIssueId, String contentionSpeclIssueTypeCode) {
+		this.veteranId = veteranId;
+		this.profileDate = profileDate;
+		this.claimId = claimId;
+		this.endPrdctTypeCode = endPrdctTypeCode;
+		this.claimDate = claimDate;
+		this.payeeTypeCode = payeeTypeCode;
+		this.claimTypeCode = claimTypeCode;
 		this.claimLabel = claimLabel;
-		this.statusTypeCd = statusTypeCd;
-		this.claimRoNumber = claimRoNumber;
-		this.claimRoName = claimRoName;
-		this.cntntnId = cntntnId;
-		this.cntntnClsfcnId = cntntnClsfcnId;
-		this.cntntnTypeCd = cntntnTypeCd;
-		this.cntntnClmantTxt = cntntnClmantTxt;
-		this.cntntnMedInd = cntntnMedInd;
-		this.cntntnWellGrndedAplcblInd = cntntnWellGrndedAplcblInd;
-		this.cntntnBeginDt = cntntnBeginDt;
-		this.cntntnSpeclIssueId = cntntnSpeclIssueId;
-		this.cntntnSpeclIssueTypeCd = cntntnSpeclIssueTypeCd;
+		this.statusTypeCode = statusTypeCode;
+		this.claimRegionalOfficeNumber = claimRegionalOfficeNumber;
+		this.regionalOfficeOfClaim = regionalOfficeOfClaim;
+		this.contentionId = contentionId;
+		this.contentionClsfcnId = contentionClsfcnId;
+		this.contentionTypeCode = contentionTypeCode;
+		this.contentionClaimTextKeyForModel = contentionClaimTextKeyForModel;
+		this.contentionMedInd = contentionMedInd;
+		this.contentionWellGrndedAplcblInd = contentionWellGrndedAplcblInd;
+		this.contentionBeginDate = contentionBeginDate;
+		this.contentionSpeclIssueId = contentionSpeclIssueId;
+		this.contentionSpeclIssueTypeCode = contentionSpeclIssueTypeCode;
 	}
 
-	public long getPtcpntVetId() {
-		return this.ptcpntVetId;
+	public long getVeteranId() {
+		return this.veteranId;
 	}
 
-	public void setPtcpntVetId(long ptcpntVetId) {
-		this.ptcpntVetId = ptcpntVetId;
+	public void setVeteranId(long veteranId) {
+		this.veteranId = veteranId;
 	}
 
-	public Date getPrfilDt() {
-		return this.prfilDt;
+	public Date getPrfilDate() {
+		return this.profileDate;
 	}
 
-	public void setPrfilDt(Date prfilDt) {
-		this.prfilDt = prfilDt;
+	public void setPrfilDate(Date profileDate) {
+		this.profileDate = profileDate;
 	}
 
-	public long getBnftClaimId() {
-		return this.bnftClaimId;
+	public long getClaimId() {
+		return this.claimId;
 	}
 
-	public void setBnftClaimId(long bnftClaimId) {
-		this.bnftClaimId = bnftClaimId;
+	public void setClaimId(long claimId) {
+		this.claimId = claimId;
 	}
 
-	public String getEndPrdctTypeCd() {
-		return this.endPrdctTypeCd;
+	public String getEndPrdctTypeCode() {
+		return this.endPrdctTypeCode;
 	}
 
-	public void setEndPrdctTypeCd(String endPrdctTypeCd) {
-		this.endPrdctTypeCd = endPrdctTypeCd;
+	public void setEndPrdctTypeCode(String endPrdctTypeCode) {
+		this.endPrdctTypeCode = endPrdctTypeCode;
 	}
 
-	public Date getDateOfClaim() {
-		return this.dateOfClaim;
+	public Date getClaimDate() {
+		return this.claimDate;
 	}
 
-	public void setDateOfClaim(Date dateOfClaim) {
-		this.dateOfClaim = dateOfClaim;
+	public void setClaimDate(Date claimDate) {
+		this.claimDate = claimDate;
 	}
 
-	public String getPayeeTypeCd() {
-		return this.payeeTypeCd;
+	public String getPayeeTypeCode() {
+		return this.payeeTypeCode;
 	}
 
-	public void setPayeeTypeCd(String payeeTypeCd) {
-		this.payeeTypeCd = payeeTypeCd;
+	public void setPayeeTypeCode(String payeeTypeCode) {
+		this.payeeTypeCode = payeeTypeCode;
 	}
 
-	public String getBnftClaimTypeCd() {
-		return this.bnftClaimTypeCd;
+	public String getClaimTypeCode() {
+		return this.claimTypeCode;
 	}
 
-	public void setBnftClaimTypeCd(String bnftClaimTypeCd) {
-		this.bnftClaimTypeCd = bnftClaimTypeCd;
+	public void setClaimTypeCode(String claimTypeCode) {
+		this.claimTypeCode = claimTypeCode;
 	}
 
 	public String getClaimLabel() {
@@ -134,100 +138,108 @@ public class Claims {
 		this.claimLabel = claimLabel;
 	}
 
-	public String getStatusTypeCd() {
-		return this.statusTypeCd;
+	public String getStatusTypeCode() {
+		return this.statusTypeCode;
 	}
 
-	public void setStatusTypeCd(String statusTypeCd) {
-		this.statusTypeCd = statusTypeCd;
+	public void setStatusTypeCode(String statusTypeCode) {
+		this.statusTypeCode = statusTypeCode;
 	}
 
-	public long getClaimRoNumber() {
-		return this.claimRoNumber;
+	public long getClaimRegionalOfficeNumber() {
+		return this.claimRegionalOfficeNumber;
 	}
 
-	public void setClaimRoNumber(long claimRoNumber) {
-		this.claimRoNumber = claimRoNumber;
+	public void setClaimRegionalOfficeNumber(long claimRegionalOfficeNumber) {
+		this.claimRegionalOfficeNumber = claimRegionalOfficeNumber;
 	}
 
 	public String getClaimRoName() {
-		return this.claimRoName;
+		return this.regionalOfficeOfClaim;
 	}
 
-	public void setClaimRoName(String claimRoName) {
-		this.claimRoName = claimRoName;
+	public void setClaimRoName(String regionalOfficeOfClaim) {
+		this.regionalOfficeOfClaim = regionalOfficeOfClaim;
 	}
 
-	public String getCntntnId() {
-		return this.cntntnId;
+	public String getContentionId() {
+		return this.contentionId;
 	}
 
-	public void setCntntnId(String cntntnId) {
-		this.cntntnId = cntntnId;
+	public void setContentionId(String contentionId) {
+		this.contentionId = contentionId;
 	}
 
-	public Long getCntntnClsfcnId() {
-		return this.cntntnClsfcnId;
+	public Long getContentionClsfcnId() {
+		return this.contentionClsfcnId;
 	}
 
-	public void setCntntnClsfcnId(Long cntntnClsfcnId) {
-		this.cntntnClsfcnId = cntntnClsfcnId;
+	public void setContentionClsfcnId(Long contentionClsfcnId) {
+		this.contentionClsfcnId = contentionClsfcnId;
 	}
 
-	public String getCntntnTypeCd() {
-		return this.cntntnTypeCd;
+	public String getContentionTypeCode() {
+		return this.contentionTypeCode;
 	}
 
-	public void setCntntnTypeCd(String cntntnTypeCd) {
-		this.cntntnTypeCd = cntntnTypeCd;
+	public void setContentionTypeCode(String contentionTypeCode) {
+		this.contentionTypeCode = contentionTypeCode;
 	}
 
-	public String getCntntnClmantTxt() {
-		return this.cntntnClmantTxt;
+	public String getContentionClmantTxt() {
+		return this.contentionClaimTextKeyForModel;
 	}
 
-	public void setCntntnClmantTxt(String cntntnClmantTxt) {
-		this.cntntnClmantTxt = cntntnClmantTxt;
+	public void setContentionClmantTxt(String contentionClaimTextKeyForModel) {
+		this.contentionClaimTextKeyForModel = contentionClaimTextKeyForModel;
 	}
 
-	public String getCntntnMedInd() {
-		return this.cntntnMedInd;
+	public String getContentionMedInd() {
+		return this.contentionMedInd;
 	}
 
-	public void setCntntnMedInd(String cntntnMedInd) {
-		this.cntntnMedInd = cntntnMedInd;
+	public void setContentionMedInd(String contentionMedInd) {
+		this.contentionMedInd = contentionMedInd;
 	}
 
-	public String getCntntnWellGrndedAplcblInd() {
-		return this.cntntnWellGrndedAplcblInd;
+	public String getContentionWellGrndedAplcblInd() {
+		return this.contentionWellGrndedAplcblInd;
 	}
 
-	public void setCntntnWellGrndedAplcblInd(String cntntnWellGrndedAplcblInd) {
-		this.cntntnWellGrndedAplcblInd = cntntnWellGrndedAplcblInd;
+	public void setContentionWellGrndedAplcblInd(String contentionWellGrndedAplcblInd) {
+		this.contentionWellGrndedAplcblInd = contentionWellGrndedAplcblInd;
 	}
 
-	public Date getCntntnBeginDt() {
-		return this.cntntnBeginDt;
+	public Date getContentionBeginDate() {
+		return this.contentionBeginDate;
 	}
 
-	public void setCntntnBeginDt(Date cntntnBeginDt) {
-		this.cntntnBeginDt = cntntnBeginDt;
+	public void setContentionBeginDate(Date contentionBeginDate) {
+		this.contentionBeginDate = contentionBeginDate;
 	}
 
-	public String getCntntnSpeclIssueId() {
-		return this.cntntnSpeclIssueId;
+	public String getContentionSpeclIssueId() {
+		return this.contentionSpeclIssueId;
 	}
 
-	public void setCntntnSpeclIssueId(String cntntnSpeclIssueId) {
-		this.cntntnSpeclIssueId = cntntnSpeclIssueId;
+	public void setContentionSpeclIssueId(String contentionSpeclIssueId) {
+		this.contentionSpeclIssueId = contentionSpeclIssueId;
 	}
 
-	public String getCntntnSpeclIssueTypeCd() {
-		return this.cntntnSpeclIssueTypeCd;
+	public String getContentionSpeclIssueTypeCode() {
+		return this.contentionSpeclIssueTypeCode;
 	}
 
-	public void setCntntnSpeclIssueTypeCd(String cntntnSpeclIssueTypeCd) {
-		this.cntntnSpeclIssueTypeCd = cntntnSpeclIssueTypeCd;
+	public void setContentionSpeclIssueTypeCode(String contentionSpeclIssueTypeCode) {
+		this.contentionSpeclIssueTypeCode = contentionSpeclIssueTypeCode;
+	}
+	
+	public Set<Veterans> getVeterans() {
+		return veterans;
+	}
+	
+	public void setVeterans(Set<Veterans> veterans) {
+		this.veterans = veterans;
 	}
 
 	public boolean equals(Object other) {
@@ -239,86 +251,86 @@ public class Claims {
 			return false;
 		Claims castOther = (Claims) other;
 
-		return (this.getPtcpntVetId() == castOther.getPtcpntVetId())
-				&& ((this.getPrfilDt() == castOther.getPrfilDt()) || (this.getPrfilDt() != null
-						&& castOther.getPrfilDt() != null && this.getPrfilDt().equals(castOther.getPrfilDt())))
-				&& (this.getBnftClaimId() == castOther.getBnftClaimId())
-				&& ((this.getEndPrdctTypeCd() == castOther.getEndPrdctTypeCd())
-						|| (this.getEndPrdctTypeCd() != null && castOther.getEndPrdctTypeCd() != null
-								&& this.getEndPrdctTypeCd().equals(castOther.getEndPrdctTypeCd())))
-				&& ((this.getDateOfClaim() == castOther.getDateOfClaim())
-						|| (this.getDateOfClaim() != null && castOther.getDateOfClaim() != null
-								&& this.getDateOfClaim().equals(castOther.getDateOfClaim())))
-				&& ((this.getPayeeTypeCd() == castOther.getPayeeTypeCd())
-						|| (this.getPayeeTypeCd() != null && castOther.getPayeeTypeCd() != null
-								&& this.getPayeeTypeCd().equals(castOther.getPayeeTypeCd())))
-				&& ((this.getBnftClaimTypeCd() == castOther.getBnftClaimTypeCd())
-						|| (this.getBnftClaimTypeCd() != null && castOther.getBnftClaimTypeCd() != null
-								&& this.getBnftClaimTypeCd().equals(castOther.getBnftClaimTypeCd())))
+		return (this.getVeteranId() == castOther.getVeteranId())
+				&& ((this.getPrfilDate() == castOther.getPrfilDate()) || (this.getPrfilDate() != null
+						&& castOther.getPrfilDate() != null && this.getPrfilDate().equals(castOther.getPrfilDate())))
+				&& (this.getClaimId() == castOther.getClaimId())
+				&& ((this.getEndPrdctTypeCode() == castOther.getEndPrdctTypeCode())
+						|| (this.getEndPrdctTypeCode() != null && castOther.getEndPrdctTypeCode() != null
+								&& this.getEndPrdctTypeCode().equals(castOther.getEndPrdctTypeCode())))
+				&& ((this.getClaimDate() == castOther.getClaimDate())
+						|| (this.getClaimDate() != null && castOther.getClaimDate() != null
+								&& this.getClaimDate().equals(castOther.getClaimDate())))
+				&& ((this.getPayeeTypeCode() == castOther.getPayeeTypeCode())
+						|| (this.getPayeeTypeCode() != null && castOther.getPayeeTypeCode() != null
+								&& this.getPayeeTypeCode().equals(castOther.getPayeeTypeCode())))
+				&& ((this.getClaimTypeCode() == castOther.getClaimTypeCode())
+						|| (this.getClaimTypeCode() != null && castOther.getClaimTypeCode() != null
+								&& this.getClaimTypeCode().equals(castOther.getClaimTypeCode())))
 				&& ((this.getClaimLabel() == castOther.getClaimLabel()) || (this.getClaimLabel() != null
 						&& castOther.getClaimLabel() != null && this.getClaimLabel().equals(castOther.getClaimLabel())))
-				&& ((this.getStatusTypeCd() == castOther.getStatusTypeCd())
-						|| (this.getStatusTypeCd() != null && castOther.getStatusTypeCd() != null
-								&& this.getStatusTypeCd().equals(castOther.getStatusTypeCd())))
-				&& ((this.getClaimRoNumber() == castOther.getClaimRoNumber())
-						|| (this.getClaimRoNumber() != 0 && castOther.getClaimRoNumber() != 0)
-								&& (this.getClaimRoNumber() == castOther.getClaimRoNumber()))
+				&& ((this.getStatusTypeCode() == castOther.getStatusTypeCode())
+						|| (this.getStatusTypeCode() != null && castOther.getStatusTypeCode() != null
+								&& this.getStatusTypeCode().equals(castOther.getStatusTypeCode())))
+				&& ((this.getClaimRegionalOfficeNumber() == castOther.getClaimRegionalOfficeNumber())
+						|| (this.getClaimRegionalOfficeNumber() != 0 && castOther.getClaimRegionalOfficeNumber() != 0)
+								&& (this.getClaimRegionalOfficeNumber() == castOther.getClaimRegionalOfficeNumber()))
 				&& ((this.getClaimRoName() == castOther.getClaimRoName())
 						|| (this.getClaimRoName() != null && castOther.getClaimRoName() != null
 								&& this.getClaimRoName().equals(castOther.getClaimRoName())))
-				&& ((this.getCntntnId() == castOther.getCntntnId()) || (this.getCntntnId() != null
-						&& castOther.getCntntnId() != null && this.getCntntnId().equals(castOther.getCntntnId())))
-				&& ((this.getCntntnClsfcnId() == castOther.getCntntnClsfcnId())
-						|| (this.getCntntnClsfcnId() != null && castOther.getCntntnClsfcnId() != null
-								&& this.getCntntnClsfcnId().equals(castOther.getCntntnClsfcnId())))
-				&& ((this.getCntntnTypeCd() == castOther.getCntntnTypeCd())
-						|| (this.getCntntnTypeCd() != null && castOther.getCntntnTypeCd() != null
-								&& this.getCntntnTypeCd().equals(castOther.getCntntnTypeCd())))
-				&& ((this.getCntntnClmantTxt() == castOther.getCntntnClmantTxt())
-						|| (this.getCntntnClmantTxt() != null && castOther.getCntntnClmantTxt() != null
-								&& this.getCntntnClmantTxt().equals(castOther.getCntntnClmantTxt())))
-				&& ((this.getCntntnMedInd() == castOther.getCntntnMedInd())
-						|| (this.getCntntnMedInd() != null && castOther.getCntntnMedInd() != null
-								&& this.getCntntnMedInd().equals(castOther.getCntntnMedInd())))
-				&& ((this.getCntntnWellGrndedAplcblInd() == castOther.getCntntnWellGrndedAplcblInd())
-						|| (this.getCntntnWellGrndedAplcblInd() != null
-								&& castOther.getCntntnWellGrndedAplcblInd() != null
-								&& this.getCntntnWellGrndedAplcblInd()
-										.equals(castOther.getCntntnWellGrndedAplcblInd())))
-				&& ((this.getCntntnBeginDt() == castOther.getCntntnBeginDt())
-						|| (this.getCntntnBeginDt() != null && castOther.getCntntnBeginDt() != null
-								&& this.getCntntnBeginDt().equals(castOther.getCntntnBeginDt())))
-				&& ((this.getCntntnSpeclIssueId() == castOther.getCntntnSpeclIssueId())
-						|| (this.getCntntnSpeclIssueId() != null && castOther.getCntntnSpeclIssueId() != null
-								&& this.getCntntnSpeclIssueId().equals(castOther.getCntntnSpeclIssueId())))
-				&& ((this.getCntntnSpeclIssueTypeCd() == castOther.getCntntnSpeclIssueTypeCd())
-						|| (this.getCntntnSpeclIssueTypeCd() != null && castOther.getCntntnSpeclIssueTypeCd() != null
-								&& this.getCntntnSpeclIssueTypeCd().equals(castOther.getCntntnSpeclIssueTypeCd())));
+				&& ((this.getContentionId() == castOther.getContentionId()) || (this.getContentionId() != null
+						&& castOther.getContentionId() != null && this.getContentionId().equals(castOther.getContentionId())))
+				&& ((this.getContentionClsfcnId() == castOther.getContentionClsfcnId())
+						|| (this.getContentionClsfcnId() != null && castOther.getContentionClsfcnId() != null
+								&& this.getContentionClsfcnId().equals(castOther.getContentionClsfcnId())))
+				&& ((this.getContentionTypeCode() == castOther.getContentionTypeCode())
+						|| (this.getContentionTypeCode() != null && castOther.getContentionTypeCode() != null
+								&& this.getContentionTypeCode().equals(castOther.getContentionTypeCode())))
+				&& ((this.getContentionClmantTxt() == castOther.getContentionClmantTxt())
+						|| (this.getContentionClmantTxt() != null && castOther.getContentionClmantTxt() != null
+								&& this.getContentionClmantTxt().equals(castOther.getContentionClmantTxt())))
+				&& ((this.getContentionMedInd() == castOther.getContentionMedInd())
+						|| (this.getContentionMedInd() != null && castOther.getContentionMedInd() != null
+								&& this.getContentionMedInd().equals(castOther.getContentionMedInd())))
+				&& ((this.getContentionWellGrndedAplcblInd() == castOther.getContentionWellGrndedAplcblInd())
+						|| (this.getContentionWellGrndedAplcblInd() != null
+								&& castOther.getContentionWellGrndedAplcblInd() != null
+								&& this.getContentionWellGrndedAplcblInd()
+										.equals(castOther.getContentionWellGrndedAplcblInd())))
+				&& ((this.getContentionBeginDate() == castOther.getContentionBeginDate())
+						|| (this.getContentionBeginDate() != null && castOther.getContentionBeginDate() != null
+								&& this.getContentionBeginDate().equals(castOther.getContentionBeginDate())))
+				&& ((this.getContentionSpeclIssueId() == castOther.getContentionSpeclIssueId())
+						|| (this.getContentionSpeclIssueId() != null && castOther.getContentionSpeclIssueId() != null
+								&& this.getContentionSpeclIssueId().equals(castOther.getContentionSpeclIssueId())))
+				&& ((this.getContentionSpeclIssueTypeCode() == castOther.getContentionSpeclIssueTypeCode())
+						|| (this.getContentionSpeclIssueTypeCode() != null && castOther.getContentionSpeclIssueTypeCode() != null
+								&& this.getContentionSpeclIssueTypeCode().equals(castOther.getContentionSpeclIssueTypeCode())));
 	}
 
 	public int hashCode() {
 		int result = 17;
 
-		result = 37 * result + (int) this.getPtcpntVetId();
-		result = 37 * result + (getPrfilDt() == null ? 0 : this.getPrfilDt().hashCode());
-		result = 37 * result + (int) this.getBnftClaimId();
-		result = 37 * result + (getEndPrdctTypeCd() == null ? 0 : this.getEndPrdctTypeCd().hashCode());
-		result = 37 * result + (getDateOfClaim() == null ? 0 : this.getDateOfClaim().hashCode());
-		result = 37 * result + (getPayeeTypeCd() == null ? 0 : this.getPayeeTypeCd().hashCode());
-		result = 37 * result + (getBnftClaimTypeCd() == null ? 0 : this.getBnftClaimTypeCd().hashCode());
+		result = 37 * result + (int) this.getVeteranId();
+		result = 37 * result + (getPrfilDate() == null ? 0 : this.getPrfilDate().hashCode());
+		result = 37 * result + (int) this.getClaimId();
+		result = 37 * result + (getEndPrdctTypeCode() == null ? 0 : this.getEndPrdctTypeCode().hashCode());
+		result = 37 * result + (getClaimDate() == null ? 0 : this.getClaimDate().hashCode());
+		result = 37 * result + (getPayeeTypeCode() == null ? 0 : this.getPayeeTypeCode().hashCode());
+		result = 37 * result + (getClaimTypeCode() == null ? 0 : this.getClaimTypeCode().hashCode());
 		result = 37 * result + (getClaimLabel() == null ? 0 : this.getClaimLabel().hashCode());
-		result = 37 * result + (getStatusTypeCd() == null ? 0 : this.getStatusTypeCd().hashCode());
-		result = 37 * result + (int) this.getClaimRoNumber();
+		result = 37 * result + (getStatusTypeCode() == null ? 0 : this.getStatusTypeCode().hashCode());
+		result = 37 * result + (int) this.getClaimRegionalOfficeNumber();
 		result = 37 * result + (getClaimRoName() == null ? 0 : this.getClaimRoName().hashCode());
-		result = 37 * result + (getCntntnId() == null ? 0 : this.getCntntnId().hashCode());
-		result = 37 * result + (getCntntnClsfcnId() == null ? 0 : this.getCntntnClsfcnId().hashCode());
-		result = 37 * result + (getCntntnTypeCd() == null ? 0 : this.getCntntnTypeCd().hashCode());
-		result = 37 * result + (getCntntnClmantTxt() == null ? 0 : this.getCntntnClmantTxt().hashCode());
-		result = 37 * result + (getCntntnMedInd() == null ? 0 : this.getCntntnMedInd().hashCode());
-		result = 37 * result + (getCntntnWellGrndedAplcblInd() == null ? 0 : this.getCntntnWellGrndedAplcblInd().hashCode());
-		result = 37 * result + (getCntntnBeginDt() == null ? 0 : this.getCntntnBeginDt().hashCode());
-		result = 37 * result + (getCntntnSpeclIssueId() == null ? 0 : this.getCntntnSpeclIssueId().hashCode());
-		result = 37 * result + (getCntntnSpeclIssueTypeCd() == null ? 0 : this.getCntntnSpeclIssueTypeCd().hashCode());
+		result = 37 * result + (getContentionId() == null ? 0 : this.getContentionId().hashCode());
+		result = 37 * result + (getContentionClsfcnId() == null ? 0 : this.getContentionClsfcnId().hashCode());
+		result = 37 * result + (getContentionTypeCode() == null ? 0 : this.getContentionTypeCode().hashCode());
+		result = 37 * result + (getContentionClmantTxt() == null ? 0 : this.getContentionClmantTxt().hashCode());
+		result = 37 * result + (getContentionMedInd() == null ? 0 : this.getContentionMedInd().hashCode());
+		result = 37 * result + (getContentionWellGrndedAplcblInd() == null ? 0 : this.getContentionWellGrndedAplcblInd().hashCode());
+		result = 37 * result + (getContentionBeginDate() == null ? 0 : this.getContentionBeginDate().hashCode());
+		result = 37 * result + (getContentionSpeclIssueId() == null ? 0 : this.getContentionSpeclIssueId().hashCode());
+		result = 37 * result + (getContentionSpeclIssueTypeCode() == null ? 0 : this.getContentionSpeclIssueTypeCode().hashCode());
 		return result;
 	}
 

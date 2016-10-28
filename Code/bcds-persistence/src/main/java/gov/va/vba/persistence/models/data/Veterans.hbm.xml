@@ -2,18 +2,23 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
-<hibernate-mapping>
+<hibernate-mapping package="gov.va.vba.persistence.models.data">
 
-	<class name="gov.va.vba.persistence.models.data.Veterans" table="AH4929_person">
+	<class name="Veterans" table="AH4929_PERSON">
 
-		<id name="ptcpntVetId" type="long" column="PTCPNT_VET_ID">
+		<id name="veteranId" type="long" column="PTCPNT_VET_ID">
 			<generator class="native"/>
         </id>
 
 		<property name="dateOfBirth" column="DOB" type="date"/>
-		<property name="gender" column="GENDER" type="string"/>
+		<property name="veteranGender" column="GENDER" type="string"/>
 		<property name="dateOfDec" column="DOD" type="date"/>
-		<property name="stateCd" column="STATE_CODE" type="string"/>
+		<property name="stateCode" column="STATE_CODE" type="string"/>
+
+		<set name="claims" table="AH4929_RATING_CORP_CLAIM" fetch="select" cascade="all">
+			<key column="PTCPNT_VET_ID" />
+			<many-to-many class="Claims" column="PTCPNT_VET_ID" />
+		</set>
 
 	</class>
 

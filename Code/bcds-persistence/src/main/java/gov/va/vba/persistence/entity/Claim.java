@@ -2,12 +2,8 @@ package gov.va.vba.persistence.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
+import java.util.Set;
+import javax.persistence.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -17,10 +13,27 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 public class Claim implements Serializable {
 
 	private Long veteranId;
-	private String regionalOfficeOfClaim;
-	private Long claimId;
+	private Date prfilDate;
+	private long claimId;
+	private String endPrdctTypeCode;
 	private Date claimDate;
+	private String payeeTypeCode;
+	private String bnftClaimTypeCode;
+	private String claimLabel;
+	private String statusTypeCode;
+	private long regionalOfficeNumberOfClaim;
+	private String regionalOfficeOfClaim;
+	private String contentionId;
+	private Long contentionClsfcnId;
+	private String contentionTypeCode;
 	private String contentionClaimTextKeyForModel;
+	private String contentionMedInd;
+	private String contentionWellGrndedAplcblInd;
+	private Date contentionBeginDate;
+	private String contentionSpeclIssueId;
+	private String contentionSpeclIssueTypeCode;
+	
+	private Set<Veteran> veteran;
 
 	@Id
 	@Column(name="PTCPNT_VET_ID")
