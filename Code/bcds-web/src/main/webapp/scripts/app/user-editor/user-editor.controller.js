@@ -6,7 +6,6 @@ angular.module('bcdssApp').controller('UserEditorController',	function($rootScop
 	$scope.userName = Principal.userName;
 	
 	$scope.activeUserOptions = [
-	    {value: '', label: 'Activate/Deactivate a user'},
 	    {value: false, label: 'False'},
 	    {value: true, label: 'True'},
 	];
