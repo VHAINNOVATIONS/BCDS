@@ -7,7 +7,7 @@ import javax.persistence.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import main.java.gov.va.vba.persistence.models.data.Veterans;
+import main.java.gov.va.vba.persistence.entity.Veteran;
 
 @Entity
 @Table(schema="BCDSS", name = "AH4929_RATING_CORP_CLAIM")
