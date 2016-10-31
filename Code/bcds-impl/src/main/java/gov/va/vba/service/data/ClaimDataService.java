@@ -35,12 +35,6 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
 
 	public List<Claim> findByVeteranId(Long veteranId) {
 		List<gov.va.vba.persistence.entity.Claim> result = claimRepository.findByVeteranId(veteranId);
-		System.out.println("*******************************");
-		System.out.println("*********" + result.size());
-		for (gov.va.vba.persistence.entity.Claim c : result) {
-			System.out.println(c.getClaimId());
-		}
-		System.out.println("*******************************");
 		List<Claim> output = new ArrayList<>();
 		mapper.mapAsCollection(result, output, outputClass);
 		return output;
