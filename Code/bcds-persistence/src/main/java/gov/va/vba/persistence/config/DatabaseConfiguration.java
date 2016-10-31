@@ -1,9 +1,13 @@
 package gov.va.vba.persistence.config;
 
 import java.util.Arrays;
+import java.util.Properties;
 
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
+import org.hibernate.SessionFactory;
+import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +19,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.orm.hibernate4.HibernateTransactionManager;
+import org.springframework.orm.jpa.JpaDialect;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaDialect;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.util.StringUtils;
 
@@ -22,78 +31,102 @@ import com.codahale.metrics.MetricRegistry;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-import gov.va.vba.config.Constants;
-import liquibase.integration.spring.SpringLiquibase;
-
 @Configuration
 @EnableJpaRepositories(basePackages = "gov.va.vba.persistence.repository")
 @EnableTransactionManagement
 public class DatabaseConfiguration implements EnvironmentAware {
 
-    private final Logger log = LoggerFactory.getLogger(DatabaseConfiguration.class);
+	private final Logger log = LoggerFactory.getLogger(DatabaseConfiguration.class);
 
-    private RelaxedPropertyResolver dataSourcePropertyResolver;
+	private RelaxedPropertyResolver dataSourcePropertyResolver;
 
-    //private RelaxedPropertyResolver liquiBasePropertyResolver;
+	// private RelaxedPropertyResolver liquiBasePropertyResolver;
 
-    private Environment env;
+	private Environment env;
 
-    @Autowired(required = false)
-    private MetricRegistry metricRegistry;
+	@Autowired(required = false)
+	private MetricRegistry metricRegistry;
 
-    @Override
-    public void setEnvironment(Environment env) {
-        this.env = env;
-        this.dataSourcePropertyResolver = new RelaxedPropertyResolver(env, "spring.datasource.");
-        //this.liquiBasePropertyResolver = new RelaxedPropertyResolver(env, "liquiBase.");
+	@Override
+	public void setEnvironment(Environment env) {
+		this.env = env;
+		this.dataSourcePropertyResolver = new RelaxedPropertyResolver(env, "spring.datasource.");
+		// this.liquiBasePropertyResolver = new RelaxedPropertyResolver(env,
+		// "liquiBase.");
+	}
+
+	@Bean(destroyMethod = "shutdown")
+	@ConditionalOnExpression("#{!environment.acceptsProfiles('cloud') && !environment.acceptsProfiles('heroku')}")
+	public DataSource dataSource() {
+		log.debug("Configuring Datasource");
+		if (dataSourcePropertyResolver.getProperty("url") == null
+				&& dataSourcePropertyResolver.getProperty("databaseName") == null) {
+			log.error(
+					"Your database connection pool configuration is incorrect! The application"
+							+ " cannot start. Please check your Spring profile, current profiles are: {}",
+					Arrays.toString(env.getActiveProfiles()));
+
+			throw new ApplicationContextException("Database connection pool is not configured correctly");
+		}
+		HikariConfig config = new HikariConfig();
+		config.setDataSourceClassName(dataSourcePropertyResolver.getProperty("dataSourceClassName"));
+		if (StringUtils.isEmpty(dataSourcePropertyResolver.getProperty("url"))) {
+			config.addDataSourceProperty("databaseName", dataSourcePropertyResolver.getProperty("databaseName"));
+			config.addDataSourceProperty("serverName", dataSourcePropertyResolver.getProperty("serverName"));
+		} else {
+			config.addDataSourceProperty("url", dataSourcePropertyResolver.getProperty("url"));
+		}
+		config.addDataSourceProperty("user", dataSourcePropertyResolver.getProperty("username"));
+		config.addDataSourceProperty("password", dataSourcePropertyResolver.getProperty("password"));
+
+		if (metricRegistry != null) {
+			config.setMetricRegistry(metricRegistry);
+		}
+		return new HikariDataSource(config);
+	}
+
+	@Bean
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+		LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
+		entityManagerFactoryBean.setDataSource(dataSource());
+		entityManagerFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
+		entityManagerFactoryBean.setPackagesToScan("gov.va.vba.persistence.entity");
+		entityManagerFactoryBean.setJpaProperties(hibernateProperties());
+		return entityManagerFactoryBean;
+	}
+
+	@Bean
+    @Autowired
+    public JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
+        JpaTransactionManager txManager = new JpaTransactionManager();
+        JpaDialect jpaDialect = new HibernateJpaDialect();
+        txManager.setEntityManagerFactory(entityManagerFactory);
+        txManager.setJpaDialect(jpaDialect);
+        return txManager;
     }
 
-    @Bean(destroyMethod = "shutdown")
-    @ConditionalOnExpression("#{!environment.acceptsProfiles('cloud') && !environment.acceptsProfiles('heroku')}")
-    public DataSource dataSource() {
-        log.debug("Configuring Datasource");
-        if (dataSourcePropertyResolver.getProperty("url") == null && dataSourcePropertyResolver.getProperty("databaseName") == null) {
-            log.error("Your database connection pool configuration is incorrect! The application" +
-                    " cannot start. Please check your Spring profile, current profiles are: {}",
-                    Arrays.toString(env.getActiveProfiles()));
+	private Properties hibernateProperties() {
+		Properties properties = new Properties();
+		properties.put("hibernate.dialect", "org.hibernate.dialect.Oracle10gDialect");
+		properties.put("hibernate.show_sql", true);
+		properties.put("hibernate.cache.region.factory_class", "org.hibernate.cache.ehcache.EhCacheRegionFactory");
+		return properties;
+	}
 
-            throw new ApplicationContextException("Database connection pool is not configured correctly");
-        }
-        HikariConfig config = new HikariConfig();
-        config.setDataSourceClassName(dataSourcePropertyResolver.getProperty("dataSourceClassName"));
-        if(StringUtils.isEmpty(dataSourcePropertyResolver.getProperty("url"))) {
-            config.addDataSourceProperty("databaseName", dataSourcePropertyResolver.getProperty("databaseName"));
-            config.addDataSourceProperty("serverName", dataSourcePropertyResolver.getProperty("serverName"));
-        } else {
-            config.addDataSourceProperty("url", dataSourcePropertyResolver.getProperty("url"));
-        }
-        config.addDataSourceProperty("user", dataSourcePropertyResolver.getProperty("username"));
-        config.addDataSourceProperty("password", dataSourcePropertyResolver.getProperty("password"));
-
-        if (metricRegistry != null) {
-            config.setMetricRegistry(metricRegistry);
-        }
-        return new HikariDataSource(config);
-    }
-
-    /*@Bean
-    public SpringLiquibase liquibase(DataSource dataSource) {
-        SpringLiquibase liquibase = new SpringLiquibase();
-        liquibase.setDataSource(dataSource);
-        liquibase.setChangeLog("classpath:config/liquibase/master.xml");
-        liquibase.setContexts(liquiBasePropertyResolver.getProperty("context"));
-        if (env.acceptsProfiles(Constants.SPRING_PROFILE_FAST)) {
-            if ("org.h2.jdbcx.JdbcDataSource".equals(dataSourcePropertyResolver.getProperty("dataSourceClassName"))) {
-                liquibase.setShouldRun(true);
-                log.warn("Using '{}' profile with H2 database in memory is not optimal, you should consider switching to" +
-                    " MySQL or Postgresql to avoid rebuilding your database upon each start.", Constants.SPRING_PROFILE_FAST);
-            } else {
-                liquibase.setShouldRun(false);
-            }
-        } else {
-            log.debug("Configuring Liquibase");
-        }
-        return liquibase;
-    }*/
+	/*
+	 * @Bean public SpringLiquibase liquibase(DataSource dataSource) {
+	 * SpringLiquibase liquibase = new SpringLiquibase();
+	 * liquibase.setDataSource(dataSource);
+	 * liquibase.setChangeLog("classpath:config/liquibase/master.xml");
+	 * liquibase.setContexts(liquiBasePropertyResolver.getProperty("context"));
+	 * if (env.acceptsProfiles(Constants.SPRING_PROFILE_FAST)) { if
+	 * ("org.h2.jdbcx.JdbcDataSource".equals(dataSourcePropertyResolver.
+	 * getProperty("dataSourceClassName"))) { liquibase.setShouldRun(true); log.
+	 * warn("Using '{}' profile with H2 database in memory is not optimal, you should consider switching to"
+	 * +
+	 * " MySQL or Postgresql to avoid rebuilding your database upon each start."
+	 * , Constants.SPRING_PROFILE_FAST); } else { liquibase.setShouldRun(false);
+	 * } } else { log.debug("Configuring Liquibase"); } return liquibase; }
+	 */
 
 }

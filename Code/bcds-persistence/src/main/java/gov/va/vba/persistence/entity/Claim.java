@@ -7,7 +7,7 @@ import javax.persistence.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import main.java.gov.va.vba.persistence.entity.Veteran;
+import gov.va.vba.persistence.entity.Veteran;
 
 @Entity
 @Table(schema="BCDSS", name = "AH4929_RATING_CORP_CLAIM")
@@ -35,7 +35,7 @@ public class Claim implements Serializable {
 	private String contentionSpeclIssueId;
 	private String contentionSpeclIssueTypeCode;
 	
-	private Set<Veteran> veteran;
+	/*private Set<Veteran> veteran;*/
 
 	@Id
 	@Column(name="PTCPNT_VET_ID")
@@ -182,7 +182,7 @@ public class Claim implements Serializable {
 		this.contentionBeginDate = contentionBeginDate;
 	}
 
-	@Column(name="CNTNTN_SPECIAL_ISSUE_ID")
+	@Column(name="CNTNTN_SPECL_ISSUE_ID")
 	public String getContentionSpeclIssueId() {
 		return this.contentionSpeclIssueId;
 	}
@@ -190,7 +190,7 @@ public class Claim implements Serializable {
 		this.contentionSpeclIssueId = contentionSpeclIssueId;
 	}
 
-	@Column(name="CNTNTN_SPECIAL_ISSUE_TYPE_CD")
+	@Column(name="CNTNTN_SPECL_ISSUE_TYPE_CD")
 	public String getContentionSpeclIssueTypeCode() {
 		return this.contentionSpeclIssueTypeCode;
 	}
@@ -198,10 +198,10 @@ public class Claim implements Serializable {
 		this.contentionSpeclIssueTypeCode = contentionSpeclIssueTypeCode;
 	}
 	
-	public Set<Veteran> getVeteran() {
+	/*public Set<Veteran> getVeteran() {
 		return veteran;
 	}
 	public void setVeteran(Set<Veteran> veteran) {
 		this.veteran = veteran;
-	}
+	}*/
 }
