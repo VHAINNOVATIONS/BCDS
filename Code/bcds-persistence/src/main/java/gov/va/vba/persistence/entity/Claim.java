@@ -2,12 +2,11 @@ package gov.va.vba.persistence.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
 import javax.persistence.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import gov.va.vba.persistence.entity.Veteran;
+//import gov.va.vba.persistence.entity.Veteran;
 
 @Entity
 @Table(schema="BCDSS", name = "AH4929_RATING_CORP_CLAIM")
@@ -16,14 +15,14 @@ public class Claim implements Serializable {
 
 	private Long veteranId;
 	private Date profileDate;
-	private long claimId;
+	private Long claimId;
 	private String endPrdctTypeCode;
 	private Date claimDate;
 	private String payeeTypeCode;
 	private String claimTypeCode;
 	private String claimLabel;
 	private String statusTypeCode;
-	private long claimRegionalOfficeNumber;
+	private Long claimRegionalOfficeNumber;
 	private String regionalOfficeOfClaim;
 	private String contentionId;
 	private Long contentionClsfcnId;
@@ -32,10 +31,10 @@ public class Claim implements Serializable {
 	private String contentionMedInd;
 	private String contentionWellGrndedAplcblInd;
 	private Date contentionBeginDate;
-	private String contentionSpeclIssueId;
-	private String contentionSpeclIssueTypeCode;
+	private String contentionSpecialIssueId;
+	private String contentionSpecialIssueTypeCode;
 	
-	/*private Set<Veteran> veteran;*/
+//	private Set<Veteran> veteran;
 
 	@Id
 	@Column(name="PTCPNT_VET_ID")
@@ -55,10 +54,10 @@ public class Claim implements Serializable {
 	}
 
 	@Column(name="BNFT_CLAIM_ID")
-	public long getClaimId() {
+	public Long getClaimId() {
 		return this.claimId;
 	}
-	public void setClaimId(long claimId) {
+	public void setClaimId(Long claimId) {
 		this.claimId = claimId;
 	}
 
@@ -111,10 +110,10 @@ public class Claim implements Serializable {
 	}
 
 	@Column(name="CLAIM_RO_NUMBER")
-	public long getClaimRegionalOfficeNumber() {
+	public Long getClaimRegionalOfficeNumber() {
 		return this.claimRegionalOfficeNumber;
 	}
-	public void setClaimRegionalOfficeNumber(long claimRegionalOfficeNumber) {
+	public void setClaimRegionalOfficeNumber(Long claimRegionalOfficeNumber) {
 		this.claimRegionalOfficeNumber = claimRegionalOfficeNumber;
 	}
 
@@ -183,25 +182,25 @@ public class Claim implements Serializable {
 	}
 
 	@Column(name="CNTNTN_SPECL_ISSUE_ID")
-	public String getContentionSpeclIssueId() {
-		return this.contentionSpeclIssueId;
+	public String getContentionSpecialIssueId() {
+		return this.contentionSpecialIssueId;
 	}
-	public void setContentionSpeclIssueId(String contentionSpeclIssueId) {
-		this.contentionSpeclIssueId = contentionSpeclIssueId;
+	public void setContentionSpecialIssueId(String contentionSpecialIssueId) {
+		this.contentionSpecialIssueId = contentionSpecialIssueId;
 	}
 
 	@Column(name="CNTNTN_SPECL_ISSUE_TYPE_CD")
-	public String getContentionSpeclIssueTypeCode() {
-		return this.contentionSpeclIssueTypeCode;
+	public String getContentionSpecialIssueTypeCode() {
+		return this.contentionSpecialIssueTypeCode;
 	}
-	public void setContentionSpeclIssueTypeCode(String contentionSpeclIssueTypeCode) {
-		this.contentionSpeclIssueTypeCode = contentionSpeclIssueTypeCode;
+	public void setContentionSpecialIssueTypeCode(String contentionSpecialIssueTypeCode) {
+		this.contentionSpecialIssueTypeCode = contentionSpecialIssueTypeCode;
 	}
-	
-	/*public Set<Veteran> getVeteran() {
-		return veteran;
-	}
-	public void setVeteran(Set<Veteran> veteran) {
-		this.veteran = veteran;
-	}*/
+
+//	public Set<Veteran> getVeteran() {
+//		return veteran;
+//	}
+//	public void setVeteran(Set<Veteran> veteran) {
+//		this.veteran = veteran;
+//	}
 }
