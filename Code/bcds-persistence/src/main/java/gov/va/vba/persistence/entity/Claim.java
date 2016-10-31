@@ -2,12 +2,16 @@ package gov.va.vba.persistence.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import main.java.gov.va.vba.persistence.entity.Veteran;
+//import gov.va.vba.persistence.entity.Veteran;
 
 @Entity
 @Table(schema="BCDSS", name = "AH4929_RATING_CORP_CLAIM")
@@ -15,27 +19,27 @@ import main.java.gov.va.vba.persistence.entity.Veteran;
 public class Claim implements Serializable {
 
 	private Long veteranId;
-	private Date profileDate;
+//	private Date profileDate;
 	private long claimId;
-	private String endPrdctTypeCode;
+//	private String endPrdctTypeCode;
 	private Date claimDate;
-	private String payeeTypeCode;
-	private String claimTypeCode;
-	private String claimLabel;
-	private String statusTypeCode;
-	private long claimRegionalOfficeNumber;
+//	private String payeeTypeCode;
+//	private String claimTypeCode;
+//	private String claimLabel;
+//	private String statusTypeCode;
+//	private long claimRegionalOfficeNumber;
 	private String regionalOfficeOfClaim;
-	private String contentionId;
-	private Long contentionClsfcnId;
-	private String contentionTypeCode;
+//	private String contentionId;
+//	private Long contentionClsfcnId;
+//	private String contentionTypeCode;
 	private String contentionClaimTextKeyForModel;
-	private String contentionMedInd;
-	private String contentionWellGrndedAplcblInd;
-	private Date contentionBeginDate;
-	private String contentionSpeclIssueId;
-	private String contentionSpeclIssueTypeCode;
+//	private String contentionMedInd;
+//	private String contentionWellGrndedAplcblInd;
+//	private Date contentionBeginDate;
+//	private String contentionSpeclIssueId;
+//	private String contentionSpeclIssueTypeCode;
 	
-	private Set<Veteran> veteran;
+//	private Set<Veteran> veteran;
 
 	@Id
 	@Column(name="PTCPNT_VET_ID")
@@ -46,14 +50,14 @@ public class Claim implements Serializable {
 		this.veteranId = veteranId;
 	}
 
-	@Column(name="PRFIL_DT")
+/*	@Column(name="PRFIL_DT")
 	public Date getProfileDate() {
 		return this.profileDate;
 	}
 	public void setProfileDate(Date profileDate) {
 		this.profileDate = profileDate;
 	}
-
+*/
 	@Column(name="BNFT_CLAIM_ID")
 	public long getClaimId() {
 		return this.claimId;
@@ -62,14 +66,14 @@ public class Claim implements Serializable {
 		this.claimId = claimId;
 	}
 
-	@Column(name="END_PRDCT_TYPE_CD")
+/*	@Column(name="END_PRDCT_TYPE_CD")
 	public String getEndPrdctTypeCode() {
 		return this.endPrdctTypeCode;
 	}
 	public void setEndPrdctTypeCode(String endPrdctTypeCode) {
 		this.endPrdctTypeCode = endPrdctTypeCode;
 	}
-
+*/
 	@Column(name="DATE_OF_CLAIM")
 	public Date getClaimDate() {
 		return claimDate;
@@ -78,7 +82,7 @@ public class Claim implements Serializable {
 		this.claimDate = claimDate;
 	}
 
-	@Column(name="PAYEE_TYPE_CD")
+/*	@Column(name="PAYEE_TYPE_CD")
 	public String getPayeeTypeCode() {
 		return this.payeeTypeCode;
 	}
@@ -117,7 +121,7 @@ public class Claim implements Serializable {
 	public void setClaimRegionalOfficeNumber(long claimRegionalOfficeNumber) {
 		this.claimRegionalOfficeNumber = claimRegionalOfficeNumber;
 	}
-
+*/
 	@Column(name="CLAIM_RO_NAME")
 	public String getRegionalOfficeOfClaim() {
 		return regionalOfficeOfClaim;
@@ -126,7 +130,7 @@ public class Claim implements Serializable {
 		this.regionalOfficeOfClaim = regionalOfficeOfClaim;
 	}
 
-	@Column(name="CNTNTN_ID")
+/*	@Column(name="CNTNTN_ID")
 	public String getContentionId() {
 		return this.contentionId;
 	}
@@ -149,7 +153,7 @@ public class Claim implements Serializable {
 	public void setContentionTypeCode(String contentionTypeCode) {
 		this.contentionTypeCode = contentionTypeCode;
 	}
-
+*/
 	@Column(name="CNTNTN_CLMANT_TXT")
 	public String getContentionClaimTextKeyForModel() {
 		return contentionClaimTextKeyForModel;
@@ -158,7 +162,7 @@ public class Claim implements Serializable {
 		this.contentionClaimTextKeyForModel = contentionClaimTextKeyForModel;
 	}
 
-	@Column(name="CNTNTN_MED_IND")
+/*	@Column(name="CNTNTN_MED_IND")
 	public String getContentionMedInd() {
 		return this.contentionMedInd;
 	}
@@ -197,11 +201,11 @@ public class Claim implements Serializable {
 	public void setContentionSpeclIssueTypeCode(String contentionSpeclIssueTypeCode) {
 		this.contentionSpeclIssueTypeCode = contentionSpeclIssueTypeCode;
 	}
-	
-	public Set<Veteran> getVeteran() {
-		return veteran;
-	}
-	public void setVeteran(Set<Veteran> veteran) {
-		this.veteran = veteran;
-	}
+*/
+//	public Set<Veteran> getVeteran() {
+//		return veteran;
+//	}
+//	public void setVeteran(Set<Veteran> veteran) {
+//		this.veteran = veteran;
+//	}
 }

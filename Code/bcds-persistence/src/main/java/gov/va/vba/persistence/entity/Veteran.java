@@ -20,7 +20,7 @@ public class Veteran implements Serializable {
 	private Date dateOfDec;
 	private String stateCd;
 
-	private Set<Claim> claim;
+//	private Set<Claim> claim;
 
 	@Id
 	@Column(name="PTCPNT_VET_ID")
