@@ -1,18 +1,18 @@
 <h2 class="text-center">Rater's Dashboard</h2>
 <div class="container-fluid" ng-app="bcdssApp">
 	<div class="row" ng-controller="TabController">
-		<div class="col-md-12">
-			<ul class="nav nav-pills nav-inline">
+		<div class="col-md-1">
+			<ul class="nav nav-pills nav-stacked">
 				<li ng-class="{ active: isSet(1) }">
-					<a href ng-click="setTab(1)">Claims</a>
+					<a href ng-click="setTab(1)">Dashboard</a>
 				</li>
 				<li ng-class="{ active: isSet(2) }">
-					<a href ng-click="setTab(2)">Results</a>
-				</li>
-				<li ng-class="{ active: isSet(3) }">
-					<a href ng-click="setTab(3)">Reports</a>
+					<a href ng-click="setTab(2)">Report</a>
 				</li>
 			</ul>
+		</div>
+		
+		<div class="col-md-11">
 			<div class="jumbotron">
 			<div ng-show="isSet(1)">
 				<div class="row">
@@ -28,15 +28,6 @@
 					<div class="col-md-12">
 						<div align="center">
 							<div ng-include="'scripts/app/misc/results.html'"></div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div ng-show="isSet(3)">
-				<div class="row">
-					<div class="col-md-12">
-						<div align="center">
-							<div ng-include="'scripts/app/misc/reports.html'"></div>
 						</div>
 					</div>
 				</div>
