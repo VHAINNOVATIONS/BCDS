@@ -15,9 +15,9 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 public class Veteran implements Serializable {
 
 	private Long veteranId;
-	private Date dateOfBirth;
+	private String BirthYear;
 	private String veteranGender;
-	private Date dateOfDec;
+	private String dateOfDec;
 	private String stateCd;
 
 //	private Set<Claim> claim;
@@ -32,11 +32,11 @@ public class Veteran implements Serializable {
 	}
 
 	@Column(name="DOB")
-	public Date getDateOfBirth() {
-		return dateOfBirth;
+	public String getBirthYear() {
+		return BirthYear;
 	}
-	public void setDateOfBirth(Date dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
+	public void setBirthYear(String BirthYear) {
+		this.BirthYear = BirthYear;
 	}
 
 	@Column(name="GENDER")
@@ -48,10 +48,10 @@ public class Veteran implements Serializable {
 	}
 
 	@Column(name="DOD")
-	public Date getDateOfDec() {
+	public String getDateOfDec() {
 		return dateOfDec;
 	}
-	public void setDateOfDec(Date dateOfDec) {
+	public void setDateOfDec(String dateOfDec) {
 		this.dateOfDec = dateOfDec;
 	}
 
