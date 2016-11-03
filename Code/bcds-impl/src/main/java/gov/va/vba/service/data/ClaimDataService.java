@@ -1,6 +1,7 @@
 package gov.va.vba.service.data;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -34,7 +35,14 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
 	}
 
 	public List<Claim> findByVeteranId(Long veteranId) {
-		List<gov.va.vba.persistence.entity.Claim> result = claimRepository.findByVeteranId(veteranId);
+		List<gov.va.vba.persistence.entity.Claim> result = claimRepository.findByVeteranVeteranId(veteranId);
+		List<Claim> output = new ArrayList<>();
+		mapper.mapAsCollection(result, output, outputClass);
+		return output;
+	}
+
+	public List<Claim> findClaimsInRanged(Date from, Date to) {
+		List<gov.va.vba.persistence.entity.Claim> result = claimRepository.findByClaimDateBetween(from, to);
 		List<Claim> output = new ArrayList<>();
 		mapper.mapAsCollection(result, output, outputClass);
 		return output;

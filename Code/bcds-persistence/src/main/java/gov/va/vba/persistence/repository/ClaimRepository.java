@@ -1,5 +1,6 @@
 package gov.va.vba.persistence.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,6 +22,8 @@ public interface ClaimRepository extends JpaRepository<Claim, Long> {
 	@Query(value = "SELECT PTCPNT_VET_ID, PRFIL_DT, BNFT_CLAIM_ID, END_PRDCT_TYPE_CD, DATE_OF_CLAIM, PAYEE_TYPE_CD, BNFT_CLAIM_TYPE_CD, CLAIM_LABEL, STATUS_TYPE_CD, CLAIM_RO_NUMBER, CLAIM_RO_NAME, CNTNTN_ID, CNTNTN_CLSFCN_ID, CNTNTN_TYPE_CD, CNTNTN_CLMANT_TXT, CNTNTN_MED_IND, CNTNTN_WELL_GRNDED_APLCBL_IND, CNTNTN_BEGIN_DT, CNTNTN_SPECL_ISSUE_ID, CNTNTN_SPECL_ISSUE_TYPE_CD FROM BCDSS.AH4929_RATING_CORP_CLAIM WHERE (CNTNTN_CLMANT_TXT LIKE '%KNEE%' OR CNTNTN_CLMANT_TXT LIKE '%EAR%') AND ROWNUM <= 20 ORDER BY PTCPNT_VET_ID", nativeQuery = true)
 	public List<Claim> findFirstNumberedRow();
 
-	public List<Claim> findByVeteranId(Long veteranId);
+	List<Claim> findByVeteranVeteranId(Long veteranId);
+
+	List<Claim> findByClaimDateBetween(Date fromDate, Date toDate);
 
 }

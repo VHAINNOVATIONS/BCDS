@@ -1,24 +1,27 @@
 package gov.va.vba.domain;
 
+import gov.va.vba.domain.util.Veteran;
+
 import java.io.Serializable;
 import java.util.Date;
 
 
 public class Claim implements Serializable{
 
-	private Long veteranId;
+	private Veteran veteran;
 	private String regionalOfficeOfClaim;
 	private Long claimId;
 	private Date claimDate;
 	private String contentionClaimTextKeyForModel;
-	
-	public Long getVeteranId() {
-		return veteranId;
+
+	public Veteran getVeteran() {
+		return veteran;
 	}
-	public void setVeteranId(Long veteranId) {
-		this.veteranId = veteranId;
+
+	public void setVeteran(Veteran veteran) {
+		this.veteran = veteran;
 	}
-	
+
 	public String getRegionalOfficeOfClaim() {
 		return regionalOfficeOfClaim;
 	}

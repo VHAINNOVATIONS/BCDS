@@ -65,7 +65,7 @@ public class DDMModelPatternIndex implements Serializable {
 	}
 
 	@Column(name="CRTD_DTM")
-	public Date getCreateDate() {
+	public Date getCreatedDate() {
 		return createdDate;
 	}
 	public void setCreatedDate(Date createdDate) {
@@ -87,4 +87,5 @@ public class DDMModelPatternIndex implements Serializable {
 	public void setModelType(String modelType) {
 		this.modelType = modelType;
 	}
+
 }
