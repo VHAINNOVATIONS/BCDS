@@ -1,11 +1,17 @@
 'use strict';
 
-angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $scope, $state, Account, $stateParams, ClaimService) {
+angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $scope, $state, Account, $stateParams, ClaimService, ClaimFilterService) {
     $scope.searchTerm = undefined;
     $scope.claims = [];
     $scope.orderByField = 'veteranId';
     $scope.reverseSort = false;
-        
+         
+    $scope.setFilterDates  = function(){
+    	$scope.today = new Date();
+        $scope.minDate = new Date($scope.today.getFullYear(), $scope.today.getMonth(), $scope.today.getDate());
+        $scope.maxDate = new Date($scope.today.getFullYear(), $scope.today.getMonth() + 2, $scope.today.getDate());
+    };
+    
     $scope.getUserName = function(){
     	if ($rootScope.userName != null) {
     		$scope.userName = $rootScope.userName;
@@ -13,6 +19,8 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     		$scope.userName = $scope.account.firstName;
     	}
     };
+    
+    $scope.setFilterDates();
     $scope.getUserName();
     
     $scope.toggleCheckAll = function () {
@@ -94,6 +102,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
 
         $scope.clear = function(){
             $scope.claims = [];
+            $scope.loadClaims();
         }
         
         $scope.isActiveRoleTab = function (userRoleTab) {
@@ -103,9 +112,27 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
         
         $scope.clearFilter = function() {
             $scope.filterKey = '';
-          }; 
+        }; 
           
-        /*$scope.loadTabView = function (tabUserRole) {
+        $scope.advancedFilter = function() {
+        	$scope.filters = {};
+        	$scope.setFilterDates();
+        	$('#advancedFilterDialog').modal('show');
+        };
+        
+        $scope.advanceFilterSearch = function(){
+        	var claimfilters = $scope.filters;
+        	claimfilters.dateFrom = $scope.minDate
+        	claimfilters.dateTo = $scope.maxDate;
+        	
+        	ClaimFilterService.getFilteredClaims({filters: claimfilters}, function(result){
+    			$scope.claims = result;
+    			console.log($scope.claims);
+    		});
+        };
+            
+        
+          /*$scope.loadTabView = function (tabUserRole) {
         	if(tabUserRole == USER_ROLE.userRoleRater){
         		console.log("rater");
         		$state.go('home', {userRoleType: USER_ROLE.userRoleRater});
