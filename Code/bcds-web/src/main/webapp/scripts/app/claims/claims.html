@@ -21,7 +21,7 @@
 				<div class="row pull-right" style="padding-right:10px">
 					<button type="button" class="btn btn-link" ng-click="advancedFilter()">Advanced Filter</button>
 				</div>
-				<tbody ng-repeat="claim in claims | orderBy:orderByField:reverseSort | filter : filterKey" ng-hide="claim.excludedByFilter">
+				<tbody ng-repeat="claim in claims | orderBy:orderByField:reverseSort | filter : filterKey">
 					<tr>
 						<td>{{claim.veteranId}}</td>
 						<td>veteran {{claim.veteranId}}</td>
