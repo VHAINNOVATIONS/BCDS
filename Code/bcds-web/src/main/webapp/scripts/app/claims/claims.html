@@ -60,54 +60,52 @@
 				<div class="Header">
 					<h4 class="modal-title">Advanced Filter</h4>
 				</div>
-				<div class="modal-body" style="padding-left:inherit">
+				<div class="modal-body" style="padding-left:inherit; padding-right:30px">
 					<form name="frmAdvancedFilter">
-						<div class="container">
-							<div class="form-group row">
-								<div class="col-xs-6">
-									<input type="radio" ng-model="filters.dateofClaim" value="claimDate"> Date of Claim
-								</div>
-								<div class="col-xs-6" style="text-align:left">	
-									<input type="radio" ng-model="filters.dateofClaim" value="contentionClaimTextKeyForModel"> Claim Established Date
-								</div>
-							</div>	
-							
-							<div class="form-group row">
-								<label for="dateFrom" class="col-xs-3 col-form-label" style="text-align:right">Date:&nbsp&nbspFrom</label>
-								<div class="col-xs-4">
-							        <input type="date" placeholder="Enter Date" pattern="MM/dd/yyyy"  name="dateFrom" ng-model="minDate"/> 
-							     </div>
-	      						<label for="dateto" class="col-xs-1 col-form-label" style="text-align:right">To</label>
-								<div class="col-xs-4">
-							            <input type="date" style="float:right" placeholder="Enter Date"  pattern="MM/dd/yyyy" name="dateTo" ng-model="maxDate"/>
-							    </div>
+						<div class="form-group row">
+							<div class="col-md-6">
+								<input type="radio" ng-model="filters.dateofClaim" value="claimDate"> Date of Claim
 							</div>
-			
-							<div class="form-group row">
-								<label for="txtContention" class="col-xs-4 col-form-label" style="text-align:right">Contention</label>
-								<div class="col-xs-8" style="text-align:left"><input type="text" id="txtContention" ng-model="filters.contentionClaimTextKeyForModel"> </div>
+							<div class="col-md-6" style="text-align:left">	
+								<input type="radio" ng-model="filters.dateofClaim" value="contentionClaimTextKeyForModel"> Claim Established Date
 							</div>
-							
-							<div class="form-group row">	
-								<label for="txtRegionalOffice" class="col-xs-4 col-form-label" style="text-align:right">Regional Office</label>
-								<div class="col-xs-8" style="text-align:left"><input type="text" ng-model="filters.regionalOfficeOfClaim"> </div>
+						</div>	
+						
+						<div class="form-group row">
+							<label for="dateFrom" class="col-md-3 col-form-label" style="text-align:right">Date:&nbsp&nbspFrom</label>
+							<div class="col-md-4">
+						        <input type="date" placeholder="Enter Date" pattern="MM/dd/yyyy"  name="dateFrom" ng-model="minDate"/> 
+						     </div>
+      						<label for="dateto" class="col-md-1 col-form-label" style="text-align:right">To</label>
+							<div class="col-md-4">
+						            <input type="date" style="float:right" placeholder="Enter Date"  pattern="MM/dd/yyyy" name="dateTo" ng-model="maxDate"/>
+						    </div>
+						</div>
+		
+						<div class="form-group row">
+							<label for="txtContention" class="col-md-4 col-form-label" style="text-align:right">Contention</label>
+							<div class="col-md-8" style="text-align:left"><input type="text" id="txtContention" ng-model="filters.contentionClaimTextKeyForModel"> </div>
+						</div>
+						
+						<div class="form-group row">	
+							<label for="txtRegionalOffice" class="col-md-4 col-form-label" style="text-align:right">Regional Office</label>
+							<div class="col-md-8" style="text-align:left"><input type="text" ng-model="filters.regionalOfficeOfClaim"> </div>
+						</div>
+						
+						<div class="row">
+							<div class="col-md-6">
+								<button type="button" class="btn btn-outline-secondary btn-sm pull-right" style="width:150px" data-dismiss="modal">
+									<span>Cancel</span>
+								</button>
 							</div>
-							
-							<div class="row">
-								<div class="col-xs-6">
-									<button type="button" class="btn btn-outline-secondary btn-sm pull-right" style="width:150px" data-dismiss="modal">
-										<span>Cancel</span>
-									</button>
-								</div>
-								<div class="col-xs-6">
-									<button type="button" class="btn btn-outline-secondary btn-sm pull-left" style="width:150px" data-dismiss="modal" ng-click="advanceFilterSearch()">
-										<span>Filter</span>
-									</button>
-								</div>
+							<div class="col-md-6">
+								<button type="button" class="btn btn-outline-secondary btn-sm pull-left" style="width:150px" data-dismiss="modal" ng-click="advanceFilterSearch()">
+									<span>Filter</span>
+								</button>
 							</div>
 						</div>
-					</form>				
-				</div>
+					</form>
+				</div>		
 			</div>
 		</div>
 	</div>
