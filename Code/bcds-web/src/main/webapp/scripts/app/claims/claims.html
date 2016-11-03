@@ -15,7 +15,12 @@
 						<th><div style="text-align:center; vertical-align:middle"><DIV><b>Select</b></DIV><Div><input type="checkbox" ng-model="selectAll" ng-click="toggleCheckAll()" /></Div></div></th>
 					</tr>
 				</thead>
-				<label class="pull-right"><span class="glyphicon glyphicon-filter"></span>Filter: <input ng-model="filterKey"/> &nbsp &nbsp<button class = "btn btn-warning" id="clear-filter" ng-click="clearFilter()" type="button" ng-hide="!filterKey"><span class = "glyphicon glyphicon-ban-circle"/>&nbsp Clear Filter</button></label>
+				<div class="row">
+					<label class="pull-right"><span class="glyphicon glyphicon-filter"></span>Filter: <input ng-model="filterKey"/> &nbsp &nbsp<button class = "btn btn-warning" id="clear-filter" ng-click="clearFilter()" type="button" ng-hide="!filterKey"><span class = "glyphicon glyphicon-ban-circle"/>&nbsp Clear Filter</button></label>
+				</div>
+				<div class="row pull-right" style="padding-right:10px">
+					<button type="button" class="btn btn-link" ng-click="advancedFilter()">Advanced Filter</button>
+				</div>
 				<tbody ng-repeat="claim in claims | orderBy:orderByField:reverseSort | filter : filterKey">
 					<tr>
 						<td>{{claim.veteranId}}</td>
@@ -48,7 +53,65 @@
 			</div>
 		</div>
 	</div>
-
+	
+	<div class="modal fade" id="advancedFilterDialog">
+		<div class="modal-dialog" style="width:35%">
+			<div class="modal-content">
+				<div class="Header">
+					<h4 class="modal-title">Advanced Filter</h4>
+				</div>
+				<div class="modal-body" style="padding-left:inherit">
+					<form name="frmAdvancedFilter">
+						<div class="container">
+							<div class="form-group row">
+								<div class="col-xs-6">
+									<input type="radio" ng-model="filters.dateofClaim" value="claimDate"> Date of Claim
+								</div>
+								<div class="col-xs-6" style="text-align:left">	
+									<input type="radio" ng-model="filters.dateofClaim" value="contentionClaimTextKeyForModel"> Claim Established Date
+								</div>
+							</div>	
+							
+							<div class="form-group row">
+								<label for="dateFrom" class="col-xs-3 col-form-label" style="text-align:right">Date:&nbsp&nbspFrom</label>
+								<div class="col-xs-4">
+							        <input type="date" placeholder="Enter Date" pattern="MM/dd/yyyy"  name="dateFrom" ng-model="minDate"/> 
+							     </div>
+	      						<label for="dateto" class="col-xs-1 col-form-label" style="text-align:right">To</label>
+								<div class="col-xs-4">
+							            <input type="date" style="float:right" placeholder="Enter Date"  pattern="MM/dd/yyyy" name="dateTo" ng-model="maxDate"/>
+							    </div>
+							</div>
+			
+							<div class="form-group row">
+								<label for="txtContention" class="col-xs-4 col-form-label" style="text-align:right">Contention</label>
+								<div class="col-xs-8" style="text-align:left"><input type="text" id="txtContention" ng-model="filters.contentionClaimTextKeyForModel"> </div>
+							</div>
+							
+							<div class="form-group row">	
+								<label for="txtRegionalOffice" class="col-xs-4 col-form-label" style="text-align:right">Regional Office</label>
+								<div class="col-xs-8" style="text-align:left"><input type="text" ng-model="filters.regionalOfficeOfClaim"> </div>
+							</div>
+							
+							<div class="row">
+								<div class="col-xs-6">
+									<button type="button" class="btn btn-outline-secondary btn-sm pull-right" style="width:150px" data-dismiss="modal">
+										<span>Cancel</span>
+									</button>
+								</div>
+								<div class="col-xs-6">
+									<button type="button" class="btn btn-outline-secondary btn-sm pull-left" style="width:150px" data-dismiss="modal" ng-click="advanceFilterSearch()">
+										<span>Filter</span>
+									</button>
+								</div>
+							</div>
+						</div>
+					</form>				
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<div class="modal fade" id="serviceErrorDialog">
 		<div class="modal-dialog">
 			<div class="modal-content">
