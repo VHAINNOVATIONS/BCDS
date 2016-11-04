@@ -20,7 +20,7 @@ public class DDMModelPatternIndex implements Serializable {
 	private Long patternIndexNumber;
 	private String createdBy;
 	private Date createdDate;
-	private Long ctlgId;
+	private Long categoryId;
 	private String modelType;
 
 	@Id
@@ -73,11 +73,11 @@ public class DDMModelPatternIndex implements Serializable {
 	}
 
 	@Column(name="CTLG_ID")
-	public Long getCtlgId() {
-		return ctlgId;
+	public Long getCategoryId() {
+		return categoryId;
 	}
-	public void setCtlgId(Long ctlgId) {
-		this.ctlgId = ctlgId;
+	public void setCategoryId(Long categoryId) {
+		this.categoryId = categoryId;
 	}
 
 	@Column(name="MODEL_TYPE")
