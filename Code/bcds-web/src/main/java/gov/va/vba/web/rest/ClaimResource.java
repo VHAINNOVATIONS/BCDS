@@ -1,13 +1,12 @@
 package gov.va.vba.web.rest;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import gov.va.vba.web.rest.dto.ClaimDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,11 +31,11 @@ public class ClaimResource {
 		return claimDataService.findFirstNumberedRow();
 	}
 
-    @RequestMapping(value = "/claims/range", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/claims", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public List<Claim> getClaimsInRange(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date fromDate, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date toDate) {
+    public List<Claim> getClaims(@RequestBody ClaimDTO claim) {
         LOGGER.debug("REST request to get first few Claims");
-        return claimDataService.findClaimsInRanged(fromDate, toDate);
+        return claimDataService.findClaims(claim.isEstablishedDate(), claim.getFromDate(), claim.getToDate(), claim.getContentionType(), claim.getRegionalOffice());
     }
 
 	@RequestMapping(value = "/claims/{veteranId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

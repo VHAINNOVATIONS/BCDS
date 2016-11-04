@@ -26,4 +26,9 @@ public interface ClaimRepository extends JpaRepository<Claim, Long> {
 
 	List<Claim> findByClaimDateBetween(Date fromDate, Date toDate);
 
+	@Query(value = "SELECT c FROM Claim c WHERE (?1 is null or ?1='' or c.contentionClaimTextKeyForModel = ?1) AND (?2 is null or ?2='' or c.regionalOfficeOfClaim = ?2) AND c.claimDate BETWEEN ?3 AND ?4")
+	List<Claim> findClaimSByRangeOnClaimDate(String contentionType, String regionalOffice, Date fromDate, Date toDate);
+
+	@Query(value = "SELECT c FROM Claim c WHERE (?1 is null or ?1='' or c.contentionClaimTextKeyForModel = ?1) AND (?2 is null or ?2='' or c.regionalOfficeOfClaim = ?2) AND c.profileDate BETWEEN ?3 AND ?4")
+	List<Claim> findClaimSByRangeOnProfileDate(String contentionType, String regionalOffice, Date fromDate, Date toDate);
 }
