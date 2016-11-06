@@ -1,17 +1,23 @@
-<div class="container-fluid" ng-app="bcdssApp">
+<div class="container-fluid">
 	<div class="row" ng-controller="TabController">
-		<div class="col-md-2">
-			<ul class="nav nav-pills nav-stacked">
-				<li ng-class="{ active: isSet(1) }">
-					<a href ng-click="setTab(1)">Dashboard</a>
-				</li>
-				<li ng-class="{ active: isSet(2) }">
-					<a href ng-click="setTab(2)">Report</a>
-				</li>
-			</ul>
+		<div class="col-md-1">
+			<nav class="navbar navbar-default navbar-fixed-side" style="text-align:left;">
+				    <div class="container">
+				      <div class="collapse navbar-collapse">
+						<ul class="nav navbar-nav">
+							<li ng-class="{ active: isSet(1) }">
+								<a href ng-click="setTab(1)"><i class="glyphicon glyphicon-dashboard"></i> Dashboard</a>
+							</li>
+							<li ng-class="{ active: isSet(2) }">
+								<a href ng-click="setTab(2)"><i class="glyphicon glyphicon-list-alt"></i> Report</a>
+							</li>
+						</ul>
+				      </div>
+				    </div>
+			</nav>
 		</div>
 		
-		<div class="col-md-10">
+		<div class="col-md-11">
 			<div ng-show="isSet(1)">
 				<h2 class="pull-left">Rater's Dashboard</h2>
 				<div class="row">
@@ -43,5 +49,5 @@
 				</div>
 			</div>
 		</div>
-	</div>
+</div>
 </div>

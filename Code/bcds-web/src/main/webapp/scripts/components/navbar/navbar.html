@@ -1,20 +1,12 @@
 <nav class="navbar-default" role="navigation">
-    <div class="Header">
+    <div class="container-fluid Header">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <!-- <h1 style="margin:0"><a class="navbar-brand" href="#/">BCDS</a></h1> -->
             <span class="Header">
             	<img src="assets/images/BCDSS_Header.png">
 			</span>
         </div>
-        <div class="collapse navbar-collapse" id="navbar-collapse" ng-switch="isAuthenticated()">
-        	<div ng-switch-when="true"><section data-ng-controller='IdleController'></section></div>
-            <ul class="nav navbar-nav nav-pills navbar-right"  ng-switch-when="true">
+        <div class="collapse navbar-collapse" id="navbar-collapse" ng-switch="isAuthenticated()">        
+            <ul class="nav navbar-nav nav-pills navbar-right" style="margin-right:5px;" ng-switch-when="true">
                 <li>
                     <a ui-sref="home" uib-tooltip="Home" tooltip-placement="bottom"><span class="glyphicon glyphicon-home"></span></a>
                 </li>
@@ -34,13 +26,12 @@
                             &#xA0;<span>Tools</span></a></li>
                         <li ui-sref-active="active"><a ui-sref="password"><span class="glyphicon glyphicon-lock"></span>
                             &#xA0;<span>Password</span></a></li>
-                        <!-- <li ui-sref-active="active"><a ui-sref="sessions"><span class="glyphicon glyphicon-cloud"></span>
-                            &#xA0;<span>Sessions</span></a></li> -->
                         <li ui-sref-active="active"><a href="" ng-click="logout()"><span class="glyphicon glyphicon-log-out"></span>
                             &#xA0;<span>Log out</span></a></li>
-                        <!-- <li ui-sref-active="active" ng-switch-when="false"><a ui-sref="login"><span class="glyphicon glyphicon-log-in"></span>
-                            &#xA0;<span>Log In</span></a></li> -->
                     </ul>
+                </li>
+                <li>
+                	<h4 class="text-right" style="font-size:small">Welcome {{userName()}}!</h4>
                 </li>
               </ul>
         </div>

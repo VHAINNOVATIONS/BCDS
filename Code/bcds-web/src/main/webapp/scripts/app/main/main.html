@@ -1,14 +1,12 @@
 <div ng-cloak>
 	<div class="row">
-		<div align="center">
+		<div class="col-md-12">
 			<div ng-switch="isAuthenticated()" align="center">
 				<div ng-switch-when="false" align="center">
 					<div ng-include="'scripts/app/account/login/login.html'"></div>
                 </div>
                 
                 <div ng-switch-when="true" class="container-custom">
-				<!-- <h2> Tests: {{account}} </h2> -->
-				<h4 class="text-right">Welcome {{userName()}}!</h4>
 					<div ng-switch="userRole()">
 						<div ng-switch-when="ROLE_ADMIN">
 							<div ng-include="'scripts/app/dashboard/admin/dashboard-admin.html'"></div>
@@ -24,8 +22,12 @@
 			</div>
 		</div>
 	</div>
-	<div>
-		<div ng-include="'scripts/app/main/footer.html'" class="container-custom"></div>
+	<div class="row">
+		<div col="col-md-1">
+		</div>
+		<div clas="col-md-11">
+			<div ng-include="'scripts/app/main/footer.html'" class="container-custom"></div>
+		</div>
 	</div>
 </div>
 
