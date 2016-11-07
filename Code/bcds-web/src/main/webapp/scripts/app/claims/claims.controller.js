@@ -8,8 +8,8 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
          
     $scope.setFilterDates  = function(){
     	$scope.today = new Date();
-        $scope.minDate = new Date($scope.today.getFullYear(), $scope.today.getMonth(), $scope.today.getDate());
-        $scope.maxDate = new Date($scope.today.getFullYear(), $scope.today.getMonth() + 2, $scope.today.getDate());
+        $scope.claims.minDate = new Date($scope.today.getFullYear(), $scope.today.getMonth(), $scope.today.getDate());
+        $scope.claims.maxDate = new Date($scope.today.getFullYear(), $scope.today.getMonth() + 2, $scope.today.getDate());
     };
     
     $scope.getUserName = function(){
@@ -121,16 +121,20 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
         };
         
         $scope.advanceFilterSearch = function(){
-        	var claimfilters = $scope.filters;
-        	claimfilters.dateFrom = $scope.minDate
-        	claimfilters.dateTo = $scope.maxDate;
-        	
-        	ClaimFilterService.getFilteredClaims({filters: claimfilters}, function(result){
-    			$scope.claims = result;
-    			console.log($scope.claims);
-    		});
+        	if ($scope.claims != null) {
+        		ClaimFilterService.query($scope.claims, onSaveFinished, onUnsuccess);
+    		} 
         };
-            
+              
+        var onSaveFinished = function(result){
+        	console.log('>>>successful');
+        	$scope.claims = result;
+        	console.log(result);
+        }
+        
+        var onUnsuccess = function(){
+        	console.log('###not successful');
+        }
         
           /*$scope.loadTabView = function (tabUserRole) {
         	if(tabUserRole == USER_ROLE.userRoleRater){
