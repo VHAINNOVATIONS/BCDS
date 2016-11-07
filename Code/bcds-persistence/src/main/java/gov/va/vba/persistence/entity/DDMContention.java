@@ -22,6 +22,7 @@ public class DDMContention implements Serializable {
 	private String createdBy;
 	private Date createdDate;
 
+	@Id
 	@Column(name="CNTNT_ID")
 	public Long getContentionId() {
 		return contentionId;
