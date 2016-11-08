@@ -1,11 +1,17 @@
 package gov.va.vba.persistence.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -14,10 +20,13 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class DDMModelDiagnosis implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+
 	private Long patternId;
 	private Long diagnosisId;
 	private Long count;
 	private String modelType;
+	private Set<DDMModelPattern> modelPattern = new HashSet<>();
 
 	@Id
 	@Column(name="PATTERN_ID")
@@ -50,5 +59,13 @@ public class DDMModelDiagnosis implements Serializable {
 	}
 	public void setModelType(String modelType) {
 		this.modelType = modelType;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "modelPattern")
+	public Set<DDMModelPattern> getModelPattern() {
+		return modelPattern;
+	}
+	public void setModelPattern(Set<DDMModelPattern> modelPattern) {
+		this.modelPattern = modelPattern;
 	}
 }

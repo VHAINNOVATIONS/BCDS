@@ -18,7 +18,6 @@ public class Claim implements Serializable{
 		return veteran;
 	}
 
-
 	public void setVeteran(Veteran veteran) {
 		this.veteran = veteran;
 	}

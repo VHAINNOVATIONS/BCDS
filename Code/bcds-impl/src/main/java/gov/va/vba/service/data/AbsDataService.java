@@ -7,9 +7,6 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Pete Grazaitis on 10/7/2015.
- */
 public abstract class AbsDataService<I, O> {
 
     @Inject

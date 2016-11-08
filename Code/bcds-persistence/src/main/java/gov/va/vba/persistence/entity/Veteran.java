@@ -26,7 +26,7 @@ public class Veteran implements Serializable {
 	private String BirthYear;
 	private String veteranGender;
 	private String dateOfDec;
-	private String stateCd;
+	private String stateCode;
 	private Set<Claim> claims = new HashSet<>();
 
 	@Id
@@ -67,12 +67,12 @@ public class Veteran implements Serializable {
 	}
 
 	@Column(name = "STATE_CODE")
-	public String getStateCd() {
-		return stateCd;
+	public String getStateCode() {
+		return stateCode;
 	}
 
-	public void setStateCd(String stateCd) {
-		this.stateCd = stateCd;
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "veteran")
@@ -113,5 +113,4 @@ public class Veteran implements Serializable {
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
 	}
-
 }

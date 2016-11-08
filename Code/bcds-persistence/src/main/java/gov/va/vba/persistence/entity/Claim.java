@@ -15,8 +15,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-//import gov.va.vba.persistence.entity.Veteran;
-
 @Entity
 @Table(schema = "BCDSS", name = "AH4929_RATING_CORP_CLAIM")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)

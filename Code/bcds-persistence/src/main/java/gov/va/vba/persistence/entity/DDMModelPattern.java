@@ -2,10 +2,16 @@ package gov.va.vba.persistence.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -14,6 +20,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class DDMModelPattern implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+
 	private Long patternId;
 	private String modelType;
 	private Long claimantAge;
@@ -21,6 +29,8 @@ public class DDMModelPattern implements Serializable {
 	private Long contentionCount;
 	private Long priorCDD;
 	private Long CDDAge;
+	private DDMModelDiagnosis modelDiagnosis;
+	private DDMModelContention modelContention;
 
 	@Id
 	@Column(name="PATTERN_ID")
@@ -77,5 +87,14 @@ public class DDMModelPattern implements Serializable {
 	}
 	public void setCDDAge(Long CDDAge) {
 		this.CDDAge = CDDAge;
+	}
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "DDM_MODEL_DIAG")
+	public DDMModelDiagnosis getModelDiagnosis() {
+		return modelDiagnosis;
+	}
+	public void setModelDiagnosis(DDMModelDiagnosis modelDiagnosis) {
+		this.modelDiagnosis = modelDiagnosis;
 	}
 }

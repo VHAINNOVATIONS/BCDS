@@ -8,10 +8,6 @@ import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.stereotype.Component;
 
-/**
- * Created by Pete Grazaitis on 1/6/2016.
- * **/
- 
 @Component
 public class MapperFacadeFactory implements FactoryBean<MapperFacade> {
     public MapperFacade getObject() throws Exception {

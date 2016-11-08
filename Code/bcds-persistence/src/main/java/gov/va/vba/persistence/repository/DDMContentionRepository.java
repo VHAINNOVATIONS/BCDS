@@ -12,6 +12,8 @@ import gov.va.vba.persistence.entity.DDMContention;
  */
 public interface DDMContentionRepository extends JpaRepository<DDMContention, Long> {
 
-	@Query(value = "SELECT CNTNT_ID, CTLG_ID, CNTNT_CD, CNTNT_CD_DESC, CRTD_BY, CRTD_DTM, MODEL_TYPE FROM DDM_CNTNT", nativeQuery = true)
+	@Query(value = "SELECT CNTNT_ID, CTLG_ID, CNTNT_CD, MODEL_TYPE, CNTNT_CD_DESC, CRTD_BY, CRTD_DTM FROM DDM_CNTNT", nativeQuery = true)
 	public List<DDMContention> DDMContention();
+	
+	List<DDMContention> findByContentionId(Long contentionId);
 }
