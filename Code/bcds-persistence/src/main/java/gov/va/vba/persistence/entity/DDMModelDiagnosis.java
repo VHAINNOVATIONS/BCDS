@@ -26,7 +26,7 @@ public class DDMModelDiagnosis implements Serializable {
 	private Long diagnosisId;
 	private Long count;
 	private String modelType;
-	private Set<DDMModelPattern> modelPattern = new HashSet<>();
+//	private Set<DDMModelPattern> modelPattern = new HashSet<>();
 
 	@Id
 	@Column(name="PATTERN_ID")
@@ -61,11 +61,11 @@ public class DDMModelDiagnosis implements Serializable {
 		this.modelType = modelType;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "modelPattern")
+/*	@OneToMany(fetch = FetchType.LAZY, mappedBy = "modelPattern")
 	public Set<DDMModelPattern> getModelPattern() {
 		return modelPattern;
 	}
 	public void setModelPattern(Set<DDMModelPattern> modelPattern) {
 		this.modelPattern = modelPattern;
-	}
+	}*/
 }

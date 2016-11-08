@@ -89,12 +89,12 @@ public class DDMModelPattern implements Serializable {
 		this.CDDAge = CDDAge;
 	}
 
-/*	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "DDM_MODEL_DIAG")
 	public DDMModelDiagnosis getModelDiagnosis() {
 		return modelDiagnosis;
 	}
 	public void setModelDiagnosis(DDMModelDiagnosis modelDiagnosis) {
 		this.modelDiagnosis = modelDiagnosis;
-	}*/
+	}
 }
