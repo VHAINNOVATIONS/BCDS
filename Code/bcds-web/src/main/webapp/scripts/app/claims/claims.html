@@ -93,7 +93,7 @@
 						<div class="form-group row">	
 							<label for="txtRegionalOffice" class="col-md-4 col-form-label" style="text-align:right">Regional Office</label>
 							<div class="col-md-8" style="text-align:left">
-								<select id="regionalOffice" name="regionalOffice" type="text" ng-model="filters.regionalOfficeOption" ng-options="o.value for o in regionalOfficeOptions" style="height:25px; width:320px">
+								<select id="regionalOffice" name="regionalOffice" type="text" ng-model="filters.regionalOfficeOption" ng-options="o.value as o.label for o in regionalOfficeOptions" style="height:25px; width:320px">
 								</select> 
 							</div>
 						</div>
