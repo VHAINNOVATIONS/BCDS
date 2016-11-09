@@ -7,12 +7,19 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     $scope.reverseSort = false;
     $scope.filters = {};
     
+    $scope.regionalOfficeOptions = [
+    	{value: 'Select a regional office', label: 'Select a regional office'},
+	    {value: 'Carrots', label: 'Carrots'},
+	    {value: 'Raddish', label: 'Raddish'},
+	    {value: 'Jalepanos', label: 'Jalepanos'},
+	];
+    
     $scope.setFilterDates  = function(){
     	$scope.today = new Date();
-        $scope.minDate = new Date($scope.today.getFullYear(), $scope.today.getMonth(), $scope.today.getDate());
-        $scope.maxDate = new Date($scope.today.getFullYear(), $scope.today.getMonth() + 2, $scope.today.getDate());
+        $scope.filters.fromDate = new Date($scope.today.getFullYear(), $scope.today.getMonth(), $scope.today.getDate());
+        $scope.filters.toDate = new Date($scope.today.getFullYear(), $scope.today.getMonth() + 2, $scope.today.getDate());
     };
-    
+          
     $scope.getUserName = function(){
     	if ($rootScope.userName != null) {
     		$scope.userName = $rootScope.userName;
@@ -116,28 +123,23 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
         }; 
           
         $scope.advancedFilter = function() {
-        	$scope.filters = {};
         	$scope.setFilterDates();
         	$('#advancedFilterDialog').modal('show');
         };
         
         $scope.advanceFilterSearch = function(){
         	if ($scope.filters != null) {
-        		$scope.filters.minDate = $scope.formatDate($scope.minDate);
-        		$scope.filters.maxDate = $scope.formatDate($scope.maxDate);
-        		ClaimFilterService.query($scope.filters, onSaveFinished, onUnsuccess);
-    		} 
+        		//$scope.filters.fromDate = $scope.filters.fromDate.toLocaleDateString();
+        		//$scope.filters.toDate = $scope.filters.toDate.toLocaleDateString();
+        		ClaimFilterService.filterClaims($scope.filters)
+        			.then(function(result){
+        				console.log('>>>successful');
+        				$scope.claims = result;
+        				console.log(result);
+        		});
+    		}
         };
               
-        var onSaveFinished = function(result){
-        	console.log('>>>successful');
-        	$scope.claims = result;
-        	console.log(result);
-        }
-        
-        var onUnsuccess = function(){
-        	console.log('###not successful');
-        }
              
           /*$scope.loadTabView = function (tabUserRole) {
         	if(tabUserRole == USER_ROLE.userRoleRater){
