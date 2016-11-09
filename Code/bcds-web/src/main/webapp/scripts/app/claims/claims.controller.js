@@ -9,9 +9,9 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     
     $scope.regionalOfficeOptions = [
     	{value: 'Select a regional office', label: 'Select a regional office'},
-	    {value: 'Carrots', label: 'Carrots'},
-	    {value: 'Raddish', label: 'Raddish'},
-	    {value: 'Jalepanos', label: 'Jalepanos'},
+	    {value: 'Office1', label: 'Office1'},
+	    {value: 'Office2', label: 'Office2'},
+	    {value: 'Office3', label: 'Office3'},
 	];
     
     $scope.setFilterDates  = function(){
