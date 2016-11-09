@@ -74,12 +74,13 @@
 						<div class="form-group row">
 							<label for="dateFrom" class="col-md-3 col-form-label" style="text-align:right">Date:&nbsp&nbspFrom</label>
 							<div class="col-md-4">
-						        <input type="date" validatedateformat data-date-format="mm/dd/yyyy" maxlength="10" id="fromDate" calendar  mindate="todays"
-						         ng-click="openCalendar('fromDate')" placeholder="Enter Date" name="fromDate" ng-model="filters.fromDate"/> 
+						        <input type="date" validatedateformat data-date-format="mm/dd/yyyy" maxlength="10" id="fromDate" calendar  
+						         ng-click="openCalendar('fromDate')" placeholder="Enter Date" name="fromDate" ng-model="fromDate"/> 
 						     </div>
       						<label for="dateto" class="col-md-1 col-form-label" style="text-align:right">To</label>
 							<div class="col-md-4">
-						            <input type="date" style="float:right" placeholder="Enter Date"  pattern="MM/dd/yyyy" name="toDate" ng-model="filters.toDate"/>
+						        <input type="date" validatedateformat data-date-format="mm/dd/yyyy" maxlength="10" id="toDate" calendar  
+						          ng-click="openCalendar('toDate')" placeholder="Enter Date" name="toDate" ng-model="toDate"/> 
 						    </div>
 						</div>
 						
