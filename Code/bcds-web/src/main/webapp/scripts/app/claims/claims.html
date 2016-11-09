@@ -64,32 +64,37 @@
 					<form name="frmAdvancedFilter">
 						<div class="form-group row">
 							<div class="col-md-6">
-								<input type="radio" ng-model="filters.dateofClaim" value="claimDate"> Date of Claim
+								<input type="radio" ng-model="filters.dateType" value="claimDate"> Date of Claim
 							</div>
 							<div class="col-md-6" style="text-align:left">	
-								<input type="radio" ng-model="filters.dateofClaim" value="contentionClaimTextKeyForModel"> Claim Established Date
+								<input type="radio" ng-model="filters.dateType" value="establishedDate"> Claim Established Date
 							</div>
 						</div>	
 						
 						<div class="form-group row">
 							<label for="dateFrom" class="col-md-3 col-form-label" style="text-align:right">Date:&nbsp&nbspFrom</label>
 							<div class="col-md-4">
-						        <input type="date" placeholder="Enter Date" pattern="MM/dd/yyyy"  name="dateFrom" ng-model="minDate"/> 
+						        <input type="date" validatedateformat data-date-format="mm/dd/yyyy" maxlength="10" id="fromDate" calendar  
+						         ng-click="openCalendar('fromDate')" placeholder="Enter Date" name="fromDate" ng-model="fromDate"/> 
 						     </div>
       						<label for="dateto" class="col-md-1 col-form-label" style="text-align:right">To</label>
 							<div class="col-md-4">
-						            <input type="date" style="float:right" placeholder="Enter Date"  pattern="MM/dd/yyyy" name="dateTo" ng-model="maxDate"/>
+						        <input type="date" validatedateformat data-date-format="mm/dd/yyyy" maxlength="10" id="toDate" calendar  
+						          ng-click="openCalendar('toDate')" placeholder="Enter Date" name="toDate" ng-model="toDate"/> 
 						    </div>
 						</div>
+						
 		
 						<div class="form-group row">
 							<label for="txtContention" class="col-md-4 col-form-label" style="text-align:right">Contention</label>
-							<div class="col-md-8" style="text-align:left"><input type="text" id="txtContention" ng-model="filters.contentionClaimTextKeyForModel"> </div>
+							<div class="col-md-8" style="text-align:left"><input type="text" id="txtContention" ng-model="filters.contentionType" style="width:320px"> </div>
 						</div>
 						
 						<div class="form-group row">	
 							<label for="txtRegionalOffice" class="col-md-4 col-form-label" style="text-align:right">Regional Office</label>
-							<div class="col-md-8" style="text-align:left"><input type="text" ng-model="filters.regionalOfficeOfClaim"> </div>
+							<div class="col-md-8" style="text-align:left">
+								<select id="regionalOffice" name="regionalOffice" type="text" ng-model="filters.regionalOfficeOption" ng-options="o.value as o.label for o in regionalOfficeOptions" style="height:25px; width:320px">
+								</select> </div>
 						</div>
 						
 						<div class="row">

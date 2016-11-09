@@ -1,16 +1,14 @@
 'use strict';
 
 angular.module('bcdssApp')
-    .factory('ClaimFilterService', function ($resource, DateUtils) {
-        return $resource('api/claims/:filters', {}, {
-        	'query': {method: 'GET', isArray: true},
-           
-        	'getFilteredClaims':{
-        		method: 'GET',
-        		transformResponse: function (data) {
-                    data = angular.fromJson(data);
-                    return data;
-                }
-        	}
-        });
+    .factory('ClaimFilterService', function ($http, DateUtils) {
+        return {
+        	filterClaims: function (filters) {
+        		console.log(filters);
+        		return $http.post('api/claims', {data: {claim: filters }})
+                	.then(function (response) {
+                		return response.data;
+                	});
+            }
+        };
     });

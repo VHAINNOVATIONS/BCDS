@@ -5,13 +5,21 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     $scope.claims = [];
     $scope.orderByField = 'veteranId';
     $scope.reverseSort = false;
-         
-    $scope.setFilterDates  = function(){
-    	$scope.today = new Date();
-        $scope.minDate = new Date($scope.today.getFullYear(), $scope.today.getMonth(), $scope.today.getDate());
-        $scope.maxDate = new Date($scope.today.getFullYear(), $scope.today.getMonth() + 2, $scope.today.getDate());
-    };
+    $scope.filters = {};
     
+    $scope.regionalOfficeOptions = [
+    	{value: 'Select a regional office', label: 'Select a regional office'},
+	    {value: 'Carrots', label: 'Carrots'},
+	    {value: 'Raddish', label: 'Raddish'},
+	    {value: 'Jalepanos', label: 'Jalepanos'},
+	];
+    
+    $scope.setFilterDates  = function(){
+        $scope.today = new Date();
+        $scope.fromDate = new Date();
+        $scope.toDate = new Date($scope.today.getFullYear(), $scope.today.getMonth() + 1, $scope.today.getDate());
+    };
+          
     $scope.getUserName = function(){
     	if ($rootScope.userName != null) {
     		$scope.userName = $rootScope.userName;
@@ -115,23 +123,24 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
         }; 
           
         $scope.advancedFilter = function() {
-        	$scope.filters = {};
         	$scope.setFilterDates();
         	$('#advancedFilterDialog').modal('show');
         };
         
         $scope.advanceFilterSearch = function(){
-        	var claimfilters = $scope.filters;
-        	claimfilters.dateFrom = $scope.minDate
-        	claimfilters.dateTo = $scope.maxDate;
-        	
-        	ClaimFilterService.getFilteredClaims({filters: claimfilters}, function(result){
-    			$scope.claims = result;
-    			console.log($scope.claims);
-    		});
+        	if ($scope.filters != null) {
+        		$scope.filters.fromDate = $scope.formatDate($scope.fromDate);
+        		$scope.filters.toDate = $scope.formatDate($scope.toDate);;
+        		ClaimFilterService.filterClaims($scope.filters)
+        			.then(function(result){
+        				console.log('>>>successful');
+        				$scope.claims = result;
+        				console.log(result);
+        		});
+    		}
         };
-            
-        
+              
+             
           /*$scope.loadTabView = function (tabUserRole) {
         	if(tabUserRole == USER_ROLE.userRoleRater){
         		console.log("rater");
