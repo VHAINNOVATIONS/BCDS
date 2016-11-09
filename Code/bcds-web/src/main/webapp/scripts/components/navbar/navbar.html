@@ -1,5 +1,5 @@
 <nav class="navbar-default" role="navigation">
-    <div class="container-fluid Header">
+    <div class="container-fluid Header" style="padding-left:0px;">
         <div class="navbar-header">
             <span class="Header">
             	<img src="assets/images/BCDSS_Header.png">
@@ -14,11 +14,11 @@
                     <a><span class="glyphicon glyphicon-cog"></span></a>
                 </li>
                 <li uib-tooltip="Help" tooltip-placement="bottom">
-                    <a><span class="glyphicon glyphicon-question-sign"></span></a>
+                    <a><span class="glyphicon glyphicon-question-sign mainNav"></span></a>
                 </li>
                 <li ng-class="{active: $state.includes('account')}" class="dropdown pointer">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="">
-                    	<span class="glyphicon glyphicon-user"></span>
+                    	<span class="glyphicon glyphicon-user mainNav"></span>
                     	<b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">

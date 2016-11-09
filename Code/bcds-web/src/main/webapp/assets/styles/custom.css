@@ -110,6 +110,10 @@ ul.multiselect li.select-highlight-blur {
 	align: center;
 }
 
-.container-fluid{
-	padding:0px;
+.dashboard{
+	padding-top:5px;
+}
+
+.mainNav{
+	color:white;
 }
