@@ -8,8 +8,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     $scope.filters = {};
     
     $scope.regionalOfficeOptions = [
-    	{ value: 'Select a regional office', label: 'Select a regional office'},
-	    { value:'463',	label:'	Anchorage RO'},
+    	{ value:'463',	label:'	Anchorage RO'},
 	    { value:'350',	label:'	Little Rock Regional Office'},
 	    { value:'320',	label:'	Nashville Regional Office'},
 	    { value:'315',	label:'	Huntington Regional Office'},
