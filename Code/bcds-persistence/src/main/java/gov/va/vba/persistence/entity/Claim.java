@@ -3,13 +3,7 @@ package gov.va.vba.persistence.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.hibernate.annotations.Cache;
@@ -63,6 +57,7 @@ public class Claim implements Serializable {
 		this.veteran = veteran;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "PRFIL_DT")
 	public Date getProfileDate() {
 		return this.profileDate;
@@ -81,6 +76,7 @@ public class Claim implements Serializable {
 		this.endPrdctTypeCode = endPrdctTypeCode;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "DATE_OF_CLAIM")
 	public Date getClaimDate() {
 		return claimDate;
@@ -198,6 +194,7 @@ public class Claim implements Serializable {
 		this.contentionWellGrndedAplcblInd = contentionWellGrndedAplcblInd;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "CNTNTN_BEGIN_DT")
 	public Date getContentionBeginDate() {
 		return this.contentionBeginDate;

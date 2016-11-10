@@ -22,13 +22,14 @@ public interface ClaimRepository extends JpaRepository<Claim, Long> {
 	@Query(value = "SELECT PTCPNT_VET_ID, PRFIL_DT, BNFT_CLAIM_ID, END_PRDCT_TYPE_CD, DATE_OF_CLAIM, PAYEE_TYPE_CD, BNFT_CLAIM_TYPE_CD, CLAIM_LABEL, STATUS_TYPE_CD, CLAIM_RO_NUMBER, CLAIM_RO_NAME, CNTNTN_ID, CNTNTN_CLSFCN_ID, CNTNTN_TYPE_CD, CNTNTN_CLMANT_TXT, CNTNTN_MED_IND, CNTNTN_WELL_GRNDED_APLCBL_IND, CNTNTN_BEGIN_DT, CNTNTN_SPECL_ISSUE_ID, CNTNTN_SPECL_ISSUE_TYPE_CD FROM BCDSS.AH4929_RATING_CORP_CLAIM WHERE (CNTNTN_CLMANT_TXT LIKE '%KNEE%' OR CNTNTN_CLMANT_TXT LIKE '%EAR%') AND ROWNUM <= 20 ORDER BY PTCPNT_VET_ID", nativeQuery = true)
 	public List<Claim> findFirstNumberedRow();
 
-	List<Claim> findByVeteranVeteranId(Long veteranId);
+	@Query(value = "SELECT c FROM Claim c WHERE c.veteran.veteranId = ?1 AND c.contentionClsfcnId IN (?2) AND c.profileDate >= c.claimDate")
+	List<Claim> findByVeteranVeteranIdAndContentionClsfcnIdIn(Long veteranId, List<Long> ids);
 
 	List<Claim> findByClaimDateBetween(Date fromDate, Date toDate);
 
-	@Query(value = "SELECT c FROM Claim c WHERE (?1 is null or ?1='' or c.contentionClaimTextKeyForModel = ?1) AND (?2 is null or ?2='' or c.regionalOfficeOfClaim = ?2) AND (?3 is null or ?3='' or c.claimDate >= ?3) AND (?4 is null or ?4='' or c.claimDate <= ?4)")
+	@Query(value = "SELECT c FROM Claim c WHERE (?1 is null or ?1='' or c.contentionClaimTextKeyForModel LIKE CONCAT('%',?1,'%')) AND (?2 is null or ?2='' or c.regionalOfficeOfClaim LIKE CONCAT('%',?2,'%')) AND (c.claimDate >= ?3 AND c.claimDate <= ?4)")
 	List<Claim> findClaimSByRangeOnClaimDate(String contentionType, String regionalOffice, Date fromDate, Date toDate);
 
-	@Query(value = "SELECT c FROM Claim c WHERE (?1 is null or ?1='' or c.contentionClaimTextKeyForModel = ?1) AND (?2 is null or ?2='' or c.regionalOfficeOfClaim = ?2) AND (?3 is null or ?3='' or c.profileDate >= ?3) AND (?4 is null or ?4='' or c.profileDate <= ?4)")
+	@Query(value = "SELECT c FROM Claim c WHERE (?1 is null or ?1='' or c.contentionClaimTextKeyForModel LIKE CONCAT('%',?1,'%')) AND (?2 is null or ?2='' or c.regionalOfficeOfClaim LIKE CONCAT('%',?2,'%')) AND (c.profileDate >= ?3 AND c.profileDate <= ?4)")
 	List<Claim> findClaimSByRangeOnProfileDate(String contentionType, String regionalOffice, Date fromDate, Date toDate);
 }
