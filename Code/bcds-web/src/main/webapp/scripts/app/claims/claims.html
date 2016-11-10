@@ -60,7 +60,7 @@
 				<div class="Header">
 					<h4 class="modal-title">Advanced Filter</h4>
 				</div>
-				<div class="modal-body" style="padding-left:inherit; padding-right:30px">
+				<div class="modal-body" style="padding-left:inherit; padding-right:30px; padding-bottom:15px">
 					<form name="frmAdvancedFilter">
 						<div class="form-group row">
 							<div class="col-md-6">
@@ -94,10 +94,10 @@
 							<label for="txtRegionalOffice" class="col-md-4 col-form-label" style="text-align:right">Regional Office</label>
 							<div class="col-md-8" style="text-align:left">
 								<select id="regionalOffice" name="regionalOffice" type="text" ng-model="filters.regionalOfficeOption" ng-options="o.value as o.label for o in regionalOfficeOptions" style="height:25px; width:320px">
+									 <option value="">-- Please select a regional office --</option>
 								</select> 
 							</div>
 						</div>
-						
 						<div class="row">
 							<div class="col-md-6">
 								<button type="button" class="btn btn-outline-secondary btn-sm pull-right" style="width:150px" data-dismiss="modal">
@@ -105,7 +105,7 @@
 								</button>
 							</div>
 							<div class="col-md-6">
-								<button type="button" class="btn btn-outline-secondary btn-sm pull-left" style="width:150px" data-dismiss="modal" ng-click="advanceFilterSearch()">
+								<button type="button" class="btn btn-outline-secondary btn-sm" style="width:150px" data-dismiss="modal" ng-click="advanceFilterSearch()">
 									<span>Filter</span>
 								</button>
 							</div>
