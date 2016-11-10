@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+
+<hibernate-mapping>
+   <class name="ModelRatingResults" table="MODEL_RATING_RESULTS">
+      <meta attribute="class-description">
+         This class contains the Model Rating Results. 
+      </meta>
+      <id name="processId" type="long" column="PROCESS_ID">
+         <generator class="native"/>
+      </id>
+      <property name="veteranId" column="VET_ID" type="long"/>
+      <property name="patternId" column="PATTERN_ID" type="long"/>
+      <property name="processDate" column="PROCESS_DATE" type="date"/>
+      <property name="claimId" column="CLAIM_ID" type="long"/>
+      <property name="claimantAge" column="CLAIMANT_AGE" type="long"/>
+      <property name="dateOfBirth" column="DOB" type="date"/>
+      <property name="endProductCode" column="END_PRODUCT_CODE" type="string"/>
+      <property name="regionalOfficeNumber" column="RO_NUMBER" type="long"/>
+      <property name="claimDate" column="CLAIM_DATE" type="date"/>
+      <property name="profileDate" column="PROFILE_DATE" type="date"/>
+      <property name="promulgationDate" column="PROMULGATION_DATE" type="date"/>
+      <property name="recentDate" column="RECENT_DATE" type="date"/>
+      <property name="modelType" column="MODEL_TYPE" type="string"/>
+      <property name="modelContentionCount" column="MODEL_CONTENTION_COUNT" type="long"/>
+      <property name="contentionCount" column="CONTENTION_COUNT" type="long"/>
+      <property name="priorCdd" column="PRIOR_CDD" type="long"/>
+      <property name="quantPriorCdd" column="QUANT_PRIOR_CDD" type="long"/>
+      <property name="currentCdd" column="CURR_CDD" type="long"/>
+      <property name="quantCdd" column="QUANT_CDD" type="long"/>
+      <property name="claimAge" column="CLAIM_AGE" type="long"/>
+      <property name="CDDAge" column="CDD_AGE" type="long"/>
+      <property name="claimCount" column="CLAIM_COUNT" type="long"/>
+   </class>
+</hibernate-mapping>
