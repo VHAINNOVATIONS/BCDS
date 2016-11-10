@@ -31,12 +31,12 @@ public class DDMDataService extends AbsDataService<gov.va.vba.persistence.entity
     	}
     }
 
-    DDMDataService results = new DDMDataService();
+    // DDMDataService results = new DDMDataService();
 
-    @Autowired
+    //@Autowired
     DDMModelPatternRepository ddmModelPatternRepository;
     
-    @Autowired
+    //@Autowired
     ModelRatingResults modelRatingResults;
     
     public DDMDataService() {
