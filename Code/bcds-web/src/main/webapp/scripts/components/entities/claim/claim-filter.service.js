@@ -5,7 +5,14 @@ angular.module('bcdssApp')
         return {
         	filterClaims: function (filters) {
         		console.log(filters);
-        		return $http.post('api/claims', {data: {claim: filters }})
+        		var data = {
+        				establishedDate : (filters.dateType == "establishedDate"),
+        				regionalOffice: filters.regionalOfficeOption.value,
+        				contentionType: filters.contentionType,
+        				fromDate: filters.fromDate,
+        				toDate: filters.toDate
+        		}
+        		return $http.post('api/claims', data)
                 	.then(function (response) {
                 		return response.data;
                 	});
