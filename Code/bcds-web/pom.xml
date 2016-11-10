@@ -25,16 +25,16 @@
             <artifactId>bcds-impl</artifactId>
         </dependency>
 
-        <dependency>
+       <!-- <dependency>
             <groupId>gov.va.vba</groupId>
             <artifactId>webservices-external</artifactId>
-        </dependency>
-        
+        </dependency> -->
+
         <dependency>
             <groupId>gov.va.vba</groupId>
             <artifactId>bcds-soap-producer</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>gov.va.vba</groupId>
             <artifactId>bcds-soap-client</artifactId>

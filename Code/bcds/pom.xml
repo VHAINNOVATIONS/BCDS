@@ -22,7 +22,7 @@
 
 	<modules>
 		<module>../cdm-schema</module>
-		<module>../webservices-external</module>
+		<!--<module>../webservices-external</module>-->
 		<module>../bcds-api</module>
 		<module>../bcds-config</module>
 		<module>../bcds-impl</module>
