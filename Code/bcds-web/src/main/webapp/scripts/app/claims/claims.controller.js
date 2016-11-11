@@ -72,7 +72,6 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
 
 	];
     
-    $scope.filters.regionalOfficeOption = $scope.regionalOfficeOptions[0];
     
     $scope.setFilterDates  = function(){
         $scope.today = new Date();
@@ -177,6 +176,11 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
 
         $scope.clear = function(){
             $scope.claims = [];
+            $scope.filters.dateType = {};
+            $scope.setFilterDates();
+            $scope.filters.contentionType = null;
+            $scope.filters.regionalOfficeOption = 0;
+            
             $scope.loadClaims();
         }
         
@@ -190,7 +194,6 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
         }; 
           
         $scope.advancedFilter = function() {
-        	$scope.setFilterDates();
         	$('#advancedFilterDialog').modal('show');
         };
         
