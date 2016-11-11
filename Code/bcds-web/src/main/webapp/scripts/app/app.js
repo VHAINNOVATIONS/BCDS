@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('bcdssApp', ['LocalStorageModule',
-        'ngResource', 'ui.router', 'ngCookies', 'ngCacheBuster', 'infinite-scroll', 'ui.bootstrap', 'ngIdle'])
+        'ngResource', 'ui.router', 'ngCookies', 'ngCacheBuster', 'infinite-scroll', 'ui.bootstrap', 'ngIdle',
+         'datatables','datatables.buttons' ])
 
     .run(function ($rootScope, $location, $window, $http, $state, Auth, Principal, ENV, VERSION) {
         $rootScope.ENV = ENV;

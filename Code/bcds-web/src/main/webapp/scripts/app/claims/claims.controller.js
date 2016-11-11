@@ -1,11 +1,83 @@
 'use strict';
 
-angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $scope, $state, Account, $stateParams, ClaimService, ClaimFilterService) {
+angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $scope, $state, Account, 
+															$q, DTOptionsBuilder, DTColumnBuilder, $compile, 	
+															$stateParams, ClaimService, ClaimFilterService) {
     $scope.searchTerm = undefined;
     $scope.claims = [];
     $scope.orderByField = 'veteranId';
     $scope.reverseSort = false;
     $scope.filters = {};
+    $scope.selected = {};
+    $scope.selectAll = false;
+    
+    $scope.toggleAll = function toggleAll(selectAll, selectedItems) {
+        for (var id in selectedItems) {
+            if (selectedItems.hasOwnProperty(id)) {
+                selectedItems[id] = selectAll;
+            }
+        }
+    }
+
+    function toggleOne(selectedItems) {
+        for (var id in selectedItems) {
+            if (selectedItems.hasOwnProperty(id)) {
+                if (!selectedItems[id]) {
+                    $scope.selectAll = false;
+                    return;
+                }
+            }
+        }
+        $scope.selectAll = true;
+    }
+
+    var titleHtml = '<label for="selectchkall" style="display: none">select</label><input type="checkbox" id="selectchkall" ng-model="selectAll" ng-click="toggleAll(selectAll,selected)"> ';
+    $scope.dtInstance = {};
+    $scope.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
+    	 return new Promise( function(resolve, reject){
+             if ($scope.claims)
+               resolve($scope.claims);
+             else
+               resolve([]);
+           });
+    })
+    .withOption('createdRow', function(row, data, dataIndex) {
+                // Recompiling so we can bind Angular directive to the DT
+        $compile(angular.element(row).contents())($scope);
+    })
+    .withOption('headerCallback', function(header) {
+        if (!self.headerCompiled) {
+            // Use this headerCompiled field to only compile header once
+            self.headerCompiled = true;
+            $compile(angular.element(header).contents())($scope);
+        }
+    })
+    .withPaginationType('full_numbers')
+    .withDOM('frtip')
+    .withButtons([
+        {
+          text: '<a name="Advanced Filter">Advanced Filter</a>',
+          action: function (e, dt, node, config) {
+              alert('Call Advanced filter');
+          }
+        }
+        
+      ]);
+
+    $scope.dtColumns = [
+		DTColumnBuilder.newColumn(null).withTitle(titleHtml).notSortable()
+		 .renderWith(function(data, type, full, meta) {
+		     $scope.selected[full.claimId] = false;
+		     return '<label for="selectchk' + data.claimId + '" style="display: none">select</label><input id="selectchk' + data.claimId + '" type="checkbox" ng-model="selected[' + data.claimId + ']" ng-click="toggleOne(selected)">';
+		}),
+        DTColumnBuilder.newColumn('claimId').withTitle('Veteran ID'),
+        DTColumnBuilder.newColumn('claimId').withTitle('Veteran Name'),
+        DTColumnBuilder.newColumn('regionalOfficeOfClaim').withTitle('Regional Office'),
+        DTColumnBuilder.newColumn('claimId').withTitle('Claim ID'),
+        DTColumnBuilder.newColumn('claimDate').withTitle('Date of Claim'),
+        DTColumnBuilder.newColumn('claimId').withTitle('CEST Date'),
+        DTColumnBuilder.newColumn('contentionClaimTextKeyForModel').withTitle('Model/Contentions')
+    ];
     
     $scope.regionalOfficeOptions = [
     	{ value:'463',	label:'Anchorage RO'},
@@ -99,6 +171,15 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     $scope.loadClaims = function(){
     	ClaimService.query(function(result){
     		$scope.claims = result;
+    		var promise = new Promise( function(resolve, reject){
+                if ($scope.claims)
+                  resolve($scope.claims);
+                else
+                  resolve([]);
+              });
+    		$scope.dtInstance.changeData(function() {
+                return promise;
+            });
     	});
     };
 

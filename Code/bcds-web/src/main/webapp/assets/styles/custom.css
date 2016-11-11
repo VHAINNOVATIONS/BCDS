@@ -117,3 +117,32 @@ ul.multiselect li.select-highlight-blur {
 .mainNav{
 	color:white;
 }
+
+
+.sidebar-nav .navbar .navbar-collapse {
+   padding: 0;
+   max-height: none;
+ }
+ .sidebar-nav .navbar ul {
+   float: none;
+   display: block;
+   text-align:left;
+ }
+ .sidebar-nav .navbar li {
+   float: none;
+   display: block;
+ }
+ .sidebar-nav .navbar li a {
+   padding-top: 12px;
+   padding-bottom: 12px;
+   padding-left:20px;
+ }
+
+ .navbar-custom{
+ 	padding-right:2px;
+ 	padding-left:2px;
+ }
+ 
+ .navbar-nav.glyphicon{
+  padding:5px;
+ }
