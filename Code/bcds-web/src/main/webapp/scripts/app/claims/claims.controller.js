@@ -58,7 +58,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
         {
           text: '<a name="Advanced Filter">Advanced Filter</a>',
           action: function (e, dt, node, config) {
-              alert('Call Advanced filter');
+        	  $('#advancedFilterDialog').modal('show');
           }
         }
         
@@ -185,9 +185,9 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
 
     $scope.loadClaims();
 
-	    $scope.getCestDate = function(date) {
-			return (date + (10*24*60*60*1000));
-		};
+    $scope.getCestDate = function(date) {
+		return (date + (10*24*60*60*1000));
+	};
 	
        /* $scope.formatDate = function(date) {
             var date = new Date(date);
@@ -274,10 +274,6 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
             $scope.filterKey = '';
         }; 
           
-        $scope.advancedFilter = function() {
-        	$('#advancedFilterDialog').modal('show');
-        };
-        
         $scope.advanceFilterSearch = function(){
         	if ($scope.filters != null) {
         		$scope.filters.fromDate = $scope.formatDate($scope.fromDate);
@@ -286,7 +282,15 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
         			.then(function(result){
         				console.log('>>>successful');
         				$scope.claims = result;
-        				console.log(result);
+        				var promise = new Promise( function(resolve, reject){
+        	                if ($scope.claims)
+        	                  resolve($scope.claims);
+        	                else
+        	                  resolve([]);
+        	              });
+        	    		$scope.dtInstance.changeData(function() {
+        	                return promise;
+        	            });
         		});
     		}
         };
