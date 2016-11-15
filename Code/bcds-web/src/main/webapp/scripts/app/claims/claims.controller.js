@@ -203,6 +203,14 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
 	            ('0' + date.getDate()).slice(-2);
 	    };
         
+	    $scope.checkErr = function(startDate,endDate) {
+	        $scope.errMessage = '';
+	        if(new Date(startDate) > new Date(endDate)){
+	          $scope.errMessage = 'To Date should be greater than from date';
+	          return false;
+	        }
+	    };
+	    
         $scope.isCollapsed = function(claim) {
             if (claim.isCollapsed == undefined) {
                 claim.isCollapsed = true;
