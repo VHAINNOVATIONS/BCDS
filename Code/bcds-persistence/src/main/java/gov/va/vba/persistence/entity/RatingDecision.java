@@ -4,10 +4,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -19,7 +16,7 @@ import java.util.Date;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class RatingDecision {
 
-    private BigDecimal veteranId;
+    private Veteran veteran;
     private Date profileDate;
     private Date inactvDt;
     private String systemTypeCd;
@@ -94,13 +91,14 @@ public class RatingDecision {
     private String smcPrgrphKeyCd;
     private String smcPrgrphTxt;
 
-    @Column(name = "PTCPNT_VET_ID", nullable = false, precision = 22, scale = 0)
-    public BigDecimal getVeteranId() {
-        return this.veteranId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "PTCPNT_VET_ID")
+    public Veteran getVeteran() {
+        return veteran;
     }
 
-    public void setVeteranId(BigDecimal veteranId) {
-        this.veteranId = veteranId;
+    public void setVeteran(Veteran veteran) {
+        this.veteran = veteran;
     }
 
     @Column(name = "PRFIL_DT", nullable = false, length = 7)

@@ -1,12 +1,12 @@
 package gov.va.vba.persistence.repository;
 
-import java.util.Date;
-import java.util.List;
-
+import gov.va.vba.persistence.constants.QueryConstants;
+import gov.va.vba.persistence.entity.Claim;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import gov.va.vba.persistence.entity.Claim;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Spring Data JPA repository for the Claim entity.
@@ -27,9 +27,12 @@ public interface ClaimRepository extends JpaRepository<Claim, Long> {
 
 	List<Claim> findByClaimDateBetween(Date fromDate, Date toDate);
 
-	@Query(value = "SELECT c FROM Claim c WHERE (?1 is null or ?1='' or c.contentionClaimTextKeyForModel LIKE CONCAT('%',?1,'%')) AND (?2 is null or ?2='' or c.regionalOfficeOfClaim LIKE CONCAT('%',?2,'%')) AND (c.claimDate >= ?3 AND c.claimDate <= ?4)")
-	List<Claim> findClaimSByRangeOnClaimDate(String contentionType, String regionalOffice, Date fromDate, Date toDate);
+	@Query(value = "SELECT c FROM Claim c WHERE (?1 is null or ?1='' or c.contentionClaimTextKeyForModel LIKE CONCAT('%',?1,'%')) AND (?2 is null or c.claimRegionalOfficeNumber = ?2) AND (c.claimDate >= ?3 AND c.claimDate <= ?4)")
+	List<Claim> findClaimSByRangeOnClaimDate(String contentionType, Long regionalOfficeNumber, Date fromDate, Date toDate);
 
-	@Query(value = "SELECT c FROM Claim c WHERE (?1 is null or ?1='' or c.contentionClaimTextKeyForModel LIKE CONCAT('%',?1,'%')) AND (?2 is null or ?2='' or c.regionalOfficeOfClaim LIKE CONCAT('%',?2,'%')) AND (c.profileDate >= ?3 AND c.profileDate <= ?4)")
-	List<Claim> findClaimSByRangeOnProfileDate(String contentionType, String regionalOffice, Date fromDate, Date toDate);
+	@Query(value = "SELECT c FROM Claim c WHERE (?1 is null or ?1='' or c.contentionClaimTextKeyForModel LIKE CONCAT('%',?1,'%')) AND (?2 is null or c.claimRegionalOfficeNumber = ?2) AND (c.profileDate >= ?3 AND c.profileDate <= ?4)")
+	List<Claim> findClaimSByRangeOnProfileDate(String contentionType, Long regionalOfficeNumber, Date fromDate, Date toDate);
+
+	@Query(value = QueryConstants.CONTENTIONS_COUNT)
+	List<Object[]> aggregateContentions(Long claimId, Long veteranId);
 }

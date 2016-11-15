@@ -1,7 +1,9 @@
 package gov.va.vba.persistence.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -28,6 +30,7 @@ public class Veteran implements Serializable {
 	private String dateOfDec;
 	private String stateCode;
 	private Set<Claim> claims = new HashSet<>();
+	private List<RatingDecision> decisions = new ArrayList<>();
 
 	@Id
 	@Column(name = "PTCPNT_VET_ID")
@@ -83,7 +86,16 @@ public class Veteran implements Serializable {
 	public void setClaims(Set<Claim> claims) {
 		this.claims = claims;
 	}
-	
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "veteran")
+	public List<RatingDecision> getDecisions() {
+		return decisions;
+	}
+
+	public void setDecisions(List<RatingDecision> decisions) {
+		this.decisions = decisions;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
