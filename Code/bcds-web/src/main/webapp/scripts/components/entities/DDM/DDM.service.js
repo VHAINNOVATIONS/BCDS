@@ -2,7 +2,7 @@
 
 angular.module('bcdssApp')
     .factory('DDMService', function ($resource, DateUtils) {
-        return $resource('api/DDM', {}, {
+        return $resource('api/ddms', {}, {
         	'query': {method: 'GET', isArray: true},
             'get': {
                 method: 'GET',
