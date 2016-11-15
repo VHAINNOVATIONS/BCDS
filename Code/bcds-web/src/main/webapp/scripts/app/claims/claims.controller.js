@@ -205,8 +205,10 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
         
 	    $scope.checkErr = function(startDate,endDate) {
 	        $scope.errMessage = '';
+	        $scope.frmAdvancedFilter.$invalid = false;
 	        if(new Date(startDate) > new Date(endDate)){
-	          $scope.errMessage = 'To Date should be greater than from date';
+	          $scope.errMessage = 'To Date should be greater than from date.';
+	          $scope.frmAdvancedFilter.$invalid = true;
 	          return false;
 	        }
 	    };

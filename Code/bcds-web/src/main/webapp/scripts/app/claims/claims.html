@@ -14,6 +14,7 @@
 				</div>
 				<div class="modal-body" style="padding-left:inherit; padding-right:30px; padding-bottom:15px">
 					<form name="frmAdvancedFilter">
+						<div role="alert" style="color: #D8000C;"><span>{{errMessage}}</span></div>
 						<div class="form-group row">
 							<div class="col-md-6">
 								<input type="radio" ng-model="filters.dateType" value="claimDate"> Date of Claim
@@ -34,8 +35,9 @@
 						        <input type="date" validatedateformat data-date-format="mm/dd/yyyy" maxlength="10" id="toDate" calendar  
 						          ng-click="openCalendar('toDate')" placeholder="Enter Date" name="toDate" ng-model="toDate" ng-change='checkErr(fromDate,toDate)'/> 
 						    </div>
+						    
 						</div>
-						<span>{{errMessage}}</span>
+						
 						<div class="form-group row">
 							<label for="txtContention" class="col-md-4 col-form-label" style="text-align:right">Contention</label>
 							<div class="col-md-8" style="text-align:left"><input type="text" id="txtContention" ng-model="filters.contentionType" style="width:320px"> </div>
@@ -56,7 +58,7 @@
 								</button>
 							</div>
 							<div class="col-md-6">
-								<button type="button" class="btn btn-outline-secondary btn-sm" style="width:150px" data-dismiss="modal" ng-click="advanceFilterSearch()">
+								<button type="button" ng-disabled="frmAdvancedFilter.$invalid" class="btn btn-outline-secondary btn-sm" style="width:150px" data-dismiss="modal" ng-click="advanceFilterSearch()">
 									<span>Filter</span>
 								</button>
 							</div>
