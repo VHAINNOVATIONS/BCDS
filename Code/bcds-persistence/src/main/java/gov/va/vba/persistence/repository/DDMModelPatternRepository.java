@@ -12,7 +12,7 @@ import gov.va.vba.persistence.entity.DDMModelPattern;
  */
 public interface DDMModelPatternRepository extends JpaRepository<DDMModelPattern, Long> {
 
-	@Query(value = "SELECT PATTERN_ID, MODEL_TYPE, CLAIMANT_AGE, CLAIM_COUNT, CONTENTION_COUNT, PRIOR_CDD, CDD_AGE FROM DDM_MODEL_CNTNT", nativeQuery = true)
+	@Query(value = "SELECT PATTERN_ID, MODEL_TYPE, CLAIMANT_AGE, CLAIM_COUNT, CONTENTION_COUNT, PRIOR_CDD, CDD_AGE FROM DDM_MODEL_PATTERN", nativeQuery = true)
 	public List<DDMModelPattern> findAll();
 
 	@Query(value = "SELECT c FROM DDMModelPattern c WHERE c.patternId = ?1")
