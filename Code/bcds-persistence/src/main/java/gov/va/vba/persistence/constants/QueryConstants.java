@@ -30,7 +30,7 @@ public class QueryConstants {
             "GROUP BY BEGIN_DT, END_DT, PRMLGN_DT, DGNSTC_TXT, DSBLTY_ID, DIAGNOSIS_CODE, HYPNTD_DGNSTC_TYPE_CD, PRCNT_NBR,  PTCPNT_VET_ID, PRFIL_DT " +
             "ORDER BY PTCPNT_VET_ID,PRFIL_DT,DSBLTY_ID,BEGIN_DT,DIAGNOSIS_CODE,PRCNT_NBR";
 
-    public static final String CALCULATE_CDD = "SELECT (SUM(D.percentNumber)*(1 - (SUM(D.percentNumber)/ 100)) FROM RatingDecision D" +
+    public static final String CALCULATE_CDD = "SELECT (SUM(D.percentNumber)*(1 - (SUM(D.percentNumber)/ 100))) AS SUM_PERCENT FROM RatingDecision D " +
             "WHERE D.veteran.veteranId=?1 AND D.profileDate=?2 " +
             "AND D.dsbltyDecnTypeCd='SVCCONNCTED' AND " +
             "D.diagnosisCode IN (5055, 5161, 5162, 5163, 5164, 5165, 5256, 5257, 5258, 5259, 5260, 5261, 5262, 5263, 5264, 5313, 5314, 5315)";
