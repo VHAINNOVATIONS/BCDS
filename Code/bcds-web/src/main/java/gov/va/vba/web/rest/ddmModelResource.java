@@ -26,21 +26,21 @@ import gov.va.vba.persistence.repository.DDMModelPatternRepository;
 @RequestMapping("/api")
 public class ddmModelResource {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserResource.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ddmModelResource.class);
 
     @Inject
     private DDMModelPatternRepository ddmModelPatternRepository;
 
     /**
-     * GET  /users -> get all ddms.
+     * GET  /ddms -> get all ddms.
      */
     @RequestMapping(value = "/ddms",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public List<DDMModelPattern> getAll() {
-        LOGGER.debug("REST request to get all Users");
-        return ddmModelPatternRepository.findAll();
+        LOGGER.debug("REST request to get all DDMs");
+        return ddmModelPatternRepository.findTop50();
     }
 
     /**
