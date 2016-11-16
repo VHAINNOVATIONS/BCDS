@@ -146,6 +146,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     
     
     $scope.setFilterDates  = function(){
+    	$scope.filters.dateType = "claimDate";
         $scope.today = new Date();
         $scope.fromDate = new Date();
         $scope.toDate = new Date($scope.today.getFullYear(), $scope.today.getMonth() + 1, $scope.today.getDate());
