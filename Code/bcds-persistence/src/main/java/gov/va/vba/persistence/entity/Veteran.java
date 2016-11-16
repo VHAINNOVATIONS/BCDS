@@ -121,8 +121,4 @@ public class Veteran implements Serializable {
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
-	}
 }

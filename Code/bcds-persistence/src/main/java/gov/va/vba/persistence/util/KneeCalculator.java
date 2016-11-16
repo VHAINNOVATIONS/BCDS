@@ -4,6 +4,7 @@ import gov.va.vba.persistence.entity.Rating;
 import gov.va.vba.persistence.entity.RatingDecision;
 import org.apache.commons.lang.StringUtils;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -54,7 +55,17 @@ public class KneeCalculator {
         return Math.round(diff/365);
     }
 
-    /*public static int calculateCDD() {
+    /*public static int calculateCDD(BigDecimal percentNumber) {
+        BigDecimal cdd = new BigDecimal(1).subtract(percentNumber.divide(new BigDecimal(100)));
+
+        BigDecimal kneeCdd = cdd;
+
+        aggregateDecisionKneeCdd = new BigDecimal(100).m * ( new BigDecimal(1).subtract(cdd));
+
+        if hasKneeCDD:
+        aggregateDecision.KNEE_CDD = 100 * (1 - kneeCdd)
+        if aggregateDecision.KNEE_CDD > 60:
+        aggregateDecision.KNEE_CDD = 60
 
     }*/
 
