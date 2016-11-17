@@ -47,7 +47,7 @@ public class ClaimResource {
 
     @RequestMapping(value = "/claims/{claimId}/veteran/{veteranId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public List<Claim> getAggrigatedContentions(@PathVariable Long claimId, @PathVariable Long veteranId) {
+    public List<Claim> getAggrigatedContentions(@PathVariable("claimId") Long claimId, @PathVariable("veteranId") Long veteranId) {
         LOGGER.debug("REST request to get Aggregated contentions");
         return claimDataService.calculateContentions(claimId, veteranId);
     }

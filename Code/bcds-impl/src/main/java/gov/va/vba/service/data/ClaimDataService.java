@@ -1,17 +1,14 @@
 package gov.va.vba.service.data;
 
 import edu.emory.mathcs.backport.java.util.Arrays;
-import edu.emory.mathcs.backport.java.util.Collections;
 import gov.va.vba.domain.Claim;
-import gov.va.vba.persistence.entity.RatingDecision;
+import gov.va.vba.persistence.entity.*;
 import gov.va.vba.persistence.repository.ClaimRepository;
+import gov.va.vba.persistence.repository.ModelRatingResultsRepository;
 import gov.va.vba.persistence.repository.RatingDecisionRepository;
 import gov.va.vba.persistence.util.KneeCalculator;
 import gov.va.vba.service.orika.ClaimMapper;
-import ma.glasnost.orika.MapperFactory;
-import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +32,9 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
     @Autowired
     private ClaimMapper claimMapper;
 
+    @Autowired
+    private ModelRatingResultsRepository modelRatingResultsRepository;
+
     public ClaimDataService() {
         this.setClasses(gov.va.vba.persistence.entity.Claim.class, Claim.class);
     }
@@ -50,7 +50,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
         List<Claim> output = new ArrayList<>();
         List<gov.va.vba.persistence.entity.Claim> input = ((ClaimRepository) repository).findFirstNumberedRow();
         List<Claim> claims = claimMapper.mapCollection(input);
-        LOG.info("SIZE :::: " +claims.size());
+        LOG.info("SIZE :::: " + claims.size());
         return claims;
     }
 
@@ -68,38 +68,77 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                 map.put(claim, filteredDecisions);
             }
         }
+        int claimSize = map.values().size();
         for (Map.Entry<gov.va.vba.persistence.entity.Claim, List<RatingDecision>> entrySet : map.entrySet()) {
             gov.va.vba.persistence.entity.Claim claim = entrySet.getKey();
             List<RatingDecision> decisions = entrySet.getValue();
             LOG.info("Total Decisions " + decisions.size());
             Map<RatingDecision, BigDecimal> m = aggregateRatingDecisions(decisions);
             BigDecimal calculatedCdd = new BigDecimal(1);
-            for(Map.Entry<RatingDecision, BigDecimal> entry : m.entrySet()) {
+            for (Map.Entry<RatingDecision, BigDecimal> entry : m.entrySet()) {
                 RatingDecision decision = entry.getKey();
                 BigDecimal percentNumber = entry.getValue();
                 List<Object[]> objects = claimRepository.aggregateContentions(claim.getClaimId(), veteranId);
-                int birthYear = Integer.parseInt(claim.getVeteran().getBirthYear());
-                Calendar dob = Calendar.getInstance();
-                dob.set(1, 1, birthYear);
-                int age = KneeCalculator.claimantAge(claim.getClaimDate(), dob.getTime());
-                LOG.info("Claim " + claim.getClaimId() + " Age is " + age);
-                //TODO use age
-                List<Date> currentClaims = ratingDecisionRepository.findCurrentClaims(veteranId, claim.getClaimDate());
-                List<Date> previousClaims = ratingDecisionRepository.findPreviousClaims(veteranId, claim.getClaimDate());
-                LOG.info(currentClaims + "Current claims found for claim " + claim.getClaimId());
-                LOG.info(previousClaims + "Previous claims found for claim " + claim.getClaimId());
-                for (Date profileDate : currentClaims) {
-                    List<Integer> currentCDD = ratingDecisionRepository.calculateDecisionCDD(veteranId, profileDate);
-                }
-                for (Date profileDate : previousClaims) {
-                    List<Integer> previousCDD = ratingDecisionRepository.calculateDecisionCDD(veteranId, profileDate);
-                }
                 //KneeCalculator.calculateCDD(percentNumber);
 
                 calculatedCdd = calculatedCdd.multiply(BigDecimal.valueOf(1)).subtract(percentNumber.divide(new BigDecimal(100)));
             }
             calculatedCdd = calculatedCdd.multiply(BigDecimal.valueOf(100));
             calculatedCdd = (calculatedCdd.compareTo(BigDecimal.valueOf(60)) < 0) ? BigDecimal.valueOf(60) : calculatedCdd;
+
+            List<Date> currentClaims = ratingDecisionRepository.findCurrentClaims(veteranId, claim.getClaimDate());
+            List<Date> previousClaims = ratingDecisionRepository.findPreviousClaims(veteranId, claim.getClaimDate());
+            LOG.info(currentClaims + "Current claims found for claim " + claim.getClaimId());
+            LOG.info(previousClaims + "Previous claims found for claim " + claim.getClaimId());
+
+            List<Integer> currentCDD = new ArrayList<>();
+            for (Date profileDate : currentClaims) {
+                List<Integer> cdd = ratingDecisionRepository.calculateDecisionCDD(veteranId, profileDate);
+                currentCDD.addAll(cdd);
+            }
+            List<Integer> previousCDD = new ArrayList<>();
+            for (Date profileDate : previousClaims) {
+                List<Integer> cdd = ratingDecisionRepository.calculateDecisionCDD(veteranId, profileDate);
+                previousCDD.addAll(cdd);
+            }
+
+            int birthYear = Integer.parseInt(claim.getVeteran().getBirthYear());
+            Calendar dob = Calendar.getInstance();
+            dob.set(1, 1, birthYear);
+            int age = KneeCalculator.claimantAge(claim.getClaimDate(), dob.getTime());
+            LOG.info("Claim " + claim.getClaimId() + " Age is " + age);
+
+            int currentCddSum = currentCDD.stream().mapToInt(Integer::intValue).sum();
+            int previousCddSum = previousCDD.stream().mapToInt(Integer::intValue).sum();
+
+            ModelRatingResults results = new ModelRatingResults();
+            results.setClaimAge((long) age);
+            results.setClaimId(claim.getClaimId());
+            results.setClaimDate(claim.getClaimDate());
+            results.setProfileDate(claim.getProfileDate());
+            results.setVeteranId(veteranId);
+            results.setRegionalOfficeNumber(claim.getClaimRegionalOfficeNumber());
+            results.setClaimantAge((long) age);
+            results.setClaimCount((long) claimSize);
+            results.setQuantCDD(calculatedCdd.longValue());
+            results.setCurrentCDD((long) currentCddSum);
+            results.setPriorCDD((long) previousCddSum);
+            ModelRatingResults savedResults = modelRatingResultsRepository.save(results);
+
+            BigDecimal processId = BigDecimal.valueOf(savedResults.getProcessId());
+            ModelRatingResultsCntntId cntntId = new ModelRatingResultsCntntId(null, processId);
+            ModelRatingResultsCntnt cntnt = new ModelRatingResultsCntnt();
+            cntnt.setId(cntntId);
+
+            ModelRatingResultsDiagId diagId = new ModelRatingResultsDiagId(null, processId);
+            ModelRatingResultsDiag diag = new ModelRatingResultsDiag();
+            diag.setId(diagId);
+
+            ModelRatingResultsStatusId statusId = new ModelRatingResultsStatusId(processId, "Test" + claim.getClaimId());
+            ModelRatingResultsStatus status = new ModelRatingResultsStatus();
+            status.setId(statusId);
+            status.setCrtdDtm(new Date());
+
         }
         List<Claim> output = new ArrayList<>();
         //mapper.mapAsCollection(validClaims, output, outputClass);
@@ -119,7 +158,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                     isFound = true;
                 }
             }
-            if(!isFound) {
+            if (!isFound) {
                 m.put(decision, new BigDecimal(decision.getPercentNumber()));
             }
 
