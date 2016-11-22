@@ -160,6 +160,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     	}
     };
     
+    $scope.loadClaims();
     $scope.setFilterDates();
     $scope.getUserName();
     
@@ -183,8 +184,6 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
             });
     	});
     };
-
-    $scope.loadClaims();
 
     $scope.getCestDate = function(date) {
 		return (date + (10*24*60*60*1000));
