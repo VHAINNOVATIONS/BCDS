@@ -94,7 +94,7 @@
 						<xs:element name="claimCount" type="xs:int" />
 						<xs:element name="contentionCount" type="xs:int" />
 						<xs:element name="priorCDD" type="xs:int" />
-						<xs:element name="cCDAge" type="xs:int" />
+						<xs:element name="cddAge" type="xs:int" />
 						<xs:element name="modelType" type="xs:string" />
 						<xs:element name="patternIndex" type="tns:dDMPatternIndex" />
 						<xs:element maxOccurs="unbounded" minOccurs="1"

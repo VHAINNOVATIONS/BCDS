@@ -24,7 +24,7 @@ public class ModelRepository {
 		patternIndex.setPatternId(5);
 
 		dDMModelResponse = new GetDdmModelResponse();
-		dDMModelResponse.setCcdAge(10);
+		dDMModelResponse.setCddAge(10);
 		dDMModelResponse.setClaimantAge(20);
 		dDMModelResponse.setContentionCount(40);
 		dDMModelResponse.setModelType("TEST");

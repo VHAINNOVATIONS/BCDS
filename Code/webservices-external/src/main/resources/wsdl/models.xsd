@@ -97,7 +97,7 @@
     		<element name="ClaimCount " type="int"></element>
     		<element name="ContentionCount" type="int"></element>
     		<element name="PriorCDD" type="int"></element>
-    		<element name="CCDAge" type="int"></element>
+    		<element name="CddAge" type="int"></element>
     		<element name="Accuracy" type="int"></element>
     		<element name="CDD" type="int"></element>
     		<element name="NumberOfOccurrences" type="int"></element>
