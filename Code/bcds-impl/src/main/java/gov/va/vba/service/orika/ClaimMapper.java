@@ -26,6 +26,7 @@ public class ClaimMapper {
                 .register();
         mapperFactory.classMap(gov.va.vba.persistence.entity.Claim.class, Claim.class)
                 .field("claimDate", "claimDate")
+                .field("cestDate", "cestDate")
                 .field("claimId", "claimId")
                 .field("veteran.veteranId", "veteran.veteranId")
                 .field("regionalOfficeOfClaim", "regionalOfficeOfClaim")

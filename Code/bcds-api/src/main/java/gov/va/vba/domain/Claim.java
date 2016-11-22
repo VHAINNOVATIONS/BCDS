@@ -12,6 +12,7 @@ public class Claim implements Serializable{
 	private String regionalOfficeOfClaim;
 	private Long claimId;
 	private Date claimDate;
+	private Date cestDate;
 	private String contentionClaimTextKeyForModel;
 
 	public Veteran getVeteran() {
@@ -42,7 +43,14 @@ public class Claim implements Serializable{
 	public void setClaimDate(Date claimDate) {
 		this.claimDate = claimDate;
 	}
-	
+
+	public Date getCestDate() {
+		return cestDate;
+	}
+	public void setCestDate(Date cestDate) {
+		this.cestDate = cestDate;
+	}
+
 	public String getContentionClaimTextKeyForModel() {
 		return contentionClaimTextKeyForModel;
 	}
