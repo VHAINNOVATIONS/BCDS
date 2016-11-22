@@ -38,13 +38,6 @@ public class ClaimResource {
         return claimDataService.findClaims(claim.isEstablishedDate(), claim.getFromDate(), claim.getToDate(), claim.getContentionType(), claim.getRegionalOfficeNumber());
     }
 
-	@RequestMapping(value = "/claims/{veteranId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	@Timed
-	public List<Claim> getClaims(@PathVariable Long veteranId) {
-		LOGGER.debug("REST request to get first few Claims");
-		return claimDataService.findByVeteranId(veteranId);
-	}
-
     @RequestMapping(value = "/claims/{claimId}/veteran/{veteranId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public List<Claim> getAggrigatedContentions(@PathVariable("claimId") Long claimId, @PathVariable("veteranId") Long veteranId) {

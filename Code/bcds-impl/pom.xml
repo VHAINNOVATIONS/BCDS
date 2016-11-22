@@ -23,6 +23,11 @@
 
         <dependency>
             <groupId>gov.va.vba</groupId>
+            <artifactId>bcds-soap-client</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>gov.va.vba</groupId>
             <artifactId>bcds-persistence</artifactId>
         </dependency>
 
