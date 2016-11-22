@@ -17,7 +17,7 @@ import java.util.List;
 public interface RatingDecisionRepository extends CrudRepository<RatingDecision, BigDecimal>{
 
     //@Query(value = "SELECT r FROM RatingDecision r WHERE veteranId = ?1")
-    List<RatingDecision> findByVeteranVeteranIdAndProfileDateLessThanAndPercentNumberNotNullAndDiagnosisCodeIn(BigDecimal veteranId, Date claimDate, List<String> diagnosisCodes);
+    List<RatingDecision> findByVeteranVeteranIdAndProfileDateLessThanAndPercentNumberNotNullAndDiagnosisCodeIn(Long veteranId, Date claimDate, List<String> diagnosisCodes);
 
     @Query(value = "SELECT c.profileDate FROM RatingDecision c WHERE c.veteran.veteranId = ?1 AND ?2 > (SELECT MAX(e.profileDate) FROM RatingDecision e)")
     List<Date> findPreviousClaims(Long veteranId, Date claimDate);

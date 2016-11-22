@@ -1,5 +1,8 @@
 package gov.va.vba.web.soap;
 
+import gov.va.vba.bcdss.models.*;
+import gov.va.vba.service.data.ClaimDataService;
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,14 +11,7 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
-import gov.va.vba.bcdss.models.EditModelRequest;
-import gov.va.vba.bcdss.models.EditModelResponse;
-import gov.va.vba.bcdss.models.GetCurrentRatingRequest;
-import gov.va.vba.bcdss.models.GetCurrentRatingResponse;
-import gov.va.vba.bcdss.models.GetDdmModelRequest;
-import gov.va.vba.bcdss.models.GetDdmModelResponse;
-import gov.va.vba.bcdss.models.GetProcessClaimRequest;
-import gov.va.vba.bcdss.models.GetProcessClaimResponse;
+import java.util.List;
 
 @Endpoint
 public class BcdsModelingEndpoint {
@@ -23,6 +19,9 @@ public class BcdsModelingEndpoint {
 	private static final String NAMESPACE_URI = "http://va.gov/vba/bcdss/models";
 	private static final Logger LOGGER = LoggerFactory.getLogger(BcdsModelingEndpoint.class);
 	private ModelRepository dDMModelRepository;
+
+    @Autowired
+    private ClaimDataService claimDataService;
 
 	@Autowired
 	public BcdsModelingEndpoint(ModelRepository dDMModelRepository) {
@@ -40,7 +39,13 @@ public class BcdsModelingEndpoint {
 	@ResponsePayload
 	public GetProcessClaimResponse getProcessClaim(@RequestPayload GetProcessClaimRequest request) {
 		LOGGER.debug("SOAP request to get a Process Claim... ...");
-		GetProcessClaimResponse getProcessClaimResponse = new GetProcessClaimResponse();
+        GetProcessClaimResponse getProcessClaimResponse = new GetProcessClaimResponse();
+        if(CollectionUtils.isNotEmpty(request.getVeteranClaimInput())) {
+            List<VeteranClaimRating> veteranClaimRatings = claimDataService.findByVeteranId(request.getVeteranClaimInput());
+            if(CollectionUtils.isNotEmpty(veteranClaimRatings)) {
+                getProcessClaimResponse.getVeteranClaimRatingOutput().addAll(veteranClaimRatings);
+            }
+        }
 		return getProcessClaimResponse;
 	}
 

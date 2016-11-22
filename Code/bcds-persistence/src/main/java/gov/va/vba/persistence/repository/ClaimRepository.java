@@ -35,4 +35,6 @@ public interface ClaimRepository extends JpaRepository<Claim, Long> {
 
 	@Query(value = QueryConstants.CONTENTIONS_COUNT)
 	List<Object[]> aggregateContentions(Long claimId, Long veteranId);
+
+	Claim findOneByClaimId(Long claimId);
 }

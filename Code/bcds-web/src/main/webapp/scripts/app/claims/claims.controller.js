@@ -160,6 +160,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     	}
     };
     
+    $scope.loadClaims();
     $scope.setFilterDates();
     $scope.getUserName();
     
@@ -184,9 +185,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     	});
     };
 
-    $scope.loadClaims();
-	
-		 $scope.formatDate = function(date) {
+    $scope.formatDate = function(date) {
             var date = new Date(date);
             return date.getFullYear() + '-' +  
 	            ('0' + (date.getMonth()+1)).slice(-2) + '-' + 
