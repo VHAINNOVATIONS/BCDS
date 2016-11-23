@@ -30,6 +30,7 @@ public class ClaimMapper {
                 .field("claimId", "claimId")
                 .field("veteran.veteranId", "veteran.veteranId")
                 .field("regionalOfficeOfClaim", "regionalOfficeOfClaim")
+                .field("contentionClaimTextKeyForModel", "contentionClaimTextKeyForModel")
                 .register();
         mapperFacade = mapperFactory.getMapperFacade();
 

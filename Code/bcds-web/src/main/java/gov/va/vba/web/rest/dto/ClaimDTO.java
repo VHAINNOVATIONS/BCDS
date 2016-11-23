@@ -16,6 +16,7 @@ public class ClaimDTO implements Serializable {
     private Date toDate;
     private String contentionType;
     private Long regionalOfficeNumber;
+    private String contentionClaimTextKeyForModel;
 
     public boolean isEstablishedDate() {
         return establishedDate;
@@ -57,4 +58,11 @@ public class ClaimDTO implements Serializable {
         this.regionalOfficeNumber = regionalOfficeNumber;
     }
 
+	public String getContentionClaimTextKeyForModel() {
+		return contentionClaimTextKeyForModel;
+	}
+
+	public void setContentionClaimTextKeyForModel(String contentionClaimTextKeyForModel) {
+		this.contentionClaimTextKeyForModel = contentionClaimTextKeyForModel;
+	}
 }
