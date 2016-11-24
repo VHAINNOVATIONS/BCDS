@@ -1,9 +1,14 @@
+
 package gov.va.vba.web.rest;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
+import gov.va.vba.bcdss.models.BcdsModelingPort;
+import gov.va.vba.bcdss.models.BcdsModelingPortService;
+import gov.va.vba.bcdss.models.GetProcessClaimRequest;
+import gov.va.vba.bcdss.models.GetProcessClaimResponse;
 import gov.va.vba.web.rest.dto.ClaimDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +41,17 @@ public class ClaimResource {
     public List<Claim> getClaims(@RequestBody ClaimDTO claim) {
         LOGGER.debug("REST request to get first few Claims");
         return claimDataService.findClaims(claim.isEstablishedDate(), claim.getFromDate(), claim.getToDate(), claim.getContentionType(), claim.getRegionalOfficeNumber());
+    }
+
+    @RequestMapping(value = "/claims/process", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public GetProcessClaimResponse getProcessClaims(@RequestBody GetProcessClaimRequest request) {
+        LOGGER.debug("REST request to get first few Claims");
+        BcdsModelingPort modelingService = new BcdsModelingPortService().getBcdsModelingPortSoap11();
+        GetProcessClaimResponse processClaim = modelingService.getProcessClaim(request);
+        LOGGER.info("***********************");
+        LOGGER.info(processClaim.getVeteranClaimRatingOutput().toString());
+        return processClaim;
     }
 
     @RequestMapping(value = "/claims/{claimId}/veteran/{veteranId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

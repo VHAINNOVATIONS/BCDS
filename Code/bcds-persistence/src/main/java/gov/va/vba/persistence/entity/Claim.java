@@ -20,7 +20,6 @@ public class Claim implements Serializable {
 	private Long claimId;
 	private String endPrdctTypeCode;
 	private Date claimDate;
-	private Date cestDate;
 	private String payeeTypeCode;
 	private String claimTypeCode;
 	private String claimLabel;
@@ -85,16 +84,6 @@ public class Claim implements Serializable {
 
 	public void setClaimDate(Date claimDate) {
 		this.claimDate = claimDate;
-	}
-
-	@Temporal(TemporalType.DATE)
-	@Column(name = "CEST_DATE")
-	public Date getCestDate() {
-		return cestDate;
-	}
-
-	public void setCestDate(Date cestDate) {
-		this.cestDate = cestDate;
 	}
 
 	@Column(name = "PAYEE_TYPE_CD")
