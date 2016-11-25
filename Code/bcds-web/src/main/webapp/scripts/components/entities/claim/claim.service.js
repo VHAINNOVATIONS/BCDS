@@ -11,11 +11,11 @@ angular.module('bcdssApp')
                     return data;
                 }},
             'processClaims':{ 
-	                url: 'api/claims/:veteranid/veteran/:claimid', 
-	                method: 'GET', 
-	                params:{ 
-	                    id:'@veteranid', 
-	                    to: '@claimid'
+	                url: 'api/claims/process', 
+	                method: 'POST', 
+	                transformResponse: function (data) {
+	                    data = angular.fromJson(data);
+	                    return data;
 	                }
 	            }
         });

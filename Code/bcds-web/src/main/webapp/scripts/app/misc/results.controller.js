@@ -2,7 +2,7 @@
 
 angular.module('bcdssApp').controller('ResultsController', function($rootScope, $scope, $state, Account,
 														$q, DTOptionsBuilder, DTColumnBuilder, $compile, 	
-														$stateParams, ClaimService, ClaimFilterService,ModelService) {
+														$stateParams, ClaimService) {
 	
 		$scope.results = [];
 		$scope.dtInstance = {};
@@ -41,7 +41,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 		$scope.veteranId = data.veteranId;
 		$scope.claimId = data.claimId;
 		$scope.results = []
-     	ModelService.post({},{
+		ClaimService.processClaims({},{
      		  "veteranClaimInput": [
      			    {
      			      "veteran": {
