@@ -109,13 +109,14 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
 		     return '<label for="selectchk' + data.claimId + '" style="display: none">select</label><input id="selectchk' + data.claimId + '" type="checkbox" ng-model="selected[' + data.claimId + ']" ng-click="toggleOne(selected)">';
 		}),
         DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran ID'),
-        DTColumnBuilder.newColumn('claimId').withTitle('Veteran Name'),
+        DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran Name').renderWith(function(data, type, full) {
+            return "<div>"+ data +"veteran</div>"
+        }),
         DTColumnBuilder.newColumn('regionalOfficeOfClaim').withTitle('Regional Office'),
         DTColumnBuilder.newColumn('claimId').withTitle('Claim ID'),
         DTColumnBuilder.newColumn('claimDate').withTitle('Date of Claim'),
-        DTColumnBuilder.newColumn('cestDate').withTitle('CEST Date'),
         DTColumnBuilder.newColumn('cestDate').withTitle('CEST Date').renderWith(function(data, type, full) {
-            return "<div>{{" + data +"| date:'MM/dd/yyyy h:mma'}} </div>"
+            return "<div>{{" + data +"| date:'MM/dd/yyyy'}} </div>"
         }),
         DTColumnBuilder.newColumn('contentionClaimTextKeyForModel').withTitle('Model/Contentions')
     ];
