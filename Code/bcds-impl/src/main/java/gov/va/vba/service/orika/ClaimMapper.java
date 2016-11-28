@@ -41,8 +41,7 @@ public class ClaimMapper {
      * @param sourceEntity
      */
     public List<Claim> mapCollection(List<gov.va.vba.persistence.entity.Claim> sourceEntity) {
-        List<Claim> output = new ArrayList<>();
-        mapperFacade.mapAsCollection(sourceEntity, output, Claim.class);
-        return output;
+        List<Claim> claims = mapperFacade.mapAsList(sourceEntity, Claim.class);
+        return claims;
     }
 }
