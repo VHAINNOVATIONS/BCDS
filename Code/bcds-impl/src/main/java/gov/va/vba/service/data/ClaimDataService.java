@@ -33,6 +33,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -70,9 +72,11 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
     }
 
     public List<Claim> findFirstNumberedRow() {
-        List<Claim> output = new ArrayList<>();
         List<gov.va.vba.persistence.entity.Claim> input = ((ClaimRepository) repository).findFirstNumberedRow();
         List<Claim> claims = claimMapper.mapCollection(input);
+        for(Claim c : claims) {
+            c.setCestDate(calculateCestDate(c.getClaimDate()));
+        }
         LOG.info("SIZE :::: " + claims.size());
         return claims;
     }
@@ -254,18 +258,14 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
         return null;
     }
 
-    public static void main(String[] args) throws JsonProcessingException {
-        VeteranClaim vc = new VeteranClaim();
-        Veteran v = new Veteran();
-        v.setVeteranId(54321);
-        gov.va.vba.bcdss.models.Claim c = new gov.va.vba.bcdss.models.Claim();
-        c.setClaimId(12345);
-        vc.setVeteran(v);
-        vc.getClaim().add(c);
-        GetProcessClaimRequest r = new GetProcessClaimRequest();
-        r.getVeteranClaimInput().add(vc);
-        ObjectMapper m = new ObjectMapper();
-        System.out.println(m.writeValueAsString(r));
+    private Date calculateCestDate(Date claimDate) {
+        if(claimDate != null) {
+            Calendar instance = Calendar.getInstance();
+            instance.setTime(claimDate);
+            instance.add(Calendar.DAY_OF_MONTH, 10);
+            return instance.getTime();
+        }
+        return null;
     }
 
 }
