@@ -19,7 +19,8 @@
     "ngInfiniteScroll": "1.2.0",
     "angular-datatables": "^0.5.5",
     "datatables.net-buttons": "^1.2.2",
-    "datatables.net-buttons-dt": "^1.2.2"
+    "datatables.net-buttons-dt": "^1.2.2",
+    "angular-loading-bar": "^0.9.0"
   },
   "devDependencies": {
     "angular-mocks": "1.4.5",
