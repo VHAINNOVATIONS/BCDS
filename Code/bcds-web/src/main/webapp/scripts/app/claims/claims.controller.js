@@ -114,6 +114,9 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
         DTColumnBuilder.newColumn('claimId').withTitle('Claim ID'),
         DTColumnBuilder.newColumn('claimDate').withTitle('Date of Claim'),
         DTColumnBuilder.newColumn('cestDate').withTitle('CEST Date'),
+        DTColumnBuilder.newColumn('cestDate').withTitle('CEST Date').renderWith(function(data, type, full) {
+            return "<div>{{" + data +"| date:'MM/dd/yyyy h:mma'}} </div>"
+        }),
         DTColumnBuilder.newColumn('contentionClaimTextKeyForModel').withTitle('Model/Contentions')
     ];
     
@@ -207,9 +210,12 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
                 else
                   resolve([]);
               });
-    		$scope.dtInstance.changeData(function() {
-                return promise;
-            });
+    		if($scope.claims.length > 0)
+			{
+    			$scope.dtInstance.changeData(function() {
+                    return promise;
+                });
+			}
     	});
     };
     
