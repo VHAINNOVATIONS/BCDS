@@ -41,6 +41,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -145,6 +146,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                         int previousCddSum = previousCDD.stream().mapToInt(Integer::intValue).sum();
 
                         ModelRatingResults results = new ModelRatingResults();
+                        results.setProcessId(generateRandomId());
                         results.setClaimAge((long) age);
                         results.setClaimId(claim.getClaimId());
                         results.setClaimDate(claim.getClaimDate());
@@ -266,6 +268,15 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
             return instance.getTime();
         }
         return null;
+    }
+
+    // -- remove this use @GeneratedValue
+    @Deprecated
+    private long generateRandomId() {
+        long x = 12345L;
+        long y = 23456789L;
+        Random r = new Random();
+        return x+((long)(r.nextDouble()*(y-x)));
     }
 
 }
