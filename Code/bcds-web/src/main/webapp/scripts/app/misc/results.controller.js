@@ -32,15 +32,15 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 		var results = [];
 		angular.forEach(resultsArray,function(ele,id){
 			var obj = {};
-			angular.forEach(ele.claimRating, function(claimrating,id){
-				if(claimrating.length > 0)
-				{
+			if(ele.claimRating.length > 0)
+			{
+				angular.forEach(ele.claimRating, function(claimrating,id){
 					obj.veteran = ele.veteran;
 					obj.claim = claimrating.claim;
 					obj.rating = claimrating.rating;
 					results.push(obj);
-				}
-			});
+				});
+			}
 		});
 		return results;
 	}
