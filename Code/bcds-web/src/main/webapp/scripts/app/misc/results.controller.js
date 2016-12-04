@@ -33,7 +33,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 		angular.forEach(resultsArray,function(ele,id){
 			var obj = {};
 			angular.forEach(ele.claimRating, function(claimrating,id){
-				if(claimRating.length > 0)
+				if(claimrating.length > 0)
 				{
 					obj.veteran = ele.veteran;
 					obj.claim = claimrating.claim;
