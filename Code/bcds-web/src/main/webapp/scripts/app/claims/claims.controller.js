@@ -82,15 +82,18 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
 	        text: '<a name="Process Claim(s)" id="btnProcessClaim">Process Claims</a>',
 	        action: function (e, dt, node, config) {
 	        	var selectedItems = $scope.selected;
+	        	var ClaimsToProcess = [];
 	        	for (var id in selectedItems) {
 	                if (selectedItems.hasOwnProperty(id)) {
 	                    if (selectedItems[id]) {
 	                    	var claimToProcess = $filter('filter')($scope.claims, {claimId: parseInt(id,10)}, true)[0];
-	                    	$rootScope.$emit('ProcessClaims', {veteranId:claimToProcess.veteran.veteranId,claimId:claimToProcess.claimId});
-	                    	return;
+	                    	var obj = {veteranId:claimToProcess.veteran.veteranId,claimId:claimToProcess.claimId};
+	                    	ClaimsToProcess.push(obj);
 	                    }
 	                }
 	            }
+	        	$rootScope.$emit('ProcessClaims', ClaimsToProcess);
+	        	
 	        },
 	        enabled: false
 	    },
