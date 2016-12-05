@@ -21,6 +21,23 @@
 --------------------------------------------------------
 
    CREATE SEQUENCE  "BCDSS"."DDM_MODEL_PATTERN_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE 20 NOORDER  NOCYCLE ;
+   
+--------------------------------------------------------
+--  File modified - Monday-December-05-2016   
+--------------------------------------------------------
+--  Adding the Create PERSON table query
+--------------------------------------------------------
+--  DDL for Table AH4929_PERSON
+--------------------------------------------------------
+
+CREATE TABLE "BCDSS"."AH4929_PERSON" 
+   (            "PTCPNT_VET_ID" NUMBER(15,0), 
+                "GENDER" VARCHAR2(9 BYTE), 
+                "DOB" VARCHAR2(4 BYTE), 
+                "DOD" VARCHAR2(4 BYTE), 
+                "STATE_CODE" VARCHAR2(2 BYTE)
+   ) ;
+   
 --------------------------------------------------------
 --  DDL for Table AH4929_RATING_CORP_CLAIM
 --------------------------------------------------------
@@ -1013,3 +1030,15 @@
  
   ALTER TABLE "BCDSS"."SEC_APP_USER_ROLE" ADD CONSTRAINT "REFSEC_APP_ROLE7" FOREIGN KEY ("USER_ROLE_NM")
 	  REFERENCES "BCDSS"."SEC_APP_ROLE" ("ROLE_NM") ENABLE;
+---------------------------------------------------------------------------------
+--  File modified - Monday-December-05-2016   
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+--  DML for Table AH4929_PERSON, AH4929_RATING_CORP_CLAIM, AH4929_RATING_DECISION
+---------------------------------------------------------------------------------
+
+INSERT INTO BCDSS.AH4929_PERSON VALUES(224455,'F','1948','2014','OH');
+
+INSERT INTO BCDSS.AH4929_RATING_CORP_CLAIM VALUES(224455,'15-MAY-06','2478693','020','29-JUL-04','00','020CLMINC','Claim for Increase','CLR','355','San Juan Regional Office','2991274','6850',null,'Tinnitus','Y','Y',null,null,null);
+
+Insert into BCDSS.AH4929_RATING_DECISION (PTCPNT_VET_ID,PRFIL_DT,INACTV_DT,SYSTEM_TYPE_CD,RATING_DECN_ID,POA,PRMLGN_DT,RATING_DT,VBMS_R_IND,JRSDTN_TXT,RATING_RCVD_DT,STATION_NUMBER,STATION_NAME,MILITARY_SVC_PERIOD_CODE,MILITARY_SVC_PERIOD_DESC,RATING_DECN_TYPE_CD,RATING_DECN_TYPE_DESC,NARRATIVE_CODESHEET_IND,ISSUE_TXT,DECN_TXT,DSBLTY_DECN_TYPE_CD,DSBLTY_DECN_TYPE_DESC,DSBLTY_DECN_BASIS_TYPE_CD,DSBLTY_DECN_BASIS_TYPE_DESC,BLATRL_TYPE_CD,BLATRL_TYPE_DESC,DIAGNOSIS_CODE,DIAGNOSIS_DESCRIPTION,DSBLTY_ID,DSBLTY_DT,DGNSTC_TXT,RELATD_DSBLTY_ID,RELATD_DSBLTY_DT,RELATD_DGNSTC_TXT,FULL_DGNSTC_TXT,SPLMTL_DECN_TYPE_CD,HYPNTD_DGNSTC_TYPE_CD,SHED_TYPE_CD,PRGRPH_TYPE_CD,PRCNT_NBR,MAJOR_IND,COMBAT_IND,PREV_EVALTN_IND,BEGIN_DT,END_DT,FUTURE_EXAM_DT,STATIC_IND,ANCILY_DECN_TYPE_CD,ANCILY_DECN_TYPE_DESC,CMPTNY_DECN_TYPE_CD,CMPTNY_DECN_TYPE_DESC,DENTAL_SVC_CNECTD_IND,INDVDL_UNEMPL_DECN_TYPE_CD,INDVDL_UNEMPL_DECN_TYPE_DESC,PERMNT_TOTAL_DECN_TYPE_CD,PERMNT_TOTAL_DECN_TYPE_DESC,SC_DEATH_DECN_TYPE_CD,SC_DEATH_DECN_TYPE_DESC,SMP_DECN_TYPE_CD,SMP_DECN_TYPE_DESC,SPECL_PRVSN_LAW_DECN_TYPE_CD,SPECL_PRVSN_LAW_DECN_TYPE_DESC,SMC_TYPE_CD,SMC_TYPE_DESC,HSPTL_SMC_TYPE_CD,HSPTL_SMC_TYPE_DESC,LOSS_USE_TYPE_CD,LOSS_USE_TYPE_DESC,ANTMCL_LOSS_TYPE_CD,ANTMCL_LOSS_TYPE_DESC,OTHER_LOSS_TYPE_CD,OTHER_LOSS_TYPE_DESC,SMC_PRGRPH_KEY_CD,SMC_PRGRPH_TXT) values (224455,to_date('29-OCT-02','DD-MON-RR'),to_date('29-AUG-12','DD-MON-RR'),'C',106050483,'(Other) State Service Organization',to_date('01-DEC-16','DD-MON-RR'),to_date('29-AUG-12','DD-MON-RR'),null,'Original Disability Claim Received',to_date('14-MAY-12','DD-MON-RR'),317,'St. Petersburg Regional Office',null,null,'DSBLTYEVALTN','Disability Evaluation','N','Service connection for bilateral hearing loss.','Service connection for bilateral hearing loss is denied. NIS, HL NORM. STR''s, V:NONEX','SVCCONNCTED','Not Service Connected','HNVAP','Hearing Normal for VA Purposes',null,null,'6100','6100-Hearing loss ',40485805,to_date('29-AUG-12','DD-MON-RR'),'bilateral hearing loss',null,null,null,'BILATERAL HEARING LOSS',null,'Unknown',null,null,'10','N','N',null,to_date('01-DEC-12','DD-MON-RR'),null,null,'N',null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null);​
