@@ -32,15 +32,12 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 		var results = [];
 		angular.forEach(resultsArray,function(ele,id){
 			var obj = {};
-			if(ele.claimRating.length > 0)
-			{
-				angular.forEach(ele.claimRating, function(claimrating,id){
-					obj.veteran = ele.veteran;
-					obj.claim = claimrating.claim;
-					obj.rating = claimrating.rating;
-					results.push(obj);
-				});
-			}
+			angular.forEach(ele.claimRating, function(claimrating,id){
+				obj.veteran = ele.veteran;
+				obj.claim = claimrating.claim;
+				obj.rating = claimrating.rating;
+				results.push(obj);
+			});
 		});
 		return results;
 	}
@@ -51,30 +48,29 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	            return "<div>"+ data +"veteran</div>"
 	        }),
 	        DTColumnBuilder.newColumn('claim.claimId').withTitle('Claim ID'),
-	        DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Model').renderWith(function(data, type, full) {
-	            return "<div>Knee</div><hr/><div>Ear</div>"
+	        DTColumnBuilder.newColumn('rating.modelType').withTitle('Model').renderWith(function(data, type, full) {
+	            return "<div>"+data+"</div>"
 	        }),
-	        DTColumnBuilder.newColumn('rating.ratingDecisions.processId').withTitle('Model Result ID').renderWith(function(data, type, full) {
-	            return "<div>"+data+"</div><hr/><div>"+data+"</div>"
+	        DTColumnBuilder.newColumn('rating.processId').withTitle('Model Result ID').renderWith(function(data, type, full) {
+	            return "<div>"+data+"</div>"
 	        }),
 	        DTColumnBuilder.newColumn('rating.priorCdd').withTitle('Prior Rating').renderWith(function(data, type, full) {
-	            return "<div>"+data+"</div><hr/><div>"+data+"</div>"
+	            return "<div>"+data+"</div>"
 	        }),
 	        DTColumnBuilder.newColumn('rating.currentCdd').withTitle('Rater Evaluation').renderWith(function(data, type, full) {
-	            return "<div>"+data+"</div><hr/><div>"+data+"</div>"
+	            return "<div></div>"
 	        }),
 	        DTColumnBuilder.newColumn('rating.currentCdd').withTitle('Model Results').renderWith(function(data, type, full) {
-	            return "<div>"+data+"</div><hr/><div>"+data+"</div>"
+	            return "<div>"+data+"</div>"
 	        }),
 	        DTColumnBuilder.newColumn('rating.currentCdd').withTitle('RE/MR Match').renderWith(function(data, type, full) {
-	            return '<div><span class="glyphicon glyphicon-thumbs-up"></span></div><hr/>'+
-	                   '<div><span class="glyphicon glyphicon-thumbs-down"></span></div>'
+	            return "<div></div>"
 	        }),
 	        DTColumnBuilder.newColumn('rating.currentCdd').withTitle('Pattern Rate of Use').renderWith(function(data, type, full) {
-	            return "<div>"+data+"</div><hr/><div>"+data+"</div>"
+	            return "<div></div>"
 	        }),
 	        DTColumnBuilder.newColumn('rating.quantCdd').withTitle('Pattern Accuracy').renderWith(function(data, type, full) {
-	            return "<div>"+data+"%</div><hr/><div>"+data+"%</div>"
+	            return "<div></div>"
 	        })
 	    ];
 	 
