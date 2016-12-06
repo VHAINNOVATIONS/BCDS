@@ -146,6 +146,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                         int previousCddSum = previousCDD.stream().mapToInt(Integer::intValue).sum();
 
                         ModelRatingResults results = new ModelRatingResults();
+                        results.setProcessDate(new Date());
                         results.setProcessId(generateRandomId());
                         results.setClaimAge((long) age);
                         results.setClaimId(claim.getClaimId());
@@ -191,6 +192,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                         rating.setProcessId(processId.intValue());
                         rating.setQuantCdd(calculatedCdd.intValue());
                         rating.setRatingDecisions(ratingDecisions);
+                        rating.setModelType("KNEE");
                         c.setClaimDate(claim.getClaimDate());
                         c.setProfileDate(claim.getProfileDate());
                         c.setContentionClassificationId(String.valueOf(claim.getContentionClsfcnId()));
