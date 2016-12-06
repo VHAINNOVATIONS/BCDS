@@ -41,6 +41,28 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 		});
 		return results;
 	}
+
+	$scope.searchRatingResults = function(){
+    	if ($scope.filters != null) {
+    		$scope.filters.fromDate = $scope.formatDate($scope.fromDate);
+    		$scope.filters.toDate = $scope.formatDate($scope.toDate);
+    	}
+    	$scope.filters.processId =1;
+		ClaimService.findModelRatingResults($scope.filters)
+			.then(function(result){
+				console.log('>>>successful');
+				$scope.results = result;
+				var promise = new Promise( function(resolve, reject){
+	                if ($scope.results)
+	                  resolve($scope.results);
+	                else
+	                  resolve([]);
+	              });
+	    		$scope.dtInstance.changeData(function() {
+	                return promise;
+	            });
+		});
+    };
 	
 	 $scope.dtColumns = [
 	        DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran ID'),
