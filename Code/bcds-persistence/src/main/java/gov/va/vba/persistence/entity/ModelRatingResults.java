@@ -3,10 +3,7 @@ package gov.va.vba.persistence.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -34,14 +31,15 @@ public class ModelRatingResults implements Serializable {
 	private String modelType;
 	private Long modelContentionCount;
 	private Long contentionCount;
-	private Long priorCdd;
-	private Long quantPriorCdd;
-	private Long currentCdd;
-	private Long quantCdd;
+	private Long priorCDD;
+	private Long quantPriorCDD;
+	private Long currentCDD;
+	private Long quantCDD;
 	private Long claimAge;
 	private Long CDDAge;
 	private Long claimCount;
-
+	private Veteran veteran;
+	
 	@Id
 	@Column(name="PROCESS_ID")
 	public Long getProcessId() {
@@ -58,7 +56,18 @@ public class ModelRatingResults implements Serializable {
 	public void setVeteranId(Long veteranId) {
 		this.veteranId = veteranId;
 	}
+	
+	@MapsId("veteranId")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "VET_ID", referencedColumnName="PTCPNT_VET_ID", insertable = false, updatable = false)
+	public Veteran getVeteran() {
+		return veteran;
+	}
 
+	public void setVeteran(Veteran veteran) {
+		this.veteran = veteran;
+	}
+	
 	@Column(name="PATTERN_ID")
 	public Long getPatternId() {
 		return patternId;
@@ -173,34 +182,34 @@ public class ModelRatingResults implements Serializable {
 
 	@Column(name="PRIOR_CDD")
 	public Long getPriorCDD() {
-		return priorCdd;
+		return priorCDD;
 	}
 	public void setPriorCDD(Long priorCdd) {
-		this.priorCdd = priorCdd;
+		this.priorCDD = priorCdd;
 	}
 
 	@Column(name="QUANT_PRIOR_CDD")
 	public Long getQuantPriorCDD() {
-		return quantPriorCdd;
+		return quantPriorCDD;
 	}
 	public void setQuantPriorCDD(Long quantPriorCdd) {
-		this.quantPriorCdd = quantPriorCdd;
+		this.quantPriorCDD = quantPriorCdd;
 	}
 
 	@Column(name="CURR_CDD")
 	public Long getCurrentCDD() {
-		return currentCdd;
+		return currentCDD;
 	}
 	public void setCurrentCDD(Long currentCdd) {
-		this.currentCdd = currentCdd;
+		this.currentCDD = currentCdd;
 	}
 
 	@Column(name="QUANT_CDD")
 	public Long getQuantCDD() {
-		return quantCdd;
+		return quantCDD;
 	}
 	public void setQuantCDD(Long quantCdd) {
-		this.quantCdd = quantCdd;
+		this.quantCDD = quantCdd;
 	}
 
 	@Column(name="CLAIM_AGE")
@@ -226,4 +235,5 @@ public class ModelRatingResults implements Serializable {
 	public void setClaimCount(Long claimCount) {
 		this.claimCount = claimCount;
 	}
+
 }

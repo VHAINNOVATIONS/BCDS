@@ -9,7 +9,7 @@ import java.util.Date;
 public class ModelRatingResults implements Serializable{
 
 	private Long processId;
-	private Long veteranId;
+	private Veteran veteran;
 	private Long patternId;
 	private Date processDate;
 	private Long claimId;
@@ -24,10 +24,10 @@ public class ModelRatingResults implements Serializable{
 	private String modelType;
 	private Long modelContentionCount;
 	private Long contentionCount;
-	private Long priorCdd;
-	private Long quantPriorCdd;
-	private Long currentCdd;
-	private Long quantCdd;
+	private Long priorCDD;
+	private Long quantPriorCDD;
+	private Long currentCDD;
+	private Long quantCDD;
 	private Long claimAge;
 	private Long CDDAge;
 	private Long claimCount;
@@ -40,11 +40,12 @@ public class ModelRatingResults implements Serializable{
 		this.processId = processId;
 	}
 
-	public Long getVeteranId() {
-		return veteranId;
+	public Veteran getVeteran() {
+		return veteran;
 	}
-	public void setVeteranId(Long veteranId) {
-		this.veteranId = veteranId;
+
+	public void setVeteran(Veteran veteran) {
+		this.veteran = veteran;
 	}
 
 	public Long getPatternId() {
@@ -148,31 +149,31 @@ public class ModelRatingResults implements Serializable{
 	}
 
 	public Long getPriorCDD() {
-		return priorCdd;
+		return priorCDD;
 	}
 	public void setPriorCDD(Long priorCdd) {
-		this.priorCdd = priorCdd;
+		this.priorCDD = priorCdd;
 	}
 
 	public Long getQuantPriorCDD() {
-		return quantPriorCdd;
+		return quantPriorCDD;
 	}
 	public void setQuantPriorCDD(Long quantPriorCdd) {
-		this.quantPriorCdd = quantPriorCdd;
+		this.quantPriorCDD = quantPriorCdd;
 	}
 
 	public Long getCurrentCDD() {
-		return currentCdd;
+		return currentCDD;
 	}
 	public void setCurrentCDD(Long currentCdd) {
-		this.currentCdd = currentCdd;
+		this.currentCDD = currentCdd;
 	}
 
 	public Long getQuantCDD() {
-		return quantCdd;
+		return quantCDD;
 	}
 	public void setQuantCDD(Long quantCdd) {
-		this.quantCdd = quantCdd;
+		this.quantCDD = quantCdd;
 	}
 
 	public Long getClaimAge() {

@@ -28,7 +28,7 @@ public class ModelRatingResultsMapper {
         mapperFactory.classMap(gov.va.vba.persistence.entity.ModelRatingResults.class, ModelRatingResults.class)
 		        .field("processId", "processId")
 		        .field("patternId", "patternId")
-		        .field("veteranId", "veteranId")
+		        .field("veteran.veteranId", "veteran.veteranId")
 		        .field("processDate", "processDate")
 		        .field("claimantAge", "claimantAge")
 		        .field("dateOfBirth", "dateOfBirth")
@@ -42,13 +42,14 @@ public class ModelRatingResultsMapper {
 		        .field("modelType", "modelType")
 		        .field("modelContentionCount", "modelContentionCount")
 		        .field("contentionCount", "contentionCount")
-		        //.field("priorCdd", "priorCdd")
-		        //.field("quantPriorCdd", "quantPriorCdd")
-		        //.field("currentCdd", "currentCdd")
-		        //.field("quantCdd", "quantCdd")
+		        .field("priorCDD", "priorCDD")
+		        .field("quantPriorCDD", "quantPriorCDD")
+		        .field("currentCDD", "currentCDD")
+		        .field("quantCDD", "quantCDD")
 		        .field("claimAge", "claimAge")
 		        .field("CDDAge", "CDDAge")
 		        .field("claimCount", "claimCount")
+		        .byDefault()
                 .register();
         
         mapperFacade = mapperFactory.getMapperFacade();
