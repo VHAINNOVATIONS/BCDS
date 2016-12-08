@@ -58,10 +58,10 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	            return "<div>"+data+"</div>"
 	        }),
 	        DTColumnBuilder.newColumn('rating.currentCdd').withTitle('Rater Evaluation').renderWith(function(data, type, full) {
-	            return "<div></div>"
+	            return "<div>"+data+"</div>"
 	        }),
 	        DTColumnBuilder.newColumn('rating.currentCdd').withTitle('Model Results').renderWith(function(data, type, full) {
-	            return "<div>"+data+"</div>"
+	            return "<div></div>"
 	        }),
 	        DTColumnBuilder.newColumn('rating.currentCdd').withTitle('RE/MR Match').renderWith(function(data, type, full) {
 	            return "<div></div>"
