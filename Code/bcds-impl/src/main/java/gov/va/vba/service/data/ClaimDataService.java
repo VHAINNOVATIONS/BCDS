@@ -316,7 +316,24 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
         mapper.mapAsCollection(result, output, outputClass);
         return output;
     }
-
+    
+    public List<Claim> getProcessClaimsResults(boolean establishedDate, Date fromDate, Date toDate, String contentionType, Long regionalOfficeNumber) {
+        if (fromDate == null) {
+            Calendar instance = Calendar.getInstance();
+            instance.set(1900, 12, 31);
+            fromDate = instance.getTime();
+        }
+        if (toDate == null) {
+            toDate = new Date();
+        }
+        List<gov.va.vba.persistence.entity.Claim> result = (establishedDate)
+        		? claimRepository.findClaimSByRangeOnProfileDate(contentionType, regionalOfficeNumber, fromDate, toDate) 
+        		: claimRepository.findClaimSByRangeOnClaimDate(contentionType, regionalOfficeNumber, fromDate, toDate);
+        List<Claim> output = new ArrayList<>();
+        mapper.mapAsCollection(result, output, outputClass);
+        return output;
+    }
+    
     public List<Claim> calculateContentions(Long claimId, Long veteranId) {
         List<Object[]> objects = claimRepository.aggregateContentions(claimId, veteranId);
         List<Date> previousClaims = ratingDecisionRepository.findPreviousClaims(21213L, new Date());

@@ -2,11 +2,13 @@
 
 angular.module('bcdssApp').controller('ResultsController', function($rootScope, $scope, $state, Account,
 														$q, DTOptionsBuilder, DTColumnBuilder, $compile, 	
-														$stateParams, ClaimService) {
+														$stateParams, ClaimService, RatingService) {
 	
-		$scope.results = [];
-		$scope.dtInstance = {};
-		$scope.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
+	$scope.results = [];
+	$scope.filters = [];
+	$scope.dtInstance = {};
+	
+	$scope.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
 	   	 return new Promise( function(resolve, reject){
 	            if ($scope.results)
 	              resolve($scope.results);
@@ -27,7 +29,12 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	       }
 	   });
 	
-		
+	$scope.modelTypeOptions = [
+		{ value:'knee',	label:'Knee'},
+	    { value:'ear',	label:'Ear'},
+	    { value:'leg',	label:'Leg'},
+	];
+
 	$scope.processResults = function(resultsArray){
 		var results = [];
 		angular.forEach(resultsArray,function(ele,id){
@@ -40,7 +47,72 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 			});
 		});
 		return results;
-	}
+	};
+
+	$scope.formatDate = function(date) {
+        var date = new Date(date);
+        return date.getFullYear() + '-' +  
+            ('0' + (date.getMonth()+1)).slice(-2) + '-' + 
+            ('0' + date.getDate()).slice(-2);
+    };
+    
+    $scope.checkErr = function(startDate,endDate) {
+        $scope.errMessage = '';
+        $scope.frmResultsSearchFilter.$invalid = false;
+        if(new Date(startDate) > new Date(endDate)){
+          $scope.errMessage = 'To date should be greater than from date.';
+          $scope.frmResultsSearchFilter.$invalid = true;
+          return false;
+        }
+    };
+
+	$scope.getRatingResults = function(){
+		RatingService.getRatingResults()
+			.then(function(result){
+				console.log('>>>successful');
+				$scope.results = result;
+				var promise = new Promise( function(resolve, reject){
+	                if ($scope.results)
+	                  resolve($scope.results);
+	                else
+	                  resolve([]);
+	              });
+	    		$scope.dtInstance.changeData(function() {
+	                return promise;
+	            });
+		});
+	};
+
+	$scope.clear = function(){
+    	$scope.results = [];
+    	$scope.frmResultsSearchFilter.$invalid = false;
+        $scope.fromDate = null;
+        $scope.toDate = null;
+        $scope.filters.modelTypeOption = null;
+        $scope.filters.modelResultId = null;
+    };
+
+	$scope.searchRatingResults = function(){
+    	if ($scope.filters != null && $scope.filters.length > 0) {
+    		$scope.filters.fromDate = $scope.formatDate($scope.fromDate);
+    		$scope.filters.toDate = $scope.formatDate($scope.toDate);
+    	}
+    	//return;
+		RatingService.findModelRatingResults($scope.filters)
+			.then(function(result){
+				console.log('>>>successful');
+				$scope.results = result;
+				var promise = new Promise( function(resolve, reject){
+	                if ($scope.results)
+	                  resolve($scope.results);
+	                else
+	                  resolve([]);
+	              });
+	    		$scope.dtInstance.changeData(function() {
+	                return promise;
+	            });
+		});
+    };
 	
 	 $scope.dtColumns = [
 	        DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran ID'),

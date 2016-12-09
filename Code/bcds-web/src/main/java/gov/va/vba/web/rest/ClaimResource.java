@@ -53,7 +53,15 @@ public class ClaimResource {
         LOGGER.info(processClaim.getVeteranClaimRatingOutput().toString());
         return processClaim;
     }
+    
+    @RequestMapping(value = "/claims/results", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public List<Claim> getClaimResults(@RequestBody ClaimDTO claim) {
+        LOGGER.debug("REST request to get results of process claims");
+        return claimDataService.getProcessClaimsResults(claim.isEstablishedDate(), claim.getFromDate(), claim.getToDate(), claim.getContentionType(), claim.getRegionalOfficeNumber());
+    }
 
+    
     @RequestMapping(value = "/claims/{claimId}/veteran/{veteranId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public List<Claim> getAggrigatedContentions(@PathVariable("claimId") Long claimId, @PathVariable("veteranId") Long veteranId) {

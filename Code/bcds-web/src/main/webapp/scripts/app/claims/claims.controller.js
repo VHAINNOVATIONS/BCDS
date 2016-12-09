@@ -11,6 +11,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     $scope.selected = {};
     $scope.selectAll = false;
     $scope.isSelected = false;
+    $scope.dtInstance = {};
     
     $scope.toggleAll = function toggleAll(selectAll, selectedItems) {
         for (var id in selectedItems) {
@@ -54,7 +55,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     }
 
     var titleHtml = '<label for="selectchkall" style="display: none">select</label><input type="checkbox" id="selectchkall" ng-model="selectAll" ng-click="toggleAll(selectAll,selected)"> ';
-    $scope.dtInstance = {};
+    
     $scope.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
     	 return new Promise( function(resolve, reject){
              if ($scope.claims)
@@ -119,7 +120,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
         DTColumnBuilder.newColumn('claimId').withTitle('Claim ID'),
         DTColumnBuilder.newColumn('claimDate').withTitle('Date of Claim'),
         DTColumnBuilder.newColumn('cestDate').withTitle('CEST Date').renderWith(function(data, type, full) {
-            return "<div>{{" + data +"| date:'MM/dd/yyyy'}} </div>"
+            return "<div>{{" + data +"| date:'yyyy-MM-dd'}} </div>"
         }),
         DTColumnBuilder.newColumn('contentionClaimTextKeyForModel').withTitle('Model/Contentions')
     ];

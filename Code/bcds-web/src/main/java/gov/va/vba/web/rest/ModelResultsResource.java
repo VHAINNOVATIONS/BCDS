@@ -1,21 +1,23 @@
 package gov.va.vba.web.rest;
 
+
 import java.util.List;
+
 import javax.inject.Inject;
+
+import gov.va.vba.bcdss.models.BcdsModelingPort;
+import gov.va.vba.bcdss.models.BcdsModelingPortService;
+
+import gov.va.vba.web.rest.dto.ModelRatingResultsDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import com.codahale.metrics.annotation.Timed;
 
-import gov.va.vba.persistence.entity.ModelRatingResults;
-import gov.va.vba.persistence.repository.ModelRatingResultsRepository;
-
+import gov.va.vba.domain.ModelRatingResults;
+import gov.va.vba.service.data.ModelRatingResultsDataService;
 /**
  * REST controller for managing users.
  */
@@ -26,8 +28,8 @@ public class ModelResultsResource {
     private static final Logger LOGGER = LoggerFactory.getLogger(ModelResultsResource.class);
 
     @Inject
-    private ModelRatingResultsRepository modelRatingResultsRepository;
-
+	private ModelRatingResultsDataService modelRatingResultsDataService;
+    
     /**
      * GET  /results -> get all results.
      */
@@ -37,8 +39,19 @@ public class ModelResultsResource {
     @Timed
     public List<ModelRatingResults> getAll() {
         LOGGER.debug("REST request to get all results");
-        return modelRatingResultsRepository.findTop50();
+        return modelRatingResultsDataService.findTop50();
     }
+    
+    /**
+     * GET  /modelRatingResults -> get results by params (processId/fromDate/toDate/modelType).
+     */
+    @RequestMapping(value = "/modelRatingResults", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public List<ModelRatingResults> getModelRatingResults(@RequestBody ModelRatingResultsDTO modelRating) {
+        LOGGER.debug("REST request to get results of model rating");
+        return modelRatingResultsDataService.getClaimModelRatingResults(modelRating.getProcessId(), modelRating.getFromDate(), modelRating.getToDate(), modelRating.getModelType());
+    }
+    
 
     /**
      * GET  /ddms/:processId -> get the "processId" results.

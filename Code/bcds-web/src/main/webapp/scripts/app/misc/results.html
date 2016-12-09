@@ -1,8 +1,55 @@
 <div ng-controller="ResultsController">
-	<div class="row">
-		<div class="col-md-12">
-			<table datatable="" dt-options="dtOptions" 
-						dt-columns="dtColumns" dt-instance="dtInstance" class="row-border hover"></table>
-			
+	<div>
+		<p></p>
+	</div>
+	<div class="form-group">
+		<div>
+			<form name="frmResultsSearchFilter" class="form-horizontal" style="width: 90%">
+				<div role="alert" style="color: #D8000C;"><span>{{errMessage}}</span></div>
+				<div class="form-group">
+					<label for="dateFrom" class="col-md-2 control-label">Date:&nbsp;&nbsp;&nbsp;From</label>
+					<div class="col-md-2">
+				        <input type="date" class="form-control" validatedateformat data-date-format="mm/dd/yyyy" maxlength="10" id="fromDate" 
+				        calendar ng-click="openCalendar('fromDate')" placeholder="Enter Date" name="fromDate" ng-model="fromDate" ng-change='checkErr(fromDate,toDate)'/> 
+				     </div>
+						<label for="dateto" class="col-md-1 control-label">To</label>
+					<div class="col-md-2">
+				        <input type="date" class="form-control" validatedateformat data-date-format="mm/dd/yyyy" maxlength="10" id="toDate" calendar  
+				          ng-click="openCalendar('toDate')" placeholder="Enter Date" name="toDate" ng-model="toDate" ng-change='checkErr(fromDate,toDate)'/> 
+				    </div>
+				</div>
+				<div class="form-group">	
+					<label for="txtModelType" class="col-md-2 control-label">Model Type</label>
+					<div class="col-md-5">
+						<select id="modelType" name="modelType" class="form-control" type="text" ng-model="filters.modelTypeOption" ng-options="o.value as o.label for o in modelTypeOptions | orderBy:'label'">
+							 <option value="">------- Please select a model type --------</option>
+						</select> 
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="txtModelResultId" class="col-md-2 control-label">Model Result ID</label>
+					<div class="col-md-5">
+						<input type="text" id="txtModelResultId" class="form-control" ng-model="filters.modelResultId"> 
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-md-6">
+						<button type="submit" ng-disabled="frmResultsSearchFilter.$invalid" class="btn btn-outline-secondary" 
+						 	ng-click="searchRatingResults()">
+							<span>Search</span>
+						</button>
+						<button type="submit" class="btn btn-outline-secondary" ng-click="clear()">
+							<span>Cancel</span>
+						</button>
+					</div>
+					<a href="#" id="btnRatingResults" ng-click="getRatingResults()">GetResults(Test)</a>
+				</div>
+			</form>
 		</div>
 	</div>
+	<div class="form-group">
+		<div class="col-md-12">
+			<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="row-border hover"></table>
+		</div>
+	</div>
+</div>

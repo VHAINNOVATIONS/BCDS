@@ -1,22 +1,15 @@
-package gov.va.vba.persistence.entity;
+package gov.va.vba.domain;
+
+import gov.va.vba.domain.util.Veteran;
 
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.*;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-@Entity
-@Table(schema="BCDSS", name = "MODEL_RATING_RESULTS")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class ModelRatingResults implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class ModelRatingResults implements Serializable{
 
 	private Long processId;
-	private Long veteranId;
+	private Veteran veteran;
 	private Long patternId;
 	private Date processDate;
 	private Long claimId;
@@ -38,10 +31,8 @@ public class ModelRatingResults implements Serializable {
 	private Long claimAge;
 	private Long CDDAge;
 	private Long claimCount;
-	private Veteran veteran;
+
 	
-	@Id
-	@Column(name="PROCESS_ID")
 	public Long getProcessId() {
 		return processId;
 	}
@@ -49,17 +40,6 @@ public class ModelRatingResults implements Serializable {
 		this.processId = processId;
 	}
 
-	@Column(name="VET_ID")
-	public Long getVeteranId() {
-		return veteranId;
-	}
-	public void setVeteranId(Long veteranId) {
-		this.veteranId = veteranId;
-	}
-	
-	@MapsId("veteranId")
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "VET_ID", referencedColumnName="PTCPNT_VET_ID", insertable = false, updatable = false)
 	public Veteran getVeteran() {
 		return veteran;
 	}
@@ -67,8 +47,7 @@ public class ModelRatingResults implements Serializable {
 	public void setVeteran(Veteran veteran) {
 		this.veteran = veteran;
 	}
-	
-	@Column(name="PATTERN_ID")
+
 	public Long getPatternId() {
 		return patternId;
 	}
@@ -76,7 +55,6 @@ public class ModelRatingResults implements Serializable {
 		this.patternId = patternId;
 	}
 
-	@Column(name="PROCESS_DATE")
 	public Date getProcessDate() {
 		return processDate;
 	}
@@ -84,7 +62,6 @@ public class ModelRatingResults implements Serializable {
 		this.processDate = processDate;
 	}
 
-	@Column(name="CLAIM_ID")
 	public Long getClaimId() {
 		return claimId;
 	}
@@ -92,23 +69,22 @@ public class ModelRatingResults implements Serializable {
 		this.claimId = claimId;
 	}
 
-	@Column(name="CLAIMANT_AGE")
 	public Long getClaimantAge() {
 		return claimantAge;
 	}
+	
 	public void setClaimantAge(Long claimantAge) {
 		this.claimantAge = claimantAge;
 	}
 
-	@Column(name="DOB")
 	public Date getDateOfBirth() {
 		return dateOfBirth;
 	}
+	
 	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
 
-	@Column(name="END_PRODUCT_CODE")
 	public String getEndProductCode() {
 		return endProductCode;
 	}
@@ -116,7 +92,6 @@ public class ModelRatingResults implements Serializable {
 		this.endProductCode = endProductCode;
 	}
 
-	@Column(name="RO_NUMBER")
 	public Long getRegionalOfficeNumber() {
 		return regionalOfficeNumber;
 	}
@@ -124,7 +99,6 @@ public class ModelRatingResults implements Serializable {
 		this.regionalOfficeNumber = regionalOfficeNumber;
 	}
 
-	@Column(name="CLAIM_DATE")
 	public Date getClaimDate() {
 		return claimDate;
 	}
@@ -132,7 +106,6 @@ public class ModelRatingResults implements Serializable {
 		this.claimDate = claimDate;
 	}
 
-	@Column(name="PROFILE_DATE")
 	public Date getProfileDate() {
 		return profileDate;
 	}
@@ -140,7 +113,6 @@ public class ModelRatingResults implements Serializable {
 		this.profileDate = profileDate;
 	}
 
-	@Column(name="PROMULGATION_DATE")
 	public Date getPromulgationDate() {
 		return promulgationDate;
 	}
@@ -148,7 +120,6 @@ public class ModelRatingResults implements Serializable {
 		this.promulgationDate = promulgationDate;
 	}
 
-	@Column(name="RECENT_DATE")
 	public Date getRecentDate() {
 		return recentDate;
 	}
@@ -156,7 +127,6 @@ public class ModelRatingResults implements Serializable {
 		this.recentDate = recentDate;
 	}
 
-	@Column(name="MODEL_TYPE")
 	public String getModelType() {
 		return modelType;
 	}
@@ -164,7 +134,6 @@ public class ModelRatingResults implements Serializable {
 		this.modelType = modelType;
 	}
 
-	@Column(name="MODEL_CONTENTION_COUNT")
 	public Long getModelContentionCount() {
 		return modelContentionCount;
 	}
@@ -172,7 +141,6 @@ public class ModelRatingResults implements Serializable {
 		this.modelContentionCount = modelContentionCount;
 	}
 
-	@Column(name="CONTENTION_COUNT")
 	public Long getContentionCount() {
 		return contentionCount;
 	}
@@ -180,7 +148,6 @@ public class ModelRatingResults implements Serializable {
 		this.contentionCount = contentionCount;
 	}
 
-	@Column(name="PRIOR_CDD")
 	public Long getPriorCDD() {
 		return priorCDD;
 	}
@@ -188,7 +155,6 @@ public class ModelRatingResults implements Serializable {
 		this.priorCDD = priorCdd;
 	}
 
-	@Column(name="QUANT_PRIOR_CDD")
 	public Long getQuantPriorCDD() {
 		return quantPriorCDD;
 	}
@@ -196,7 +162,6 @@ public class ModelRatingResults implements Serializable {
 		this.quantPriorCDD = quantPriorCdd;
 	}
 
-	@Column(name="CURR_CDD")
 	public Long getCurrentCDD() {
 		return currentCDD;
 	}
@@ -204,7 +169,6 @@ public class ModelRatingResults implements Serializable {
 		this.currentCDD = currentCdd;
 	}
 
-	@Column(name="QUANT_CDD")
 	public Long getQuantCDD() {
 		return quantCDD;
 	}
@@ -212,7 +176,6 @@ public class ModelRatingResults implements Serializable {
 		this.quantCDD = quantCdd;
 	}
 
-	@Column(name="CLAIM_AGE")
 	public Long getClaimAge() {
 		return claimAge;
 	}
@@ -220,7 +183,6 @@ public class ModelRatingResults implements Serializable {
 		this.claimAge = claimAge;
 	}
 
-	@Column(name="CDD_AGE")
 	public Long getCDDAge() {
 		return CDDAge;
 	}
@@ -228,12 +190,10 @@ public class ModelRatingResults implements Serializable {
 		this.CDDAge = CDDAge;
 	}
 
-	@Column(name="CLAIM_COUNT")
 	public Long getClaimCount() {
 		return claimCount;
 	}
 	public void setClaimCount(Long claimCount) {
 		this.claimCount = claimCount;
 	}
-
 }
