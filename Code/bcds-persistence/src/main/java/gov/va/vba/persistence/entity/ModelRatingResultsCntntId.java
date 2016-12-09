@@ -11,32 +11,32 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class ModelRatingResultsCntntId implements java.io.Serializable {
 
-	private BigDecimal cntntId;
-	private BigDecimal processId;
+	private Long cntntId;
+	private Long processId;
 
 	public ModelRatingResultsCntntId() {
 	}
 
-	public ModelRatingResultsCntntId(BigDecimal cntntId, BigDecimal processId) {
+	public ModelRatingResultsCntntId(Long cntntId, Long processId) {
 		this.cntntId = cntntId;
 		this.processId = processId;
 	}
 
 	@Column(name = "CNTNT_ID")
-	public BigDecimal getCntntId() {
+	public Long getCntntId() {
 		return this.cntntId;
 	}
 
-	public void setCntntId(BigDecimal cntntId) {
+	public void setCntntId(Long cntntId) {
 		this.cntntId = cntntId;
 	}
 
 	@Column(name = "PROCESS_ID")
-	public BigDecimal getProcessId() {
+	public Long getProcessId() {
 		return this.processId;
 	}
 
-	public void setProcessId(BigDecimal processId) {
+	public void setProcessId(Long processId) {
 		this.processId = processId;
 	}
 

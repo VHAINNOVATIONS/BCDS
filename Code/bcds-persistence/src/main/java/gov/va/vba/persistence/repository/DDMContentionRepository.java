@@ -1,4 +1,4 @@
-package main.java.gov.va.vba.persistence.repository;
+package gov.va.vba.persistence.repository;
 
 import java.util.List;
 

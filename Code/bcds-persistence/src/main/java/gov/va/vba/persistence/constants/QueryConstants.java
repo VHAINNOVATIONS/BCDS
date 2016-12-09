@@ -16,7 +16,7 @@ public class QueryConstants {
             "WHEN C.contentionClsfcnId = 3790 THEN 'FEATURE_3790' " +
             "WHEN C.contentionClsfcnId = 3800 THEN 'FEATURE_3800' " +
             "WHEN C.contentionClsfcnId = 8919 THEN 'FEATURE_8919' " +
-            "ELSE 'OTHER' END AS GROUP_NAME, COUNT(*) FROM Claim C " +
+            "ELSE 'OTHER_0' END AS GROUP_NAME, COUNT(*) FROM Claim C " +
             "WHERE C.claimId = ?1 AND C.veteran.veteranId = ?2 GROUP BY C.contentionClsfcnId";
 
     public static final String DECISION_DETAILS = "SELECT PTCPNT_VET_ID, PRFIL_DT, BEGIN_DT, END_DT, PRMLGN_DT, DGNSTC_TXT, DSBLTY_ID, DIAGNOSIS_CODE, HYPNTD_DGNSTC_TYPE_CD, PRCNT_NBR " +
