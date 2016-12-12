@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 @Entity
 @Table(schema="BCDSS", name = "MODEL_RATING_RESULTS")
@@ -58,7 +59,7 @@ public class ModelRatingResults implements Serializable {
 	}
 	
 	@MapsId("veteranId")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "VET_ID", referencedColumnName="PTCPNT_VET_ID", insertable = false, updatable = false)
 	public Veteran getVeteran() {
 		return veteran;
@@ -234,6 +235,11 @@ public class ModelRatingResults implements Serializable {
 	}
 	public void setClaimCount(Long claimCount) {
 		this.claimCount = claimCount;
+	}
+	
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
 	}
 
 }

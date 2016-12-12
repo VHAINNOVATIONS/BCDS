@@ -33,9 +33,7 @@ public class ModelResultsResource {
     /**
      * GET  /results -> get all results.
      */
-    @RequestMapping(value = "/results",
-        method = RequestMethod.GET,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/results",  method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public List<ModelRatingResults> getAll() {
         LOGGER.debug("REST request to get all results");
@@ -49,7 +47,7 @@ public class ModelResultsResource {
     @Timed
     public List<ModelRatingResults> getModelRatingResults(@RequestBody ModelRatingResultsDTO modelRating) {
         LOGGER.debug("REST request to get results of model rating");
-        return modelRatingResultsDataService.getClaimModelRatingResults(modelRating.getProcessId(), modelRating.getFromDate(), modelRating.getToDate(), modelRating.getModelType());
+        return modelRatingResultsDataService.getClaimModelRatingResults(modelRating.getProcessIds(), modelRating.getFromDate(), modelRating.getToDate(), modelRating.getModelType());
     }
     
 

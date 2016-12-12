@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Component
 public class ModelRatingResultsDTO {
@@ -11,7 +12,7 @@ public class ModelRatingResultsDTO {
 	private Date fromDate;
     private Date toDate;
     private String modelType;
-    private Long processId;
+    private List<Long> processIds;
    
 
     public Date getFromDate() {
@@ -38,11 +39,11 @@ public class ModelRatingResultsDTO {
         this.modelType = modelType;
     }
 
-    public Long getProcessId() {
-        return processId;
+    public List<Long> getProcessIds() {
+        return processIds;
     }
 
-    public void setProcessId(Long processId) {
-        this.processId = processId;
+    public void setProcessIds(List<Long> processIds) {
+        this.processIds = processIds;
     }
 }
