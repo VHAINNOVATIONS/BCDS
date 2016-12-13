@@ -20,8 +20,8 @@ public interface ModelRatingResultsRepository extends JpaRepository<ModelRatingR
 	@Query(value = "SELECT PROCESS_ID, VET_ID, PATTERN_ID, PROCESS_DATE, CLAIM_ID, CLAIMANT_AGE, DOB, END_PRODUCT_CODE, RO_NUMBER, CLAIM_DATE, PROFILE_DATE, PROMULGATION_DATE, RECENT_DATE, MODEL_TYPE, MODEL_CONTENTION_COUNT, CONTENTION_COUNT, PRIOR_CDD, QUANT_PRIOR_CDD, CURR_CDD, QUANT_CDD, CLAIM_AGE, CDD_AGE, CLAIM_COUNT FROM BCDSS.MODEL_RATING_RESULTS WHERE ROWNUM <= 50 ORDER BY PROCESS_ID", nativeQuery = true)
 	public List<ModelRatingResults> findTop50();
 
-	@Query(value = "SELECT r FROM ModelRatingResults r WHERE r.processId = ?1")
-	List<ModelRatingResults> findOneResult(Long processId);
+	@Query(value = "SELECT r FROM ModelRatingResults r WHERE r.processId in (?1)")
+	List<ModelRatingResults> findOneResult(List<Long> processIds);
 	
 	@Query(value = "SELECT r FROM ModelRatingResults r WHERE (r.processId = ?1) AND (r.processDate >= ?2 AND r.processDate <= ?3) AND (?4 is null or r.modelType = ?4)")
 	List<ModelRatingResults> findResultByRangeOnProcssedDate(Long processId, Date fromDate, Date toDate, String modelType);

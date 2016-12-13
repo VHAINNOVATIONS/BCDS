@@ -43,27 +43,16 @@ public class ModelRatingResultsDataService extends AbsDataService<gov.va.vba.per
 	}
 	
 	public List<ModelRatingResults> findTop50() {
-        List<ModelRatingResults> output = new ArrayList<>();
         List<gov.va.vba.persistence.entity.ModelRatingResults> input = ((ModelRatingResultsRepository) repository).findTop50();
-        mapper.mapAsCollection(input, output, outputClass);
-        return output;
+        List<ModelRatingResults> modelRatingResults = modelRatingResultsMapper.mapCollection(input);
+        return modelRatingResults;
     }
 
-	public List<ModelRatingResults> getClaimModelRatingResults(Long processId, Date fromDate, Date toDate, String modelType) {
-		if (fromDate == null) {
-			Calendar instance = Calendar.getInstance();
-			instance.set(1900, 12, 31);
-			fromDate = instance.getTime();
-		}
-		if (toDate == null) {
-			toDate = new Date();
-		}
-		
-		List<gov.va.vba.persistence.entity.ModelRatingResults> result = (fromDate == null && toDate == null)
-				?modelRatingResultsRepository.findOneResult(processId)
-				:modelRatingResultsRepository.findResultByRangeOnProcssedDate(processId, fromDate, toDate, modelType);
-		List<ModelRatingResults> output = new ArrayList<>();
-		mapper.mapAsCollection(result, output, outputClass);
-		return output;
+	public List<ModelRatingResults> getClaimModelRatingResults(List<Long> processIds, Date fromDate, Date toDate, String modelType) {
+		List<gov.va.vba.persistence.entity.ModelRatingResults> result = (processIds.size() >= 1 && fromDate == null && toDate == null)
+				?modelRatingResultsRepository.findOneResult(processIds)
+				:modelRatingResultsRepository.findResultByRangeOnProcssedDate(processIds.get(0), fromDate, toDate, modelType);
+		List<ModelRatingResults> modelRatingResults = modelRatingResultsMapper.mapCollection(result);
+		return modelRatingResults;
 	}
 }

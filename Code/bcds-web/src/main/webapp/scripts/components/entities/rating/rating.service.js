@@ -10,13 +10,13 @@ angular.module('bcdssApp')
                     });
             },
 
-            findModelRatingResults: function (filters) {
+            findModelRatingResults: function (processIds, filters) {
                 console.log(filters);
                 var data = {
-                        processId : 1, //filters.modelResultId,           
-                        fromDate: filters.fromDate,
-                        toDate: filters.toDate,
-                        modelType: filters.regionalOfficeOption
+                        processIds : processIds,           
+                        fromDate: (filters == null) ? null : filters.fromDate,
+                        toDate: (filters == null) ? null : filters.toDate,
+                        modelType: (filters == null) ? null : filters.modelTypeOption
                 }
                 return $http.post('api/modelRatingResults', data)
                     .then(function (response) {

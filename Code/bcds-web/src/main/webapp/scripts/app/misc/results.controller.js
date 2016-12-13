@@ -7,7 +7,8 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	$scope.results = [];
 	$scope.filters = [];
 	$scope.dtInstance = {};
-	
+	$scope.processIds = [];
+
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
 	   	 return new Promise( function(resolve, reject){
 	            if ($scope.results)
@@ -66,8 +67,19 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
         }
     };
 
+    $scope.getProcessIds = function(){
+    	$scope.processIds.push(1); //this is for test and needs to change..... it should come from process claims
+    	return $scope.processIds;
+    };
+
 	$scope.getRatingResults = function(){
-		RatingService.getRatingResults()
+		var processIds = $scope.getProcessIds();
+		if(processIds == null){
+			alert("No processId found."); // need to change to validation message
+			return;
+		}
+		$scope.filters = null;
+		RatingService.findModelRatingResults(processIds, $scope.filters)
 			.then(function(result){
 				console.log('>>>successful');
 				$scope.results = result;
@@ -85,6 +97,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 
 	$scope.clear = function(){
     	$scope.results = [];
+    	$scope.errMessage = '';
     	$scope.frmResultsSearchFilter.$invalid = false;
         $scope.fromDate = null;
         $scope.toDate = null;
@@ -93,12 +106,12 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
     };
 
 	$scope.searchRatingResults = function(){
-    	if ($scope.filters != null && $scope.filters.length > 0) {
+    	if ($scope.filters != null) {
     		$scope.filters.fromDate = $scope.formatDate($scope.fromDate);
     		$scope.filters.toDate = $scope.formatDate($scope.toDate);
     	}
-    	//return;
-		RatingService.findModelRatingResults($scope.filters)
+    	//return if error ?;
+		RatingService.findModelRatingResults($scope.processIds, $scope.filters)
 			.then(function(result){
 				console.log('>>>successful');
 				$scope.results = result;
@@ -176,7 +189,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
      				//data = {"veteranClaimRatingOutput":[{"veteran":{"veteranId":244390,"veteranName":null,"dob":null},"claimRating":[{"claim":{"claimId":5614193,"profileDate":1147665600000,"productTypeCode":"020","claimDate":1091073600000,"contentionId":2991274,"contentionClassificationId":"6850","contentionBeginDate":null},"rating":{"claimantAge":20,"promulgationDate":null,"recentDate":null,"contationCount":2,"priorCdd":64,"quantPriorCdd":0,"currentCdd":0,"claimAge":20,"cddAge":20,"claimCount":1,"processId":18380497,"patternId":0,"processDate":null,"modelType":null,"modelContentionCount":0,"quantCdd":80,"ratingDecisions":{"processId":18380497,"kneeRatings":{"contentionKnee":0,"contentionLeft":0,"contentionRight":0,"contentionBilateral":0,"contentionLeg":0,"contentionAmputation":0,"decisionKnee":0,"decisionLeft":0,"decisionRight":0,"decisionBilateral":0,"decisionLimitation":0,"decisionImpairment":0,"decisionAnkyloses":0,"decisionAmputation":0},"earRatings":{"contentionLoss":0,"contentionTinitu":0,"decisionLoss":0,"decisionTinitu":0}},"status":[],"diagnosisCodeCounts":[],"contentionsCodeCounts":[]}}]}]};
      				var formattedResults = $scope.processResults(data.veteranClaimRatingOutput);
      				$scope.results = formattedResults;
-     				
+     				//make api call using rating service to get rest of the column values and then populate results.
      	    		var promise = new Promise( function(resolve, reject){
      	                if ($scope.results)
      	                {
