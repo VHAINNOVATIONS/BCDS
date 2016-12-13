@@ -49,9 +49,17 @@ public class ModelRatingResultsDataService extends AbsDataService<gov.va.vba.per
     }
 
 	public List<ModelRatingResults> getClaimModelRatingResults(List<Long> processIds, Date fromDate, Date toDate, String modelType) {
-		List<gov.va.vba.persistence.entity.ModelRatingResults> result = (processIds.size() >= 1 && fromDate == null && toDate == null)
-				?modelRatingResultsRepository.findOneResult(processIds)
-				:modelRatingResultsRepository.findResultByRangeOnProcssedDate(processIds.get(0), fromDate, toDate, modelType);
+		List<gov.va.vba.persistence.entity.ModelRatingResults> result = null;
+		if(fromDate == null && toDate == null && processIds != null){
+			result = modelRatingResultsRepository.findResultWithProcessIds(processIds);
+		}
+		else {
+			long processId = (processIds == null) ?  0 : processIds.get(0);
+			result = (processId == 0)
+				? modelRatingResultsRepository.findResultByRangeOnProcssedDate(fromDate, toDate, modelType)
+				: modelRatingResultsRepository.findResultByRangeOnProcssedDateAndProcessId(processId, fromDate, toDate, modelType);
+		}
+		
 		List<ModelRatingResults> modelRatingResults = modelRatingResultsMapper.mapCollection(result);
 		return modelRatingResults;
 	}
