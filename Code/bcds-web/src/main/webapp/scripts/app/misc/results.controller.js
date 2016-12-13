@@ -5,7 +5,10 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 														$stateParams, ClaimService, RatingService) {
 	
 	$scope.results = [];
-	$scope.filters = [];
+	$scope.filters = {
+		fromDate: null,
+		toDate: null
+	};
 	$scope.dtInstance = {};
 	$scope.processIds = [];
 
@@ -82,7 +85,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 		RatingService.findModelRatingResults(processIds, $scope.filters)
 			.then(function(result){
 				console.log('>>>successful');
-				$scope.results = result;
+				$scope.results = result.data;
 				var promise = new Promise( function(resolve, reject){
 	                if ($scope.results)
 	                  resolve($scope.results);
@@ -98,23 +101,40 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	$scope.clear = function(){
     	$scope.results = [];
     	$scope.errMessage = '';
-    	$scope.frmResultsSearchFilter.$invalid = false;
-        $scope.fromDate = null;
-        $scope.toDate = null;
-        $scope.filters.modelTypeOption = null;
+    	$scope.fromDate = null;
+    	$scope.toDate = null;
+    	$scope.filters.modelTypeOption = null;
         $scope.filters.modelResultId = null;
     };
 
-	$scope.searchRatingResults = function(){
-    	if ($scope.filters != null) {
+    $scope.setSearchParameters = function(){
+    	//case when no params or only model type
+    	if(($scope.filters.modelResultId || $scope.filters.modelResultId == null) && $scope.fromDate == null && $scope.toDate == null){
+    		var today = new Date();
+    		$scope.filters.fromDate = $scope.formatDate(new Date());
+    		$scope.filters.toDate = $scope.formatDate(new Date(today.getFullYear(), today.getMonth() + 12, today.getDate()));
+    	}
+
+    	//case when only dates and/or resultid/modeltype
+    	if($scope.fromDate != null && $scope.toDate != null){
     		$scope.filters.fromDate = $scope.formatDate($scope.fromDate);
     		$scope.filters.toDate = $scope.formatDate($scope.toDate);
     	}
-    	//return if error ?;
+
+    	$scope.filters.modelTypeOption = ($scope.filters.modelTypeOption == null) ? null : $scope.filters.modelTypeOption;
+    	$scope.processIds = ($scope.filters || $scope.filters === null ||  $scope.filters.modelResultId || $scope.filters.modelResultId === null) 
+	  						? null : $scope.processIds.push($scope.filters.modelResultId);
+	};
+
+	$scope.searchRatingResults = function(){
+		$scope.processIds = null;
+		$scope.getProcessIds();// needs to be removed.
+    	$scope.setSearchParameters();
+    	
 		RatingService.findModelRatingResults($scope.processIds, $scope.filters)
 			.then(function(result){
 				console.log('>>>successful');
-				$scope.results = result;
+				$scope.results = result.data;
 				var promise = new Promise( function(resolve, reject){
 	                if ($scope.results)
 	                  resolve($scope.results);
@@ -132,35 +152,36 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	        DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran Name').renderWith(function(data, type, full) {
 	            return "<div>"+ data +"veteran</div>"
 	        }),
-	        DTColumnBuilder.newColumn('claim.claimId').withTitle('Claim ID'),
-	        DTColumnBuilder.newColumn('rating.modelType').withTitle('Model').renderWith(function(data, type, full) {
+	        DTColumnBuilder.newColumn('claimId').withTitle('Claim ID'),
+	        DTColumnBuilder.newColumn('modelType').withTitle('Model').renderWith(function(data, type, full) {
 	            return "<div>"+data+"</div>"
 	        }),
-	        DTColumnBuilder.newColumn('rating.processId').withTitle('Model Result ID').renderWith(function(data, type, full) {
+	        DTColumnBuilder.newColumn('processId').withTitle('Model Result ID').renderWith(function(data, type, full) {
 	            return "<div>"+data+"</div>"
 	        }),
-	        DTColumnBuilder.newColumn('rating.priorCdd').withTitle('Prior Rating').renderWith(function(data, type, full) {
+	        DTColumnBuilder.newColumn('priorCDD').withTitle('Prior Rating').renderWith(function(data, type, full) {
 	            return "<div>"+data+"</div>"
 	        }),
-	        DTColumnBuilder.newColumn('rating.currentCdd').withTitle('Rater Evaluation').renderWith(function(data, type, full) {
+	        DTColumnBuilder.newColumn('currentCDD').withTitle('Rater Evaluation').renderWith(function(data, type, full) {
 	            return "<div>"+data+"</div>"
 	        }),
-	        DTColumnBuilder.newColumn('rating.currentCdd').withTitle('Model Results').renderWith(function(data, type, full) {
+	        DTColumnBuilder.newColumn('currentCDD').withTitle('Model Results').renderWith(function(data, type, full) {
 	            return "<div></div>"
 	        }),
-	        DTColumnBuilder.newColumn('rating.currentCdd').withTitle('RE/MR Match').renderWith(function(data, type, full) {
+	        DTColumnBuilder.newColumn('currentCDD').withTitle('RE/MR Match').renderWith(function(data, type, full) {
 	            return "<div></div>"
 	        }),
-	        DTColumnBuilder.newColumn('rating.currentCdd').withTitle('Pattern Rate of Use').renderWith(function(data, type, full) {
+	        DTColumnBuilder.newColumn('currentCDD').withTitle('Pattern Rate of Use').renderWith(function(data, type, full) {
 	            return "<div></div>"
 	        }),
-	        DTColumnBuilder.newColumn('rating.quantCdd').withTitle('Pattern Accuracy').renderWith(function(data, type, full) {
+	        DTColumnBuilder.newColumn('quantCDD').withTitle('Pattern Accuracy').renderWith(function(data, type, full) {
 	            return "<div></div>"
 	        })
 	    ];
 	 
 	 $rootScope.$on('ProcessClaims', function(event, data) {
 		var inputObj = [];
+
 		angular.forEach(data,function(ele,idx){
 			var obj = {
    			      "veteran": {
