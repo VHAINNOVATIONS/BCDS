@@ -97,7 +97,7 @@
 		<xs:sequence>
 			<xs:element name="contentionKnee" type="xs:int"></xs:element>
 			<xs:element name="contentionLeft" type="xs:int"></xs:element>
-			<xs:element name="contentionRight " type="xs:int"></xs:element>
+			<xs:element name="contentionRight" type="xs:int"></xs:element>
 			<xs:element name="contentionBilateral" type="xs:int"></xs:element>
 			<xs:element name="contentionLeg" type="xs:int"></xs:element>
 			<xs:element name="contentionAmputation" type="xs:int"></xs:element>

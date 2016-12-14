@@ -11,42 +11,42 @@ import java.math.BigDecimal;
 @Table(name = "MODEL_RATING_RESULTS_DIAG", schema = "BCDSS")
 public class ModelRatingResultsDiag implements java.io.Serializable {
 
-	private ModelRatingResultsDiagId id;
-	private BigDecimal count;
-	private ModelRatingResults modelRatingResults;
-	private DDMDiagnosis diagnosis;
+    private ModelRatingResultsDiagId id;
+    private Long count;
+    private ModelRatingResults modelRatingResults;
+    //private DDMDiagnosis diagnosis;
 
-	@EmbeddedId
-	public ModelRatingResultsDiagId getId() {
-		return this.id;
-	}
+    @EmbeddedId
+    public ModelRatingResultsDiagId getId() {
+        return this.id;
+    }
 
-	public void setId(ModelRatingResultsDiagId id) {
-		this.id = id;
-	}
+    public void setId(ModelRatingResultsDiagId id) {
+        this.id = id;
+    }
 
-	@MapsId("processId")
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "PROCESS_ID", insertable = false, updatable = false)
-	public ModelRatingResults getModelRatingResults() {
-		return this.modelRatingResults;
-	}
+    @MapsId("processId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PROCESS_ID", insertable = false, updatable = false)
+    public ModelRatingResults getModelRatingResults() {
+        return this.modelRatingResults;
+    }
 
-	public void setModelRatingResults(ModelRatingResults modelRatingResults) {
-		this.modelRatingResults = modelRatingResults;
-	}
+    public void setModelRatingResults(ModelRatingResults modelRatingResults) {
+        this.modelRatingResults = modelRatingResults;
+    }
 
-	@Column(name = "COUNT")
-	public BigDecimal getCount() {
-		return count;
-	}
+    @Column(name = "COUNT")
+    public Long getCount() {
+        return count;
+    }
 
-	public void setCount(BigDecimal count) {
-		this.count = count;
-	}
+    public void setCount(Long count) {
+        this.count = count;
+    }
 
-	@MapsId("diagId")
-	@ManyToOne(fetch = FetchType.LAZY)
+	/*@MapsId("diagId")
+    @ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "DIAG_ID", insertable = false, updatable = false)
 	public DDMDiagnosis getDiagnosis() {
 		return diagnosis;
@@ -54,6 +54,6 @@ public class ModelRatingResultsDiag implements java.io.Serializable {
 
 	public void setDiagnosis(DDMDiagnosis diagnosis) {
 		this.diagnosis = diagnosis;
-	}
+	}*/
 
 }

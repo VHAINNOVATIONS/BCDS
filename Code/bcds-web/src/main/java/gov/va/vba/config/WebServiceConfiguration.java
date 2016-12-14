@@ -39,7 +39,7 @@ public class WebServiceConfiguration extends WsConfigurerAdapter {
         wsdl11Definition.setSchema(ratingInformationServiceSchema);
         return wsdl11Definition;
     }*/
-    
+
     @Bean(name = "models")
     public DefaultWsdl11Definition defaultWsdl11Models(XsdSchema modelsSchema) {
         DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
@@ -49,7 +49,7 @@ public class WebServiceConfiguration extends WsConfigurerAdapter {
         wsdl11Definition.setSchema(modelsSchema);
         return wsdl11Definition;
     }
-    
+
     @Bean
 	public XsdSchema modelsSchema() {
 		return new SimpleXsdSchema(new ClassPathResource("models.xsd"));

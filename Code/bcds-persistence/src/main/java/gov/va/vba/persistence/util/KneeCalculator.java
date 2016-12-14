@@ -40,19 +40,8 @@ public class KneeCalculator {
     }
 
     public static int descisionAge (Date claimDate, Date beginDate) {
-        long diff = TimeUnit.MICROSECONDS.toDays(claimDate.getTime() - beginDate.getTime());
+        long diff = TimeUnit.MILLISECONDS.toDays(claimDate.getTime() - beginDate.getTime());
         return Math.round((diff) / 365);
-    }
-
-    public int sumNBR() {
-        int total = 0;
-        // calculate sum of prcnt_nbr from selected list
-        return total;
-    }
-
-    public int DecisionAge(Date claimDate, Date beginDate) {
-        Long diff = TimeUnit.MICROSECONDS.toDays(claimDate.getTime() - beginDate.getTime());
-        return Math.round(diff/365);
     }
 
     /*public static int calculateCDD(BigDecimal percentNumber) {

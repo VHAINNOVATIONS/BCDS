@@ -7,32 +7,32 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class ModelRatingResultsDiagId implements java.io.Serializable {
 
-	private BigDecimal diagId;
-	private BigDecimal processId;
+	private Long diagId;
+	private Long processId;
 
 	public ModelRatingResultsDiagId() {
 	}
 
-	public ModelRatingResultsDiagId(BigDecimal diagId, BigDecimal processId) {
+	public ModelRatingResultsDiagId(Long diagId, Long processId) {
 		this.diagId = diagId;
 		this.processId = processId;
 	}
 
 	@Column(name = "DIAG_ID")
-	public BigDecimal getDiagId() {
+	public Long getDiagId() {
 		return this.diagId;
 	}
 
-	public void setDiagId(BigDecimal diagId) {
+	public void setDiagId(Long diagId) {
 		this.diagId = diagId;
 	}
 
 	@Column(name = "PROCESS_ID")
-	public BigDecimal getProcessId() {
+	public Long getProcessId() {
 		return this.processId;
 	}
 
-	public void setProcessId(BigDecimal processId) {
+	public void setProcessId(Long processId) {
 		this.processId = processId;
 	}
 

@@ -1,6 +1,7 @@
 package gov.va.vba.web.soap;
 
 import gov.va.vba.bcdss.models.*;
+import gov.va.vba.security.SecurityUtils;
 import gov.va.vba.service.data.ClaimDataService;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
@@ -41,12 +42,12 @@ public class BcdsModelingEndpoint {
 		LOGGER.debug("SOAP request to get a Process Claim... ...");
         GetProcessClaimResponse getProcessClaimResponse = new GetProcessClaimResponse();
         if(CollectionUtils.isNotEmpty(request.getVeteranClaimInput())) {
-            List<VeteranClaimRating> veteranClaimRatings = claimDataService.findByVeteranId(request.getVeteranClaimInput());
+            List<VeteranClaimRating> veteranClaimRatings = claimDataService.findByVeteranId(request.getVeteranClaimInput(), SecurityUtils.getCurrentLogin());
             if(CollectionUtils.isNotEmpty(veteranClaimRatings)) {
                 getProcessClaimResponse.getVeteranClaimRatingOutput().addAll(veteranClaimRatings);
             }
         }
-		return getProcessClaimResponse;
+        return getProcessClaimResponse;
 	}
 
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "getCurrentRatingRequest")

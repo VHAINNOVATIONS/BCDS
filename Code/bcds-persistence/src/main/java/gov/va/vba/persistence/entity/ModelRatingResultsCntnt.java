@@ -10,7 +10,7 @@ public class ModelRatingResultsCntnt implements java.io.Serializable {
     private ModelRatingResultsCntntId id;
     private BigDecimal count;
     private ModelRatingResults modelRatingResults;
-    private DDMContention contention;
+   //private DDMContention contention;
 
     @EmbeddedId
     public ModelRatingResultsCntntId getId() {
@@ -41,9 +41,9 @@ public class ModelRatingResultsCntnt implements java.io.Serializable {
         this.modelRatingResults = modelRatingResults;
     }
 
-    @MapsId("cntntId")
+    /*@MapsId("cntntId")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CNTNT_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "CNTNT_CD", insertable = false, updatable = false)
     public DDMContention getContention() {
         return contention;
     }
@@ -51,5 +51,5 @@ public class ModelRatingResultsCntnt implements java.io.Serializable {
     public void setContention(DDMContention contention) {
         this.contention = contention;
     }
-
+*/
 }

@@ -29,8 +29,6 @@ public class DDMModelPattern implements Serializable {
 	private Long contentionCount;
 	private Long priorCDD;
 	private Long CDDAge;
-	private DDMModelDiagnosis modelDiagnosis;
-	private DDMModelContention modelContention;
 
 	@Id
 	@Column(name="PATTERN_ID")

@@ -8,23 +8,23 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class ModelRatingResultsStatusId implements java.io.Serializable {
 
-	private BigDecimal processId;
+	private Long processId;
 	private String processStatus;
 
 	public ModelRatingResultsStatusId() {
 	}
 
-	public ModelRatingResultsStatusId(BigDecimal processId, String processStatus) {
+	public ModelRatingResultsStatusId(Long processId, String processStatus) {
 		this.processId = processId;
 		this.processStatus = processStatus;
 	}
 
 	@Column(name = "PROCESS_ID")
-	public BigDecimal getProcessId() {
+	public Long getProcessId() {
 		return this.processId;
 	}
 
-	public void setProcessId(BigDecimal processId) {
+	public void setProcessId(Long processId) {
 		this.processId = processId;
 	}
 

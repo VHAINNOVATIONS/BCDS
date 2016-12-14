@@ -302,7 +302,7 @@
 	</wsdl:binding>
 	<wsdl:service name="BcdsModelingPortService">
 		<wsdl:port binding="tns:BcdsModelingPortSoap11" name="BcdsModelingPortSoap11">
-			<soap:address location="http://127.0.0.1:8083/bcds-web/soap-api/" />
+			<soap:address location="http://127.0.0.1:8083/soap-api/" />
 		</wsdl:port>
 	</wsdl:service>
 </wsdl:definitions>

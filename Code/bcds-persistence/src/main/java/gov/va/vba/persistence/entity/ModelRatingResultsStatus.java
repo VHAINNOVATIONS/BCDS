@@ -1,7 +1,14 @@
 package gov.va.vba.persistence.entity;
 // Generated Nov 17, 2016 12:12:28 PM by Hibernate Tools 5.2.0.Beta1
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
+import javax.persistence.Table;
 import java.util.Date;
 
 /**
@@ -11,60 +18,60 @@ import java.util.Date;
 @Table(name = "MODEL_RATING_RESULTS_STATUS", schema = "BCDSS")
 public class ModelRatingResultsStatus implements java.io.Serializable {
 
-	private ModelRatingResultsStatusId id;
-	private String reason;
-	private String crtdBy;
-	private Date crtdDtm;
-	private ModelRatingResults modelRatingResults;
+    private ModelRatingResultsStatusId id;
+    private String reason;
+    private String crtdBy;
+    private Date crtdDtm;
+    private ModelRatingResults modelRatingResults;
 
-	public ModelRatingResultsStatus() {
-	}
+    public ModelRatingResultsStatus() {
+    }
 
-	@EmbeddedId
-public ModelRatingResultsStatusId getId() {
-		return this.id;
-	}
+    @EmbeddedId
+    public ModelRatingResultsStatusId getId() {
+        return this.id;
+    }
 
-	public void setId(ModelRatingResultsStatusId id) {
-		this.id = id;
-	}
+    public void setId(ModelRatingResultsStatusId id) {
+        this.id = id;
+    }
 
-	@Column(name = "REASON", length = 50)
-	public String getReason() {
-		return this.reason;
-	}
+    @Column(name = "REASON", length = 50)
+    public String getReason() {
+        return this.reason;
+    }
 
-	public void setReason(String reason) {
-		this.reason = reason;
-	}
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
 
-	@Column(name = "CRTD_BY", length = 50)
-	public String getCrtdBy() {
-		return this.crtdBy;
-	}
+    @Column(name = "CRTD_BY", length = 50)
+    public String getCrtdBy() {
+        return this.crtdBy;
+    }
 
-	public void setCrtdBy(String crtdBy) {
-		this.crtdBy = crtdBy;
-	}
+    public void setCrtdBy(String crtdBy) {
+        this.crtdBy = crtdBy;
+    }
 
-	@Column(name = "CRTD_DTM", length = 7)
-	public Date getCrtdDtm() {
-		return this.crtdDtm;
-	}
+    @Column(name = "CRTD_DTM")
+    public Date getCrtdDtm() {
+        return this.crtdDtm;
+    }
 
-	public void setCrtdDtm(Date crtdDtm) {
-		this.crtdDtm = crtdDtm;
-	}
+    public void setCrtdDtm(Date crtdDtm) {
+        this.crtdDtm = crtdDtm;
+    }
 
-	@MapsId("processId")
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "PROCESS_ID", insertable = false, updatable = false)
-	public ModelRatingResults getModelRatingResults() {
-		return this.modelRatingResults;
-	}
+    @MapsId("processId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PROCESS_ID", insertable = false, updatable = false)
+    public ModelRatingResults getModelRatingResults() {
+        return this.modelRatingResults;
+    }
 
-	public void setModelRatingResults(ModelRatingResults modelRatingResults) {
-		this.modelRatingResults = modelRatingResults;
-	}
+    public void setModelRatingResults(ModelRatingResults modelRatingResults) {
+        this.modelRatingResults = modelRatingResults;
+    }
 
 }
