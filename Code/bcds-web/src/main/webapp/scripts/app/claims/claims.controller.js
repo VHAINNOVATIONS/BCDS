@@ -126,7 +126,8 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     ];
     
     $scope.regionalOfficeOptions = [
-    	{ value:'463',	label:'Anchorage RO'},
+        { value:'0',    label:'-- Please select a regional office --'},
+        { value:'463',	label:'Anchorage RO'},
 	    { value:'350',	label:'Little Rock Regional Office'},
 	    { value:'320',	label:'Nashville Regional Office'},
 	    { value:'315',	label:'Huntington Regional Office'},
@@ -190,6 +191,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
 
 	];
     
+    $scope.filters.regionalOfficeOption = $scope.regionalOfficeOptions[0].value; // Default
     
     $scope.setFilterDates  = function(){
     	$scope.filters.dateType = "claimDate";
@@ -317,13 +319,10 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
         }
 
         $scope.clear = function(){
-            $scope.claims = [];
             $scope.filters.dateType = {};
             $scope.setFilterDates();
             $scope.filters.contentionType = null;
-            $scope.filters.regionalOfficeOption = 0;
-            
-            $scope.loadClaims();
+            $scope.filters.regionalOfficeOption = $scope.regionalOfficeOptions[0].value;
         }
         
         $scope.isActiveRoleTab = function (userRoleTab) {
