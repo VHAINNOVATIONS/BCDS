@@ -16,7 +16,7 @@ public class Claim implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Date profileDate;
+	/*private Date profileDate;*/
 	private Long claimId;
 	private String endPrdctTypeCode;
 	private Date claimDate;
@@ -57,7 +57,7 @@ public class Claim implements Serializable {
 		this.veteran = veteran;
 	}
 
-	@Temporal(TemporalType.DATE)
+/*	@Temporal(TemporalType.DATE)
 	@Column(name = "PRFIL_DT")
 	public Date getProfileDate() {
 		return this.profileDate;
@@ -65,7 +65,7 @@ public class Claim implements Serializable {
 
 	public void setProfileDate(Date profileDate) {
 		this.profileDate = profileDate;
-	}
+	}*/
 
 	@Column(name = "END_PRDCT_TYPE_CD")
 	public String getEndPrdctTypeCode() {

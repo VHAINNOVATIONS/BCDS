@@ -1,6 +1,7 @@
 
 package gov.va.vba.web.rest;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -40,7 +41,20 @@ public class ClaimResource {
     @Timed
     public List<Claim> getClaims(@RequestBody ClaimDTO claim) {
         LOGGER.debug("REST request to get first few Claims");
-        return claimDataService.findClaims(claim.isEstablishedDate(), claim.getFromDate(), claim.getToDate(), claim.getContentionType(), claim.getRegionalOfficeNumber());
+        
+        String contentionTypeStr=null;
+        boolean estDate = claim.isEstablishedDate();
+        Date fromDate = claim.getFromDate();
+        Date toDate = claim.getToDate();
+        String contentionType = claim.getContentionType();
+        StringBuilder sb = new StringBuilder();
+       if(null!=contentionType && !"".equals(contentionType)){
+        	sb.append("%").append(contentionType).append("%");
+        	contentionTypeStr = sb.toString();
+        }
+       Long regionalOffice = claim.getRegionalOfficeNumber();
+        List<Claim> output= claimDataService.findClaims(estDate, fromDate, toDate, contentionTypeStr, regionalOffice);
+        return output;
     }
 
     @RequestMapping(value = "/claims/process", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
