@@ -166,7 +166,10 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
 
                         Date priorProfileDate = AppUtill.getMaxDate(previousClaims);
                         LOG.info("PRIOR PROFILE DATE {}", priorProfileDate);
-                        int cddAge = KneeCalculator.descisionAge(claim.getClaimDate(), priorProfileDate);
+                        int cddAge = 0;
+                        if(priorProfileDate != null){
+                            cddAge = KneeCalculator.descisionAge(claim.getClaimDate(), priorProfileDate);
+                        }
                         LOG.info("CDD AGE IS {}", cddAge);
 
                         ModelRatingResults results = new ModelRatingResults();
