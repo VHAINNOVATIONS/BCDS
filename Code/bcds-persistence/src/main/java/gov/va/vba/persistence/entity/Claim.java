@@ -204,7 +204,7 @@ public class Claim implements Serializable {
 		this.contentionBeginDate = contentionBeginDate;
 	}
 
-	@Column(name = "CNTNTN_SPECL_ISSUE_ID")
+/*	@Column(name = "CNTNTN_SPECL_ISSUE_ID")
 	public String getContentionSpecialIssueId() {
 		return this.contentionSpecialIssueId;
 	}
@@ -220,7 +220,7 @@ public class Claim implements Serializable {
 
 	public void setContentionSpecialIssueTypeCode(String contentionSpecialIssueTypeCode) {
 		this.contentionSpecialIssueTypeCode = contentionSpecialIssueTypeCode;
-	}
+	}*/
 	
 	@Override
 	public String toString() {
