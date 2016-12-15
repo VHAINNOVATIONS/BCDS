@@ -102,7 +102,6 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
     }
 
     public List<VeteranClaimRating> findByVeteranId(List<VeteranClaim> veteranClaims, String currentLogin) {
-        //List<DDMModelPattern> patternList = ddmModelPatternRepository.findAll();
         List<VeteranClaimRating> veteranClaimRatings = new ArrayList<>();
         for (VeteranClaim vc : veteranClaims) {
             VeteranClaimRating veteranClaimRating = new VeteranClaimRating();
@@ -118,7 +117,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                 int claimId = c.getClaimId();
                 gov.va.vba.persistence.entity.Claim claim = claimRepository.findOneByClaimId((long) claimId);
                 if (claim != null) {
-                    List<RatingDecision> claimDecisions = ratingDecisionRepository.findByVeteranVeteranIdAndProfileDateLessThanAndPercentNumberNotNullAndDiagnosisCodeIn((long) vc.getVeteran().getVeteranId(), claim.getClaimDate(), KNEE_DIAGNOSIS_CODES);
+                    List<RatingDecision> claimDecisions = ratingDecisionRepository.findByVeteranVeteranIdAndPercentNumberNotNullAndDiagnosisCodeIn((long) vc.getVeteran().getVeteranId(), KNEE_DIAGNOSIS_CODES);
                     if (CollectionUtils.isNotEmpty(claimDecisions)) {
                         claimCount += 1;
                         Map<String, Float> calculatedPercentNumber = new HashMap<>();

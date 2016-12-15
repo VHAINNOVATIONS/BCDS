@@ -31,4 +31,6 @@ public interface RatingDecisionRepository extends CrudRepository<RatingDecision,
     @Query(value = QueryConstants.CALCULATE_CDD)
     List<Integer> calculateDecisionCDD(Long veteranId, Date profileDate);
 
+    List<RatingDecision> findByVeteranVeteranIdAndPercentNumberNotNullAndDiagnosisCodeIn(Long veteranId, List<String> kneeDiagnosisCodes);
+
 }
