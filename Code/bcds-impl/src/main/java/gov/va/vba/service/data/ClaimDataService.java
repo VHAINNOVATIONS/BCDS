@@ -78,7 +78,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
     private DDMContentionRepository ddmContentionRepository;
 
     @Autowired
-    private DDMModelPatternRepository ddmModelPatternRepository;
+    private DDMDataService ddmDataService;
 
     public ClaimDataService() {
         this.setClasses(gov.va.vba.persistence.entity.Claim.class, Claim.class);
@@ -102,7 +102,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
     }
 
     public List<VeteranClaimRating> findByVeteranId(List<VeteranClaim> veteranClaims, String currentLogin) {
-        List<DDMModelPattern> patternList = ddmModelPatternRepository.findAll();
+        //List<DDMModelPattern> patternList = ddmModelPatternRepository.findAll();
         List<VeteranClaimRating> veteranClaimRatings = new ArrayList<>();
         for (VeteranClaim vc : veteranClaims) {
             VeteranClaimRating veteranClaimRating = new VeteranClaimRating();
@@ -199,10 +199,10 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                         for (ModelRatingResultsCntnt cntnt : resultsCntnts) {
                             totalCntntCount += cntnt.getCount().intValue();
                         }
-                        DDMModelPattern modelPattern = findModelPattern(patternList, results, totalCntntCount);
-
-                        if (modelPattern != null) {
-                            results.setPatternId(modelPattern.getPatternId());
+                        List<DDMModelPattern> patterns = ddmDataService.getPatternId(results.getModelType(), results.getClaimantAge(), results.getClaimCount(), (long) totalCntntCount, results.getCDDAge());
+                        if(CollectionUtils.isNotEmpty(patterns)) {
+                            DDMModelPattern ddmModelPattern = patterns.get(0);
+                            results.setPatternId(ddmModelPattern.getPatternId());
                             modelRatingResultsRepository.save(results);
                         }
                         EarDecision ed = new EarDecision();
@@ -322,23 +322,6 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
         status.setCrtdBy(user);
         modelRatingResultsStatusRepository.save(status);
         LOG.info("SAVED MODEL RATING RESULTS STATUS SUCCESSFULLY");
-    }
-
-    private DDMModelPattern findModelPattern(List<DDMModelPattern> patternList, ModelRatingResults results, int totalCntntCount) {
-        Long claimantAge = results.getClaimantAge();
-        for (DDMModelPattern pattern : patternList) {
-            int contentionCount = pattern.getContentionCount() != null ? pattern.getContentionCount().intValue() : 0;
-            if (claimantAge.equals(pattern.getClaimantAge())
-                    && totalCntntCount == contentionCount
-                    && StringUtils.equalsIgnoreCase(results.getModelType(), pattern.getModelType())
-                    && results.getClaimCount().intValue() == pattern.getClaimCount()
-                    && results.getCDDAge().equals(pattern.getCDDAge())) {
-                LOG.info("PATTERN FOUND " + pattern.getPatternId());
-                return pattern;
-            }
-        }
-        LOG.warn("PATTERN NOT FOUND FOR CLAIMANT AGE {} AND CONTENTION COUNT {} AND MODEL TYPE {} AND CALIM COUNT {} AND CDD AGE {} ", claimantAge, totalCntntCount, results.getModelType(), results.getClaimCount(), results.getCDDAge());
-        return null;
     }
 
     private Map<RatingDecision, BigDecimal> aggregateRatingDecisions(List<RatingDecision> decisions) {
