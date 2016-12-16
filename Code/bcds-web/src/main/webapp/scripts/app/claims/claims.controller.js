@@ -114,7 +114,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
 		}),
         DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran ID'),
         DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran Name').renderWith(function(data, type, full) {
-            return "<div>"+ data +"veteran</div>"
+            return "<div>"+ data +"-veteran</div>"
         }),
         DTColumnBuilder.newColumn('regionalOfficeOfClaim').withTitle('Regional Office'),
         DTColumnBuilder.newColumn('claimId').withTitle('Claim ID'),
