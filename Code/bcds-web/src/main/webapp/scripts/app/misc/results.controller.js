@@ -10,6 +10,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 		toDate: null
 	};
 	$scope.dtInstance = {};
+	$scope.selected = {};
 	$scope.processIds = [];
 
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
@@ -156,7 +157,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	 $scope.dtColumns = [
 	        DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran ID'),
 	        DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran Name').renderWith(function(data, type, full) {
-	            return "<div>"+ data +"veteran</div>"
+	            return "<div>"+ data +"-veteran</div>"
 	        }),
 	        DTColumnBuilder.newColumn('claimId').withTitle('Claim ID'),
 	        DTColumnBuilder.newColumn('modelType').withTitle('Model').renderWith(function(data, type, full) {
@@ -184,7 +185,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	            return "<div>"+data+"</div>"
 	        }),
 	        DTColumnBuilder.newColumn(null).withTitle('Agree Y/N').notSortable().renderWith(function(data, type, full, meta) {
-		     	//$scope.selected[full.processId] = false;
+		     	$scope.selected[full.processId] = false;
 		     	return '<label for="selectchk' + data.processId + '" style="display: none">select</label><input id="selectchk' + data.processId + '" type="checkbox" ng-model="selected[' + data.processId + ']" ng-click="toggleOne(selected)">';
 			}),
 	    ];
