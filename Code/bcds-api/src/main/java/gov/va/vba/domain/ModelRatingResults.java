@@ -1,6 +1,7 @@
 package gov.va.vba.domain;
 
 import gov.va.vba.domain.util.Veteran;
+import gov.va.vba.domain.util.ModelPatternIndex;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -10,7 +11,7 @@ public class ModelRatingResults implements Serializable{
 
 	private Long processId;
 	private Veteran veteran;
-	private Long patternId;
+	private ModelPatternIndex patternIndex;
 	private Date processDate;
 	private Long claimId;
 	private String modelType;
@@ -34,11 +35,12 @@ public class ModelRatingResults implements Serializable{
 		this.veteran = veteran;
 	}
 
-	public Long getPatternId() {
-		return patternId;
+	public ModelPatternIndex getPatternIndex() {
+		return patternIndex;
 	}
-	public void setPatternId(Long patternId) {
-		this.patternId = patternId;
+
+	public void setPatternIndex(ModelPatternIndex patternIndex) {
+		this.patternIndex = patternIndex;
 	}
 
 	public Date getProcessDate() {

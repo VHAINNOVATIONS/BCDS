@@ -2,6 +2,7 @@ package gov.va.vba.service.orika;
 
 import gov.va.vba.domain.ModelRatingResults;
 import gov.va.vba.domain.util.Veteran;
+import gov.va.vba.domain.util.ModelPatternIndex;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
@@ -25,10 +26,16 @@ public class ModelRatingResultsMapper {
         mapperFactory.classMap(gov.va.vba.persistence.entity.Veteran.class, Veteran.class)
                 .field("veteranId", "veteranId")
                 .register();
+        mapperFactory.classMap(gov.va.vba.persistence.entity.DDMModelPatternIndex.class, ModelPatternIndex.class)
+        		.field("patternId", "patternId")
+        		.register();
         mapperFactory.classMap(gov.va.vba.persistence.entity.ModelRatingResults.class, ModelRatingResults.class)
 		        .field("processId", "processId")
-		        .field("patternId", "patternId")
 		        .field("veteran.veteranId", "veteran.veteranId")
+		        .field("patternIndex.patternId", "patternIndex.patternId")
+		        .field("patternIndex.accuracy", "patternIndex.accuracy")
+		        .field("patternIndex.patternIndexNumber", "patternIndex.patternIndexNumber")
+		        .field("patternIndex.CDD", "patternIndex.CDD")
 		        .field("claimId", "claimId")
 		        .field("modelType", "modelType")
 		        .field("priorCDD", "priorCDD")
@@ -40,7 +47,6 @@ public class ModelRatingResultsMapper {
                 .register();
         
         mapperFacade = mapperFactory.getMapperFacade();
-
     }
 
     /**

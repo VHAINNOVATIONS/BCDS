@@ -56,7 +56,7 @@ public class DDMModelPatternIndex implements Serializable {
 		this.CDD = CDD;
 	}
 
-	@Column(name="PATTERN_INDEX_NUMBER")
+	@Column(name="PATTERN_INDX_NUMBER")
 	public Long getPatternIndexNumber() {
 		return patternIndexNumber;
 	}
