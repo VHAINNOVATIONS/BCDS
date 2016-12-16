@@ -40,6 +40,7 @@ public class ModelRatingResults implements Serializable {
 	private Long CDDAge;
 	private Long claimCount;
 	private Veteran veteran;
+	private DDMModelPatternIndex patternIndex;
 	
 	@Id
 	@Column(name="PROCESS_ID")
@@ -75,6 +76,17 @@ public class ModelRatingResults implements Serializable {
 	}
 	public void setPatternId(Long patternId) {
 		this.patternId = patternId;
+	}
+	
+	@MapsId("patternId")
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "PATTERN_ID", referencedColumnName="PATTERN_ID", insertable = false, updatable = false)
+	public DDMModelPatternIndex getPatternIndex() {
+		return patternIndex;
+	}
+
+	public void setPatternIndex(DDMModelPatternIndex patternIndex) {
+		this.patternIndex = patternIndex;
 	}
 
 	@Column(name="PROCESS_DATE")

@@ -11,9 +11,8 @@ angular.module('bcdssApp')
             },
 
             findModelRatingResults: function (processIds, filters) {
-                console.log(filters);
                 var data = {
-                        processIds : processIds,           
+                        processIds : (processIds.length ==0) ? null : processIds,           
                         fromDate: (filters == null) ? null : filters.fromDate,
                         toDate: (filters == null) ? null : filters.toDate,
                         modelType: (filters == null) ? null : filters.modelTypeOption

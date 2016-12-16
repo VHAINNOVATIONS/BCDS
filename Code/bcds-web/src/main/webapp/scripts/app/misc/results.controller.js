@@ -107,29 +107,35 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
         $scope.filters.modelResultId = null;
     };
 
-    $scope.setSearchParameters = function(){
-    	//case when no params or only model type
+     $scope.setSearchParameters = function(){
+     	//case when no params or only model type
     	if(($scope.filters.modelResultId || $scope.filters.modelResultId == null) && $scope.fromDate == null && $scope.toDate == null){
     		var today = new Date();
     		$scope.filters.fromDate = $scope.formatDate(new Date());
     		$scope.filters.toDate = $scope.formatDate(new Date(today.getFullYear(), today.getMonth() + 12, today.getDate()));
+   			$scope.processIds = [];
+    	}
+
+    	//case when only resultid
+    	if(($scope.filters.modelResultId && $scope.filters.modelResultId != null) && $scope.fromDate == null && $scope.toDate == null){
+    		$scope.filters.fromDate = null;
+    		$scope.filters.toDate = null;
+    		$scope.processIds.push($scope.filters.modelResultId);
     	}
 
     	//case when only dates and/or resultid/modeltype
     	if($scope.fromDate != null && $scope.toDate != null){
     		$scope.filters.fromDate = $scope.formatDate($scope.fromDate);
     		$scope.filters.toDate = $scope.formatDate($scope.toDate);
+    		($scope.filters === null || $scope.filters.modelResultId === null) ? null : $scope.processIds.push($scope.filters.modelResultId);
     	}
 
-    	$scope.filters.modelTypeOption = ($scope.filters.modelTypeOption == null) ? null : $scope.filters.modelTypeOption;
-    	$scope.processIds = ($scope.filters || $scope.filters === null ||  $scope.filters.modelResultId || $scope.filters.modelResultId === null) 
-	  						? null : $scope.processIds.push($scope.filters.modelResultId);
+		$scope.filters.modelTypeOption = ($scope.filters.modelTypeOption == null) ? null : $scope.filters.modelTypeOption;
 	};
 
 	$scope.searchRatingResults = function(){
-		$scope.processIds = null;
-		$scope.getProcessIds();// needs to be removed.
-    	$scope.setSearchParameters();
+		$scope.processIds = [];
+		$scope.setSearchParameters();
     	
 		RatingService.findModelRatingResults($scope.processIds, $scope.filters)
 			.then(function(result){
@@ -165,18 +171,22 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	        DTColumnBuilder.newColumn('currentCDD').withTitle('Rater Evaluation').renderWith(function(data, type, full) {
 	            return "<div>"+data+"</div>"
 	        }),
-	        DTColumnBuilder.newColumn('currentCDD').withTitle('Model Results').renderWith(function(data, type, full) {
-	            return "<div></div>"
+	        DTColumnBuilder.newColumn('patternIndex.cdd').withTitle('Model Results').renderWith(function(data, type, full) {
+	           return "<div>"+data+"</div>"
 	        }),
 	        DTColumnBuilder.newColumn('currentCDD').withTitle('RE/MR Match').renderWith(function(data, type, full) {
 	            return "<div></div>"
 	        }),
-	        DTColumnBuilder.newColumn('currentCDD').withTitle('Pattern Rate of Use').renderWith(function(data, type, full) {
-	            return "<div></div>"
+	        DTColumnBuilder.newColumn('patternIndex.cdd').withTitle('Pattern Rate of Use').renderWith(function(data, type, full) {
+	            return "<div>"+data+"</div>"
 	        }),
-	        DTColumnBuilder.newColumn('quantCDD').withTitle('Pattern Accuracy').renderWith(function(data, type, full) {
-	            return "<div></div>"
-	        })
+	        DTColumnBuilder.newColumn('patternIndex.accuracy').withTitle('Pattern Accuracy').renderWith(function(data, type, full) {
+	            return "<div>"+data+"</div>"
+	        }),
+	        DTColumnBuilder.newColumn(null).withTitle('Agree Y/N').notSortable().renderWith(function(data, type, full, meta) {
+		     	//$scope.selected[full.processId] = false;
+		     	return '<label for="selectchk' + data.processId + '" style="display: none">select</label><input id="selectchk' + data.processId + '" type="checkbox" ng-model="selected[' + data.processId + ']" ng-click="toggleOne(selected)">';
+			}),
 	    ];
 	 
 	 $rootScope.$on('ProcessClaims', function(event, data) {

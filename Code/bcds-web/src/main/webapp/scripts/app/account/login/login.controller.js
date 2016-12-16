@@ -15,11 +15,11 @@ angular.module('bcdssApp')
                 rememberMe: $scope.rememberMe
             }).then(function () {
                 $scope.authenticationError = false;
-                if ($rootScope.previousStateName === 'register' || $rootScope.previousStateName === 'home') {
+                //if ($rootScope.previousStateName === 'register' || $rootScope.previousStateName === 'home') {
                     $state.go('home');
-                } else {
-                    $rootScope.back();
-                }
+               // } else {
+               //     $rootScope.back();
+               // }
             }).catch(function () {
             	alert("Invalid Username and Password!!!\n     Please verify and try again...");
                 $scope.authenticationError = true;
