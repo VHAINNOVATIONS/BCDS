@@ -7,7 +7,7 @@ angular.module('bcdssApp')
         		console.log(filters);
         		var data = {
         				establishedDate : (filters.dateType == "establishedDate"),
-        				regionalOffice: filters.regionalOfficeOption,
+        				regionalOfficeNumber: filters.regionalOfficeOption,
         				contentionType: filters.contentionType,
         				fromDate: filters.fromDate,
         				toDate: filters.toDate
