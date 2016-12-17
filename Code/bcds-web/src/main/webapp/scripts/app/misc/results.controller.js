@@ -22,11 +22,17 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	          });
 	   })
 	   .withOption('createdRow', function(row, data, dataIndex) {
-	               // Recompiling so we can bind Angular directive to the DT
-	       $compile(angular.element(row).contents())($scope);
+	    	// Recompiling so we can bind Angular directive to the DT        
+	    	$compile(angular.element(row).contents())($scope);
 	   })
 	   .withOption('headerCallback', function(header) {
-	       if (!self.headerCompiled) {
+	    	angular.forEach(header.cells, function(cell){
+	       		$(cell).attr('title', function (index, attr) {
+				    return this.outerText;
+				});
+	    	}) 
+
+	    	if (!self.headerCompiled) {
 	           // Use this headerCompiled field to only compile header once
 	           self.headerCompiled = true;
 	           $compile(angular.element(header).contents())($scope);
