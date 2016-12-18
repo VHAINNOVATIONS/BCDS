@@ -2,61 +2,60 @@
 	<div>
 		<p></p>
 	</div>
-	<!--<div class="form-group">
+	<!-- <div class="form-group">
 		<form name="frmResultsSearchFilter" class="form-horizontal" role="form">
 			<div role="alert" style="color: #D8000C;"><span>{{errMessage}}</span></div>
-		    <div class="row">
-		      <div class="col-md-10">
-		        <div class="form-group">
-		         	<label for="dateFrom" class="col-md-3 control-label">Claim Processed Date:&nbsp;&nbsp;&nbsp;From</label>
-					<div class="col-md-3">
-				        <input type="date" class="form-control" validatedateformat data-date-format="mm/dd/yyyy" maxlength="10" id="fromDate" 
-				        calendar ng-click="openCalendar('fromDate')" placeholder="Enter Date" name="fromDate" ng-model="fromDate" ng-change='checkErr(fromDate,toDate)'/> 
-				     </div>
-				    <label for="dateto" class="col-md-2 control-label">To</label>
-					<div class="col-md-3">
-				        <input type="date" class="form-control" validatedateformat data-date-format="mm/dd/yyyy" maxlength="10" id="toDate" calendar  
-				          ng-click="openCalendar('toDate')" placeholder="Enter Date" name="toDate" ng-model="toDate" ng-change='checkErr(fromDate,toDate)'/> 
-				    </div>
+		    <div class="row">  
+			    <div class="col-md-2">
+			    	<label class="pull-right">
+			    		Processed from date:</span>
+			    	</label>
+			    </div>
+		        <div class="col-md-2">
+		        	<input type="date" class="form-control pull-left" validatedateformat data-date-format="mm/dd/yyyy" 
+		        		maxlength="10" id="fromDate" calendar ng-click="openCalendar('fromDate')" placeholder="Enter Date" 
+		        		name="fromDate" ng-model="fromDate" ng-change='checkErr(fromDate,toDate)'/>
+				        
 		        </div>
-		      </div>
+		        <div class="col-md-2">
+		        	<label for="dateto" class="control-label pull-right">Processed to date:</label>
+		        </div>
+		        <div class="col-md-2">
+		        	  <input type="date" class="form-control pull-left" validatedateformat data-date-format="mm/dd/yyyy" 
+		        	  maxlength="10" id="toDate" calendar ng-click="openCalendar('toDate')" placeholder="Enter Date" 
+				      name="toDate" ng-model="toDate" ng-change='checkErr(fromDate,toDate)'/>
+		        </div>
 		    </div>
-		    <div class ="row">
-		    	<div class="col-md-5">
-			        <div class="form-group">
-			         <label for="txtModelType" class="col-md-6 control-label">Model Type</label>
-						<div class="col-md-6">
-							<select id="modelType" name="modelType" class="form-control" type="text" ng-model="filters.modelTypeOption" ng-options="o.value as o.label for o in modelTypeOptions | orderBy:'label'">
+		    <div class="row" style="margin-top:10px;">
+		    	<div class="col-md-2">
+		    		 <label for="txtModelType" class="control-label pull-right">Model type:</label>
+		    	</div>
+		    	<div class="col-md-2">
+		    		<select id="modelType" name="modelType" class="form-control pull-left" type="text" ng-model="filters.modelTypeOption" ng-options="o.value as o.label for o in modelTypeOptions | orderBy:'label'">
 								 <option value="">- Please select a model type -</option>
-							</select> 
-						</div>
-			        </div>
-		      </div>
-		    	<div class="col-md-5">
-			        <div class="form-group">
-						<label for="txtModelResultId" class="col-md-4 control-label">Model Result ID</label>
-						<div class="col-md-6">
-							<input type="text" id="txtModelResultId" class="form-control" ng-model="filters.modelResultId"> 
-						</div>
-					</div>
-		      </div>
+					</select>
+		    	</div>
+		    	<div class="col-md-2">
+		    		<label for="txtModelResultId" class="control-label pull-right">Model Result ID:</label>
+		    	</div>
+		    	<div class="col-md-2">
+		    		<input type="text" id="txtModelResultId" class="form-control pull-left" ng-model="filters.modelResultId">
+		    	</div>
 		    </div>
 		    <div class="row">
-		    	<div class="col-md-10">
-			      	<div class="form-group">
+		    	<div class="col-md-4 col-md-offset-3" style="margin-top:10px;">
 						<button type="submit" ng-disabled="frmResultsSearchFilter.$invalid" class="btn btn-outline-secondary" 
 						 	ng-click="searchRatingResults()">
 							<span>Search</span>
-						</button>&nbsp;&nbsp;&nbsp;&nbsp;
+						</button>
 						<button type="submit" class="btn btn-outline-secondary" ng-click="clear()">
 							<span>Cancel</span>
-						</button>&nbsp;&nbsp;
+						</button>
 						<a href="#" id="btnRatingResults" ng-click="getRatingResults()">GetResults(Test)</a>
-					</div>
-		      </div>
+		    	</div>
 		    </div>
 	  	</form>
-	</div>-->
+	</div> -->
 	<div class="form-group">
 		<div class="col-md-12">
 			<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="row-border hover"></table>
