@@ -15,7 +15,7 @@
 				<div class="modal-body" style="padding-left:inherit; padding-right:30px; padding-bottom:15px">
 					<form name="frmAdvancedFilter">
 						<div role="alert" style="color: #D8000C;"><span>{{errMessage}}</span></div>
-						<div class="form-group row">
+<!-- 						<div class="form-group row">
 							<div class="col-md-6">
 								<input type="radio" ng-model="filters.dateType" value="claimDate" ng-checked="filters.dateType"> Date of Claim
 							</div>
@@ -36,12 +36,7 @@
 						          ng-click="openCalendar('toDate')" placeholder="Enter Date" name="toDate" ng-model="toDate" ng-change='checkErr(fromDate,toDate)'/> 
 						    </div>
 						    
-						</div>
-						
-						<div class="form-group row">
-							<label for="txtContention" class="col-md-4 col-form-label" style="text-align:right">Contention</label>
-							<div class="col-md-8" style="text-align:left"><input type="text" id="txtContention" ng-model="filters.contentionType" style="width:325px"> </div>
-						</div>
+						</div> -->
 						
 						<div class="form-group row">	
 							<label for="txtRegionalOffice" class="col-md-4 col-form-label" style="text-align:right">Regional Office</label>
@@ -50,6 +45,12 @@
 								</select> 
 							</div>
 						</div>
+						
+						<div class="form-group row">
+							<label for="txtContention" class="col-md-4 col-form-label" style="text-align:right">Contention</label>
+							<div class="col-md-8" style="text-align:left"><input type="text" id="txtContention" ng-model="filters.contentionType" style="width:200px" ></div>
+						</div>
+						
 						<div class="row">
 							<div class="col-md-6">
 								<button type="button" class="btn btn-outline-secondary btn-sm pull-right" ng-click="clear()" style="width:150px" data-dismiss="modal">

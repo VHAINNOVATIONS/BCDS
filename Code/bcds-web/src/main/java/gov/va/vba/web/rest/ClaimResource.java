@@ -43,9 +43,9 @@ public class ClaimResource {
         LOGGER.debug("REST request to get first few Claims");
         
         String contentionTypeStr=null;
-        boolean estDate = claim.isEstablishedDate();
-        Date fromDate = claim.getFromDate();
-        Date toDate = claim.getToDate();
+        boolean isRegionalExist = false;
+       /* Date fromDate = claim.getFromDate();
+        Date toDate = claim.getToDate();*/
         String contentionType = claim.getContentionType();
         StringBuilder sb = new StringBuilder();
        if(null!=contentionType && !"".equals(contentionType)){
@@ -53,7 +53,10 @@ public class ClaimResource {
         	contentionTypeStr = sb.toString();
         }
        Long regionalOffice = claim.getRegionalOfficeNumber();
-        List<Claim> output= claimDataService.findClaims(estDate, fromDate, toDate, contentionTypeStr, regionalOffice);
+       if(regionalOffice!=0 && !"".equals(regionalOffice)){
+    	   isRegionalExist= true;
+       }
+        List<Claim> output= claimDataService.findClaims(isRegionalExist, contentionTypeStr, regionalOffice);
         return output;
     }
 
