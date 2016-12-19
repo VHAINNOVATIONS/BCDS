@@ -22,7 +22,7 @@ public class ModelRatingResultsCntntId implements java.io.Serializable {
 		this.processId = processId;
 	}
 
-	@Column(name = "CNTNT_ID")
+	@Column(name = "CNTNT_CD")
 	public Long getCntntId() {
 		return this.cntntId;
 	}

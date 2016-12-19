@@ -51,7 +51,7 @@ public class ModelRatingResults implements Serializable {
 		this.processId = processId;
 	}
 
-	@Column(name="VET_ID")
+	@Column(name="PTCPNT_VET_ID")
 	public Long getVeteranId() {
 		return veteranId;
 	}
@@ -61,7 +61,7 @@ public class ModelRatingResults implements Serializable {
 	
 	@MapsId("veteranId")
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "VET_ID", referencedColumnName="PTCPNT_VET_ID", insertable = false, updatable = false)
+	@JoinColumn(name = "PTCPNT_VET_ID", referencedColumnName="PTCPNT_VET_ID", insertable = false, updatable = false)
 	public Veteran getVeteran() {
 		return veteran;
 	}

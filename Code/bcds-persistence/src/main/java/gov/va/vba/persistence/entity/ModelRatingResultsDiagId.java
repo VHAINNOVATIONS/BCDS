@@ -18,7 +18,7 @@ public class ModelRatingResultsDiagId implements java.io.Serializable {
 		this.processId = processId;
 	}
 
-	@Column(name = "DIAG_ID")
+	@Column(name = "DIAG_CD")
 	public Long getDiagId() {
 		return this.diagId;
 	}
