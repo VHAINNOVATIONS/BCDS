@@ -160,6 +160,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 		});
     };
 	
+	 /*These are changes for version 3.0
 	 $scope.dtColumns = [
 	        DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran ID'),
 	        DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran Name').renderWith(function(data, type, full) {
@@ -194,7 +195,42 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 		     	$scope.selected[full.processId] = false;
 		     	return '<label for="selectchk' + data.processId + '" style="display: none">select</label><input id="selectchk' + data.processId + '" type="checkbox" ng-model="selected[' + data.processId + ']" ng-click="toggleOne(selected)">';
 			}),
-	    ];
+	    ];*/
+
+	    /*Below is version 2.0 changes*/
+	    $scope.dtColumns = [
+ 	        DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran ID'),
+ 	        DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran Name').renderWith(function(data, type, full) {
+ 	            return "<div>"+ data +"veteran</div>"
+ 	        }),
+ 	        DTColumnBuilder.newColumn('claim.claimId').withTitle('Claim ID'),
+ 	        DTColumnBuilder.newColumn('rating.modelType').withTitle('Model').renderWith(function(data, type, full) {
+ 	            return "<div>"+data+"</div>"
+ 	        }),
+ 	        DTColumnBuilder.newColumn('rating.processId').withTitle('Model Result ID').renderWith(function(data, type, full) {
+ 	            return "<div>"+data+"</div>"
+ 	        }),
+ 	        DTColumnBuilder.newColumn('rating.priorCdd').withTitle('Prior Rating').renderWith(function(data, type, full) {
+  	            return "<div>"+data+"</div>"
+  	        }),
+  	        DTColumnBuilder.newColumn('rating.currentCdd').withTitle('Rater Evaluation').renderWith(function(data, type, full) {
+ 	            return "<div></div>"
+ 	            return "<div>"+data+"</div>"
+  	        }),
+  	        DTColumnBuilder.newColumn('rating.currentCdd').withTitle('Model Results').renderWith(function(data, type, full) {
+ 	            return "<div>"+data+"</div>"
+ 	            return "<div></div>"
+  	        }),
+  	        DTColumnBuilder.newColumn('rating.currentCdd').withTitle('RE/MR Match').renderWith(function(data, type, full) {
+  	            return "<div></div>"
+ 	        }),
+ 	        DTColumnBuilder.newColumn('rating.currentCdd').withTitle('Pattern Rate of Use').renderWith(function(data, type, full) {
+ 	            return "<div></div>"
+ 	        }),
+ 	        DTColumnBuilder.newColumn('rating.quantCdd').withTitle('Pattern Accuracy').renderWith(function(data, type, full) {
+ 	            return "<div></div>"
+ 	        })
+ 	    ];
 	 
 	 $rootScope.$on('ProcessClaims', function(event, data) {
 		var inputObj = [];
