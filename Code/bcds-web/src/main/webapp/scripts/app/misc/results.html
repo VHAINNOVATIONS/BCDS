@@ -5,10 +5,10 @@
 	<!--<div class="form-group">
 		<form name="frmResultsSearchFilter" class="form-horizontal" role="form">
 			<div role="alert" style="color: #D8000C;"><span>{{errMessage}}</span></div>
-		    <div class="row">  
+		    <div class="row"> 
 			    <div class="col-md-2">
 			    	<label class="pull-right">
-			    		Processed From Date:</span>
+			    		<span>Processed From Date:</span>
 			    	</label>
 			    </div>
 		        <div class="col-md-2">
@@ -70,4 +70,29 @@
 			</div>
 		</div>
 	</div>-->
+	<div class="modal fade" id="gridPopUp">
+		<div class="modal-dialog" style="width:95% !important;">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="Header">
+						<h4 class="modal-title">Model Result Details</h4>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<table id="resultDetailsGrid" datatable="" dt-options="dtDetailsOptions" 
+							dt-columns="dtDetailsColumns" dt-instance="dtDetailsInstance" class="row-border hover"></table>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<p style="text-align:left;">
+						The fact pattern used to statistically determine the rating for the target issue/issues has proven 
+					to be <span>{{reliability}}</span> based on the frequency with which the same facts have been presented 
+					to support a supplemental claim for increase, and the number of times the same rating has been determined by VBA RVSRs.  
+					The calculated confidence level - based on a population size of *50 EAR* related claims over the past 10 years - <span>{{rateOfAccuracy}}</span>.
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
