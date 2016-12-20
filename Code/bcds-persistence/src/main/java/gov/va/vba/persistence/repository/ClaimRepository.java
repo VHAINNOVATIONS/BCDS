@@ -36,7 +36,7 @@ public interface ClaimRepository extends JpaRepository<Claim, Long> {
 	@Query(value = QueryConstants.CONTENTIONS_COUNT)
 	List<Object[]> aggregateContentions(Long claimId, Long veteranId);
 
-	Claim findOneByClaimId(Long claimId);
+	Claim findOneByClaimIdAndContentionClsfcnIdIn(Long claimId, List<Long> cntntClsfIds);
 	
 	@Query(value = "SELECT Distinct C.PTCPNT_VET_ID, BNFT_CLAIM_ID, END_PRDCT_TYPE_CD, DATE_OF_CLAIM, PAYEE_TYPE_CD, BNFT_CLAIM_TYPE_CD, "
 			+ "CLAIM_LABEL, STATUS_TYPE_CD, CLAIM_RO_NUMBER, CLAIM_RO_NAME,CNTNTN_ID, CNTNTN_CLSFCN_ID, CNTNTN_TYPE_CD, CNTNTN_CLMANT_TXT, CLAIM_RO_NUMBER, CNTNTN_TYPE_CD, "

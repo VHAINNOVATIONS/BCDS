@@ -1,4 +1,4 @@
-package main.java.gov.va.vba.persistence.models.data;
+package gov.va.vba.persistence.models.data;
 
 import java.io.Serializable;
 import java.lang.String;

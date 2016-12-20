@@ -15,6 +15,7 @@ public interface DDMModelContentionRepository extends JpaRepository<DDMModelCont
 	@Query(value = "SELECT PATTERN_ID, CNTNT_CD, COUNT, MODEL_TYPE FROM DDM_MODEL_CNTNT", nativeQuery = true)
 	public List<DDMModelContention> DDMModelContention();
 	
-	//List<DDMModelContention> findPatternId(Long contentionId);
+	List<DDMModelContention> findByContentionIdAndCountAndModelType(Long contentionId, Long count, String modelType);
+
 
 }

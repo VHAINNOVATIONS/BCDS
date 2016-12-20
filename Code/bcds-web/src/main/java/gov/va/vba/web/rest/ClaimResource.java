@@ -8,9 +8,13 @@ import javax.inject.Inject;
 
 import gov.va.vba.bcdss.models.BcdsModelingPort;
 import gov.va.vba.bcdss.models.BcdsModelingPortService;
+import gov.va.vba.bcdss.models.ClaimRating;
 import gov.va.vba.bcdss.models.GetProcessClaimRequest;
 import gov.va.vba.bcdss.models.GetProcessClaimResponse;
+import gov.va.vba.bcdss.models.Rating;
+import gov.va.vba.bcdss.models.VeteranClaimRating;
 import gov.va.vba.web.rest.dto.ClaimDTO;
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -41,7 +45,7 @@ public class ClaimResource {
     @Timed
     public List<Claim> getClaims(@RequestBody ClaimDTO claim) {
         LOGGER.debug("REST request to get first few Claims");
-        
+
         String contentionTypeStr=null;
         boolean isRegionalExist = false;
        /* Date fromDate = claim.getFromDate();
@@ -68,9 +72,20 @@ public class ClaimResource {
         GetProcessClaimResponse processClaim = modelingService.getProcessClaim(request);
         LOGGER.info("***********************");
         LOGGER.info(processClaim.getVeteranClaimRatingOutput().toString());
+        List<VeteranClaimRating> output = processClaim.getVeteranClaimRatingOutput();
+        //TODO: Remove in future
+        if(CollectionUtils.isNotEmpty(output)) {
+            for(VeteranClaimRating vc : output) {
+                List<ClaimRating> claimRating = vc.getClaimRating();
+                for(ClaimRating cr : claimRating) {
+                    Rating rating = cr.getRating();
+                    rating.setPatternId(1344795);
+                }
+            }
+        }
         return processClaim;
     }
-    
+
     @RequestMapping(value = "/claims/results", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public List<Claim> getClaimResults(@RequestBody ClaimDTO claim) {
@@ -78,7 +93,7 @@ public class ClaimResource {
         return claimDataService.getProcessClaimsResults(claim.isEstablishedDate(), claim.getFromDate(), claim.getToDate(), claim.getContentionType(), claim.getRegionalOfficeNumber());
     }
 
-    
+
     @RequestMapping(value = "/claims/{claimId}/veteran/{veteranId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public List<Claim> getAggrigatedContentions(@PathVariable("claimId") Long claimId, @PathVariable("veteranId") Long veteranId) {
