@@ -354,7 +354,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
 
     public List<Claim> findClaims(boolean isRegionalExist, String contentionType, Long regionalOfficeNumber) {
     	LOG.debug("REST request to get advance filtered Claims");
-    	List<gov.va.vba.persistence.entity.Claim> input = (isRegionalExist) ? claimRepository.findClaimsByClaimDateRegionalOffice(contentionType, regionalOfficeNumber) : claimRepository.findClaimsByClaimDate(contentionType);
+    	List<gov.va.vba.persistence.entity.Claim> input = (isRegionalExist) ? claimRepository.findClaimsByRegionalOffice(contentionType, regionalOfficeNumber) : claimRepository.findClaimsByContention(contentionType);
         
         List<Claim> claims = claimMapper.mapCollection(input);
         LOG.info("SIZE :::: " + claims.size());
