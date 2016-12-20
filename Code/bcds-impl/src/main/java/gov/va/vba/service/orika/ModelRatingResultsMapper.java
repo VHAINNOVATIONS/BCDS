@@ -36,6 +36,7 @@ public class ModelRatingResultsMapper {
 		        .field("patternIndex.accuracy", "patternIndex.accuracy")
 		        .field("patternIndex.patternIndexNumber", "patternIndex.patternIndexNumber")
 		        .field("patternIndex.CDD", "patternIndex.CDD")
+		        .field("patternIndex.modelType", "patternIndex.modelType")
 		        .field("claimId", "claimId")
 		        .field("claimDate", "claimDate")
 		        .field("claimAge", "claimAge")
@@ -45,6 +46,7 @@ public class ModelRatingResultsMapper {
 		        .field("currentCDD", "currentCDD")
 		        .field("quantCDD", "quantCDD")
 		        .field("processDate", "processDate")
+		        .field("CDDAge", "CDDAge")
 		        .byDefault()
                 .register();
         
