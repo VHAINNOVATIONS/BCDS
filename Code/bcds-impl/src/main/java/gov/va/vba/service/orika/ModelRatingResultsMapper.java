@@ -37,6 +37,8 @@ public class ModelRatingResultsMapper {
 		        .field("patternIndex.patternIndexNumber", "patternIndex.patternIndexNumber")
 		        .field("patternIndex.CDD", "patternIndex.CDD")
 		        .field("claimId", "claimId")
+		        .field("claimDate", "claimDate")
+		        .field("claimAge", "claimAge")
 		        .field("modelType", "modelType")
 		        .field("priorCDD", "priorCDD")
 		        .field("quantPriorCDD", "quantPriorCDD")

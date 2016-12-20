@@ -14,6 +14,8 @@ public class ModelRatingResults implements Serializable{
 	private ModelPatternIndex patternIndex;
 	private Date processDate;
 	private Long claimId;
+	private Date claimDate;
+	private Long claimAge;
 	private String modelType;
 	private Long priorCDD;
 	private Long quantPriorCDD;
@@ -55,6 +57,20 @@ public class ModelRatingResults implements Serializable{
 	}
 	public void setClaimId(Long claimId) {
 		this.claimId = claimId;
+	}
+	
+	public Date getClaimDate() {
+		return claimDate;
+	}
+	public void setClaimDate(Date claimDate) {
+		this.claimDate = claimDate;
+	}
+	
+	public Long getClaimAge() {
+		return claimAge;
+	}
+	public void setClaimAge(Long claimAge) {
+		this.claimAge = claimAge;
 	}
 
 	public String getModelType() {

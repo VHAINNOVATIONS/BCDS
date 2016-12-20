@@ -5,14 +5,18 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 														$stateParams, ClaimService, RatingService) {
 	
 	$scope.results = [];
+	$scope.resultDetailsData = [];
 	$scope.filters = {
 		fromDate: null,
 		toDate: null
 	};
 	$scope.dtInstance = {};
+	$scope.dtDetailsInstance = {};
 	$scope.selected = {};
 	$scope.processIds = [];
-
+	$scope.arrReliability = ['SOMEWHAT RELIABLE', 'RELIABLE'];
+	$scope.arrRateOfAccuracy = ['EXCEEDS 98%', 'BELOW 98%'];
+	
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
 	   	 return new Promise( function(resolve, reject){
 	            if ($scope.results)
@@ -21,11 +25,11 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	              resolve([]);
 	          });
 	   })
-	   .withOption('createdRow', function(row, data, dataIndex) {
+	   	.withOption('createdRow', function(row, data, dataIndex) {
 	    	// Recompiling so we can bind Angular directive to the DT        
 	    	$compile(angular.element(row).contents())($scope);
 	   })
-	   .withOption('headerCallback', function(header) {
+	   	.withOption('headerCallback', function(header) {
 	    	angular.forEach(header.cells, function(cell){
 	       		$(cell).attr('title', function (index, attr) {
 				    return this.outerText;
@@ -38,7 +42,113 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	           $compile(angular.element(header).contents())($scope);
 	           $compile(angular.element('.dt-buttons').contents())($scope);
 	       }
-	   });
+	   })
+	   	.withOption('rowCallback', rowCallback);
+
+	
+	$scope.dtDetailsOptions = DTOptionsBuilder.fromFnPromise(function() {
+   	 return new Promise( function(resolve, reject){
+            if ($scope.resultDetailsData)
+              resolve($scope.resultDetailsData);
+            else
+              resolve([]);
+          });
+   })
+   .withOption('filter', false)
+   .withOption('createdRow', function(row, data, dataIndex) {
+           // Recompiling so we can bind Angular directive to the DT
+       $compile(angular.element(row).contents())($scope);
+   })
+   .withOption('paging', false)
+   .withOption('info', false)
+   .withOption('rowCallback', rowCallback);
+    
+    /*These are changes for version 2.0*/
+    $scope.dtDetailsColumns = [
+		//DTColumnBuilder.newColumn('userId').withTitle('User Id').notSortable(),
+		DTColumnBuilder.newColumn('rating.processDate').withTitle('Session Date').notSortable().renderWith(function(data, type, full) {
+            return "<div>{{" + data +"| date:'yyyy-MM-dd'}} </div>"
+        }),
+	    DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran Id').notSortable(),
+	    DTColumnBuilder.newColumn('rating.processId').withTitle('Model Result Id').notSortable(),
+	    DTColumnBuilder.newColumn('claim.claimId').withTitle('Claim Id').notSortable(),
+	    DTColumnBuilder.newColumn('claim.claimDate').withTitle('Date Of Claim').notSortable().renderWith(function(data, type, full) {
+            return "<div>{{" + data +"| date:'yyyy-MM-dd'}} </div>"
+        }),
+	    DTColumnBuilder.newColumn('rating.modelType').withTitle('Model').notSortable(),
+	    DTColumnBuilder.newColumn('rating.modelType').withTitle('Contention').notSortable(),
+	    DTColumnBuilder.newColumn('rating.priorCdd').withTitle('Prior Relevant Diagonostic Codes').notSortable(),
+	    DTColumnBuilder.newColumn('rating.priorCdd').withTitle('Prior Rating').notSortable(),
+	    DTColumnBuilder.newColumn('rating.priorCdd').withTitle('Prior Rating Age (Yr)').notSortable(),
+	    DTColumnBuilder.newColumn('rating.priorCdd').withTitle('Modeled Target Claim Rating').notSortable(),
+	    DTColumnBuilder.newColumn('rating.priorCdd').withTitle('Actual Target Claim Rating').notSortable(),
+	    DTColumnBuilder.newColumn('rating.quantPriorCdd').withTitle('Pattern Rate of Use').notSortable(),
+	    DTColumnBuilder.newColumn('rating.quantCdd').withTitle('Pattern Accuracy Rate').notSortable(),
+	    DTColumnBuilder.newColumn(null).withTitle('Agree Y/N').notSortable().renderWith(function(data, type, full) {
+            return "<div>Yes/No</div>"
+        }),
+    ];
+
+    /*These are changes for version 3.0
+    $scope.dtDetailsColumns = [
+		//DTColumnBuilder.newColumn('userId').withTitle('User Id').notSortable(),
+		DTColumnBuilder.newColumn('processDate').withTitle('Session Date').notSortable().renderWith(function(data, type, full) {
+            return "<div>{{" + data +"| date:'yyyy-MM-dd'}} </div>"
+        }),
+	    DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran Id').notSortable(),
+	    DTColumnBuilder.newColumn('processId').withTitle('Model Result Id').notSortable(),
+	    DTColumnBuilder.newColumn('claimId').withTitle('Claim Id').notSortable(),
+	    DTColumnBuilder.newColumn('claimDate').withTitle('Date Of Claim').notSortable().renderWith(function(data, type, full) {
+            return "<div>{{" + data +"| date:'yyyy-MM-dd'}} </div>"
+        }),
+	    DTColumnBuilder.newColumn('modelType').withTitle('Model').notSortable(),
+	    DTColumnBuilder.newColumn('modelType').withTitle('Contention').notSortable(),
+	    DTColumnBuilder.newColumn('priorCDD').withTitle('Prior Relevant Diagonostic Codes').notSortable(),
+	    DTColumnBuilder.newColumn('priorCDD').withTitle('Prior Rating').notSortable(),
+	    DTColumnBuilder.newColumn('priorCDD').withTitle('Prior Rating Age (Yr)').notSortable(),
+	    DTColumnBuilder.newColumn('priorCDD').withTitle('Modeled Target Claim Rating').notSortable(),
+	    DTColumnBuilder.newColumn('priorCDD').withTitle('Actual Target Claim Rating').notSortable(),
+	    DTColumnBuilder.newColumn('patternIndex.patternIndexNumber').withTitle('Pattern Rate of Use').notSortable(),
+	    DTColumnBuilder.newColumn('patternIndex.accuracy').withTitle('Pattern Accuracy Rate').notSortable(),
+	    DTColumnBuilder.newColumn(null).withTitle('Agree Y/N').notSortable().renderWith(function(data, type, full) {
+            return "<div>Yes/No</div>"
+        }),
+    ];*/
+
+	function rowCallback(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+        $('td', nRow).unbind('click');
+        $('td', nRow).bind('click', function(e) {
+            $scope.$apply(function() {
+                $scope.rowClickHandler(e,aData);
+            });
+        });
+        return nRow;
+    }
+    
+    $scope.rowClickHandler= function(e,info) {
+    	if($(e.target).hasClass('clickable')) {	
+    		$scope.reliability = '';
+			$scope.rateOfAccuracy = '';
+    		$('#gridPopUp').modal('show');
+    		$scope.resultDetailsData = [];
+    		$scope.resultDetailsData.push(info);
+    		var promise = new Promise( function(resolve, reject){
+                if ($scope.resultDetailsData) {
+                	resolve($scope.resultDetailsData);
+                  	$scope.reliability = ($scope.resultDetailsData[0].currentCDD > 95) ? $scope.arrReliability[1] :  $scope.arrReliability[0] ;
+    				$scope.rateOfAccuracy = ($scope.resultDetailsData[0].patternIndex.accuracy) > 95 ? $scope.arrRateOfAccuracy[0] : $scope.arrRateOfAccuracy[1];
+                }
+                else
+                  resolve([]);
+              });
+    		if($scope.resultDetailsData.length > 0)
+			{
+    			$scope.dtDetailsInstance.changeData(function() {
+                    return promise;
+                });
+			}
+		}
+    }
 	
 	$scope.modelTypeOptions = [
 		{ value:'knee',	label:'Knee'},
@@ -171,7 +281,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	            return "<div>"+data+"</div>"
 	        }),
 	        DTColumnBuilder.newColumn('processId').withTitle('Model Result ID').renderWith(function(data, type, full) {
-	            return "<div>"+data+"</div>"
+	            return "<a class='clickable' style='cursor: hand;'>" + data + "</a>"
 	        }),
 	        DTColumnBuilder.newColumn('priorCDD').withTitle('Prior Rating').renderWith(function(data, type, full) {
 	            return "<div>"+data+"</div>"
@@ -182,10 +292,14 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	        DTColumnBuilder.newColumn('patternIndex.cdd').withTitle('Model Results').renderWith(function(data, type, full) {
 	           return "<div>"+data+"</div>"
 	        }),
-	        DTColumnBuilder.newColumn('currentCDD').withTitle('RE/MR Match').renderWith(function(data, type, full) {
-	            return "<div></div>"
+	        DTColumnBuilder.newColumn('currentCDD').withTitle('RE/MR Match?').renderWith(function(data, type, full) {
+	        	if(data > 90){
+	        		return "<div><span class='glyphicon glyphicon-thumbs-up'></span></div>"
+	        	}
+	        	
+	        	return "<div><span class='glyphicon glyphicon-thumbs-down'></span></div>"
 	        }),
-	        DTColumnBuilder.newColumn('patternIndex.cdd').withTitle('Pattern Rate of Use').renderWith(function(data, type, full) {
+	        DTColumnBuilder.newColumn('patternIndex.patternIndexNumber').withTitle('Pattern Rate of Use').renderWith(function(data, type, full) {
 	            return "<div>"+data+"</div>"
 	        }),
 	        DTColumnBuilder.newColumn('patternIndex.accuracy').withTitle('Pattern Accuracy').renderWith(function(data, type, full) {
@@ -194,7 +308,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	        DTColumnBuilder.newColumn(null).withTitle('Agree Y/N').notSortable().renderWith(function(data, type, full, meta) {
 		     	$scope.selected[full.processId] = false;
 		     	return '<label for="selectchk' + data.processId + '" style="display: none">select</label><input id="selectchk' + data.processId + '" type="checkbox" ng-model="selected[' + data.processId + ']" ng-click="toggleOne(selected)">';
-			}),
+			})
 	    ];*/
 
 	    /*Below is version 2.0 changes*/
@@ -208,7 +322,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
  	            return "<div>"+data+"</div>"
  	        }),
  	        DTColumnBuilder.newColumn('rating.processId').withTitle('Model Result ID').renderWith(function(data, type, full) {
- 	            return "<div>"+data+"</div>"
+ 	           return "<a class='clickable' style='cursor: hand;'>" + data + "</a>"
  	        }),
  	        DTColumnBuilder.newColumn('rating.priorCdd').withTitle('Prior Rating').renderWith(function(data, type, full) {
   	            return "<div>"+data+"</div>"
@@ -222,7 +336,11 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
  	            return "<div></div>"
   	        }),
   	        DTColumnBuilder.newColumn('rating.currentCdd').withTitle('RE/MR Match').renderWith(function(data, type, full) {
-  	            return "<div></div>"
+  	            if(data > 90){
+	        		return "<div><span class='glyphicon glyphicon-thumbs-up'></span></div>"
+	        	}
+
+	        	return "<div><span class='glyphicon glyphicon-thumbs-down'></span></div>"
  	        }),
  	        DTColumnBuilder.newColumn('rating.currentCdd').withTitle('Pattern Rate of Use').renderWith(function(data, type, full) {
  	            return "<div></div>"
@@ -232,7 +350,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
  	        })
  	    ];
 	 
-	 $rootScope.$on('ProcessClaims', function(event, data) {
+	$rootScope.$on('ProcessClaims', function(event, data) {
 		var inputObj = [];
 
 		angular.forEach(data,function(ele,idx){
@@ -258,27 +376,23 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 		});
 		$scope.results = []
 		ClaimService.processClaims({},{
-     		  			"veteranClaimInput": inputObj
-     				},function(data){
-     				//data = {"veteranClaimRatingOutput":[{"veteran":{"veteranId":244390,"veteranName":null,"dob":null},"claimRating":[{"claim":{"claimId":5614193,"profileDate":1147665600000,"productTypeCode":"020","claimDate":1091073600000,"contentionId":2991274,"contentionClassificationId":"6850","contentionBeginDate":null},"rating":{"claimantAge":20,"promulgationDate":null,"recentDate":null,"contationCount":2,"priorCdd":64,"quantPriorCdd":0,"currentCdd":0,"claimAge":20,"cddAge":20,"claimCount":1,"processId":18380497,"patternId":0,"processDate":null,"modelType":null,"modelContentionCount":0,"quantCdd":80,"ratingDecisions":{"processId":18380497,"kneeRatings":{"contentionKnee":0,"contentionLeft":0,"contentionRight":0,"contentionBilateral":0,"contentionLeg":0,"contentionAmputation":0,"decisionKnee":0,"decisionLeft":0,"decisionRight":0,"decisionBilateral":0,"decisionLimitation":0,"decisionImpairment":0,"decisionAnkyloses":0,"decisionAmputation":0},"earRatings":{"contentionLoss":0,"contentionTinitu":0,"decisionLoss":0,"decisionTinitu":0}},"status":[],"diagnosisCodeCounts":[],"contentionsCodeCounts":[]}}]}]};
-     				var formattedResults = $scope.processResults(data.veteranClaimRatingOutput);
-     				$scope.results = formattedResults;
-     				//make api call using rating service to get rest of the column values and then populate results.
-     	    		var promise = new Promise( function(resolve, reject){
-     	                if ($scope.results)
-     	                {
-       	                    resolve($scope.results);
-     	                }
-     	                else
-     	                {
-     	                	 resolve([]);
-     	                }
-     	                
-     	              });
-     	    		$scope.dtInstance.changeData(function() {
-     	                return promise;
-     	            });
-     	    		
-     			});
-	 });
+	  			"veteranClaimInput": inputObj
+			},function(data){
+			//data = {"veteranClaimRatingOutput":[{"veteran":{"veteranId":244390,"veteranName":null,"dob":null},"claimRating":[{"claim":{"claimId":5614193,"profileDate":1147665600000,"productTypeCode":"020","claimDate":1091073600000,"contentionId":2991274,"contentionClassificationId":"6850","contentionBeginDate":null},"rating":{"claimantAge":20,"promulgationDate":null,"recentDate":null,"contationCount":2,"priorCdd":64,"quantPriorCdd":0,"currentCdd":0,"claimAge":20,"cddAge":20,"claimCount":1,"processId":18380497,"patternId":0,"processDate":null,"modelType":null,"modelContentionCount":0,"quantCdd":80,"ratingDecisions":{"processId":18380497,"kneeRatings":{"contentionKnee":0,"contentionLeft":0,"contentionRight":0,"contentionBilateral":0,"contentionLeg":0,"contentionAmputation":0,"decisionKnee":0,"decisionLeft":0,"decisionRight":0,"decisionBilateral":0,"decisionLimitation":0,"decisionImpairment":0,"decisionAnkyloses":0,"decisionAmputation":0},"earRatings":{"contentionLoss":0,"contentionTinitu":0,"decisionLoss":0,"decisionTinitu":0}},"status":[],"diagnosisCodeCounts":[],"contentionsCodeCounts":[]}}]}]};
+			var formattedResults = $scope.processResults(data.veteranClaimRatingOutput);
+			$scope.results = formattedResults;
+			//make api call using rating service to get rest of the column values and then populate results.
+    		var promise = new Promise( function(resolve, reject){
+                if ($scope.results) {
+                    resolve($scope.results);
+                }
+                else {
+                	 resolve([]);
+                }
+            });
+    		$scope.dtInstance.changeData(function() {
+                return promise;
+            });
+		});
+	});
 });
