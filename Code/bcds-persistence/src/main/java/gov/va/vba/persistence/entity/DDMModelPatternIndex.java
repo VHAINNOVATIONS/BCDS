@@ -23,7 +23,7 @@ public class DDMModelPatternIndex implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long patternId;
-	private Long accuracy;
+	private Double accuracy;
 	private Long CDD;
 	private Long patternIndexNumber;
 	private String createdBy;
@@ -41,10 +41,10 @@ public class DDMModelPatternIndex implements Serializable {
 	}
 
 	@Column(name="ACCURACY")
-	public Long getAccuracy() {
+	public Double getAccuracy() {
 		return accuracy;
 	}
-	public void setAccuracy(Long accuracy) {
+	public void setAccuracy(Double accuracy) {
 		this.accuracy = accuracy;
 	}
 

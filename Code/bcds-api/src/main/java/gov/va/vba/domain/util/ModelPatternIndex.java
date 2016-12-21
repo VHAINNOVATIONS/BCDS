@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class ModelPatternIndex implements Serializable {
 	private Long patternId;
-	private Long accuracy;
+	private Double accuracy;
 	private Long CDD;
 	private Long patternIndexNumber;
 	private String modelType;
@@ -16,10 +16,10 @@ public class ModelPatternIndex implements Serializable {
 		this.patternId = patternId;
 	}
 
-	public Long getAccuracy() {
+	public Double getAccuracy() {
 		return accuracy;
 	}
-	public void setAccuracy(Long accuracy) {
+	public void setAccuracy(Double accuracy) {
 		this.accuracy = accuracy;
 	}
 

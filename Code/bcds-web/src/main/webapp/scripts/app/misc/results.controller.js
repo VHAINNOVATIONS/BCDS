@@ -61,7 +61,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	$scope.setTableHeaderDescription = function(columnName){
 		 var header = $filter('filter')($scope.columnTitles, {columnName: columnName}, true);
 	     if (header.length) {
-	         return JSON.stringify(header[0].title);
+	         return header[0].title;
 	     } 
 	     return columnName;
 	};
@@ -129,7 +129,9 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	    DTColumnBuilder.newColumn('currentCDD').withTitle('Modeled Target Claim Rating').notSortable(),
 	    DTColumnBuilder.newColumn('patternIndex.cdd').withTitle('Actual Target Claim Rating').notSortable(),
 	    DTColumnBuilder.newColumn('patternIndex.patternIndexNumber').withTitle('Pattern Rate of Use').notSortable(),
-	    DTColumnBuilder.newColumn('patternIndex.accuracy').withTitle('Pattern Accuracy Rate').notSortable(),
+	    DTColumnBuilder.newColumn('patternIndex.accuracy').withTitle('Pattern Accuracy Rate').notSortable().renderWith(function(data, type, full) {
+	            return "<div>"+Math.round(data)+"</div>"
+	    }),
 	    DTColumnBuilder.newColumn(null).withTitle('Agree Y/N').notSortable().renderWith(function(data, type, full) {
             return "<div>Yes/No</div>"
         }),
@@ -147,18 +149,18 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
     
     $scope.rowClickHandler= function(e,info) {
     	if($(e.target).hasClass('clickable')) {	
-    		$scope.reliability = '';
-			$scope.rateOfAccuracy = '';
     		$('#gridPopUp').modal('show');
     		$scope.resultDetailsData = [];
     		$scope.reliability = '';
     		$scope.rateOfAccuracy = '';
+    		$scope.contentionType = '';
     		$scope.resultDetailsData.push(info);
     		var promise = new Promise( function(resolve, reject){
                 if ($scope.resultDetailsData) {
                 	resolve($scope.resultDetailsData);
                   	$scope.reliability =  $scope.setReliability($scope.resultDetailsData[0].patternIndex.accuracy) ;
-    				$scope.rateOfAccuracy = $scope.resultDetailsData[0].patternIndex.accuracy;
+    				$scope.rateOfAccuracy = Math.round($scope.resultDetailsData[0].patternIndex.accuracy);
+    				$scope.contentionType = $scope.resultDetailsData[0].modelType;
                 }
                 else
                   resolve([]);
@@ -320,23 +322,24 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	            return "<div>"+data+"</div>"
 	        }),
 	        DTColumnBuilder.newColumn('currentCDD').withTitle('Rater Evaluation').renderWith(function(data, type, full) {
+	        	$scope.modeledRating = data;
 	            return "<div>"+data+"</div>"
 	        }),
 	        DTColumnBuilder.newColumn('patternIndex.cdd').withTitle('Model Results').renderWith(function(data, type, full) {
-	           return "<div>"+data+"</div>"
+	        	$scope.actualRating = data;
+	        	return "<div>"+data+"</div>"
 	        }),
 	        DTColumnBuilder.newColumn('currentCDD').withTitle('RE/MR Match?').renderWith(function(data, type, full) {
-	        	if(data > 90){
+	        	if($scope.modeledRating > $scope.actualRating){
 	        		return "<div><span class='glyphicon glyphicon-thumbs-up'></span></div>"
 	        	}
-	        	
 	        	return "<div><span class='glyphicon glyphicon-thumbs-down'></span></div>"
 	        }),
 	        DTColumnBuilder.newColumn('patternIndex.patternIndexNumber').withTitle('Pattern Rate of Use').renderWith(function(data, type, full) {
 	            return "<div>"+data+"</div>"
 	        }),
 	        DTColumnBuilder.newColumn('patternIndex.accuracy').withTitle('Pattern Accuracy').renderWith(function(data, type, full) {
-	            return "<div>"+data+"</div>"
+	            return "<div>"+Math.round(data)+"</div>"
 	        }),
 	        DTColumnBuilder.newColumn(null).withTitle('Agree Y/N').notSortable().renderWith(function(data, type, full, meta) {
 		     	$scope.selected[full.processId] = false;
@@ -361,18 +364,17 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
   	            return "<div>"+data+"</div>"
   	        }),
   	        DTColumnBuilder.newColumn('rating.currentCdd').withTitle('Rater Evaluation').renderWith(function(data, type, full) {
- 	            return "<div></div>"
+ 	           	$scope.modeledRating = data;
  	            return "<div>"+data+"</div>"
   	        }),
   	        DTColumnBuilder.newColumn('rating.currentCdd').withTitle('Model Results').renderWith(function(data, type, full) {
+  	        	$scope.actualRating = data;
  	            return "<div>"+data+"</div>"
- 	            return "<div></div>"
   	        }),
   	        DTColumnBuilder.newColumn('rating.currentCdd').withTitle('RE/MR Match?').renderWith(function(data, type, full) {
-  	            if(data > 90){
+  	           	if($scope.modeledRating > $scope.actualRating){
 	        		return "<div><span class='glyphicon glyphicon-thumbs-up'></span></div>"
 	        	}
-
 	        	return "<div><span class='glyphicon glyphicon-thumbs-down'></span></div>"
  	        }),
  	        DTColumnBuilder.newColumn('rating.currentCdd').withTitle('Pattern Rate of Use').renderWith(function(data, type, full) {
