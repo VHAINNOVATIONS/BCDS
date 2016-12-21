@@ -122,7 +122,8 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
         DTColumnBuilder.newColumn('cestDate').withTitle('CEST Date').renderWith(function(data, type, full) {
             return "<div>{{" + data +"| date:'yyyy-MM-dd'}} </div>"
         }),
-        DTColumnBuilder.newColumn('contentionClaimTextKeyForModel').withTitle('Model/Contentions')
+        DTColumnBuilder.newColumn('contentionClaimTextKeyForModel').withTitle('Model/Contentions'),
+        DTColumnBuilder.newColumn('contentionClsfcnId').withTitle('Contention ID')
     ];
     
     $scope.regionalOfficeOptions = [
