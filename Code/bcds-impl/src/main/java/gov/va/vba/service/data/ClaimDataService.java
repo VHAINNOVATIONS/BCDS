@@ -161,7 +161,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                     //results.setClaimAge((long) age);
                     results.setClaimId(kneeClaim.getClaimId());
                     results.setClaimDate(kneeClaim.getClaimDate());
-                        /*results.setProfileDate(claim.getProfileDate());*/
+                    results.setProfileDate(kneeClaim.getProfileDate());
                     results.setVeteranId((long) veteranId);
                     results.setRegionalOfficeNumber(kneeClaim.getClaimRONumber());
                     results.setClaimantAge((long) age);
@@ -169,10 +169,14 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                     results.setModelType("Knee");
                     results.setContentionCount((long) contentionCounts.keySet().size());
                     //results.setQuantCDD(calculatedCdd.longValue());
-                    //results.setCurrentCDD(calculatedCdd.longValue());
+                    results.setCurrentCDD((long) calculatedValue);
                     //results.setPriorCDD((long) previousCddSum);
                     ModelRatingResults savedResults = modelRatingResultsRepository.save(results);
                     BigDecimal processId = BigDecimal.valueOf(savedResults.getProcessId());
+
+                    LOG.info("=================================================================");
+                    LOG.info("RESULTS :::::::::::::::: " + results);
+                    LOG.info("=================================================================");
 
                     List<ModelRatingResultsCntnt> resultsCntnts = saveModelResultsCtnts(contentionCounts, savedResults);
                     saveModelResultsDiag(savedResults);
@@ -218,7 +222,9 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                     //rating.setQuantCdd(calculatedCdd.intValue());
                     rating.setRatingDecisions(ratingDecisions);
                     rating.setModelType("Knee");
-                    rating.setPatternId(results.getPatternId().intValue());
+                    if (results.getPatternId() != null) {
+                        rating.setPatternId(results.getPatternId().intValue());
+                    }
 
                     rating.setProcessDate(savedResults.getClaimDate());
                     c.setClaimDate(kneeClaim.getClaimDate());
