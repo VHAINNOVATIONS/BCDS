@@ -23,7 +23,6 @@ import gov.va.vba.persistence.models.data.DiagnosisCount;
 import gov.va.vba.persistence.models.data.KneeClaim;
 import gov.va.vba.persistence.repository.ClaimRepository;
 import gov.va.vba.persistence.repository.DDMContentionRepository;
-import gov.va.vba.persistence.repository.DDMModelPatternRepository;
 import gov.va.vba.persistence.repository.ModelRatingResultsCntnRepository;
 import gov.va.vba.persistence.repository.ModelRatingResultsDiagRepository;
 import gov.va.vba.persistence.repository.ModelRatingResultsRepository;
@@ -32,10 +31,8 @@ import gov.va.vba.persistence.repository.RatingDao;
 import gov.va.vba.persistence.repository.RatingDecisionRepository;
 import gov.va.vba.persistence.repository.VeteranRepository;
 import gov.va.vba.persistence.util.KneeCalculator;
-import gov.va.vba.service.AppUtill;
 import gov.va.vba.service.orika.ClaimMapper;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,6 +94,9 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
     @Autowired
     private DDMModelCntntService ddmModelCntntService;
 
+    @Autowired
+    private DDMModelDiagService ddmModelDiagService;
+
     public ClaimDataService() {
         this.setClasses(gov.va.vba.persistence.entity.Claim.class, Claim.class);
     }
@@ -137,16 +137,15 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                     KneeClaim kneeClaim = kneeClaims.get(0);
                     Set<Long> claimsList = new HashSet<>();
                     Map<Long, Integer> contentionCounts = new HashMap<>();
-                    for(KneeClaim kc : kneeClaims) {
+                    for (KneeClaim kc : kneeClaims) {
                         claimsList.add(kc.getClaimId());
-                        if(contentionCounts.containsKey(kc.getContentionClassificationId())) {
+                        if (contentionCounts.containsKey(kc.getContentionClassificationId())) {
                             int value = contentionCounts.get(kc.getContentionClassificationId());
                             contentionCounts.put(kc.getContentionClassificationId(), value + 1);
                         } else {
                             contentionCounts.put(kc.getContentionClassificationId(), 1);
                         }
                     }
-                    //List<DiagnosisCount> diagnosisCount = ratingDao.getDiagnosisCount((long) veteranId, kneeClaim.getClaimDate());
                     List<DecisionDetails> decisions = ratingDao.getDecisionsPercentByClaimDate(veteranId, kneeClaim.getClaimDate());
                     int calculatedValue = calculateKneeRating(decisions);
 
@@ -181,15 +180,25 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
 
                     //TODO: last param
                     List<DDMModelPattern> patterns = ddmDataService.getPatternId(results.getModelType(), results.getClaimantAge(), results.getClaimCount(), (long) contentionCounts.keySet().size(), 0L);
-                    //ddmModelCntntService.getPatternId(results.getModelType(), )
                     if (CollectionUtils.isNotEmpty(patterns)) {
-                        DDMModelPattern ddmModelPattern = patterns.get(0);
-                        results.setPatternId(ddmModelPattern.getPatternId());
-                        /*for(DDMModelPattern p : patterns) {
-                            p.
-                        }*/
-                        modelRatingResultsRepository.save(results);
+                        List<Long> patternsList = patterns.stream().map(DDMModelPattern::getPatternId).collect(Collectors.toList());
+                        List<Long> cntntPattrens = ddmModelCntntService.getKneePatternId(contentionCounts, patternsList);
+                        if (CollectionUtils.isNotEmpty(cntntPattrens)) {
+                            List<DiagnosisCount> diagnosisCount = ratingDao.getDiagnosisCount((long) veteranId, kneeClaim.getClaimDate());
+                            List<Long> diagPatternsList = patterns.stream().map(DDMModelPattern::getPatternId).collect(Collectors.toList());
+
+                            List<Long> diagPattren = ddmModelDiagService.getKneePatternId(diagnosisCount, cntntPattrens);
+                            LOG.info("PATTREN SIZE :::::: " + diagPattren);
+                            if (CollectionUtils.isNotEmpty(diagPattren)) {
+                                Long pattrenId = diagPattren.get(0);
+                                results.setPatternId(pattrenId);
+                                results = modelRatingResultsRepository.save(results);
+                            }
+                        }
+
                     }
+                    //ddmModelCntntService.getPatternId(results.getModelType(), )
+
 
                     EarDecision ed = new EarDecision();
                     KneeDecision kd = new KneeDecision();
@@ -208,7 +217,8 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                     rating.setProcessId(processId.intValue());
                     //rating.setQuantCdd(calculatedCdd.intValue());
                     rating.setRatingDecisions(ratingDecisions);
-                    rating.setModelType("KNEE");
+                    rating.setModelType("Knee");
+                    rating.setPatternId(results.getPatternId().intValue());
 
                     rating.setProcessDate(savedResults.getClaimDate());
                     c.setClaimDate(kneeClaim.getClaimDate());
@@ -216,7 +226,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                     //c.setContentionClassificationId(String.valueOf(kneeClaim.getContentionClsfcnId()));
                     //c.setContentionId(Integer.parseInt(kneeClaim.getContentionId()));
                     //c.setProductTypeCode(kneeClaim.getEndPrdctTypeCode());
-                   // c.setContentionBeginDate(kneeClaim.getContentionBeginDate());
+                    // c.setContentionBeginDate(kneeClaim.getContentionBeginDate());
                     ClaimRating cr = new ClaimRating();
                     cr.setClaim(c);
                     cr.setRating(rating);
@@ -233,8 +243,8 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
     /**
      * Description: This method is used to save contentions count
      *
-     * @param counts   - claimId
-     * @param results   - results
+     * @param counts  - claimId
+     * @param results - results
      */
     private List<ModelRatingResultsCntnt> saveModelResultsCtnts(Map<Long, Integer> counts, ModelRatingResults results) {
         //TODO:
@@ -337,14 +347,14 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
     }
 
     public List<Claim> findClaims(boolean isRegionalExist, String contentionType, Long regionalOfficeNumber) {
-    	LOG.debug("REST request to get advance filtered Claims");
-    	List<gov.va.vba.persistence.entity.Claim> input = (isRegionalExist) ? claimRepository.findClaimsByRegionalOffice(contentionType, regionalOfficeNumber) : claimRepository.findClaimsByContention(contentionType);
-        
+        LOG.debug("REST request to get advance filtered Claims");
+        List<gov.va.vba.persistence.entity.Claim> input = (isRegionalExist) ? claimRepository.findClaimsByRegionalOffice(contentionType, regionalOfficeNumber) : claimRepository.findClaimsByContention(contentionType);
+
         List<Claim> claims = claimMapper.mapCollection(input);
         LOG.info("SIZE :::: " + claims.size());
         return claims;
     }
-    
+
     public List<Claim> getProcessClaimsResults(boolean establishedDate, Date fromDate, Date toDate, String contentionType, Long regionalOfficeNumber) {
         if (fromDate == null) {
             Calendar instance = Calendar.getInstance();
@@ -354,12 +364,12 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
         if (toDate == null) {
             toDate = new Date();
         }
-        List<gov.va.vba.persistence.entity.Claim> result =  claimRepository.findClaimSByRangeOnClaimDate(contentionType, regionalOfficeNumber, fromDate, toDate);
+        List<gov.va.vba.persistence.entity.Claim> result = claimRepository.findClaimSByRangeOnClaimDate(contentionType, regionalOfficeNumber, fromDate, toDate);
         List<Claim> output = new ArrayList<>();
         mapper.mapAsCollection(result, output, outputClass);
         return output;
     }
-    
+
     public List<Claim> calculateContentions(Long claimId, Long veteranId) {
         List<Object[]> objects = claimRepository.aggregateContentions(claimId, veteranId);
         List<Date> previousClaims = ratingDecisionRepository.findPreviousClaims(21213L, new Date());

@@ -1,9 +1,12 @@
 package gov.va.vba.persistence.repository;
 
 import gov.va.vba.persistence.constants.QueryConstants;
+import gov.va.vba.persistence.mapper.LongRowMapper;
 import gov.va.vba.persistence.models.data.DecisionDetails;
 import gov.va.vba.persistence.models.data.DiagnosisCount;
 import gov.va.vba.persistence.models.data.KneeClaim;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ProSphere User on 12/16/2016.
@@ -58,6 +62,54 @@ public class RatingDaoImpl implements RatingDao {
         }
         LOG.info("****************************************************************");
         return count;
+    }
+
+    @Override
+    public List<Long> getKneeCntntPattrens(Map<Long, Integer> contentionCount, List<Long> pattrens) {
+        StringBuilder pattrenQuery = new StringBuilder();
+        pattrenQuery.append("SELECT PATTERN_ID FROM DDM_MODEL_CNTNT WHERE MODEL_TYPE='Knee' AND (  ");
+        for (Map.Entry<Long, Integer> x : contentionCount.entrySet()) {
+            pattrenQuery.append("(").append("CNTNT_ID=").append(x.getKey()).append(" ")
+                    .append("COUNT=").append(x.getValue()).append(") OR");
+        }
+        pattrenQuery.replace(pattrenQuery.length() - 2, pattrenQuery.length(), "");
+        pattrenQuery.append(")");
+        if (CollectionUtils.isNotEmpty(pattrens)) {
+            pattrenQuery.append(" AND PATTERN_ID IN (").append(StringUtils.join(pattrens, ",")).append(")");
+        }
+        LOG.info("QUERY -------- " + pattrenQuery);
+        List<Long> result = jdbcTemplate.query(pattrenQuery.toString(), new LongRowMapper());
+        //List<DiagnosisCount> count = jdbcTemplate.query(QueryConstants.DIAGNOSIS_COUNT, new Object[]{veteranId, claimDate}, new BeanPropertyRowMapper<>(DiagnosisCount.class));
+        LOG.info("****************************************************************");
+        for (Long c : result) {
+            LOG.info(c.toString());
+        }
+        LOG.info("****************************************************************");
+        return result;
+    }
+
+    @Override
+    public List<Long> getKneeDiagPattrens(List<DiagnosisCount> diagCount, List<Long> pattrens) {
+        StringBuilder pattrenQuery = new StringBuilder();
+        pattrenQuery.append("SELECT PATTERN_ID FROM DDM_MODEL_DIAG WHERE MODEL_TYPE='Knee' AND (  ");
+        for (DiagnosisCount x : diagCount) {
+            pattrenQuery.append("(").append("DIAG_ID=").append(x.getDecisionCode()).append(" ")
+                    .append("COUNT=").append(x.getCount()).append(") OR");
+        }
+        pattrenQuery.replace(pattrenQuery.length() - 2, pattrenQuery.length(), "");
+        pattrenQuery.append(")");
+        if (CollectionUtils.isNotEmpty(pattrens)) {
+            pattrenQuery.append(" AND PATTERN_ID IN (").append(StringUtils.join(pattrens, ",")).append(")");
+        }
+        LOG.info("QUERY -------- " + pattrenQuery);
+        List<Long> result = jdbcTemplate.query(pattrenQuery.toString(), new LongRowMapper());
+        //List<DiagnosisCount> count = jdbcTemplate.query(QueryConstants.DIAGNOSIS_COUNT, new Object[]{veteranId, claimDate}, new BeanPropertyRowMapper<>(DiagnosisCount.class));
+        LOG.info("****************************************************************");
+        for (Long c : result) {
+            LOG.info(c.toString());
+        }
+        LOG.info("****************************************************************");
+        return result;
     }
 
 }
