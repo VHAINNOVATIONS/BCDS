@@ -100,11 +100,11 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	    DTColumnBuilder.newColumn('rating.modelType').withTitle('Contention').notSortable(),
 	    DTColumnBuilder.newColumn('rating.priorCdd').withTitle('Prior Relevant Diagonostic Codes').notSortable(),
 	    DTColumnBuilder.newColumn('rating.priorCdd').withTitle('Prior Rating').notSortable(),
-	    DTColumnBuilder.newColumn('rating.priorCdd').withTitle('Prior Rating Age (Yr)').notSortable(),
-	    DTColumnBuilder.newColumn('rating.priorCdd').withTitle('Modeled Target Claim Rating').notSortable(),
-	    DTColumnBuilder.newColumn('rating.priorCdd').withTitle('Actual Target Claim Rating').notSortable(),
-	    DTColumnBuilder.newColumn('rating.currentCdd').withTitle('Pattern Rate of Use').notSortable(),
-	    DTColumnBuilder.newColumn('rating.quantCdd').withTitle('Pattern Accuracy Rate').notSortable(),
+	    DTColumnBuilder.newColumn('rating.cddAge').withTitle('Prior Rating Age (Yr)').notSortable(),
+	    DTColumnBuilder.newColumn('rating.raterEvaluation').withTitle('Modeled Target Claim Rating').notSortable(),
+	    DTColumnBuilder.newColumn('rating.quantCdd').withTitle('Actual Target Claim Rating').notSortable(),
+	    DTColumnBuilder.newColumn('rating.rateOfUse').withTitle('Pattern Rate of Use').notSortable(),
+	    DTColumnBuilder.newColumn('rating.accuracy').withTitle('Pattern Accuracy Rate').notSortable(),
 	    DTColumnBuilder.newColumn(null).withTitle('Agree Y/N').notSortable().renderWith(function(data, type, full) {
             return "<div>Yes/No</div>"
         }),
@@ -384,11 +384,11 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
  	        DTColumnBuilder.newColumn('rating.priorCdd').withTitle('Prior Rating').renderWith(function(data, type, full) {
   	            return "<div>"+data+"</div>"
   	        }),
-  	        DTColumnBuilder.newColumn('rating.currentCdd').withTitle('Rater Evaluation').renderWith(function(data, type, full) {
+  	        DTColumnBuilder.newColumn('rating.raterEvaluation').withTitle('Rater Evaluation').renderWith(function(data, type, full) {
  	           	$scope.modeledRating = data;
  	            return "<div>"+data+"</div>"
   	        }),
-  	        DTColumnBuilder.newColumn('rating.currentCdd').withTitle('Model Results').renderWith(function(data, type, full) {
+  	        DTColumnBuilder.newColumn('rating.quantCdd').withTitle('Model Results').renderWith(function(data, type, full) {
   	        	$scope.actualRating = data;
  	            return "<div>"+data+"</div>"
   	        }),
@@ -398,10 +398,10 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	        	}
 	        	return "<div><span class='glyphicon glyphicon-thumbs-down'></span></div>"
  	        }),
- 	        DTColumnBuilder.newColumn('rating.currentCdd').withTitle('Pattern Rate of Use').renderWith(function(data, type, full) {
+ 	        DTColumnBuilder.newColumn('rating.rateOfUse').withTitle('Pattern Rate of Use').renderWith(function(data, type, full) {
  	            return "<div></div>"
  	        }),
- 	        DTColumnBuilder.newColumn('rating.quantCdd').withTitle('Pattern Accuracy').renderWith(function(data, type, full) {
+ 	        DTColumnBuilder.newColumn('rating.accuracy').withTitle('Pattern Accuracy').renderWith(function(data, type, full) {
  	            return "<div></div>"
  	        }),
  	        DTColumnBuilder.newColumn(null).withTitle('Agree Y/N').notSortable().renderWith(function(data, type, full, meta) {
