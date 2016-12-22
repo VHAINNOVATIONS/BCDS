@@ -399,10 +399,10 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	        	return "<div><span class='glyphicon glyphicon-thumbs-down'></span></div>"
  	        }),
  	        DTColumnBuilder.newColumn('rating.rateOfUse').withTitle('Pattern Rate of Use').renderWith(function(data, type, full) {
- 	            return "<div></div>"
+ 	             return "<div>"+data+"</div>"
  	        }),
  	        DTColumnBuilder.newColumn('rating.accuracy').withTitle('Pattern Accuracy').renderWith(function(data, type, full) {
- 	            return "<div></div>"
+ 	             return "<div>"+data+"</div>"
  	        }),
  	        DTColumnBuilder.newColumn(null).withTitle('Agree Y/N').notSortable().renderWith(function(data, type, full, meta) {
 		     	//$scope.selected[full.processId] = false;
