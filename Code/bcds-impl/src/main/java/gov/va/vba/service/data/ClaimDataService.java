@@ -189,7 +189,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                         List<Long> cntntPattrens = ddmModelCntntService.getKneePatternId(contentionCounts, patternsList);
                         if (CollectionUtils.isNotEmpty(cntntPattrens)) {
                             List<DiagnosisCount> diagnosisCount = ratingDao.getDiagnosisCount((long) veteranId, kneeClaim.getClaimDate());
-                            List<Long> diagPatternsList = patterns.stream().map(DDMModelPattern::getPatternId).collect(Collectors.toList());
+                            //List<Long> diagPatternsList = patterns.stream().map(DDMModelPattern::getPatternId).collect(Collectors.toList());
 
                             List<Long> diagPattren = ddmModelDiagService.getKneePatternId(diagnosisCount, cntntPattrens);
                             LOG.info("PATTREN SIZE :::::: " + diagPattren);
@@ -203,7 +203,6 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                     }
                     //ddmModelCntntService.getPatternId(results.getModelType(), )
 
-
                     EarDecision ed = new EarDecision();
                     KneeDecision kd = new KneeDecision();
                     RatingDecisions ratingDecisions = new RatingDecisions();
@@ -216,7 +215,8 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                     rating.setClaimantAge(age);
                     rating.setClaimCount(savedResults.getClaimCount().intValue());
                     //rating.setContationCount(contentionsCount);
-                    //rating.setCurrentCdd(calculatedCdd.intValue());
+                    rating.setCurrentCdd(calculatedValue);
+                    rating.setRaterEvaluation(calculatedValue);
                     //rating.setPriorCdd(previousCddSum);
                     rating.setProcessId(processId.intValue());
                     //rating.setQuantCdd(calculatedCdd.intValue());
@@ -411,13 +411,27 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
     }
 
     private int calculateKneeRating(List<DecisionDetails> decisions) {
+        Map<String, DecisionDetails> map = new HashMap<>();
         float calVal = 1;
+        LOG.info("-------------------------------------");
         for (DecisionDetails dd : decisions) {
-            String percentNumber = dd.getPercentNumber();
+            //String percentNumber = dd.getPercentNumber();
+            //calVal *= 1 - (Integer.parseInt(percentNumber) / 100);
+            if(!map.containsKey(dd.getDecisionCode())) {
+                map.put(dd.getDecisionCode(), dd);
+                LOG.info("DECISION DETAILS :: CODE IS {} AND PERCENT_NUMBER IS {} ", dd.getDecisionCode(), dd.getPercentNumber());
+            }
+        }
+        LOG.info("-------------------------------------");
+
+        for(Map.Entry<String, DecisionDetails> x:map.entrySet()) {
+            DecisionDetails decisionDetails = x.getValue();
+            String percentNumber = decisionDetails.getPercentNumber();
             calVal *= 1 - (Integer.parseInt(percentNumber) / 100);
         }
+
         calVal = (1 - calVal) * 100;
-        float calculatedValue = (calVal < 60) ? 60 : calVal;
+        float calculatedValue = (calVal > 60) ? 60 : calVal;
         LOG.info("CALCULATED VALUE ::::::  {}", calculatedValue);
         return Math.round(calculatedValue / 10) * 10;
     }
