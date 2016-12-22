@@ -1,5 +1,6 @@
 package gov.va.vba.persistence.repository;
 
+import gov.va.vba.persistence.entity.DDMModelPatternIndex;
 import gov.va.vba.persistence.models.data.DecisionDetails;
 import gov.va.vba.persistence.models.data.DiagnosisCount;
 import gov.va.vba.persistence.models.data.KneeClaim;
@@ -12,6 +13,8 @@ import java.util.Map;
  * Created by ProSphere User on 12/16/2016.
  */
 public interface RatingDao {
+
+    List<DDMModelPatternIndex> getPatternAccuracy(Long patternId);
 
     List<DiagnosisCount> getDiagnosisCount(long veteranId, Date claimDate);
 

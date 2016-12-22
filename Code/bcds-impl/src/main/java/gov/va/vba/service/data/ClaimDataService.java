@@ -9,6 +9,7 @@ import gov.va.vba.bcdss.models.VeteranClaim;
 import gov.va.vba.bcdss.models.VeteranClaimRating;
 import gov.va.vba.domain.Claim;
 import gov.va.vba.persistence.entity.DDMModelPattern;
+import gov.va.vba.persistence.entity.DDMModelPatternIndex;
 import gov.va.vba.persistence.entity.ModelRatingResults;
 import gov.va.vba.persistence.entity.ModelRatingResultsCntnt;
 import gov.va.vba.persistence.entity.ModelRatingResultsCntntId;
@@ -39,6 +40,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -223,6 +225,13 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                     rating.setRatingDecisions(ratingDecisions);
                     rating.setModelType("Knee");
                     if (results.getPatternId() != null) {
+                        List<DDMModelPatternIndex> accuracy = ratingDao.getPatternAccuracy(results.getPatternId());
+                        if(CollectionUtils.isNotEmpty(accuracy)) {
+                            DDMModelPatternIndex ddmModelPatternIndex = accuracy.get(0);
+                            LOG.info("PATTREN INDEX :: PATTERN {} AND ACCURACY {}", ddmModelPatternIndex.getPatternId(), ddmModelPatternIndex.getAccuracy());
+                            rating.setAccuracy(ddmModelPatternIndex.getAccuracy().intValue());
+                            rating.setRateOfUse(ddmModelPatternIndex.getPatternIndexNumber().intValue());
+                        }
                         rating.setPatternId(results.getPatternId().intValue());
                     }
 
@@ -410,13 +419,12 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
         return (calVal < 60) ? 60 : calVal;
     }
 
-    private int calculateKneeRating(List<DecisionDetails> decisions) {
+    public int calculateKneeRating(List<DecisionDetails> decisions) {
         Map<String, DecisionDetails> map = new HashMap<>();
         float calVal = 1;
+        BigDecimal calValue = BigDecimal.ONE;
         LOG.info("-------------------------------------");
         for (DecisionDetails dd : decisions) {
-            //String percentNumber = dd.getPercentNumber();
-            //calVal *= 1 - (Integer.parseInt(percentNumber) / 100);
             if(!map.containsKey(dd.getDecisionCode())) {
                 map.put(dd.getDecisionCode(), dd);
                 LOG.info("DECISION DETAILS :: CODE IS {} AND PERCENT_NUMBER IS {} ", dd.getDecisionCode(), dd.getPercentNumber());
@@ -427,13 +435,12 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
         for(Map.Entry<String, DecisionDetails> x:map.entrySet()) {
             DecisionDetails decisionDetails = x.getValue();
             String percentNumber = decisionDetails.getPercentNumber();
-            calVal *= 1 - (Integer.parseInt(percentNumber) / 100);
+            calValue = calValue.multiply(BigDecimal.ONE.subtract(BigDecimal.valueOf(Integer.parseInt(percentNumber)).divide(BigDecimal.valueOf(100))));
         }
-
-        calVal = (1 - calVal) * 100;
-        float calculatedValue = (calVal > 60) ? 60 : calVal;
-        LOG.info("CALCULATED VALUE ::::::  {}", calculatedValue);
-        return Math.round(calculatedValue / 10) * 10;
+        calValue = (BigDecimal.ONE.subtract(calValue)).multiply(BigDecimal.valueOf(100));
+        BigDecimal calculatedValue = (calValue.compareTo(BigDecimal.valueOf(60)) == 1) ? BigDecimal.valueOf(60) : calValue.setScale(-1, RoundingMode.HALF_UP);
+        LOG.info("CALCULATED VALUE ::::::  {}", calculatedValue.intValue());
+        return calculatedValue.intValue();
     }
 
 }

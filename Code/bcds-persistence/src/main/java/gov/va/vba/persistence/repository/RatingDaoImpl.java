@@ -1,6 +1,7 @@
 package gov.va.vba.persistence.repository;
 
 import gov.va.vba.persistence.constants.QueryConstants;
+import gov.va.vba.persistence.entity.DDMModelPatternIndex;
 import gov.va.vba.persistence.mapper.LongRowMapper;
 import gov.va.vba.persistence.models.data.DecisionDetails;
 import gov.va.vba.persistence.models.data.DiagnosisCount;
@@ -47,6 +48,19 @@ public class RatingDaoImpl implements RatingDao {
         List<DecisionDetails> decisions = jdbcTemplate.query(QueryConstants.DECISIONS_PERCENT_QUERY, new Object[]{veteranId, claimDate, veteranId}, new BeanPropertyRowMapper<>(DecisionDetails.class));
         LOG.info("****************************************************************");
         for (DecisionDetails decision : decisions) {
+            LOG.info(decision.toString());
+        }
+        LOG.info("****************************************************************");
+        return decisions;
+    }
+
+    @Override
+    public List<DDMModelPatternIndex> getPatternAccuracy(Long patternId) {
+        String sql = "SELECT PATTERN_ID, ACCURACY, CDD, PATTERN_INDX_NUMBER, CRTD_BY, CRTD_DTM,CTLG_ID, MODEL_TYPE " +
+                "FROM BCDSS.DDM_MODEL_PATTERN_INDX WHERE PATTERN_ID = " + patternId;
+        List<DDMModelPatternIndex> decisions = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(DDMModelPatternIndex.class));
+        LOG.info("****************************************************************");
+        for (DDMModelPatternIndex decision : decisions) {
             LOG.info(decision.toString());
         }
         LOG.info("****************************************************************");
