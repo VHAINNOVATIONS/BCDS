@@ -229,8 +229,12 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                         if(CollectionUtils.isNotEmpty(accuracy)) {
                             DDMModelPatternIndex ddmModelPatternIndex = accuracy.get(0);
                             LOG.info("PATTREN INDEX :: PATTERN {} AND ACCURACY {}", ddmModelPatternIndex.getPatternId(), ddmModelPatternIndex.getAccuracy());
-                            rating.setAccuracy(ddmModelPatternIndex.getAccuracy().intValue());
-                            rating.setRateOfUse(ddmModelPatternIndex.getPatternIndexNumber().intValue());
+                            if(ddmModelPatternIndex.getAccuracy() != null) {
+                                rating.setAccuracy(ddmModelPatternIndex.getAccuracy().intValue());
+                            }
+                            if(ddmModelPatternIndex.getPatternIndexNumber() != null) {
+                                rating.setRateOfUse(ddmModelPatternIndex.getPatternIndexNumber().intValue());
+                            }
                         }
                         rating.setPatternId(results.getPatternId().intValue());
                     }

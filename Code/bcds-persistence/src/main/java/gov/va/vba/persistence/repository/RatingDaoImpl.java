@@ -56,7 +56,8 @@ public class RatingDaoImpl implements RatingDao {
 
     @Override
     public List<DDMModelPatternIndex> getPatternAccuracy(Long patternId) {
-        String sql = "SELECT PATTERN_ID, ACCURACY, CDD, PATTERN_INDX_NUMBER, CRTD_BY, CRTD_DTM,CTLG_ID, MODEL_TYPE " +
+        String sql = "SELECT PATTERN_ID AS patternId, ACCURACY, CDD, " +
+                "PATTERN_INDX_NUMBER AS patternIndexNumber, CRTD_BY, CRTD_DTM,CTLG_ID, MODEL_TYPE " +
                 "FROM BCDSS.DDM_MODEL_PATTERN_INDX WHERE PATTERN_ID = " + patternId;
         List<DDMModelPatternIndex> decisions = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(DDMModelPatternIndex.class));
         LOG.info("****************************************************************");
