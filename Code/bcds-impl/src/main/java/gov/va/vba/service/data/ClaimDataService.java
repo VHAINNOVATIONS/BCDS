@@ -235,6 +235,9 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                             if(ddmModelPatternIndex.getPatternIndexNumber() != null) {
                                 rating.setRateOfUse(ddmModelPatternIndex.getPatternIndexNumber().intValue());
                             }
+                            if(ddmModelPatternIndex.getCDD() != null) {
+                                rating.setQuantCdd(ddmModelPatternIndex.getCDD().intValue());
+                            }
                         }
                         rating.setPatternId(results.getPatternId().intValue());
                     }
