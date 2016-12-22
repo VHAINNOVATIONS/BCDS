@@ -17,6 +17,6 @@ public interface DDMModelPatternRepository extends JpaRepository<DDMModelPattern
 	public List<DDMModelPattern> findTop50();
 
 
-	@Query(value = "SELECT c FROM DDMModelPattern c WHERE c.modelType = ?1 AND c.claimantAge = ?2 AND c.claimCount = ?3 AND c.contentionCount = ?4 AND (?5 IS NULL OR c.priorCDD = ?5) AND c.CDDAge = ?6")
+	@Query(value = "SELECT c FROM DDMModelPattern c WHERE c.modelType = ?1 AND c.claimantAge = ?2 AND c.claimCount = ?3 AND c.contentionCount = ?4 AND c.priorCDD = ?5 AND c.CDDAge = ?6")
 	List<DDMModelPattern> findPatternId(String modelType, Long claimantAge, Long claimCount, Long contentionCount, Long priorCDD, Long CDDAge);
 }

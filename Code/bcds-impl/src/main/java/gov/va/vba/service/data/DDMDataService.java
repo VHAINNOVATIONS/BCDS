@@ -27,7 +27,7 @@ public class DDMDataService extends AbsDataService<gov.va.vba.persistence.entity
     }
 
     public List<DDMModelPattern> getPatternId(String modelType, Long claimantAge, Long claimCount, Long contentionCount, Long CDDAge) {
-        List<gov.va.vba.persistence.entity.DDMModelPattern> result = ddmModelPatternRepository.findPatternId(modelType, claimantAge, claimCount, contentionCount, null, CDDAge);
+        List<gov.va.vba.persistence.entity.DDMModelPattern> result = ddmModelPatternRepository.findPatternId(modelType, claimantAge, claimCount, contentionCount, 0L, CDDAge);
         List<DDMModelPattern> output = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(result)) {
             mapper.mapAsCollection(result, output, DDMModelPattern.class);
