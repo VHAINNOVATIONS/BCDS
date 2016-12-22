@@ -42,6 +42,9 @@
 					<xs:element name="cddAge" type="xs:int" />
 					<xs:element name="claimCount" type="xs:int" />
 					<xs:element name="processId" type="xs:int" />
+					<xs:element name="accuracy" type="xs:int" />
+					<xs:element name="rateOfUse" type="xs:int" />
+					<xs:element name="raterEvaluation" type="xs:int" />
 					<xs:element name="patternId" type="xs:int" />
 					<xs:element name="processDate" type="xs:date" />
 					<xs:element name="modelType" type="xs:string" />
@@ -302,7 +305,7 @@
 	</wsdl:binding>
 	<wsdl:service name="BcdsModelingPortService">
 		<wsdl:port binding="tns:BcdsModelingPortSoap11" name="BcdsModelingPortSoap11">
-			<soap:address location="http://127.0.0.1:8083/bcds-web/soap-api/" />
+			<soap:address location="http://127.0.0.1:8083/soap-api/" />
 		</wsdl:port>
 	</wsdl:service>
 </wsdl:definitions>

@@ -41,6 +41,9 @@
 			<xs:element name="cddAge" type="xs:int"></xs:element>
 			<xs:element name="claimCount" type="xs:int"></xs:element>
 			<xs:element name="processId" type="xs:int"></xs:element>
+			<xs:element name="accuracy" type="xs:int" />
+			<xs:element name="rateOfUse" type="xs:int" />
+			<xs:element name="raterEvaluation" type="xs:int" />
 			<xs:element name="patternId" type="xs:int"></xs:element>
 			<xs:element name="processDate" type="xs:date"></xs:element>
 			<xs:element name="modelType" type="xs:string"></xs:element>
