@@ -4,11 +4,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.emory.mathcs.backport.java.util.Arrays;
 import gov.va.vba.domain.ModelRatingResults;
+import gov.va.vba.domain.ModelRatingResultsDiag;
 import gov.va.vba.persistence.entity.RatingDecision;
 import gov.va.vba.persistence.repository.ModelRatingResultsRepository;
 import gov.va.vba.persistence.repository.RatingDecisionRepository;
 import gov.va.vba.persistence.util.KneeCalculator;
 import gov.va.vba.service.orika.ModelRatingResultsMapper;
+import gov.va.vba.service.orika.ModelRatingResultsDiagMapper;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +40,9 @@ public class ModelRatingResultsDataService extends AbsDataService<gov.va.vba.per
 	@Autowired
 	private ModelRatingResultsMapper modelRatingResultsMapper;
 	
+	@Autowired
+	private ModelRatingResultsDiagMapper modelRatingResultsDiagMapper;
+	
 	public ModelRatingResultsDataService() {
 		this.setClasses(gov.va.vba.persistence.entity.ModelRatingResults.class, ModelRatingResults.class);
 	}
@@ -62,5 +67,13 @@ public class ModelRatingResultsDataService extends AbsDataService<gov.va.vba.per
 		
 		List<ModelRatingResults> modelRatingResults = modelRatingResultsMapper.mapCollection(result);
 		return modelRatingResults;
+	}
+	
+	public List<ModelRatingResultsDiag> findDiagnosticCodes(List<Long> processIds) {
+		if(processIds == null) return null;
+		List<gov.va.vba.persistence.entity.ModelRatingResultsDiag> codes = modelRatingResultsRepository.findDiagonsticCodesByProcessIds(processIds);
+		List<ModelRatingResultsDiag> diagCodes = modelRatingResultsDiagMapper.mapCollection(codes);
+		LOG.debug("diagCodes" + diagCodes);
+		return diagCodes;
 	}
 }

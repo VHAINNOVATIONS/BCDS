@@ -5,6 +5,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 														$stateParams, ClaimService, RatingService) {
 	
 	$scope.results = [];
+	$scope.diagnosticCodes = [];
 	$scope.resultDetailsData = [];
 	$scope.filters = {
 		fromDate: null,
@@ -123,7 +124,9 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
         }),
 	    DTColumnBuilder.newColumn('modelType').withTitle('Model').notSortable(),
 	    DTColumnBuilder.newColumn('modelType').withTitle('Contention').notSortable(),
-	    DTColumnBuilder.newColumn('priorCDD').withTitle('Prior Relevant Diagonostic Codes').notSortable(),
+	    DTColumnBuilder.newColumn(null).withTitle('Prior Relevant Diagonostic Codes').notSortable().renderWith(function(data, type, full) {
+	            return "<div>"+$scope.modelRatingDiagonosticCodes+"</div>"
+	    }),
 	    DTColumnBuilder.newColumn('priorCDD').withTitle('Prior Rating').notSortable(),
 	    DTColumnBuilder.newColumn('cddage').withTitle('Prior Rating Age (Yr)').notSortable(),
 	    DTColumnBuilder.newColumn('currentCDD').withTitle('Modeled Target Claim Rating').notSortable(),
@@ -154,6 +157,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
     		$scope.reliability = '';
     		$scope.rateOfAccuracy = '';
     		$scope.contentionType = '';
+    		$scope.modelRatingDiagonosticCodes = '';
     		$scope.resultDetailsData.push(info);
     		var promise = new Promise( function(resolve, reject){
                 if ($scope.resultDetailsData) {
@@ -161,6 +165,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
                   	$scope.reliability =  $scope.setReliability($scope.resultDetailsData[0].patternIndex.accuracy) ;
     				$scope.rateOfAccuracy = Math.round($scope.resultDetailsData[0].patternIndex.accuracy);
     				$scope.contentionType = $scope.resultDetailsData[0].modelType;
+    				$scope.modelRatingDiagonosticCodes = $scope.getDiagonosticCodesByProcessId($scope.resultDetailsData[0].processId);
                 }
                 else
                   resolve([]);
@@ -185,6 +190,20 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
     		return  'NOT RELIABLE';
     };
 	
+	$scope.getDiagonosticCodesByProcessId = function(processId){
+		var codes = $filter('filter')($scope.diagnosticCodes, {processId: processId}, true);
+	     if (codes.length) {
+	     	var arrCodes = [];
+	     	angular.forEach(codes, function(code){
+	     		arrCodes.push(code.diagId);
+	     	});
+	    	
+	    	return (arrCodes.sort()).join();
+	     }
+
+	     return '';
+	};
+
 	$scope.modelTypeOptions = [
 		{ value:'knee',	label:'Knee'},
 	    { value:'ear',	label:'Ear'},
@@ -238,9 +257,10 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 			.then(function(result){
 				console.log('>>>successful');
 				$scope.results = result.data;
+				$scope.diagnosticCodes = result.data.diagnosticCodes;
 				var promise = new Promise( function(resolve, reject){
 	                if ($scope.results)
-	                  resolve($scope.results);
+	                  resolve($scope.results.modelRatingResults);
 	                else
 	                  resolve([]);
 	              });
@@ -293,9 +313,10 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 			.then(function(result){
 				console.log('>>>successful');
 				$scope.results = result.data;
+				$scope.diagnosticCodes = result.data.diagnosticCodes;
 				var promise = new Promise( function(resolve, reject){
 	                if ($scope.results)
-	                  resolve($scope.results);
+	                  resolve($scope.results.modelRatingResults);
 	                else
 	                  resolve([]);
 	              });

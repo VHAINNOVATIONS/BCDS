@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 public class ModelRatingResultsDiag implements java.io.Serializable {
 
     private ModelRatingResultsDiagId id;
+    private Long processId;
     private Long count;
     private ModelRatingResults modelRatingResults;
     //private DDMDiagnosis diagnosis;
@@ -24,10 +25,19 @@ public class ModelRatingResultsDiag implements java.io.Serializable {
     public void setId(ModelRatingResultsDiagId id) {
         this.id = id;
     }
+    
+    @Column(name="PROCESS_ID", insertable = false, updatable = false)
+    public Long getProcessId() {
+		return processId;
+	}
+    
+	public void setProcessId(Long processId) {
+		this.processId = processId;
+	}
 
     @MapsId("processId")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PROCESS_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "PROCESS_ID", referencedColumnName="PROCESS_ID", insertable = false, updatable = false)
     public ModelRatingResults getModelRatingResults() {
         return this.modelRatingResults;
     }
