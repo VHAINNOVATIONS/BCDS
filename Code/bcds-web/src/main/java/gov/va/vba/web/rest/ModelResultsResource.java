@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.*;
 import com.codahale.metrics.annotation.Timed;
 
 import gov.va.vba.domain.ModelRatingResults;
+import gov.va.vba.domain.ModelRatingResultsDiag;
+import gov.va.vba.domain.ModelRatingDetailsResult;
 import gov.va.vba.service.data.ModelRatingResultsDataService;
+
 /**
  * REST controller for managing users.
  */
@@ -29,7 +32,7 @@ public class ModelResultsResource {
 
     @Inject
 	private ModelRatingResultsDataService modelRatingResultsDataService;
-    
+      
     /**
      * GET  /results -> get all results.
      */
@@ -45,9 +48,12 @@ public class ModelResultsResource {
      */
     @RequestMapping(value = "/modelRatingResults", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public List<ModelRatingResults> getModelRatingResults(@RequestBody ModelRatingResultsDTO modelRating) {
+    public ModelRatingDetailsResult getModelRatingResults(@RequestBody ModelRatingResultsDTO modelRating) {
         LOGGER.debug("REST request to get results of model rating");
-        return modelRatingResultsDataService.getClaimModelRatingResults(modelRating.getProcessIds(), modelRating.getFromDate(), modelRating.getToDate(), modelRating.getModelType());
+        ModelRatingDetailsResult detailedResult = new ModelRatingDetailsResult();
+        detailedResult.modelRatingResults = modelRatingResultsDataService.getClaimModelRatingResults(modelRating.getProcessIds(), modelRating.getFromDate(), modelRating.getToDate(), modelRating.getModelType());
+        detailedResult.diagnosticCodes = modelRatingResultsDataService.findDiagnosticCodes(modelRating.getProcessIds());
+        return detailedResult;
     }
     
 
