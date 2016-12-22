@@ -351,7 +351,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	        	return "<div>"+data+"</div>"
 	        }),
 	        DTColumnBuilder.newColumn('currentCDD').withTitle('RE/MR Match?').renderWith(function(data, type, full) {
-	        	if($scope.modeledRating > $scope.actualRating){
+	        	if($scope.modeledRating === $scope.actualRating){
 	        		return "<div><span class='glyphicon glyphicon-thumbs-up'></span></div>"
 	        	}
 	        	return "<div><span class='glyphicon glyphicon-thumbs-down'></span></div>"
@@ -360,7 +360,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	            return "<div>"+data+"</div>"
 	        }),
 	        DTColumnBuilder.newColumn('patternIndex.accuracy').withTitle('Pattern Accuracy').renderWith(function(data, type, full) {
-	            return "<div>"+Math.round(data)+"</div>"
+	            return "<div>"+Math.round(data)+"%</div>"
 	        }),
 	        DTColumnBuilder.newColumn(null).withTitle('Agree Y/N').notSortable().renderWith(function(data, type, full, meta) {
 		     	$scope.selected[full.processId] = false;
@@ -372,7 +372,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	    $scope.dtColumns = [
  	        DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran Id'),
  	        DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran Name').renderWith(function(data, type, full) {
- 	            return "<div>"+ data +"veteran</div>"
+ 	            return "<div>"+ data +"-veteran</div>"
  	        }),
  	        DTColumnBuilder.newColumn('claim.claimId').withTitle('Claim Id'),
  	        DTColumnBuilder.newColumn('rating.modelType').withTitle('Model').renderWith(function(data, type, full) {
@@ -393,7 +393,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
  	            return "<div>"+data+"</div>"
   	        }),
   	        DTColumnBuilder.newColumn('rating.currentCdd').withTitle('RE/MR Match?').renderWith(function(data, type, full) {
-  	           	if($scope.modeledRating > $scope.actualRating){
+  	           	if($scope.modeledRating === $scope.actualRating){
 	        		return "<div><span class='glyphicon glyphicon-thumbs-up'></span></div>"
 	        	}
 	        	return "<div><span class='glyphicon glyphicon-thumbs-down'></span></div>"
@@ -402,7 +402,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
  	             return "<div>"+data+"</div>"
  	        }),
  	        DTColumnBuilder.newColumn('rating.accuracy').withTitle('Pattern Accuracy').renderWith(function(data, type, full) {
- 	             return "<div>"+data+"</div>"
+ 	             return "<div>"+data+"%</div>"
  	        }),
  	        DTColumnBuilder.newColumn(null).withTitle('Agree Y/N').notSortable().renderWith(function(data, type, full, meta) {
 		     	//$scope.selected[full.processId] = false;
