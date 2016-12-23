@@ -146,3 +146,8 @@ ul.multiselect li.select-highlight-blur {
  .navbar-nav.glyphicon{
   padding:5px;
  }
+
+.disabledLink {
+  pointer-events: none;
+  cursor: default;
+}

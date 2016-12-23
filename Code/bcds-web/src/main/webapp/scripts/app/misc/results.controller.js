@@ -15,6 +15,9 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	$scope.dtDetailsInstance = {};
 	$scope.selected = {};
 	$scope.processIds = [];
+	$scope.selected = {};
+    $scope.selectAll = false;
+    $scope.isSelected = false;
 
 	$scope.columnTitles = [
         {columnName : "Veteran Id", title : "Unique Identifier for each Veteran/Customer"},
@@ -30,6 +33,30 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
         {columnName : "Pattern Accuracy", title : "The number of times the matched pattern has resulted in the same rating as a fraction of the number of timesit has occurred within the last 8 years"},
         {columnName : "Agree Y/N", title : "Rater indicates if he/she agrees with the model output/result"},
     ];
+
+    var titleHtml = '<label for="selectchkall" style="display: none">AgreeOrDisagree</label><input type="checkbox" id="selectchkall" ng-model="selectAll" ng-click="toggleAll(selectAll,selected)"> ';
+   
+    $scope.toggleAll = function toggleAll(selectAll, selectedItems) {
+        for (var id in selectedItems) {
+            if (selectedItems.hasOwnProperty(id)) {
+                selectedItems[id] = selectAll;
+            }
+        }
+    }
+      
+    $scope.toggleOne = function toggleOne(selectedItems) {
+    	var isAllSelected = true;
+        for (var id in selectedItems) {
+            if (selectedItems.hasOwnProperty(id)) {
+                if (!selectedItems[id]) {
+                	isAllSelected  = false;
+                }
+            }
+        }
+        if(isAllSelected) {
+        	$scope.selectAll = true;
+    	}
+    }
 
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
 	   	 return new Promise( function(resolve, reject){
@@ -84,33 +111,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
    .withOption('info', false)
    .withOption('rowCallback', rowCallback);
     
-    /*These are changes for version 2.0*/
-    $scope.dtDetailsColumns = [
-		//DTColumnBuilder.newColumn('userId').withTitle('User Id').notSortable(),
-		DTColumnBuilder.newColumn('rating.processDate').withTitle('Session Date').notSortable().renderWith(function(data, type, full) {
-            return "<div>{{" + data +"| date:'yyyy-MM-dd'}} </div>"
-        }),
-	    DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran Id').notSortable(),
-	    DTColumnBuilder.newColumn('rating.processId').withTitle('Model Result Id').notSortable(),
-	    DTColumnBuilder.newColumn('claim.claimId').withTitle('Claim Id').notSortable(),
-	    DTColumnBuilder.newColumn('claim.claimDate').withTitle('Date Of Claim').notSortable().renderWith(function(data, type, full) {
-            return "<div>{{" + data +"| date:'yyyy-MM-dd'}} </div>"
-        }),
-	    DTColumnBuilder.newColumn('rating.modelType').withTitle('Model').notSortable(),
-	    DTColumnBuilder.newColumn('rating.modelType').withTitle('Contention').notSortable(),
-	    DTColumnBuilder.newColumn('rating.priorCdd').withTitle('Prior Relevant Diagonostic Codes').notSortable(),
-	    DTColumnBuilder.newColumn('rating.priorCdd').withTitle('Prior Rating').notSortable(),
-	    DTColumnBuilder.newColumn('rating.cddAge').withTitle('Prior Rating Age (Yr)').notSortable(),
-	    DTColumnBuilder.newColumn('rating.raterEvaluation').withTitle('Modeled Target Claim Rating').notSortable(),
-	    DTColumnBuilder.newColumn('rating.quantCdd').withTitle('Actual Target Claim Rating').notSortable(),
-	    DTColumnBuilder.newColumn('rating.rateOfUse').withTitle('Pattern Rate of Use').notSortable(),
-	    DTColumnBuilder.newColumn('rating.accuracy').withTitle('Pattern Accuracy Rate').notSortable(),
-	    DTColumnBuilder.newColumn(null).withTitle('Agree Y/N').notSortable().renderWith(function(data, type, full) {
-            return "<div>Yes/No</div>"
-        }),
-    ];
-
-    /*These are changes for version 3.0
+    /*These are changes for version 3.0*/
     $scope.dtDetailsColumns = [
 		//DTColumnBuilder.newColumn('userId').withTitle('User Id').notSortable(),
 		DTColumnBuilder.newColumn('processDate').withTitle('Session Date').notSortable().renderWith(function(data, type, full) {
@@ -138,7 +139,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	    DTColumnBuilder.newColumn(null).withTitle('Agree Y/N').notSortable().renderWith(function(data, type, full) {
             return "<div>Yes/No</div>"
         }),
-    ];*/
+    ];
 
 	function rowCallback(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
         $('td', nRow).unbind('click');
@@ -243,6 +244,8 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 
     $scope.getProcessIds = function(){
     	$scope.processIds.push(1); //this is for test and needs to change..... it should come from process claims
+    	$scope.processIds.push(2);
+    	$scope.processIds.push(3);
     	return $scope.processIds;
     };
 
@@ -326,8 +329,8 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 		});
     };
 	
-	 /*These are changes for version 3.0
-	 $scope.dtColumns = [
+	/*These are changes for version 3.0*/
+	$scope.dtColumns = [
 	        DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran Id'),
 	        DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran Name').renderWith(function(data, type, full) {
 	            return "<div>"+ data +"-veteran</div>"
@@ -366,9 +369,35 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 		     	$scope.selected[full.processId] = false;
 		     	return '<label for="selectchk' + data.processId + '" style="display: none">select</label><input id="selectchk' + data.processId + '" type="checkbox" ng-model="selected[' + data.processId + ']" ng-click="toggleOne(selected)">';
 			})
-	    ];*/
+	    ];
 
-	    /*Below is version 2.0 changes*/
+	     /*These are changes for version 2.0
+	    $scope.dtDetailsColumns = [
+			//DTColumnBuilder.newColumn('userId').withTitle('User Id').notSortable(),
+			DTColumnBuilder.newColumn('rating.processDate').withTitle('Session Date').notSortable().renderWith(function(data, type, full) {
+	            return "<div>{{" + data +"| date:'yyyy-MM-dd'}} </div>"
+	        }),
+		    DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran Id').notSortable(),
+		    DTColumnBuilder.newColumn('rating.processId').withTitle('Model Result Id').notSortable(),
+		    DTColumnBuilder.newColumn('claim.claimId').withTitle('Claim Id').notSortable(),
+		    DTColumnBuilder.newColumn('claim.claimDate').withTitle('Date Of Claim').notSortable().renderWith(function(data, type, full) {
+	            return "<div>{{" + data +"| date:'yyyy-MM-dd'}} </div>"
+	        }),
+		    DTColumnBuilder.newColumn('rating.modelType').withTitle('Model').notSortable(),
+		    DTColumnBuilder.newColumn('rating.modelType').withTitle('Contention').notSortable(),
+		    DTColumnBuilder.newColumn('rating.priorCdd').withTitle('Prior Relevant Diagonostic Codes').notSortable(),
+		    DTColumnBuilder.newColumn('rating.priorCdd').withTitle('Prior Rating').notSortable(),
+		    DTColumnBuilder.newColumn('rating.cddAge').withTitle('Prior Rating Age (Yr)').notSortable(),
+		    DTColumnBuilder.newColumn('rating.raterEvaluation').withTitle('Modeled Target Claim Rating').notSortable(),
+		    DTColumnBuilder.newColumn('rating.quantCdd').withTitle('Actual Target Claim Rating').notSortable(),
+		    DTColumnBuilder.newColumn('rating.rateOfUse').withTitle('Pattern Rate of Use').notSortable(),
+		    DTColumnBuilder.newColumn('rating.accuracy').withTitle('Pattern Accuracy Rate').notSortable(),
+		    DTColumnBuilder.newColumn(null).withTitle('Agree Y/N').notSortable().renderWith(function(data, type, full) {
+	            return "<div>Yes/No</div>"
+	        }),
+	    ];
+
+	    /*Below is version 2.0 changes
 	    $scope.dtColumns = [
  	        DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran Id'),
  	        DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran Name').renderWith(function(data, type, full) {
@@ -408,7 +437,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 		     	//$scope.selected[full.processId] = false;
 		     	return '<label for="selectchk' + data.processId + '" style="display: none">select</label><input id="selectchk' + data.processId + '" type="checkbox" ng-model="selected[' + data.processId + ']" ng-click="toggleOne(selected)">';
 			})
- 	    ];
+ 	    ];*/
 	 
 	$rootScope.$on('ProcessClaims', function(event, data) {
 		var inputObj = [];
