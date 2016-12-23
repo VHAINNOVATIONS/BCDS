@@ -242,38 +242,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
         }
     };
 
-    $scope.getProcessIds = function(){
-    	$scope.processIds.push(1); //this is for test and needs to change..... it should come from process claims
-    	$scope.processIds.push(2);
-    	$scope.processIds.push(3);
-    	return $scope.processIds;
-    };
-
-	$scope.getRatingResults = function(){
-		var processIds = $scope.getProcessIds();
-		if(processIds == null){
-			alert("No processId found."); // need to change to validation message
-			return;
-		}
-		$scope.filters = null;
-		RatingService.findModelRatingResults(processIds, $scope.filters)
-			.then(function(result){
-				console.log('>>>successful');
-				$scope.results = result.data;
-				$scope.diagnosticCodes = result.data.diagnosticCodes;
-				var promise = new Promise( function(resolve, reject){
-	                if ($scope.results)
-	                  resolve($scope.results.modelRatingResults);
-	                else
-	                  resolve([]);
-	              });
-	    		$scope.dtInstance.changeData(function() {
-	                return promise;
-	            });
-		});
-	};
-
-	$scope.clear = function(){
+    $scope.clear = function(){
     	$scope.results = [];
     	$scope.errMessage = '';
     	$scope.fromDate = null;
@@ -438,7 +407,43 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 		     	return '<label for="selectchk' + data.processId + '" style="display: none">select</label><input id="selectchk' + data.processId + '" type="checkbox" ng-model="selected[' + data.processId + ']" ng-click="toggleOne(selected)">';
 			})
  	    ];*/
-	 
+	
+	$scope.getProcessIds = function(results){
+		var processIds = [];
+    	//$scope.processIds.push(1); //this is for test and needs to change..... it should come from process claims
+    	//$scope.processIds.push(2);
+    	//$scope.processIds.push(3);
+    	angular.forEach(results, function(result,idx){
+    		processIds.push(result.rating.processId);
+    	});
+    	return processIds;
+    };
+
+	$scope.getRatingResults = function(results){
+		var processIds = $scope.getProcessIds(results);
+		if(processIds == null){
+			alert("No processId found."); // need to change to validation message
+			return;
+		}
+		$scope.filters = null;
+		RatingService.findModelRatingResults(processIds, $scope.filters)
+			.then(function(result){
+				console.log('>>>successful');
+				$scope.results = result.data;
+				$scope.diagnosticCodes = result.data.diagnosticCodes;
+				var promise = new Promise( function(resolve, reject){
+	                if ($scope.results)
+	                  resolve($scope.results.modelRatingResults);
+	                else
+	                  resolve([]);
+	              });
+	    		$scope.dtInstance.changeData(function() {
+	                return promise;
+	            });
+		});
+	};
+
+	/*version 3.0*/
 	$rootScope.$on('ProcessClaims', function(event, data) {
 		var inputObj = [];
 
@@ -469,19 +474,10 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 			},function(data){
 			//data = {"veteranClaimRatingOutput":[{"veteran":{"veteranId":244390,"veteranName":null,"dob":null},"claimRating":[{"claim":{"claimId":5614193,"profileDate":1147665600000,"productTypeCode":"020","claimDate":1091073600000,"contentionId":2991274,"contentionClassificationId":"6850","contentionBeginDate":null},"rating":{"claimantAge":20,"promulgationDate":null,"recentDate":null,"contationCount":2,"priorCdd":64,"quantPriorCdd":0,"currentCdd":0,"claimAge":20,"cddAge":20,"claimCount":1,"processId":18380497,"patternId":0,"processDate":null,"modelType":null,"modelContentionCount":0,"quantCdd":80,"ratingDecisions":{"processId":18380497,"kneeRatings":{"contentionKnee":0,"contentionLeft":0,"contentionRight":0,"contentionBilateral":0,"contentionLeg":0,"contentionAmputation":0,"decisionKnee":0,"decisionLeft":0,"decisionRight":0,"decisionBilateral":0,"decisionLimitation":0,"decisionImpairment":0,"decisionAnkyloses":0,"decisionAmputation":0},"earRatings":{"contentionLoss":0,"contentionTinitu":0,"decisionLoss":0,"decisionTinitu":0}},"status":[],"diagnosisCodeCounts":[],"contentionsCodeCounts":[]}}]}]};
 			var formattedResults = $scope.processResults(data.veteranClaimRatingOutput);
-			$scope.results = formattedResults;
 			//make api call using rating service to get rest of the column values and then populate results.
-    		var promise = new Promise( function(resolve, reject){
-                if ($scope.results) {
-                    resolve($scope.results);
-                }
-                else {
-                	 resolve([]);
-                }
-            });
-    		$scope.dtInstance.changeData(function() {
-                return promise;
-            });
+    		$scope.getRatingResults(formattedResults);
 		});
 	});
+
+	/*version 2.0*/
 });
