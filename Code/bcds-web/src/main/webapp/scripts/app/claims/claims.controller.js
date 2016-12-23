@@ -24,13 +24,13 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     
     function toggleProcessClaims(isEnabled)
     {
-		 if(isEnabled)
-		 {
-		 	$('#btnProcessClaim').closest('.dt-button').removeClass('disabled');
+		 if(isEnabled) {
+            $('#btnProcessClaim').closest('.dt-button').removeClass('disabled');
+		 	$('#btnProcessClaim').closest('.dt-button').removeClass('disabledLink');
 		 }
-		 else
-		 {
-		 	$('#btnProcessClaim').closest('.dt-button').addClass('disabled');
+		 else {
+            $('#btnProcessClaim').closest('.dt-button').addClass('disabled');
+		 	$('#btnProcessClaim').closest('.dt-button').addClass('disabledLink');
 		 }
     }
     
@@ -42,8 +42,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
                 if (!selectedItems[id]) {
                 	isAllSelected  = false;
                 }
-                else
-            	{
+                else {
                 	toggleProcessClaims(true);
             	}
             }
@@ -102,6 +101,12 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
           text: '<a name="Advanced Filter">Advanced Filter</a>',
           action: function (e, dt, node, config) {
         	  $('#advancedFilterDialog').modal('show');
+          }
+        },
+        {
+          text: '<a name="Clear">Clear</a>',
+          action: function (e, dt, node, config) {
+              $scope.clear();
           }
         }
       ]);
@@ -212,6 +217,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     $scope.loadClaims = function(){
     	ClaimService.query(function(result){
     		$scope.claims = result;
+            $scope.toggleAll(false, null);
     		var promise = new Promise( function(resolve, reject){
                 if ($scope.claims)
                   resolve($scope.claims);
@@ -237,124 +243,119 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
         });
     };  
     
-  
-
     $scope.getCestDate = function(date) {
 		return (date + (10*24*60*60*1000));
 	};
 	
-       /* $scope.formatDate = function(date) {
-            var date = new Date(date);
-            return ('0' + (date.getMonth()+1)).slice(-2) + '/' +
-                ('0' + date.getDate()).slice(-2) + '/'
-                + date.getFullYear();
-        };*/
-        
-		 $scope.formatDate = function(date) {
-            var date = new Date(date);
-            return date.getFullYear() + '-' +  
-	            ('0' + (date.getMonth()+1)).slice(-2) + '-' + 
-	            ('0' + date.getDate()).slice(-2);
-	    };
-        
-	    $scope.checkErr = function(startDate,endDate) {
-	        $scope.errMessage = '';
-	        $scope.frmAdvancedFilter.$invalid = false;
-	        if(new Date(startDate) > new Date(endDate)){
-	          $scope.errMessage = 'To date should be greater than from date.';
-	          $scope.frmAdvancedFilter.$invalid = true;
-	          return false;
-	        }
-	    };
-	    
-        $scope.isCollapsed = function(claim) {
-            if (claim.isCollapsed == undefined) {
-                claim.isCollapsed = true;
-            }
-            return claim.isCollapsed;
-        };
-
-        $scope.toggleCollapse = function(claim) {
-            if (claim.isCollapsed == undefined) {
-                claim.isCollapsed = true;
-            } else {
-                claim.isCollapsed = !claim.isCollapsed;
-            }
-        };
-
-        $scope.displayProcess = function() {
-          $('#modelDialog').modal('show');
-        };
-
-        $scope.click = function() {
-            $('#next').removeClass('hidden');
+             
+	 $scope.formatDate = function(date) {
+        var date = new Date(date);
+        return date.getFullYear() + '-' +  
+            ('0' + (date.getMonth()+1)).slice(-2) + '-' + 
+            ('0' + date.getDate()).slice(-2);
+    };
+    
+    $scope.checkErr = function(startDate,endDate) {
+        $scope.errMessage = '';
+        $scope.frmAdvancedFilter.$invalid = false;
+        if(new Date(startDate) > new Date(endDate)){
+          $scope.errMessage = 'To date should be greater than from date.';
+          $scope.frmAdvancedFilter.$invalid = true;
+          return false;
         }
-
-        $scope.search = function(searchTerm) {
-            if (searchTerm == 1234) {
-                $('#serviceErrorDialog').modal('show');
-            } else {
-                $scope.claims.push({
-                    "is_collapsed": false,
-                    "file_number": "515049876",
-                    "name": "John Smith",
-                    "claim_num": "5625193",
-                    "claim_date": "01/10/2016",
-                    "contentions": [
-                        {
-                            "code": 5100,
-                            "description": "Knee"
-                        },
-                        {
-                            "code": 2100,
-                            "description": "Ear"
-                        }
-                    ]
-                });
-            }
+    };
+    
+    $scope.isCollapsed = function(claim) {
+        if (claim.isCollapsed == undefined) {
+            claim.isCollapsed = true;
         }
+        return claim.isCollapsed;
+    };
 
-        $scope.deleteClaim = function(claim) {
-            var index = $scope.claims.indexOf(claim);
-            $scope.claims.splice(index,1);
+    $scope.toggleCollapse = function(claim) {
+        if (claim.isCollapsed == undefined) {
+            claim.isCollapsed = true;
+        } else {
+            claim.isCollapsed = !claim.isCollapsed;
         }
+    };
 
-        $scope.clear = function(){
-            $scope.filters.dateType = {};
-            $scope.setFilterDates();
-            $scope.filters.contentionType = null;
-            $scope.filters.regionalOfficeOption = $scope.regionalOfficeOptions[0].value;
+    $scope.displayProcess = function() {
+      $('#modelDialog').modal('show');
+    };
+
+    $scope.click = function() {
+        $('#next').removeClass('hidden');
+    }
+
+    $scope.search = function(searchTerm) {
+        if (searchTerm == 1234) {
+            $('#serviceErrorDialog').modal('show');
+        } else {
+            $scope.claims.push({
+                "is_collapsed": false,
+                "file_number": "515049876",
+                "name": "John Smith",
+                "claim_num": "5625193",
+                "claim_date": "01/10/2016",
+                "contentions": [
+                    {
+                        "code": 5100,
+                        "description": "Knee"
+                    },
+                    {
+                        "code": 2100,
+                        "description": "Ear"
+                    }
+                ]
+            });
         }
+    }
+
+    $scope.deleteClaim = function(claim) {
+        var index = $scope.claims.indexOf(claim);
+        $scope.claims.splice(index,1);
+    }
+
+    $scope.clear = function(){
+        $scope.claims = [];
+        $scope.filters.dateType = {};
+        $scope.setFilterDates();
+        $scope.filters.contentionType = null;
+        $scope.filters.regionalOfficeOption = $scope.regionalOfficeOptions[0].value;
+
+        $scope.loadClaims();
+    }
         
-        $scope.isActiveRoleTab = function (userRoleTab) {
-        	$stateParams.userRoleType == userRoleTab;
-        	return userRoleTab;
-        };
-        
-        $scope.clearFilter = function() {
-            $scope.filterKey = '';
-        }; 
-          
-        $scope.advanceFilterSearch = function(){
-        	if ($scope.filters != null) {
-        		$scope.filters.fromDate = $scope.formatDate($scope.fromDate);
-        		$scope.filters.toDate = $scope.formatDate($scope.toDate);
-        		ClaimFilterService.filterClaims($scope.filters)
-        			.then(function(result){
-        				console.log('>>>successful');
-        				$scope.claims = result;
-        				var promise = new Promise( function(resolve, reject){
-        	                if ($scope.claims)
-        	                  resolve($scope.claims);
-        	                else
-        	                  resolve([]);
-        	              });
-        	    		$scope.dtInstance.changeData(function() {
-        	                return promise;
-        	            });
-        		});
-    		}
-        };
+    $scope.isActiveRoleTab = function (userRoleTab) {
+    	$stateParams.userRoleType == userRoleTab;
+    	return userRoleTab;
+    };
+    
+    $scope.clearFilter = function() {
+        $scope.filterKey = '';
+    }; 
+      
+    $scope.advanceFilterSearch = function(){
+    	if ($scope.filters != null) {
+    		$scope.filters.fromDate = $scope.formatDate($scope.fromDate);
+    		$scope.filters.toDate = $scope.formatDate($scope.toDate);
+    		ClaimFilterService.filterClaims($scope.filters)
+    			.then(function(result){
+    				console.log('>>>successful');
+    				$scope.claims = result;
+    				var promise = new Promise( function(resolve, reject){
+    	                if ($scope.claims)
+    	                  resolve($scope.claims);
+    	                else
+    	                  resolve([]);
+    	              });
+    	    		$scope.dtInstance.changeData(function() {
+    	                return promise;
+    	            });
+    		});
+		}
+    };
               
              
           /*$scope.loadTabView = function (tabUserRole) {
@@ -391,4 +392,4 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
         	console.log("admin");
             $state.go('home', {userRoleType: USER_ROLE.userRoleAdmin});
         };*/
-    });
+});
