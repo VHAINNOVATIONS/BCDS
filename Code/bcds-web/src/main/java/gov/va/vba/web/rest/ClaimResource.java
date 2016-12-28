@@ -1,6 +1,9 @@
 
 package gov.va.vba.web.rest;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -38,7 +41,10 @@ public class ClaimResource {
 	@Timed
 	public List<Claim> getFirstFewClaims() {
 		LOGGER.debug("REST request to get first few Claims");
-		return claimDataService.findFirstNumberedRow();
+		List<Claim> claims = new ArrayList<>();
+		claims= claimDataService.findFirstNumberedRow();
+		LOGGER.info("SIZE :::: " + claims.size());
+		 return claims;
 	}
 
     @RequestMapping(value = "/claims", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -48,20 +54,33 @@ public class ClaimResource {
 
         String contentionTypeStr=null;
         boolean isRegionalExist = false;
-       /* Date fromDate = claim.getFromDate();
-        Date toDate = claim.getToDate();*/
+        boolean isDatesExist = false;
+        Date fromDate = claim.getFromDate();
+        Date toDate = claim.getToDate();
+        Long regionalOffice = claim.getRegionalOfficeNumber();
         String contentionType = claim.getContentionType();
         StringBuilder sb = new StringBuilder();
-       if(null!=contentionType && !"".equals(contentionType)){
+        String formatFromDate= new SimpleDateFormat("yyyy-MM-dd").format(fromDate);
+        String formatToDate= new SimpleDateFormat("yyyy-MM-dd").format(toDate);
+        List<Claim> filteredClaims = new ArrayList<>();
+        if(null!=contentionType && !"".equals(contentionType)){
         	sb.append("%").append(contentionType).append("%");
         	contentionTypeStr = sb.toString();
         }
-       Long regionalOffice = claim.getRegionalOfficeNumber();
+      
        if(regionalOffice!=0 && !"".equals(regionalOffice)){
     	   isRegionalExist= true;
        }
-        List<Claim> output= claimDataService.findClaims(isRegionalExist, contentionTypeStr, regionalOffice);
-        return output;
+       if(formatFromDate.compareTo(formatToDate) < 0){
+       		isDatesExist = true;
+       }
+       //Query Conditions
+        if (formatFromDate.compareTo(formatToDate) == 0 && contentionType==null && regionalOffice==0) {
+        	filteredClaims= claimDataService.findFirstNumberedRow();
+        }else{
+        	filteredClaims= claimDataService.findClaims(isRegionalExist, isDatesExist, contentionTypeStr, regionalOffice, fromDate, toDate);
+        }
+        return filteredClaims;
     }
 
     @RequestMapping(value = "/claims/process", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

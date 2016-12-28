@@ -7,7 +7,7 @@
 		</div>
 	</div>
 	<div class="modal fade" id="advancedFilterDialog">
-		<div class="modal-dialog" style="width:35%">
+		<div class="modal-dialog" style="width:50%">
 			<div class="modal-content">
 				<div class="Header">
 					<h4 class="modal-title">Advanced Filter</h4>
@@ -22,22 +22,8 @@
 							<div class="col-md-6" style="text-align:left">	
 								<input type="radio" ng-model="filters.dateType" value="establishedDate"> Claim Established Date
 							</div>
-						</div>	
-						
-						<div class="form-group row">
-							<label for="dateFrom" class="col-md-3 col-form-label" style="text-align:right">Date:&nbsp&nbspFrom</label>
-							<div class="col-md-4">
-						        <input type="date" validatedateformat data-date-format="mm/dd/yyyy" maxlength="10" id="fromDate" calendar  
-						         ng-click="openCalendar('fromDate')" placeholder="Enter Date" name="fromDate" ng-model="fromDate" ng-change='checkErr(fromDate,toDate)'/> 
-						     </div>
-      						<label for="dateto" class="col-md-1 col-form-label" style="text-align:right">To</label>
-							<div class="col-md-4">
-						        <input type="date" validatedateformat data-date-format="mm/dd/yyyy" maxlength="10" id="toDate" calendar  
-						          ng-click="openCalendar('toDate')" placeholder="Enter Date" name="toDate" ng-model="toDate" ng-change='checkErr(fromDate,toDate)'/> 
-						    </div>
-						    
-						</div> -->
-						
+						</div>	 -->
+									
 						<div class="form-group row">	
 							<label for="txtRegionalOffice" class="col-md-4 col-form-label" style="text-align:right">Regional Office</label>
 							<div class="col-md-8" style="text-align:left">
@@ -50,6 +36,20 @@
 							<label for="txtContention" class="col-md-4 col-form-label" style="text-align:right">Contention</label>
 							<div class="col-md-8" style="text-align:left"><input type="text" id="txtContention" ng-model="filters.contentionType" style="width:200px" ></div>
 						</div>
+						
+						<div class="form-group row">
+							<label for="dateFrom" class="col-md-4 col-form-label" style="text-align:right">Claim Date:&nbsp&nbspFrom</label>
+							<div class="col-md-3">
+						        <input type="date" validatedateformat data-date-format="mm/dd/yyyy" maxlength="10" id="fromDate" calendar  
+						         ng-click="openCalendar('fromDate')" placeholder="Enter Date" name="fromDate" ng-model="fromDate" ng-change='checkErr(fromDate,toDate)'/> 
+						     </div>
+      						<label for="dateto" class="col-md-1 col-form-label" style="text-align:right">To</label>
+							<div class="col-md-3">
+						        <input type="date" validatedateformat data-date-format="mm/dd/yyyy" maxlength="10" id="toDate" calendar  
+						          ng-click="openCalendar('toDate')" placeholder="Enter Date" name="toDate" ng-model="toDate" ng-change='checkErr(fromDate,toDate)'/> 
+						    </div>
+						    
+						</div> 
 						
 						<div class="row">
 							<div class="col-md-6">

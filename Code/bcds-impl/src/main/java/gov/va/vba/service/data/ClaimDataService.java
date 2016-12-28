@@ -112,6 +112,11 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
 
     public List<Claim> findFirstNumberedRow() {
         List<gov.va.vba.persistence.entity.Claim> input = ((ClaimRepository) repository).findFirstNumberedRow();
+        LOG.info("SIZE of input :::: " + input.size());
+        for (int i=0; i<input.size(); i++) {
+			System.out.println(input.get(i));
+		}
+        
         List<Claim> claims = claimMapper.mapCollection(input);
         for (Claim c : claims) {
             c.setCestDate(calculateCestDate(c.getClaimDate()));
@@ -368,10 +373,19 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
         return output;
     }
 
-    public List<Claim> findClaims(boolean isRegionalExist, String contentionType, Long regionalOfficeNumber) {
-        LOG.debug("REST request to get advance filtered Claims");
-        List<gov.va.vba.persistence.entity.Claim> input = (isRegionalExist) ? claimRepository.findClaimsByRegionalOffice(contentionType, regionalOfficeNumber) : claimRepository.findClaimsByContention(contentionType);
-
+    public List<Claim> findClaims(boolean isRegionalExist, boolean isDatesExist, String contentionType, Long regionalOfficeNumber, Date fromDate, Date toDate) {
+    	LOG.debug("REST request to get advance filtered Claims");
+    	List<gov.va.vba.persistence.entity.Claim> input = new ArrayList<>();
+    	if(isDatesExist && !isRegionalExist){
+    		input = claimRepository.findClaimsByDates(contentionType, fromDate, toDate);
+    	}
+    	else if(isRegionalExist && !isDatesExist){
+    		input = claimRepository.findClaimsByRegionalOffice(contentionType, regionalOfficeNumber);
+    	}else if(isDatesExist && isRegionalExist){
+    		input = claimRepository.findClaimsByAllFilters(contentionType, regionalOfficeNumber, fromDate, toDate );
+    	}else{
+    		input = claimRepository.findClaimsByContention(contentionType);
+    	}
         List<Claim> claims = claimMapper.mapCollection(input);
         LOG.info("SIZE :::: " + claims.size());
         return claims;
