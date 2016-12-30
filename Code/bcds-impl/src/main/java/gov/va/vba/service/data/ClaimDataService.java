@@ -233,7 +233,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                     //rating.setContationCount(contentionsCount);
                     rating.setCurrentCdd(calculatedValue);
                     rating.setRaterEvaluation(calculatedValue);
-                    //rating.setPriorCdd(previousCddSum);
+                    rating.setPriorCdd(results.getPriorCDD().intValue());
                     rating.setProcessId(processId.intValue());
                     //rating.setQuantCdd(calculatedCdd.intValue());
                     rating.setRatingDecisions(ratingDecisions);
