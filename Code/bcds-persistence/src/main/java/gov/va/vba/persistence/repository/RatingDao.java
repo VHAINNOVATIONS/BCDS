@@ -26,5 +26,5 @@ public interface RatingDao {
 
     List<Long> getKneeDiagPattrens(List<DiagnosisCount> diagCount, List<Long> pattrens);
 
-    int getClaimaintAge(long veteranId, Date claimDate);
+    int getClaimaintAge(long veteranId, long claimId);
 }

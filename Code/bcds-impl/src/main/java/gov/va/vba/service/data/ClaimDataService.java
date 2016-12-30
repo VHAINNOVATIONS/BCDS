@@ -168,7 +168,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                     dob.set(1, 1, birthYear);
                     int age = KneeCalculator.claimantAge(kneeClaim.getClaimDate(), dob.getTime());
 */
-                    int age = ratingDao.getClaimaintAge(veteranId, kneeClaim.getClaimDate());
+                    int age = ratingDao.getClaimaintAge(veteranId, kneeClaim.getClaimId());
 
                     ModelRatingResults results = new ModelRatingResults();
                     results.setProcessDate(new Date());
