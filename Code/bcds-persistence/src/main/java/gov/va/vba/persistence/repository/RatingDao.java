@@ -25,4 +25,6 @@ public interface RatingDao {
     List<Long> getKneeCntntPattrens(Map<Long, Integer> contentionCount, List<Long> pattrens);
 
     List<Long> getKneeDiagPattrens(List<DiagnosisCount> diagCount, List<Long> pattrens);
+
+    int getClaimaintAge(long veteranId, Date claimDate);
 }

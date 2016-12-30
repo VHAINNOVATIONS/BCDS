@@ -155,11 +155,20 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                     }
                     List<DecisionDetails> decisions = ratingDao.getDecisionsPercentByClaimDate(veteranId, kneeClaim.getClaimDate());
                     int calculatedValue = calculateKneeRating(decisions);
+                    BigDecimal priorCdd = BigDecimal.ZERO;
+                    if (CollectionUtils.isNotEmpty(decisions)) {
+                        DecisionDetails decisionDetails = decisions.get(0);
+                        Map<String, DecisionDetails> map = new HashMap<>();
+                        map.put(decisionDetails.getDecisionCode(), decisionDetails);
+                        priorCdd = applyFormula(map);
+                    }
 
-                    int birthYear = Integer.parseInt(veteran.getBirthYear());
+                    /*int birthYear = Integer.parseInt(veteran.getBirthYear());
                     Calendar dob = Calendar.getInstance();
                     dob.set(1, 1, birthYear);
                     int age = KneeCalculator.claimantAge(kneeClaim.getClaimDate(), dob.getTime());
+*/
+                    int age = ratingDao.getClaimaintAge(veteranId, kneeClaim.getClaimDate());
 
                     ModelRatingResults results = new ModelRatingResults();
                     results.setProcessDate(new Date());
@@ -177,7 +186,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                     results.setContentionCount((long) contentionCounts.keySet().size());
                     //results.setQuantCDD(calculatedCdd.longValue());
                     results.setCurrentCDD((long) calculatedValue);
-                    //results.setPriorCDD((long) previousCddSum);
+                    results.setPriorCDD(priorCdd.longValue());
                     ModelRatingResults savedResults = modelRatingResultsRepository.save(results);
                     BigDecimal processId = BigDecimal.valueOf(savedResults.getProcessId());
 
@@ -231,16 +240,16 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                     rating.setModelType("Knee");
                     if (results.getPatternId() != null) {
                         List<DDMModelPatternIndex> accuracy = ratingDao.getPatternAccuracy(results.getPatternId());
-                        if(CollectionUtils.isNotEmpty(accuracy)) {
+                        if (CollectionUtils.isNotEmpty(accuracy)) {
                             DDMModelPatternIndex ddmModelPatternIndex = accuracy.get(0);
                             LOG.info("PATTREN INDEX :: PATTERN {} AND ACCURACY {}", ddmModelPatternIndex.getPatternId(), ddmModelPatternIndex.getAccuracy());
-                            if(ddmModelPatternIndex.getAccuracy() != null) {
+                            if (ddmModelPatternIndex.getAccuracy() != null) {
                                 rating.setAccuracy(ddmModelPatternIndex.getAccuracy().intValue());
                             }
-                            if(ddmModelPatternIndex.getPatternIndexNumber() != null) {
+                            if (ddmModelPatternIndex.getPatternIndexNumber() != null) {
                                 rating.setRateOfUse(ddmModelPatternIndex.getPatternIndexNumber().intValue());
                             }
-                            if(ddmModelPatternIndex.getCDD() != null) {
+                            if (ddmModelPatternIndex.getCDD() != null) {
                                 rating.setQuantCdd(ddmModelPatternIndex.getCDD().intValue());
                             }
                         }
@@ -431,37 +440,31 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
         return x + ((long) (r.nextDouble() * (y - x)));
     }
 
-    private float calculateKneeRating(Map<String, Float> calculatedPercentNumber) {
-        float calVal = 1;
-        for (Float x : calculatedPercentNumber.values()) {
-            calVal *= 1 - (x / 100);
-        }
-        calVal = (1 - calVal) * 100;
-        return (calVal < 60) ? 60 : calVal;
-    }
-
     public int calculateKneeRating(List<DecisionDetails> decisions) {
         Map<String, DecisionDetails> map = new HashMap<>();
-        float calVal = 1;
-        BigDecimal calValue = BigDecimal.ONE;
         LOG.info("-------------------------------------");
         for (DecisionDetails dd : decisions) {
-            if(!map.containsKey(dd.getDecisionCode())) {
+            if (!map.containsKey(dd.getDecisionCode())) {
                 map.put(dd.getDecisionCode(), dd);
                 LOG.info("DECISION DETAILS :: CODE IS {} AND PERCENT_NUMBER IS {} ", dd.getDecisionCode(), dd.getPercentNumber());
             }
         }
         LOG.info("-------------------------------------");
 
-        for(Map.Entry<String, DecisionDetails> x:map.entrySet()) {
+        BigDecimal calculatedValue = applyFormula(map);
+        LOG.info("CALCULATED VALUE ::::::  {}", calculatedValue.intValue());
+        return calculatedValue.intValue();
+    }
+
+    private BigDecimal applyFormula(Map<String, DecisionDetails> map) {
+        BigDecimal calValue = BigDecimal.ONE;
+        for (Map.Entry<String, DecisionDetails> x : map.entrySet()) {
             DecisionDetails decisionDetails = x.getValue();
             String percentNumber = decisionDetails.getPercentNumber();
             calValue = calValue.multiply(BigDecimal.ONE.subtract(BigDecimal.valueOf(Integer.parseInt(percentNumber)).divide(BigDecimal.valueOf(100))));
         }
         calValue = (BigDecimal.ONE.subtract(calValue)).multiply(BigDecimal.valueOf(100));
-        BigDecimal calculatedValue = (calValue.compareTo(BigDecimal.valueOf(60)) == 1) ? BigDecimal.valueOf(60) : calValue.setScale(-1, RoundingMode.HALF_UP);
-        LOG.info("CALCULATED VALUE ::::::  {}", calculatedValue.intValue());
-        return calculatedValue.intValue();
+        return (calValue.compareTo(BigDecimal.valueOf(60)) == 1) ? BigDecimal.valueOf(60) : calValue.setScale(-1, RoundingMode.HALF_UP);
     }
 
 }

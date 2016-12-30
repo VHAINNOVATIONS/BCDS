@@ -127,4 +127,13 @@ public class RatingDaoImpl implements RatingDao {
         return result;
     }
 
+    @Override
+    public int getClaimaintAge(long veteranId, Date claimDate) {
+        Integer count = jdbcTemplate.queryForObject(QueryConstants.CLAIMANT_AGE_QUERY, new Object[]{veteranId, claimDate}, Integer.class);
+        LOG.info("****************************************************************");
+        LOG.info("CLAIMANT AGE ::::::: {} ", count);
+        LOG.info("****************************************************************");
+        return count;
+    }
+
 }
