@@ -22,6 +22,7 @@ public class ModelRatingResults implements Serializable{
 	private Long currentCDD;
 	private Long quantCDD;
 	private Long CDDAge;
+	private Long claimCount;
 	
 	public Long getProcessId() {
 		return processId;
@@ -114,5 +115,12 @@ public class ModelRatingResults implements Serializable{
 	}
 	public void setCDDAge(Long CDDAge) {
 		this.CDDAge = CDDAge;
+	}
+	
+	public Long getClaimCount() {
+		return claimCount;
+	}
+	public void setClaimCount(Long claimCount) {
+		this.claimCount = claimCount;
 	}
 }

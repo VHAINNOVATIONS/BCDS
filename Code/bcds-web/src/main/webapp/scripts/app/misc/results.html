@@ -48,21 +48,22 @@
 						 	ng-click="searchRatingResults()">
 							<span>Search</span>
 						</button>
+						<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 						<button type="submit" class="btn btn-outline-secondary" ng-click="clear()">
 							<span>Cancel</span>
 						</button>
-						<a href="#" id="btnRatingResults" ng-click="getRatingResults()">GetResults(Test)</a>
+						<!--<a href="#" id="btnRatingResults" ng-click="getRatingResults()">GetResults(Test)</a>-->
 		    	</div>
 		    </div>
 	  	</form>
 	</div>
 	<div class="form-group">
-		<div class="col-md-12">
+		<div class="col-md-12" ng-show="displayResultsRatingTable">
 			<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="row-border hover"></table>
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-11">
+		<div class="col-md-11" ng-show="displayResultsRatingTable">
 			<div class="form-group">
 				<button type="submit" class="btn btn-outline-secondary btn-md pull-right"  style="width:100px !important;" ng-click="alert()">
 					<span>Save</span>
@@ -71,7 +72,7 @@
 		</div>
 	</div>
 	<div class="modal fade" id="gridPopUp">
-		<div class="modal-dialog" style="width:90% !important;">
+		<div class="modal-dialog" style="width:95% !important;">
 			<div class="modal-content">
 				<div class="modal-body">
 					<div class="Header">
@@ -86,7 +87,7 @@
 				</div>
 				<div class="modal-footer">
 					<p style="text-align:left;">
-						The fact pattern used to statistically determine the rating for the target issue/issues has proven to be <span><b>{{reliability}}</b></span> based on the frequency with which the same facts have been presented to support a supplemental claim for increase, and the number of times the same rating has been determined by VBA RVSRs. The calculated confidence level - based on a population size of *50* <span><b>{{contentionType}}</b></span> related claims over the past 10 years - <span><b>EXCEEDS {{rateOfAccuracy}}</b></span>.
+						The fact pattern used to statistically determine the rating for the target issue/issues has proven to be <span><b>{{reliability}}</b></span> based on the frequency with which the same facts have been presented to support a supplemental claim for increase, and the number of times the same rating has been determined by VBA RVSRs. The calculated confidence level - based on a population size of <span><b>{{claimCount}} {{contentionType}}</b></span> related claims over the past 10 years - <span><b>EXCEEDS {{rateOfAccuracy}}</b></span>.
 					</p>
 				</div>
 			</div>

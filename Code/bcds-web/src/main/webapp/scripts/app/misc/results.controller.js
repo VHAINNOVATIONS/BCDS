@@ -6,6 +6,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	
 	$scope.results = [];
 	$scope.diagnosticCodes = [];
+	$scope.modelRatingResultsStatus = [];
 	$scope.resultDetailsData = [];
 	$scope.filters = {
 		fromDate: null,
@@ -18,6 +19,10 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	$scope.selected = {};
     $scope.selectAll = false;
     $scope.isSelected = false;
+    $scope.selectedDecisions = [
+        { value:'Disagree',	label:'Disagree'},
+	    { value:'Agree',	label:'Agree'}
+	];
 
 	$scope.columnTitles = [
         {columnName : "Veteran Id", title : "Unique Identifier for each Veteran/Customer"},
@@ -33,29 +38,9 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
         {columnName : "Pattern Accuracy", title : "The number of times the matched pattern has resulted in the same rating as a fraction of the number of timesit has occurred within the last 8 years"},
         {columnName : "Agree Y/N", title : "Rater indicates if he/she agrees with the model output/result"},
     ];
-
-    var titleHtml = '<label for="selectchkall" style="display: none">AgreeOrDisagree</label><input type="checkbox" id="selectchkall" ng-model="selectAll" ng-click="toggleAll(selectAll,selected)"> ';
-   
-    $scope.toggleAll = function toggleAll(selectAll, selectedItems) {
-        for (var id in selectedItems) {
-            if (selectedItems.hasOwnProperty(id)) {
-                selectedItems[id] = selectAll;
-            }
-        }
-    }
-      
-    $scope.toggleOne = function toggleOne(selectedItems) {
-    	var isAllSelected = true;
-        for (var id in selectedItems) {
-            if (selectedItems.hasOwnProperty(id)) {
-                if (!selectedItems[id]) {
-                	isAllSelected  = false;
-                }
-            }
-        }
-        if(isAllSelected) {
-        	$scope.selectAll = true;
-    	}
+     
+    $scope.toggleOne = function toggleOne(selectedDecision, pId) {
+    	console.log(selectedDecision + '-' +  pId);
     }
 
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
@@ -137,7 +122,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	            return "<div>"+Math.round(data)+"</div>"
 	    }),
 	    DTColumnBuilder.newColumn(null).withTitle('Agree Y/N').notSortable().renderWith(function(data, type, full) {
-            return "<div>Yes/No</div>"
+            return "<div>"+$scope.modelRatingStatus+"</div>"
         }),
     ];
 
@@ -159,20 +144,23 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
     		$scope.rateOfAccuracy = '';
     		$scope.contentionType = '';
     		$scope.modelRatingDiagonosticCodes = '';
+    		$scope.modelRatingStatus = '';
     		$scope.resultDetailsData.push(info);
-    		var promise = new Promise( function(resolve, reject){
+    		var promise = new Promise( function(resolve, reject) {
                 if ($scope.resultDetailsData) {
                 	resolve($scope.resultDetailsData);
                   	$scope.reliability =  $scope.setReliability($scope.resultDetailsData[0].patternIndex.accuracy) ;
     				$scope.rateOfAccuracy = Math.round($scope.resultDetailsData[0].patternIndex.accuracy);
     				$scope.contentionType = $scope.resultDetailsData[0].modelType;
+    				$scope.claimCount = $scope.resultDetailsData[0].claimCount;
     				$scope.modelRatingDiagonosticCodes = $scope.getDiagonosticCodesByProcessId($scope.resultDetailsData[0].processId);
+    				$scope.modelRatingStatus = $scope.getModelRatingResultStatusByProcessId($scope.resultDetailsData[0].processId);
                 }
                 else
                   resolve([]);
-              });
-    		if($scope.resultDetailsData.length > 0)
-			{
+            });
+
+    		if($scope.resultDetailsData.length > 0)	{
     			$scope.dtDetailsInstance.changeData(function() {
                     return promise;
                 });
@@ -200,6 +188,15 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	     	});
 	    	
 	    	return (arrCodes.sort()).join();
+	     }
+
+	     return '';
+	};
+
+	$scope.getModelRatingResultStatusByProcessId = function(processId){
+		 var status = $filter('filter')($scope.modelRatingResultsStatus, {processId: processId}, true);
+	     if (status.length) {
+	     	return status[0].processStatus;
 	     }
 
 	     return '';
@@ -286,6 +283,8 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 				console.log('>>>successful');
 				$scope.results = result.data;
 				$scope.diagnosticCodes = result.data.diagnosticCodes;
+				$scope.modelRatingResultsStatus = result.data.resultsStatus;
+				$scope.displayResultsRatingTable = $scope.results.modelRatingResults.length > 0;
 				var promise = new Promise( function(resolve, reject){
 	                if ($scope.results)
 	                  resolve($scope.results.modelRatingResults);
@@ -334,13 +333,16 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	        DTColumnBuilder.newColumn('patternIndex.accuracy').withTitle('Pattern Accuracy').renderWith(function(data, type, full) {
 	            return "<div>"+Math.round(data)+"%</div>"
 	        }),
+	        DTColumnBuilder.newColumn(null).withTitle('Status').renderWith(function(data, type, full) {
+	        	return "<div>"+$scope.getModelRatingResultStatusByProcessId(full.processId)+"</div>"
+	        }),
 	        DTColumnBuilder.newColumn(null).withTitle('Agree Y/N').notSortable().renderWith(function(data, type, full, meta) {
-		     	$scope.selected[full.processId] = false;
-		     	return '<label for="selectchk' + data.processId + '" style="display: none">select</label><input id="selectchk' + data.processId + '" type="checkbox" ng-model="selected[' + data.processId + ']" ng-click="toggleOne(selected)">';
+	        	return '<select id="selectdrpdwn' + data.processId + '" ng-model="selectedDecision' + data.processId + '" ng-change="toggleOne(this.selectedDecision_' + data.processId + ', ' + data.processId + ')" ng-options="o.value as o.label for o in selectedDecisions"><option value="">Select a Decision</option></select>';
 			})
 	    ];
 
-	     /*These are changes for version 2.0
+	    /*These are changes for version 2.0
+	    }
 	    $scope.dtDetailsColumns = [
 			//DTColumnBuilder.newColumn('userId').withTitle('User Id').notSortable(),
 			DTColumnBuilder.newColumn('rating.processDate').withTitle('Session Date').notSortable().renderWith(function(data, type, full) {
@@ -410,12 +412,12 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	
 	$scope.getProcessIds = function(results){
 		var processIds = [];
-    	//$scope.processIds.push(1); //this is for test and needs to change..... it should come from process claims
-    	//$scope.processIds.push(2);
-    	//$scope.processIds.push(3);
-    	angular.forEach(results, function(result,idx){
-    		processIds.push(result.rating.processId);
-    	});
+    	processIds.push(1); //this is for test and needs to change..... it should come from process claims
+    	processIds.push(2);
+    	processIds.push(3);
+    	//angular.forEach(results, function(result,idx){
+    		//processIds.push(result.rating.processId);
+    	//});
     	return processIds;
     };
 
@@ -431,6 +433,8 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 				console.log('>>>successful');
 				$scope.results = result.data;
 				$scope.diagnosticCodes = result.data.diagnosticCodes;
+				$scope.modelRatingResultsStatus = result.data.resultsStatus;
+				$scope.displayResultsRatingTable = $scope.results.modelRatingResults.length > 0;
 				var promise = new Promise( function(resolve, reject){
 	                if ($scope.results)
 	                  resolve($scope.results.modelRatingResults);
@@ -478,6 +482,4 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
     		$scope.getRatingResults(formattedResults);
 		});
 	});
-
-	/*version 2.0*/
 });

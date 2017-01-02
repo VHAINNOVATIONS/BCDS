@@ -1,6 +1,7 @@
 package gov.va.vba.service.orika;
 
 import gov.va.vba.domain.ModelRatingResults;
+import gov.va.vba.domain.ModelRatingResultsStatus;
 import gov.va.vba.domain.util.Veteran;
 import gov.va.vba.domain.util.ModelPatternIndex;
 import ma.glasnost.orika.MapperFacade;
@@ -47,9 +48,13 @@ public class ModelRatingResultsMapper {
 		        .field("quantCDD", "quantCDD")
 		        .field("processDate", "processDate")
 		        .field("CDDAge", "CDDAge")
+		        .field("claimCount", "claimCount")
 		        .byDefault()
                 .register();
-        
+        mapperFactory.classMap(gov.va.vba.persistence.entity.ModelRatingResultsStatus.class, ModelRatingResultsStatus.class)
+        .field("id.processId", "processId")
+        .field("id.processStatus", "processStatus")
+		.register();
         mapperFacade = mapperFactory.getMapperFacade();
     }
 
@@ -61,5 +66,15 @@ public class ModelRatingResultsMapper {
     public List<ModelRatingResults> mapCollection(List<gov.va.vba.persistence.entity.ModelRatingResults> sourceEntity) {
         List<ModelRatingResults> results = mapperFacade.mapAsList(sourceEntity, ModelRatingResults.class);
         return results;
+    }
+    
+    /**
+     * Description: This method converts ModelRatingResultsStatusId entity collection to model
+     *
+     * @param sourceEntity
+     */
+    public List<ModelRatingResultsStatus> mapResultStatusCollection(List<gov.va.vba.persistence.entity.ModelRatingResultsStatus> sourceEntity) {
+        List<ModelRatingResultsStatus> resultsStatus = mapperFacade.mapAsList(sourceEntity, ModelRatingResultsStatus.class);
+        return resultsStatus;
     }
 }
