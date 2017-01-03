@@ -169,10 +169,18 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                     int age = KneeCalculator.claimantAge(kneeClaim.getClaimDate(), dob.getTime());
 */
                     int age = ratingDao.getClaimaintAge(veteranId, kneeClaim.getClaimId());
-
+                    
+                  //Added code for Process Id Sequence generation
+                    List<Long> maxprocessId = ratingDao.getProcessIDSeq();
+                    LOG.debug("******************************");
+                    long processIdSeq = maxprocessId.get(0);
+                    LOG.info("MAX ProcessId -------- " + processIdSeq);
+                    
                     ModelRatingResults results = new ModelRatingResults();
                     results.setProcessDate(new Date());
-                    results.setProcessId(generateRandomId());
+                    
+                    //setting ProcessId as Max Sequence generated+1
+                    results.setProcessId(processIdSeq+1);
                     //results.setCDDAge((long) cddAge);
                     //results.setClaimAge((long) age);
                     results.setClaimId(kneeClaim.getClaimId());

@@ -136,4 +136,17 @@ public class RatingDaoImpl implements RatingDao {
         return count;
     }
 
+    @Override
+    public List<Long> getProcessIDSeq() {
+    	StringBuilder processQuery = new StringBuilder();
+        processQuery.append("SELECT COALESCE(MAX(PROCESS_ID),0) FROM BCDSS.MODEL_RATING_RESULTS");
+        LOG.info("QUERY -------- " + processQuery);
+        List<Long> maxProcessId = jdbcTemplate.query(processQuery.toString(), new LongRowMapper());
+        LOG.info("****************************************************************");
+        for (Long pId : maxProcessId) {
+            LOG.info(pId.toString());
+        }
+        LOG.info("****************************************************************");
+        return maxProcessId;
+    }
 }
