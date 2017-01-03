@@ -412,12 +412,12 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	
 	$scope.getProcessIds = function(results){
 		var processIds = [];
-    	processIds.push(1); //this is for test and needs to change..... it should come from process claims
-    	processIds.push(2);
-    	processIds.push(3);
-    	//angular.forEach(results, function(result,idx){
-    		//processIds.push(result.rating.processId);
-    	//});
+    	//processIds.push(1); //this is for test and needs to change..... it should come from process claims
+    	//processIds.push(2);
+    	//processIds.push(3);
+    	angular.forEach(results, function(result,idx){
+    		processIds.push(result.rating.processId);
+    	});
     	return processIds;
     };
 
