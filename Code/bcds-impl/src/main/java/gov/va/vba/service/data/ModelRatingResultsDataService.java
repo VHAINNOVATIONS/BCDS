@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.emory.mathcs.backport.java.util.Arrays;
 import gov.va.vba.domain.ModelRatingResults;
 import gov.va.vba.domain.ModelRatingResultsDiag;
+import gov.va.vba.domain.ModelRatingResultsStatus;
 import gov.va.vba.persistence.entity.RatingDecision;
 import gov.va.vba.persistence.repository.ModelRatingResultsRepository;
 import gov.va.vba.persistence.repository.RatingDecisionRepository;
@@ -75,5 +76,13 @@ public class ModelRatingResultsDataService extends AbsDataService<gov.va.vba.per
 		List<ModelRatingResultsDiag> diagCodes = modelRatingResultsDiagMapper.mapCollection(codes);
 		LOG.debug("diagCodes" + diagCodes);
 		return diagCodes;
+	}
+	
+	public List<ModelRatingResultsStatus> findModelRatingResultStatusByProcessIds(List<Long> processIds) {
+		if(processIds == null) return null;
+		List<gov.va.vba.persistence.entity.ModelRatingResultsStatus> statuses = modelRatingResultsRepository.findModelRatingResultStatusByProcessIds(processIds);
+		List<ModelRatingResultsStatus> resultsStatus = modelRatingResultsMapper.mapResultStatusCollection(statuses);
+		LOG.debug("resultsStatus" + resultsStatus);
+		return resultsStatus;
 	}
 }
