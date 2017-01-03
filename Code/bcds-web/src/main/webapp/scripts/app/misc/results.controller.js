@@ -8,6 +8,8 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	$scope.diagnosticCodes = [];
 	$scope.modelRatingResultsStatus = [];
 	$scope.resultDetailsData = [];
+	$scope.updateDecisions = {};
+	$scope.arrDecisions = [];
 	$scope.filters = {
 		fromDate: null,
 		toDate: null
@@ -40,7 +42,17 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
     ];
      
     $scope.toggleOne = function toggleOne(selectedDecision, pId) {
-    	console.log(selectedDecision + '-' +  pId);
+    	$scope.arrDecisions = [];
+    	if($scope.updateDecisions[pId]){
+    		$scope.updateDecisions[pId] = selectedDecision;
+    	}
+    	else{
+    		$scope.updateDecisions[pId] = selectedDecision;
+    	}
+    	
+    	angular.forEach($scope.updateDecisions, function(d,p){
+       		$scope.arrDecisions.push(d+"-"+p);
+	    });
     }
 
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
@@ -133,6 +145,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
                 $scope.rowClickHandler(e,aData);
             });
         });
+       
         return nRow;
     }
     
@@ -246,6 +259,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
     	$scope.toDate = null;
     	$scope.filters.modelTypeOption = null;
         $scope.filters.modelResultId = null;
+        $scope.cleanScopeVariables();
     };
 
      $scope.setSearchParameters = function(){
@@ -285,6 +299,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 				$scope.diagnosticCodes = result.data.diagnosticCodes;
 				$scope.modelRatingResultsStatus = result.data.resultsStatus;
 				$scope.displayResultsRatingTable = $scope.results.modelRatingResults.length > 0;
+				$scope.cleanScopeVariables();
 				var promise = new Promise( function(resolve, reject){
 	                if ($scope.results)
 	                  resolve($scope.results.modelRatingResults);
@@ -337,7 +352,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	        	return "<div>"+$scope.getModelRatingResultStatusByProcessId(full.processId)+"</div>"
 	        }),
 	        DTColumnBuilder.newColumn(null).withTitle('Agree Y/N').notSortable().renderWith(function(data, type, full, meta) {
-	        	return '<select id="selectdrpdwn' + data.processId + '" ng-model="selectedDecision' + data.processId + '" ng-change="toggleOne(this.selectedDecision_' + data.processId + ', ' + data.processId + ')" ng-options="o.value as o.label for o in selectedDecisions"><option value="">Select a Decision</option></select>';
+	        	return '<select class="drpDownDecisions" id="selectdrpdwn' + data.processId + '" ng-model="selectedDecision' + data.processId + '" ng-change="toggleOne(this.selectedDecision' + data.processId + ', ' + data.processId + ')" ng-options="o.value as o.label for o in selectedDecisions"><option value="">Select a Decision</option></select>';
 			})
 	    ];
 
@@ -422,19 +437,20 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
     };
 
 	$scope.getRatingResults = function(results){
-		var processIds = $scope.getProcessIds(results);
-		if(processIds == null){
+		$scope.processIds = $scope.getProcessIds(results);
+		if($scope.processIds == null){
 			alert("No processId found."); // need to change to validation message
 			return;
 		}
 		$scope.filters = null;
-		RatingService.findModelRatingResults(processIds, $scope.filters)
+		RatingService.findModelRatingResults($scope.processIds, $scope.filters)
 			.then(function(result){
 				console.log('>>>successful');
 				$scope.results = result.data;
 				$scope.diagnosticCodes = result.data.diagnosticCodes;
 				$scope.modelRatingResultsStatus = result.data.resultsStatus;
 				$scope.displayResultsRatingTable = $scope.results.modelRatingResults.length > 0;
+				$scope.cleanScopeVariables();
 				var promise = new Promise( function(resolve, reject){
 	                if ($scope.results)
 	                  resolve($scope.results.modelRatingResults);
@@ -445,6 +461,36 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	                return promise;
 	            });
 		});
+	};
+
+	$scope.updateResultsDecisions = function(){
+		RatingService.updateModelRatingResultsStatus($scope.processIds, $scope.arrDecisions)
+			.then(function(result){
+				console.log('>>>successful');
+				$scope.results = result.data;
+				$scope.diagnosticCodes = result.data.diagnosticCodes;
+				$scope.modelRatingResultsStatus = result.data.resultsStatus;
+				$scope.displayResultsRatingTable = $scope.results.modelRatingResults.length > 0;
+				$scope.cleanScopeVariables();
+				var promise = new Promise( function(resolve, reject){
+	                if ($scope.results)
+	                  resolve($scope.results.modelRatingResults);
+	                else
+	                  resolve([]);
+	              });
+	    		$scope.dtInstance.changeData(function() {
+	                return promise;
+	            });
+		});
+	};
+
+	$scope.cleanScopeVariables = function(){
+		$scope.updateDecisions = {};
+        $scope.arrDecisions = [];
+        //var dropdowns = angular.element(".drpDownDecisions");
+        //angular.forEach(dropdowns,function(ele,id){
+		//	ele.selectedDecision = $scope.selectedDecisions[0].value;
+		//});
 	};
 
 	/*version 3.0*/

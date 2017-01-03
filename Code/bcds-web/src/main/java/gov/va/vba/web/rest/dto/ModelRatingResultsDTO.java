@@ -13,7 +13,8 @@ public class ModelRatingResultsDTO {
     private Date toDate;
     private String modelType;
     private List<Long> processIds;
-   
+    private List<String> resultsStatus;
+	private String crtdBy;
 
     public Date getFromDate() {
         return fromDate;
@@ -45,5 +46,21 @@ public class ModelRatingResultsDTO {
 
     public void setProcessIds(List<Long> processIds) {
         this.processIds = processIds;
+    }
+    
+    public List<String> getResultsStatus() {
+        return resultsStatus;
+    }
+
+    public void setResultsStatus(List<String> resultsStatus) {
+        this.resultsStatus = resultsStatus;
+    }
+    
+    public String getCrtdBy() {
+        return this.crtdBy;
+    }
+
+    public void setCrtdBy(String crtdBy) {
+        this.crtdBy = crtdBy;
     }
 }
