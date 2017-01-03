@@ -57,6 +57,23 @@ public class ModelResultsResource {
         return detailedResult;
     }
     
+    /**
+     * GET  /updateModelRatingResultsStatus -> get results by params (processId/decision).
+     */
+    @RequestMapping(value = "/updateModelRatingResultsStatus", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ModelRatingDetailsResult updateModelRatingResultsStatus(@RequestBody ModelRatingResultsDTO modelRating) {
+        LOGGER.debug("REST request to get results of model rating");
+        ModelRatingDetailsResult detailedResult = new ModelRatingDetailsResult();
+        List<Long> processIds = modelRatingResultsDataService.updateModelRatingResultsStatus(modelRating.getResultsStatus());
+        if(processIds == null) return null;
+        
+        detailedResult.modelRatingResults = modelRatingResultsDataService.getClaimModelRatingResults(modelRating.getProcessIds(), null, null, null);
+        detailedResult.diagnosticCodes = modelRatingResultsDataService.findDiagnosticCodes(modelRating.getProcessIds());
+        detailedResult.resultsStatus = modelRatingResultsDataService.findModelRatingResultStatusByProcessIds(modelRating.getProcessIds());
+        return detailedResult;
+    }
+    
 
     /**
      * GET  /ddms/:processId -> get the "processId" results.

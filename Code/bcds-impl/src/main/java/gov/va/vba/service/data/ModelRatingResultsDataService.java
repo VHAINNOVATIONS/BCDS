@@ -85,4 +85,21 @@ public class ModelRatingResultsDataService extends AbsDataService<gov.va.vba.per
 		LOG.debug("resultsStatus" + resultsStatus);
 		return resultsStatus;
 	}
+	
+	public List<Long> updateModelRatingResultsStatus(List<String> resultsStatus) {
+		if(resultsStatus == null) return null;
+		List<Long> processIds = new ArrayList<Long>();
+		for (String status : resultsStatus) {
+			String[] parts = status.split("-");
+			String decision = parts[0];
+			Long pid = Long.parseLong(parts[1].toString());
+			Integer result = modelRatingResultsRepository.updateModelRatingResultStatusByProcessId(pid, decision);
+			if(result > 0) {
+				processIds.add(pid);
+			}
+			LOG.debug("processIds Status" + processIds);
+		}
+		
+		return processIds;
+	}
 }
