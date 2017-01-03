@@ -1,8 +1,6 @@
 package gov.va.vba.service.data;
 
 import gov.va.vba.bcdss.models.ClaimRating;
-import gov.va.vba.bcdss.models.EarDecision;
-import gov.va.vba.bcdss.models.KneeDecision;
 import gov.va.vba.bcdss.models.Rating;
 import gov.va.vba.bcdss.models.RatingDecisions;
 import gov.va.vba.bcdss.models.VeteranClaim;
@@ -227,12 +225,12 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                     }
                     //ddmModelCntntService.getPatternId(results.getModelType(), )
 
-                    EarDecision ed = new EarDecision();
-                    KneeDecision kd = new KneeDecision();
+                    /*EarDecision ed = new EarDecision();
+                    KneeDecision kd = new KneeDecision();*/
                     RatingDecisions ratingDecisions = new RatingDecisions();
                     ratingDecisions.setProcessId(processId.intValue());
-                    ratingDecisions.setEarRatings(ed);
-                    ratingDecisions.setKneeRatings(kd);
+                   /* ratingDecisions.setEarRatings(ed);
+                    ratingDecisions.setKneeRatings(kd);*/
                     gov.va.vba.bcdss.models.Rating rating = new Rating();
                     rating.setCddAge(age);
                     rating.setClaimAge(age);

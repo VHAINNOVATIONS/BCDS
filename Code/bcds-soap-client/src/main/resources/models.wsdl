@@ -91,11 +91,11 @@
 			<xs:complexType name="ratingDecisions">
 				<xs:sequence>
 					<xs:element name="processId" type="xs:int" />
-					<xs:element name="kneeRatings" type="tns:kneeDecision" />
-					<xs:element name="earRatings" type="tns:earDecision" />
+					<!-- <xs:element name="kneeRatings" type="tns:kneeDecision" />
+					<xs:element name="earRatings" type="tns:earDecision" /> -->
 				</xs:sequence>
 			</xs:complexType>
-			<xs:complexType name="kneeDecision">
+			<!-- <xs:complexType name="kneeDecision">
 				<xs:sequence>
 					<xs:element name="contentionKnee" type="xs:int" />
 					<xs:element name="contentionLeft" type="xs:int" />
@@ -120,7 +120,7 @@
 					<xs:element name="decisionLoss" type="xs:int" />
 					<xs:element name="decisionTinitu" type="xs:int" />
 				</xs:sequence>
-			</xs:complexType>
+			</xs:complexType> -->
 			<xs:complexType name="codesCount">
 				<xs:sequence>
 					<xs:element name="diagnosisCode" type="xs:string" />
