@@ -325,7 +325,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	            return "<div>"+data+"</div>"
 	        }),
 	        DTColumnBuilder.newColumn('processId').withTitle('Model Result Id').renderWith(function(data, type, full) {
-	            return "<a class='clickable' style='cursor: hand;'>" + data + "</a>"
+	            return "<a class='clickable' style='cursor: pointer;'>" + data + "</a>"
 	        }),
 	        DTColumnBuilder.newColumn('priorCDD').withTitle('Prior Rating').renderWith(function(data, type, full) {
 	            return "<div>"+data+"</div>"
