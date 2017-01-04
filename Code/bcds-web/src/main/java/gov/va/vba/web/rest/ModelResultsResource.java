@@ -52,8 +52,11 @@ public class ModelResultsResource {
         LOGGER.debug("REST request to get results of model rating");
         ModelRatingDetailsResult detailedResult = new ModelRatingDetailsResult();
         detailedResult.modelRatingResults = modelRatingResultsDataService.getClaimModelRatingResults(modelRating.getProcessIds(), modelRating.getFromDate(), modelRating.getToDate(), modelRating.getModelType());
-        detailedResult.diagnosticCodes = modelRatingResultsDataService.findDiagnosticCodes(modelRating.getProcessIds());
-        detailedResult.resultsStatus = modelRatingResultsDataService.findModelRatingResultStatusByProcessIds(modelRating.getProcessIds());
+        List<Long> processIds = (modelRating.getProcessIds() == null) ? modelRatingResultsDataService.getProcessIdsFromRatingResults(detailedResult.modelRatingResults) : modelRating.getProcessIds();
+        if(processIds != null && processIds.size() > 0){
+        	detailedResult.diagnosticCodes = modelRatingResultsDataService.findDiagnosticCodes(processIds);
+        	detailedResult.resultsStatus = modelRatingResultsDataService.findModelRatingResultStatusByProcessIds(processIds);
+        }
         return detailedResult;
     }
     

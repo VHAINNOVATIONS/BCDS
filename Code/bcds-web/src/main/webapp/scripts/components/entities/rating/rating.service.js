@@ -12,10 +12,10 @@ angular.module('bcdssApp')
 
             findModelRatingResults: function (processIds, filters) {
                 var data = {
-                    processIds : (processIds.length ==0) ? null : processIds,           
+                    processIds : (processIds.length === 0) ? null : processIds,           
                     fromDate: (filters == null) ? null : filters.fromDate,
                     toDate: (filters == null) ? null : filters.toDate,
-                    modelType: (filters == null) ? null : filters.modelTypeOption
+                    modelType: (filters == null) ? null : angular.lowercase(filters.modelTypeOption)
                 }
                 return $http.post('api/modelRatingResults', data)
                     .then(function (response) {
@@ -25,8 +25,8 @@ angular.module('bcdssApp')
 
             updateModelRatingResultsStatus: function (processIds, decisions) {
                 var data = {
-                    processIds : (processIds.length == 0) ? null : processIds,   
-                    resultsStatus : (decisions.length == 0) ? null : decisions,           
+                    processIds : (processIds.length === 0) ? null : processIds,   
+                    resultsStatus : (decisions.length === 0) ? null : decisions,           
                 }
                 return $http.post('api/updateModelRatingResultsStatus', data)
                     .then(function (response) {
