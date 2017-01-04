@@ -40,7 +40,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
         {columnName : "RE/MR Match?", title : "Indication as to whether the model rating is equal to the actual rating"},
         {columnName : "Pattern Rate of Use", title : "The number of times the matched pattern has occurred within last 8 years"},
         {columnName : "Pattern Accuracy", title : "The number of times the matched pattern has resulted in the same rating as a fraction of the number of timesit has occurred within the last 8 years"},
-        {columnName : "Agree Y/N", title : "Rater indicates if he/she agrees with the model output/result"},
+        {columnName : "Agree/Disagree", title : "Rater indicates if he/she agrees with the model output/result"},
     ];
      
     $scope.toggleOne = function toggleOne(selectedDecision, pId) {
@@ -135,7 +135,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	    DTColumnBuilder.newColumn('patternIndex.accuracy').withTitle('Pattern Accuracy Rate').notSortable().renderWith(function(data, type, full) {
 	            return "<div>"+Math.round(data)+"</div>"
 	    }),
-	    DTColumnBuilder.newColumn(null).withTitle('Agree Y/N').notSortable().renderWith(function(data, type, full) {
+	    DTColumnBuilder.newColumn(null).withTitle('Agree/Disagree').notSortable().renderWith(function(data, type, full) {
             return "<div>"+$scope.modelRatingStatus+"</div>"
         }),
     ];
@@ -210,7 +210,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 
 	$scope.getModelRatingResultStatusByProcessId = function(processId){
 		 var status = $filter('filter')($scope.modelRatingResultsStatus, {processId: processId}, true);
-	     if (status.length) {
+	     if (status && status.length) {
 	     	return status[0].processStatus;
 	     }
 
@@ -219,8 +219,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 
 	$scope.modelTypeOptions = [
 		{ value:'knee',	label:'Knee'},
-	    { value:'ear',	label:'Ear'},
-	    { value:'leg',	label:'Leg'},
+	    { value:'ear',	label:'Ear'}
 	];
 
 	$scope.processResults = function(resultsArray){
@@ -259,8 +258,8 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
     	$scope.errMessage = '';
     	$scope.fromDate = null;
     	$scope.toDate = null;
-    	$scope.filters.modelTypeOption = null;
-        $scope.filters.modelResultId = null;
+    	($scope.filters) ? $scope.filters.modelTypeOption = null : $scope.filters = null;
+    	($scope.filters) ? $scope.filters.modelResultId = null : $scope.filters = null;
         $scope.cleanScopeVariables();
     };
 
@@ -284,7 +283,9 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
     	if($scope.fromDate != null && $scope.toDate != null){
     		$scope.filters.fromDate = $scope.formatDate($scope.fromDate);
     		$scope.filters.toDate = $scope.formatDate($scope.toDate);
-    		($scope.filters === null || $scope.filters.modelResultId === null) ? null : $scope.processIds.push($scope.filters.modelResultId);
+    		($scope.filters === null || $scope.filters.modelResultId === null || $scope.filters.modelResultId === undefined) 
+    			? $scope.processIds = [] 
+    			: $scope.processIds.push($scope.filters.modelResultId);
     	}
 
 		$scope.filters.modelTypeOption = ($scope.filters.modelTypeOption == null) ? null : $scope.filters.modelTypeOption;
@@ -300,7 +301,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 				$scope.results = result.data;
 				$scope.diagnosticCodes = result.data.diagnosticCodes;
 				$scope.modelRatingResultsStatus = result.data.resultsStatus;
-				$scope.displayResultsRatingTable = $scope.results.modelRatingResults.length > 0;
+				$scope.displayResultsRatingTable = $scope.results.modelRatingResults.length >= 0;
 				$scope.cleanScopeVariables();
 				var promise = new Promise( function(resolve, reject){
 	                if ($scope.results)
@@ -325,7 +326,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	            return "<div>"+data+"</div>"
 	        }),
 	        DTColumnBuilder.newColumn('processId').withTitle('Model Result Id').renderWith(function(data, type, full) {
-	            return "<a class='clickable' style='cursor: pointer;'>" + data + "</a>"
+	            return "<a href='#' class='clickable' style='cursor: pointer;' data-toggle='modal' data-target='gridPopUp'>" + data + "</a>"
 	        }),
 	        DTColumnBuilder.newColumn('priorCDD').withTitle('Prior Rating').renderWith(function(data, type, full) {
 	            return "<div>"+data+"</div>"
@@ -353,7 +354,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	        DTColumnBuilder.newColumn(null).withTitle('Status').renderWith(function(data, type, full) {
 	        	return "<div>"+$scope.getModelRatingResultStatusByProcessId(full.processId)+"</div>"
 	        }),
-	        DTColumnBuilder.newColumn(null).withTitle('Agree Y/N').notSortable().renderWith(function(data, type, full, meta) {
+	        DTColumnBuilder.newColumn(null).withTitle('Agree/Disagree').notSortable().renderWith(function(data, type, full, meta) {
 	        	var html = '<select class="drpDownDecisions" id="selectdrpdwn' + data.processId + '" ng-model="selectedDrpDecision[' + data.processId + ']" ng-change="toggleOne(this.selectedDrpDecision[' + data.processId + '], ' + data.processId + ')" ng-options="o.value as o.label for o in selectedDecisions"></select>';
 	        	$scope.selectedDrpDecision[data.processId] = $scope.selectedDecisions[0].value;
 	        	return html
@@ -453,7 +454,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 				$scope.results = result.data;
 				$scope.diagnosticCodes = result.data.diagnosticCodes;
 				$scope.modelRatingResultsStatus = result.data.resultsStatus;
-				$scope.displayResultsRatingTable = $scope.results.modelRatingResults.length > 0;
+				$scope.displayResultsRatingTable = $scope.results.modelRatingResults.length >= 0;
 				$scope.cleanScopeVariables();
 				var promise = new Promise( function(resolve, reject){
 	                if ($scope.results)

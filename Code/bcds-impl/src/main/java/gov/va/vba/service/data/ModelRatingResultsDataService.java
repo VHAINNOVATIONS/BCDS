@@ -99,6 +99,15 @@ public class ModelRatingResultsDataService extends AbsDataService<gov.va.vba.per
 			}
 			LOG.debug("processIds Status" + processIds);
 		}
+		return processIds;
+	}
+	
+	public List<Long> getProcessIdsFromRatingResults(List<ModelRatingResults> results){
+		if(results == null) return null;
+		List<Long> processIds = new ArrayList<Long>();
+		for (ModelRatingResults ratingResult : results) {
+			processIds.add(ratingResult.getProcessId());
+		}
 		
 		return processIds;
 	}
