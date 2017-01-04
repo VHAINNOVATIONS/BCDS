@@ -21,7 +21,9 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	$scope.selected = {};
     $scope.selectAll = false;
     $scope.isSelected = false;
+    $scope.selectedDrpDecision = [];
     $scope.selectedDecisions = [
+    	{ value:'0',	label:'Select a Decision'},
         { value:'Disagree',	label:'Disagree'},
 	    { value:'Agree',	label:'Agree'}
 	];
@@ -352,8 +354,10 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	        	return "<div>"+$scope.getModelRatingResultStatusByProcessId(full.processId)+"</div>"
 	        }),
 	        DTColumnBuilder.newColumn(null).withTitle('Agree Y/N').notSortable().renderWith(function(data, type, full, meta) {
-	        	return '<select class="drpDownDecisions" id="selectdrpdwn' + data.processId + '" ng-model="selectedDecision' + data.processId + '" ng-change="toggleOne(this.selectedDecision' + data.processId + ', ' + data.processId + ')" ng-options="o.value as o.label for o in selectedDecisions"><option value="">Select a Decision</option></select>';
-			})
+	        	var html = '<select class="drpDownDecisions" id="selectdrpdwn' + data.processId + '" ng-model="selectedDrpDecision[' + data.processId + ']" ng-change="toggleOne(this.selectedDrpDecision[' + data.processId + '], ' + data.processId + ')" ng-options="o.value as o.label for o in selectedDecisions"></select>';
+	        	$scope.selectedDrpDecision[data.processId] = $scope.selectedDecisions[0].value;
+	        	return html
+	        })
 	    ];
 
 	    /*These are changes for version 2.0
@@ -487,10 +491,6 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	$scope.cleanScopeVariables = function(){
 		$scope.updateDecisions = {};
         $scope.arrDecisions = [];
-        //var dropdowns = angular.element(".drpDownDecisions");
-        //angular.forEach(dropdowns,function(ele,id){
-		//	ele.selectedDecision = $scope.selectedDecisions[0].value;
-		//});
 	};
 
 	/*version 3.0*/
