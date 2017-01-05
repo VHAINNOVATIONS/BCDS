@@ -220,6 +220,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                             if (CollectionUtils.isNotEmpty(diagPattren)) {
                                 Long pattrenId = diagPattren.get(0);
                                 results.setPatternId(pattrenId);
+                                LOG.info("PATTREN ID :: " + pattrenId);
                                 results = modelRatingResultsRepository.save(results);
                             }
                         }

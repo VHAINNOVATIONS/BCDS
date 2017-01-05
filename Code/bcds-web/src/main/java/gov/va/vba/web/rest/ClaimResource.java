@@ -67,7 +67,7 @@ public class ClaimResource {
         	sb.append("%").append(contentionType).append("%");
         	contentionTypeStr = sb.toString();
         }
-      
+
        if(regionalOffice!=0 && !"".equals(regionalOffice)){
     	   isRegionalExist= true;
        }
@@ -92,16 +92,6 @@ public class ClaimResource {
         LOGGER.info("***********************");
         LOGGER.info(processClaim.getVeteranClaimRatingOutput().toString());
         List<VeteranClaimRating> output = processClaim.getVeteranClaimRatingOutput();
-        //TODO: Remove in future
-        if(CollectionUtils.isNotEmpty(output)) {
-            for(VeteranClaimRating vc : output) {
-                List<ClaimRating> claimRating = vc.getClaimRating();
-                for(ClaimRating cr : claimRating) {
-                    Rating rating = cr.getRating();
-                    rating.setPatternId(1344795);
-                }
-            }
-        }
         return processClaim;
     }
 
