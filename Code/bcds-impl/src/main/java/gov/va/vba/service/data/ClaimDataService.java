@@ -167,7 +167,9 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                     int age = KneeCalculator.claimantAge(kneeClaim.getClaimDate(), dob.getTime());
 */
                     int age = ratingDao.getClaimaintAge(veteranId, kneeClaim.getClaimId());
-                    
+                    age = roundtoTop(age);
+                    LOG.info("ROUNDED AGE :: {}", age);
+
                   //Added code for Process Id Sequence generation
                     List<Long> maxprocessId = ratingDao.getProcessIDSeq();
                     LOG.debug("******************************");
@@ -459,7 +461,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
 
         BigDecimal calculatedValue = applyFormula(map);
         LOG.info("CALCULATED VALUE ::::::  {}", calculatedValue.intValue());
-        return calculatedValue.intValue();
+        return roundtoTop(calculatedValue.intValue());
     }
 
     private BigDecimal applyFormula(Map<String, DecisionDetails> map) {
@@ -471,6 +473,14 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
         }
         calValue = (BigDecimal.ONE.subtract(calValue)).multiply(BigDecimal.valueOf(100));
         return (calValue.compareTo(BigDecimal.valueOf(60)) == 1) ? BigDecimal.valueOf(60) : calValue.setScale(-1, RoundingMode.HALF_UP);
+    }
+
+    private int roundtoTop(int value) {
+        int i = value / 10;
+        if((value % 10) > 0) {
+           return (i+1) * 10;
+        }
+        return value;
     }
 
 }
