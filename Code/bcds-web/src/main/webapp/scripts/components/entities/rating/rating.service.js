@@ -32,6 +32,20 @@ angular.module('bcdssApp')
                     .then(function (response) {
                         return angular.fromJson(response);
                     });
+            },
+
+            generateModelRatingResultsReport: function (processIds, filters) {
+                var data = {
+                    processIds : (processIds.length === 0) ? null : processIds,           
+                    fromDate: (filters == null) ? null : filters.fromDate,
+                    toDate: (filters == null) ? null : filters.toDate,
+                    modelType: (filters == null) ? null : angular.lowercase(filters.modelTypeOption),
+                    reportType: (filters == null) ? null : angular.lowercase(filters.reportTypeOption)
+                }
+                return $http.post('api/modelRatingResultsReport', data)
+                    .then(function (response) {
+                        return angular.fromJson(response);
+                    });
             }
         };
     });

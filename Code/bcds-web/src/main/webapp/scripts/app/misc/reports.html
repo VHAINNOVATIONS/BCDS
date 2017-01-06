@@ -1,4 +1,4 @@
-<div>
+<!--<div>
 	<h2 class="header">Reports</h2>
 </div>
 <br />
@@ -9,4 +9,93 @@
 	<h4>Thanks for your patience, while we add more functionalities.</h4>
 	<br />
 	<h4>Please come back again.</h4>
+</div>-->
+
+<div ng-controller="ReportsController">
+	<div>
+		<br/>
+	</div>
+	<div class="form-group">
+		<form name="frmResultsSearchFilter" class="form-horizontal" role="form" ng-submit="checkReportTypeErr()">
+			<div class="row" role="alert" style="color: #D8000C; padding-right:200px;"><span>{{errMessage}}</span></div>
+		    <div class="row"> 
+			    <div class="col-md-2">
+			    	<label class="pull-right">
+			    		<span>Processed From Date:</span>
+			    	</label>
+			    </div>
+		        <div class="col-md-2">
+		        	<input type="date" class="form-control pull-left" validatedateformat data-date-format="mm/dd/yyyy" 
+		        		maxlength="10" id="fromDate" calendar ng-click="openCalendar('fromDate')" placeholder="Enter Date" 
+		        		name="fromDate" ng-model="fromDate" ng-change='checkErr(fromDate,toDate)'/>
+				        
+		        </div>
+		        <div class="col-md-2">
+		        	<label for="dateto" class="control-label pull-right">Processed To Date:</label>
+		        </div>
+		        <div class="col-md-2">
+		        	  <input type="date" class="form-control pull-left" validatedateformat data-date-format="mm/dd/yyyy" 
+		        	  maxlength="10" id="toDate" calendar ng-click="openCalendar('toDate')" placeholder="Enter Date" 
+				      name="toDate" ng-model="toDate" ng-change='checkErr(fromDate,toDate)'/>
+		        </div>
+		    </div>
+		    <div class="row" style="margin-top:10px;">
+		    	<div class="col-md-2">
+		    		 <label for="txtModelType" class="control-label pull-right">Model Type:</label>
+		    	</div>
+		    	<div class="col-md-2">
+		    		<select id="modelType" name="modelType" class="form-control pull-left" type="text" ng-model="filters.modelTypeOption" ng-options="o.value as o.label for o in modelTypeOptions | orderBy:'label'">
+								 <option value="">Select a model type</option>
+					</select>
+		    	</div>
+		    	<div class="col-md-2">
+		    		<label for="txtModelResultId" class="control-label pull-right">Model Result Id:</label>
+		    	</div>
+		    	<div class="col-md-2">
+		    		<input type="text" id="txtModelResultId" class="form-control pull-left" ng-model="filters.modelResultId">
+		    	</div>
+		    </div>
+		    <div class="row" style="margin-top:10px;">
+		    	<div class="col-md-2">
+		    		 <label for="reportType" class="control-label pull-right">Report Type:</label>
+		    	</div>
+		    	<div class="col-md-2">
+		    		<select id="reportType" name="reportType" class="form-control pull-left" ng-change='checkReportTypeErr()' type="text" ng-model="filters.reportTypeOption" ng-options="o.value as o.label for o in reportTypeOptions | orderBy:'label'">
+								 <option value="">Select a report type</option>
+					</select>
+		    	</div>
+		    	<!--<div class="col-md-2">
+		    		<label for="outputType" class="control-label pull-right">Output Type:</label>
+		    	</div>
+		    	<div class="col-md-2">
+		    		<select id="outputType" name="outputType" class="form-control pull-left" type="text" ng-model="filters.outputTypeOption" ng-options="o.value as o.label for o in outputTypeOptions | orderBy:'label'">
+								 <option value="">Select a output type</option>
+					</select>
+		    	</div>-->
+		    </div>
+		    <div class="row">
+		    	<div class="col-md-4 col-md-offset-3" style="margin-top:10px;">
+						<button type="submit" ng-disabled="frmResultsSearchFilter.$invalid" class="btn btn-outline-secondary" 
+						 	ng-click="searchRatingResults()">
+							<span>Generate Report</span>
+						</button>
+						<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+						<button type="submit" class="btn btn-outline-secondary" ng-click="clear()">
+							<span>Cancel</span>
+						</button>
+		    	</div>
+		    </div>
+	  	</form>
+	</div>
+	<div class="">
+		<div class="row">
+			<div class="col-md-12" ng-show="displayResultsRatingDetailsTable">
+				<table id="resultDetailsGrid" name="resultDetailsGrid" datatable="" dt-options="dtDetailsOptions" dt-columns="dtDetailsColumns" 
+				dt-instance="dtDetailsInstance" class="row-border hover"></table>
+			</div>
+			<div class="col-md-12" ng-show="displayResultsRatingAggregateTable">
+				<table id="resultAggregateGrid" name="resultAggregateGrid" datatable="" dt-options="dtAggregateOptions" dt-columns="dtAggregateColumns" dt-instance="dtAggregateInstance" class="row-border hover"></table>
+			</div>
+		</div>
+	</div>
 </div>

@@ -29,7 +29,9 @@ import gov.va.vba.service.data.ModelRatingResultsDataService;
 public class ModelResultsResource {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ModelResultsResource.class);
-
+    public static final String DetailedReport = "DETAILED";
+    public static final String AggregateReport = "AGGREGATE";
+    
     @Inject
 	private ModelRatingResultsDataService modelRatingResultsDataService;
       
@@ -66,7 +68,7 @@ public class ModelResultsResource {
     @RequestMapping(value = "/updateModelRatingResultsStatus", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ModelRatingDetailsResult updateModelRatingResultsStatus(@RequestBody ModelRatingResultsDTO modelRating) {
-        LOGGER.debug("REST request to get results of model rating");
+        LOGGER.debug("REST request to update status of model rating");
         ModelRatingDetailsResult detailedResult = new ModelRatingDetailsResult();
         List<Long> processIds = modelRatingResultsDataService.updateModelRatingResultsStatus(modelRating.getResultsStatus());
         if(processIds == null) return null;
@@ -77,7 +79,31 @@ public class ModelResultsResource {
         return detailedResult;
     }
     
-
+    /**
+     * GET  /modelRatingResultsReports -> get results by params (processId/fromDate/toDate/modelType/reportType).
+     */
+    @RequestMapping(value = "/modelRatingResultsReport", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ModelRatingDetailsResult getModelRatingResultsReport(@RequestBody ModelRatingResultsDTO modelRating) {
+        LOGGER.debug("REST request to get report of results of model rating");
+        ModelRatingDetailsResult detailedResult = new ModelRatingDetailsResult();
+        switch(modelRating.getReportType().toUpperCase()){
+        	case "DETAILED":
+        		detailedResult.modelRatingResults = modelRatingResultsDataService.getClaimModelRatingResults(modelRating.getProcessIds(), modelRating.getFromDate(), modelRating.getToDate(), modelRating.getModelType());
+     	        List<Long> processIds = (modelRating.getProcessIds() == null) ? modelRatingResultsDataService.getProcessIdsFromRatingResults(detailedResult.modelRatingResults) : modelRating.getProcessIds();
+     	        if(processIds != null && processIds.size() > 0){
+     	        	detailedResult.diagnosticCodes = modelRatingResultsDataService.findDiagnosticCodes(processIds);
+     	        	detailedResult.resultsStatus = modelRatingResultsDataService.findModelRatingResultStatusByProcessIds(processIds);
+     	        }
+        		break;
+        	case "AGGREGATE" :
+        		break;
+        }
+        
+        return detailedResult;
+    }
+    
+    
     /**
      * GET  /ddms/:processId -> get the "processId" results.
      */
