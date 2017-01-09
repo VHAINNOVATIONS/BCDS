@@ -115,10 +115,29 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
 			System.out.println(input.get(i));
 		}
         
-        List<Claim> claims = claimMapper.mapCollection(input);
-        for (Claim c : claims) {
+        List<Claim> claims = new ArrayList<>();
+        for (gov.va.vba.persistence.entity.Claim claim : input) {
+            Claim c = new Claim();
+            c.setClaimDate(claim.getClaimDate());
             c.setCestDate(calculateCestDate(c.getClaimDate()));
+            c.setClaimId(claim.getClaimId());
+            c.setContentionClaimTextKeyForModel(claim.getContentionClaimTextKeyForModel());
+            c.setContentionClsfcnId(claim.getContentionClsfcnId());
+            c.setRegionalOfficeOfClaim(claim.getRegionalOfficeOfClaim());
+            Veteran veteran = claim.getVeteran();
+            gov.va.vba.domain.util.Veteran v = new gov.va.vba.domain.util.Veteran();
+            v.setBirthYear(veteran.getBirthYear());
+            v.setVeteranId(veteran.getVeteranId());
+            v.setVeteranGender(veteran.getVeteranGender());
+            v.setStateCd(veteran.getStateCode());
+            v.setDateOfDec(veteran.getDateOfDec());
+            c.setVeteran(v);
+            claims.add(c);
         }
+
+        /*for (Claim c : claims) {
+            c.setCestDate();
+        }*/
         LOG.info("SIZE :::: " + claims.size());
         return claims;
     }
