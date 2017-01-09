@@ -2,7 +2,7 @@
 
 angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $scope, $state, Account, $filter,
 														$q, DTOptionsBuilder, DTColumnBuilder, $compile, 	
-														$stateParams, ClaimService, ClaimFilterService,ModelService) {
+														$stateParams, ClaimService, ClaimFilterService) {
     $scope.searchTerm = undefined;
     $scope.claims = [];
     $scope.orderByField = 'veteranId';

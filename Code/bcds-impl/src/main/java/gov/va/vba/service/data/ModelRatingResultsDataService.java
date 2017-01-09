@@ -6,8 +6,11 @@ import edu.emory.mathcs.backport.java.util.Arrays;
 import gov.va.vba.domain.ModelRatingResults;
 import gov.va.vba.domain.ModelRatingResultsDiag;
 import gov.va.vba.domain.ModelRatingResultsStatus;
+import gov.va.vba.domain.ModelRatingPattern;
+import gov.va.vba.persistence.entity.DDMModelPatternIndex;
 import gov.va.vba.persistence.entity.RatingDecision;
 import gov.va.vba.persistence.repository.ModelRatingResultsRepository;
+import gov.va.vba.persistence.repository.DDMModelPatternIndexRepository;
 import gov.va.vba.persistence.repository.RatingDecisionRepository;
 import gov.va.vba.persistence.util.KneeCalculator;
 import gov.va.vba.service.orika.ModelRatingResultsMapper;
@@ -37,6 +40,9 @@ public class ModelRatingResultsDataService extends AbsDataService<gov.va.vba.per
 	
 	@Autowired
 	private ModelRatingResultsRepository modelRatingResultsRepository;
+	
+	@Autowired
+	private DDMModelPatternIndexRepository ddmModelPatternIndexRepository;
 	
 	@Autowired
 	private ModelRatingResultsMapper modelRatingResultsMapper;
@@ -110,5 +116,26 @@ public class ModelRatingResultsDataService extends AbsDataService<gov.va.vba.per
 		}
 		
 		return processIds;
+	}
+	
+	public List<ModelRatingPattern> findModelRatingPatternInfo(Long patternId) {
+		if(patternId == null) return null;
+		List<gov.va.vba.persistence.entity.DDMModelPatternIndex> results = modelRatingResultsRepository.findModelRatingPatternInfo(patternId);
+		List<ModelRatingPattern> patternInfo = modelRatingResultsMapper.mapModelRatingPatternCollection(results);
+		return patternInfo;
+	}
+	
+	public List<ModelRatingPattern> updateModelRatingPatternInfo(ModelRatingPattern patternData) {
+		if(patternData == null) return null;
+		modelRatingResultsRepository.createModelRatingPatternCDD(patternData.getPatternIndex().getPatternId(), 
+																patternData.getPatternIndex().getAccuracy(),
+																patternData.getPatternIndex().getCDD(), 
+																patternData.getPatternIndex().getPatternIndexNumber(), "admin", new Date(),
+																patternData.getCategoryId(),patternData.getPatternIndex().getModelType());
+		LOG.info("SAVED MODEL PATTERN INDEX SUCCESSFULLY");
+
+		List<gov.va.vba.persistence.entity.DDMModelPatternIndex> results = modelRatingResultsRepository.findModelRatingPatternInfo(patternData.getPatternIndex().getPatternId());
+		List<ModelRatingPattern> patternInfo = modelRatingResultsMapper.mapModelRatingPatternCollection(results);
+		return patternInfo;
 	}
 }

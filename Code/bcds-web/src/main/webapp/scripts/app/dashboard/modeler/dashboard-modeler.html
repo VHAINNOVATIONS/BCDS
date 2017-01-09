@@ -43,8 +43,15 @@
 					</div>
 					<div ng-show="isSet(2)">
 						<div class="row">
-							<div align="center">
-								<div ng-include="'scripts/app/misc/models.html'"></div>
+							<div class="col-md-12">
+								<ul class="nav nav-tabs">
+									<li ng-class="{ active: isDashboardTabSet(1) }">
+										<a href ng-click="setDashboardTab(1)">Manage Model</a>
+									</li>
+								</ul>
+								<div ng-show="isDashboardTabSet(1)">
+									<div ng-include="'scripts/app/models/models.html'"></div>
+								</div>
 							</div>
 						</div>
 					</div>
