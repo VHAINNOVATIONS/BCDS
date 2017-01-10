@@ -17,9 +17,9 @@ import gov.va.vba.persistence.entity.ModelRatingResultsStatus;
 import gov.va.vba.persistence.entity.ModelRatingResultsStatusId;
 import gov.va.vba.persistence.entity.RatingDecision;
 import gov.va.vba.persistence.entity.Veteran;
+import gov.va.vba.persistence.models.data.ClaimDetails;
 import gov.va.vba.persistence.models.data.DecisionDetails;
 import gov.va.vba.persistence.models.data.DiagnosisCount;
-import gov.va.vba.persistence.models.data.KneeClaim;
 import gov.va.vba.persistence.repository.ClaimRepository;
 import gov.va.vba.persistence.repository.DDMContentionRepository;
 import gov.va.vba.persistence.repository.ModelRatingResultsCntnRepository;
@@ -29,7 +29,6 @@ import gov.va.vba.persistence.repository.ModelRatingResultsStatusRepository;
 import gov.va.vba.persistence.repository.RatingDao;
 import gov.va.vba.persistence.repository.RatingDecisionRepository;
 import gov.va.vba.persistence.repository.VeteranRepository;
-import gov.va.vba.persistence.util.KneeCalculator;
 import gov.va.vba.service.orika.ClaimMapper;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
@@ -109,18 +108,12 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
     }
 
     public List<Claim> findFirstNumberedRow() {
-        List<gov.va.vba.persistence.entity.Claim> input = ((ClaimRepository) repository).findFirstNumberedRow();
-        LOG.info("SIZE of input :::: " + input.size());
-        for (int i=0; i<input.size(); i++) {
-			System.out.println(input.get(i));
-		}
-        
-        List<Claim> claims = claimMapper.mapCollection(input);
-        for (Claim c : claims) {
-            c.setCestDate(calculateCestDate(c.getClaimDate()));
+        List<ClaimDetails> claims = ratingDao.getClaims();
+        LOG.info("SIZE of input :::: " + claims.size());
+        for (int i = 0; i < claims.size(); i++) {
+            System.out.println(claims.get(i));
         }
-        LOG.info("SIZE :::: " + claims.size());
-        return claims;
+        return mapKneeClaimsToClaims(claims);
     }
 
     public List<VeteranClaimRating> findByVeteranId(List<VeteranClaim> veteranClaims, String currentLogin) {
@@ -136,13 +129,13 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
 
             for (gov.va.vba.bcdss.models.Claim c : claims) {
                 int claimId = c.getClaimId();
-                List<KneeClaim> kneeClaims = ratingDao.getPreviousClaims(veteranId, claimId);
+                List<ClaimDetails> kneeClaims = ratingDao.getPreviousClaims(veteranId, claimId);
 
                 if (CollectionUtils.isNotEmpty(kneeClaims)) {
-                    KneeClaim kneeClaim = kneeClaims.get(0);
+                    ClaimDetails kneeClaim = kneeClaims.get(0);
                     Set<Long> claimsList = new HashSet<>();
                     Map<Long, Integer> contentionCounts = new HashMap<>();
-                    for (KneeClaim kc : kneeClaims) {
+                    for (ClaimDetails kc : kneeClaims) {
                         claimsList.add(kc.getClaimId());
                         if (contentionCounts.containsKey(kc.getContentionClassificationId())) {
                             int value = contentionCounts.get(kc.getContentionClassificationId());
@@ -167,18 +160,20 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                     int age = KneeCalculator.claimantAge(kneeClaim.getClaimDate(), dob.getTime());
 */
                     int age = ratingDao.getClaimaintAge(veteranId, kneeClaim.getClaimId());
-                    
-                  //Added code for Process Id Sequence generation
+                    age = roundtoTop(age);
+                    LOG.info("ROUNDED AGE :: {}", age);
+
+                    //Added code for Process Id Sequence generation
                     List<Long> maxprocessId = ratingDao.getProcessIDSeq();
                     LOG.debug("******************************");
                     long processIdSeq = maxprocessId.get(0);
                     LOG.info("MAX ProcessId -------- " + processIdSeq);
-                    
+
                     ModelRatingResults results = new ModelRatingResults();
                     results.setProcessDate(new Date());
-                    
+
                     //setting ProcessId as Max Sequence generated+1
-                    results.setProcessId(processIdSeq+1);
+                    results.setProcessId(processIdSeq + 1);
                     //results.setCDDAge((long) cddAge);
                     //results.setClaimAge((long) age);
                     results.setClaimId(kneeClaim.getClaimId());
@@ -218,6 +213,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                             if (CollectionUtils.isNotEmpty(diagPattren)) {
                                 Long pattrenId = diagPattren.get(0);
                                 results.setPatternId(pattrenId);
+                                LOG.info("PATTREN ID :: " + pattrenId);
                                 results = modelRatingResultsRepository.save(results);
                             }
                         }
@@ -389,18 +385,17 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
     }
 
     public List<Claim> findClaims(boolean isRegionalExist, boolean isDatesExist, String contentionType, Long regionalOfficeNumber, Date fromDate, Date toDate) {
-    	LOG.debug("REST request to get advance filtered Claims");
-    	List<gov.va.vba.persistence.entity.Claim> input = new ArrayList<>();
-    	if(isDatesExist && !isRegionalExist){
-    		input = claimRepository.findClaimsByDates(contentionType, fromDate, toDate);
-    	}
-    	else if(isRegionalExist && !isDatesExist){
-    		input = claimRepository.findClaimsByRegionalOffice(contentionType, regionalOfficeNumber);
-    	}else if(isDatesExist && isRegionalExist){
-    		input = claimRepository.findClaimsByAllFilters(contentionType, regionalOfficeNumber, fromDate, toDate );
-    	}else{
-    		input = claimRepository.findClaimsByContention(contentionType);
-    	}
+        LOG.debug("REST request to get advance filtered Claims");
+        List<gov.va.vba.persistence.entity.Claim> input = new ArrayList<>();
+        if (isDatesExist && !isRegionalExist) {
+            input = claimRepository.findClaimsByDates(contentionType, fromDate, toDate);
+        } else if (isRegionalExist && !isDatesExist) {
+            input = claimRepository.findClaimsByRegionalOffice(contentionType, regionalOfficeNumber);
+        } else if (isDatesExist && isRegionalExist) {
+            input = claimRepository.findClaimsByAllFilters(contentionType, regionalOfficeNumber, fromDate, toDate);
+        } else {
+            input = claimRepository.findClaimsByContention(contentionType);
+        }
         List<Claim> claims = claimMapper.mapCollection(input);
         LOG.info("SIZE :::: " + claims.size());
         return claims;
@@ -459,7 +454,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
 
         BigDecimal calculatedValue = applyFormula(map);
         LOG.info("CALCULATED VALUE ::::::  {}", calculatedValue.intValue());
-        return calculatedValue.intValue();
+        return roundtoTop(calculatedValue.intValue());
     }
 
     private BigDecimal applyFormula(Map<String, DecisionDetails> map) {
@@ -471,6 +466,33 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
         }
         calValue = (BigDecimal.ONE.subtract(calValue)).multiply(BigDecimal.valueOf(100));
         return (calValue.compareTo(BigDecimal.valueOf(60)) == 1) ? BigDecimal.valueOf(60) : calValue.setScale(-1, RoundingMode.HALF_UP);
+    }
+
+    private List<Claim> mapKneeClaimsToClaims(List<ClaimDetails> kneeClaims) {
+        List<Claim> claims = new ArrayList<>();
+        for (ClaimDetails kneeClaim : kneeClaims) {
+            Claim c = new Claim();
+            gov.va.vba.domain.util.Veteran v = new gov.va.vba.domain.util.Veteran();
+            v.setVeteranId(kneeClaim.getVeteranId());
+            c.setContentionClsfcnId(kneeClaim.getContentionClassificationId());
+            c.setClaimDate(kneeClaim.getClaimDate());
+            c.setClaimId(kneeClaim.getClaimId());
+            c.setRegionalOfficeOfClaim(kneeClaim.getClaimROName());
+            c.setContentionClaimTextKeyForModel(kneeClaim.getContentionClaimantText());
+            c.setCestDate(calculateCestDate(kneeClaim.getClaimDate()));
+            c.setVeteran(v);
+            claims.add(c);
+        }
+        return claims;
+    }
+
+
+    private int roundtoTop(int value) {
+        int i = value / 10;
+        if ((value % 10) > 0) {
+            return (i + 1) * 10;
+        }
+        return value;
     }
 
 }

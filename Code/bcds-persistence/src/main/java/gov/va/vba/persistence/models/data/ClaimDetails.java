@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * Created by ProSphere User on 12/19/2016.
  */
-public class KneeClaim {
+public class ClaimDetails {
 
     private long veteranId;
     private long claimId;
@@ -15,6 +15,7 @@ public class KneeClaim {
     private String claimROName;
     private long claimRONumber;
     private String contentionClaimantText;
+    private Date cestDate;
 
     public long getVeteranId() {
         return veteranId;
@@ -80,9 +81,17 @@ public class KneeClaim {
         this.contentionClaimantText = contentionClaimantText;
     }
 
+    public Date getCestDate() {
+        return cestDate;
+    }
+
+    public void setCestDate(Date cestDate) {
+        this.cestDate = cestDate;
+    }
+
     @Override
     public String toString() {
-        return "KneeClaim{" +
+        return "ClaimDetails{" +
                 "veteranId=" + veteranId +
                 ", claimId=" + claimId +
                 ", contentionClassificationId=" + contentionClassificationId +
@@ -91,6 +100,7 @@ public class KneeClaim {
                 ", claimROName='" + claimROName + '\'' +
                 ", claimRONumber=" + claimRONumber +
                 ", contentionClaimantText='" + contentionClaimantText + '\'' +
+                ", cestDate=" + cestDate +
                 '}';
     }
 

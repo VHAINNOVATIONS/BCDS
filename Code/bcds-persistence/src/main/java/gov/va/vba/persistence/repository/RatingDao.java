@@ -3,7 +3,7 @@ package gov.va.vba.persistence.repository;
 import gov.va.vba.persistence.entity.DDMModelPatternIndex;
 import gov.va.vba.persistence.models.data.DecisionDetails;
 import gov.va.vba.persistence.models.data.DiagnosisCount;
-import gov.va.vba.persistence.models.data.KneeClaim;
+import gov.va.vba.persistence.models.data.ClaimDetails;
 
 import java.util.Date;
 import java.util.List;
@@ -18,7 +18,7 @@ public interface RatingDao {
 
     List<DiagnosisCount> getDiagnosisCount(long veteranId, Date claimDate);
 
-    List<KneeClaim> getPreviousClaims(long veteranId, long claimId);
+    List<ClaimDetails> getPreviousClaims(long veteranId, long claimId);
 
     List<DecisionDetails> getDecisionsPercentByClaimDate(long veteranId, Date claimDate);
 
@@ -29,4 +29,6 @@ public interface RatingDao {
     int getClaimaintAge(long veteranId, long claimId);
     
     List<Long> getProcessIDSeq();
+
+    List<ClaimDetails> getClaims();
 }

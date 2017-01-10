@@ -3,9 +3,9 @@ package gov.va.vba.persistence.repository;
 import gov.va.vba.persistence.constants.QueryConstants;
 import gov.va.vba.persistence.entity.DDMModelPatternIndex;
 import gov.va.vba.persistence.mapper.LongRowMapper;
+import gov.va.vba.persistence.models.data.ClaimDetails;
 import gov.va.vba.persistence.models.data.DecisionDetails;
 import gov.va.vba.persistence.models.data.DiagnosisCount;
-import gov.va.vba.persistence.models.data.KneeClaim;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -33,10 +33,10 @@ public class RatingDaoImpl implements RatingDao {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public List<KneeClaim> getPreviousClaims(long veteranId, long claimId) {
-        List<KneeClaim> claims = jdbcTemplate.query(QueryConstants.PREVIOUS_CLAIMS_QUERY, new Object[]{veteranId, veteranId, claimId}, new BeanPropertyRowMapper<>(KneeClaim.class));
+    public List<ClaimDetails> getPreviousClaims(long veteranId, long claimId) {
+        List<ClaimDetails> claims = jdbcTemplate.query(QueryConstants.PREVIOUS_CLAIMS_QUERY, new Object[]{veteranId, veteranId, claimId}, new BeanPropertyRowMapper<>(ClaimDetails.class));
         LOG.info("****************************************************************");
-        for (KneeClaim claim : claims) {
+        for (ClaimDetails claim : claims) {
             LOG.info(claim.toString());
         }
         LOG.info("****************************************************************");
@@ -149,4 +149,16 @@ public class RatingDaoImpl implements RatingDao {
         LOG.info("****************************************************************");
         return maxProcessId;
     }
+
+    @Override
+    public List<ClaimDetails> getClaims() {
+        List<ClaimDetails> claims = jdbcTemplate.query(QueryConstants.CLAIMS_QUERY, new BeanPropertyRowMapper<>(ClaimDetails.class));
+        LOG.info("****************************************************************");
+        for (ClaimDetails claim : claims) {
+            LOG.info(claim.toString());
+        }
+        LOG.info("****************************************************************");
+        return claims;
+    }
+
 }
