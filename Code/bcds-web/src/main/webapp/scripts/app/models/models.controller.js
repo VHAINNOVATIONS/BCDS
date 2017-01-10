@@ -1,10 +1,11 @@
 'use strict';
 
-angular.module('bcdssApp').controller('ModelsController', function($rootScope, $scope, $state, Account,
+angular.module('bcdssApp').controller('ModelsController', function($rootScope, $scope, $state, Account, Auth,
 														$q, $filter, DTOptionsBuilder, DTColumnBuilder, $compile, 	
 														$stateParams, ModelService, $timeout) {
 
 	$scope.results = [];
+	$scope.userName = Auth.currentUser();
 	$scope.modelRatingResultsStatus = [];
 	$scope.resultDetailsData = [];
 	$scope.dtInstance = {};
@@ -107,7 +108,7 @@ angular.module('bcdssApp').controller('ModelsController', function($rootScope, $
 		}
 
 		ModelService.createModelPatternCdd($scope.patternId, $scope.Cdd, patternInfo.patternIndex.accuracy, patternInfo.patternIndex.patternIndexNumber, 
-											patternInfo.patternIndex.modelType, (patternInfo.categoryId+1), $scope.userId)
+											patternInfo.patternIndex.modelType, (patternInfo.categoryId+1), $scope.userName)
 			.then(function(result){
 				console.log('>>>successful');
 				$scope.results = result.data;

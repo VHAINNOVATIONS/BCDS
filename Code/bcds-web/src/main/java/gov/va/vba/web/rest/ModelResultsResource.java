@@ -72,7 +72,7 @@ public class ModelResultsResource {
     public ModelRatingDetailsResult updateModelRatingResultsStatus(@RequestBody ModelRatingResultsDTO modelRating) {
         LOGGER.debug("REST request to update status of model rating");
         ModelRatingDetailsResult detailedResult = new ModelRatingDetailsResult();
-        List<Long> processIds = modelRatingResultsDataService.updateModelRatingResultsStatus(modelRating.getResultsStatus());
+        List<Long> processIds = modelRatingResultsDataService.updateModelRatingResultsStatus(modelRating.getResultsStatus(), modelRating.getUserId());
         if(processIds == null) return null;
         
         detailedResult.modelRatingResults = modelRatingResultsDataService.getClaimModelRatingResults(modelRating.getProcessIds(), null, null, null);
@@ -108,7 +108,7 @@ public class ModelResultsResource {
         patternIndex.setAccuracy(modelRating.getAccuracy());
         patternInfo.setPatternIndex(patternIndex);
         patternInfo.setCategoryId(modelRating.getCategoryId());
-        patternInfo.setCreatedBy("admin");
+        patternInfo.setCreatedBy(modelRating.getUserId());
         
         List<ModelRatingPattern> result = modelRatingResultsDataService.updateModelRatingPatternInfo(patternInfo); 
         return result;

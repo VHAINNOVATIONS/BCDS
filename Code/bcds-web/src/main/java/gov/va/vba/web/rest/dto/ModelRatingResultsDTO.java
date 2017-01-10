@@ -21,6 +21,7 @@ public class ModelRatingResultsDTO {
 	private Long categoryId;
 	private Double accuracy;
 	private Long patternIndexNumber;
+	private String userId;
 		
     public Date getFromDate() {
         return fromDate;
@@ -113,5 +114,13 @@ public class ModelRatingResultsDTO {
 
     public void setReportType(String reportType) {
         this.reportType = reportType;
+    }
+    
+    public String getUserId() {
+        return this.userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

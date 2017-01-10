@@ -92,14 +92,14 @@ public class ModelRatingResultsDataService extends AbsDataService<gov.va.vba.per
 		return resultsStatus;
 	}
 	
-	public List<Long> updateModelRatingResultsStatus(List<String> resultsStatus) {
+	public List<Long> updateModelRatingResultsStatus(List<String> resultsStatus, String userId) {
 		if(resultsStatus == null) return null;
 		List<Long> processIds = new ArrayList<Long>();
 		for (String status : resultsStatus) {
 			String[] parts = status.split("-");
 			String decision = parts[0];
 			Long pid = Long.parseLong(parts[1].toString());
-			Integer result = modelRatingResultsRepository.updateModelRatingResultStatusByProcessId(pid, decision);
+			Integer result = modelRatingResultsRepository.updateModelRatingResultStatusByProcessId(pid, decision, userId, new Date());
 			if(result > 0) {
 				processIds.add(pid);
 			}
@@ -130,7 +130,7 @@ public class ModelRatingResultsDataService extends AbsDataService<gov.va.vba.per
 		modelRatingResultsRepository.createModelRatingPatternCDD(patternData.getPatternIndex().getPatternId(), 
 																patternData.getPatternIndex().getAccuracy(),
 																patternData.getPatternIndex().getCDD(), 
-																patternData.getPatternIndex().getPatternIndexNumber(), "admin", new Date(),
+																patternData.getPatternIndex().getPatternIndexNumber(), patternData.getCreatedBy(), new Date(),
 																patternData.getCategoryId(),patternData.getPatternIndex().getModelType());
 		LOG.info("SAVED MODEL PATTERN INDEX SUCCESSFULLY");
 
