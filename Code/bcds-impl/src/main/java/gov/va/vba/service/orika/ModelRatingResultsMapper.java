@@ -4,6 +4,7 @@ import gov.va.vba.domain.ModelRatingResults;
 import gov.va.vba.domain.ModelRatingResultsStatus;
 import gov.va.vba.domain.util.Veteran;
 import gov.va.vba.domain.util.ModelPatternIndex;
+import gov.va.vba.domain.ModelRatingPattern;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
@@ -52,10 +53,22 @@ public class ModelRatingResultsMapper {
 		        .byDefault()
                 .register();
         mapperFactory.classMap(gov.va.vba.persistence.entity.ModelRatingResultsStatus.class, ModelRatingResultsStatus.class)
-        .field("id.processId", "processId")
-        .field("id.processStatus", "processStatus")
-		.register();
+		        .field("id.processId", "processId")
+		        .field("id.processStatus", "processStatus")
+				.register();
+        mapperFactory.classMap(gov.va.vba.persistence.entity.DDMModelPatternIndex.class, ModelRatingPattern.class)
+		        .field("patternId", "patternIndex.patternId")
+		        .field("accuracy", "patternIndex.accuracy")
+		        .field("patternIndexNumber", "patternIndex.patternIndexNumber")
+		        .field("CDD", "patternIndex.CDD")
+		        .field("modelType", "patternIndex.modelType")
+		        .field("categoryId", "categoryId")
+		        .field("createdDate", "createdDate")
+		        .field("createdBy", "createdBy")
+				.register();
+        
         mapperFacade = mapperFactory.getMapperFacade();
+        
     }
 
     /**
@@ -76,5 +89,15 @@ public class ModelRatingResultsMapper {
     public List<ModelRatingResultsStatus> mapResultStatusCollection(List<gov.va.vba.persistence.entity.ModelRatingResultsStatus> sourceEntity) {
         List<ModelRatingResultsStatus> resultsStatus = mapperFacade.mapAsList(sourceEntity, ModelRatingResultsStatus.class);
         return resultsStatus;
+    }
+    
+    /**
+     * Description: This method converts ModelRatingPatternIndex entity collection to model
+     *
+     * @param sourceEntity
+     */
+    public List<ModelRatingPattern> mapModelRatingPatternCollection(List<gov.va.vba.persistence.entity.DDMModelPatternIndex> sourceEntity) {
+        List<ModelRatingPattern> patternInfo = mapperFacade.mapAsList(sourceEntity, ModelRatingPattern.class);
+        return patternInfo;
     }
 }
