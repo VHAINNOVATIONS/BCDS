@@ -1,11 +1,9 @@
 package gov.va.vba.persistence.repository;
 
-import gov.va.vba.persistence.constants.QueryConstants;
-import gov.va.vba.persistence.entity.DDMModelPatternIndex;
-import gov.va.vba.persistence.mapper.LongRowMapper;
-import gov.va.vba.persistence.models.data.ClaimDetails;
-import gov.va.vba.persistence.models.data.DecisionDetails;
-import gov.va.vba.persistence.models.data.DiagnosisCount;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -16,9 +14,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import gov.va.vba.persistence.constants.QueryConstants;
+import gov.va.vba.persistence.entity.DDMModelPatternIndex;
+import gov.va.vba.persistence.mapper.LongRowMapper;
+import gov.va.vba.persistence.models.data.ClaimDetails;
+import gov.va.vba.persistence.models.data.DecisionDetails;
+import gov.va.vba.persistence.models.data.DiagnosisCount;
 
 /**
  * Created by ProSphere User on 12/16/2016.

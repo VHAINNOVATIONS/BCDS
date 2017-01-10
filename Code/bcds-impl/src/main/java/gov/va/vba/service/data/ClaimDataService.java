@@ -474,7 +474,6 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
             Claim c = new Claim();
             gov.va.vba.domain.util.Veteran v = new gov.va.vba.domain.util.Veteran();
             v.setVeteranId(kneeClaim.getVeteranId());
-            c.setContentionClsfcnId(kneeClaim.getContentionClassificationId());
             c.setClaimDate(kneeClaim.getClaimDate());
             c.setClaimId(kneeClaim.getClaimId());
             c.setRegionalOfficeOfClaim(kneeClaim.getClaimROName());
