@@ -41,8 +41,8 @@ public interface ModelRatingResultsRepository extends JpaRepository<ModelRatingR
 	
 	@Modifying
 	@Transactional
-	@Query(value = "UPDATE ModelRatingResultsStatus r Set r.id.processStatus = ?2  WHERE r.id.processId = ?1")
-	Integer updateModelRatingResultStatusByProcessId(Long processId, String decision);
+	@Query(value = "UPDATE ModelRatingResultsStatus r Set r.id.processStatus = (?2), r.crtdBy = (?3), r.crtdDtm = (?4) WHERE r.id.processId = ?1")
+	Integer updateModelRatingResultStatusByProcessId(Long processId, String decision, String userId, Date updatedDate);
 	
 	@Query(value = "SELECT r FROM DDMModelPatternIndex r WHERE r.patternId = (?1) AND r.categoryId = (select max(d.categoryId) from DDMModelPatternIndex d where d.patternId = (?1))")
 	List<DDMModelPatternIndex> findModelRatingPatternInfo(Long patternId);

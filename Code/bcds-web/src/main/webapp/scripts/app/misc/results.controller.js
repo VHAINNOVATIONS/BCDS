@@ -1,9 +1,10 @@
 'use strict';
 
-angular.module('bcdssApp').controller('ResultsController', function($rootScope, $scope, $state, Account,
+angular.module('bcdssApp').controller('ResultsController', function($rootScope, $scope, $state, Account, Auth,
 														$q, $filter, DTOptionsBuilder, DTColumnBuilder, $compile, 	
 														$stateParams, ClaimService, RatingService) {
 	
+	$scope.userName = Auth.currentUser();
 	$scope.results = [];
 	$scope.diagnosticCodes = [];
 	$scope.modelRatingResultsStatus = [];
@@ -112,7 +113,9 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
     
     /*These are changes for version 3.0*/
     $scope.dtDetailsColumns = [
-		//DTColumnBuilder.newColumn('userId').withTitle('User Id').notSortable(),
+		DTColumnBuilder.newColumn(null).withTitle('User Id').notSortable().renderWith(function(data, type, full) {
+	            return "<div>"+$scope.userName+"</div>"
+	    }),
 		DTColumnBuilder.newColumn('processDate').withTitle('Session Date').notSortable().renderWith(function(data, type, full) {
             return "<div>{{" + data +"| date:'yyyy-MM-dd'}} </div>"
         }),
@@ -295,7 +298,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 		$scope.processIds = [];
 		$scope.setSearchParameters();
     	
-		RatingService.findModelRatingResults($scope.processIds, $scope.filters)
+		RatingService.findModelRatingResults($scope.processIds, $scope.filters, $scope.userName)
 			.then(function(result){
 				console.log('>>>successful');
 				$scope.results = result.data;
@@ -448,7 +451,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 			return;
 		}
 		$scope.filters = null;
-		RatingService.findModelRatingResults($scope.processIds, $scope.filters)
+		RatingService.findModelRatingResults($scope.processIds, $scope.filters, $scope.userName)
 			.then(function(result){
 				console.log('>>>successful');
 				$scope.results = result.data;
@@ -469,7 +472,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	};
 
 	$scope.updateResultsDecisions = function(){
-		RatingService.updateModelRatingResultsStatus($scope.processIds, $scope.arrDecisions)
+		RatingService.updateModelRatingResultsStatus($scope.processIds, $scope.arrDecisions, $scope.userName)
 			.then(function(result){
 				console.log('>>>successful');
 				$scope.results = result.data;

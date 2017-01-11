@@ -115,6 +115,14 @@ angular.module('bcdssApp')
                 }, function (err) {
                     return cb(err);
                 }).$promise;
+            },
+
+            currentUser: function() { 
+                return Principal.userName(); 
+            },
+
+            currentUserRole: function() { 
+                return Principal.userRole(); 
             }
         };
     });
