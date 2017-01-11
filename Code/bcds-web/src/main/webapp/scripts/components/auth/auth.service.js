@@ -117,12 +117,16 @@ angular.module('bcdssApp')
                 }).$promise;
             },
 
-            currentUser: function() { 
-                return Principal.userName(); 
+            getCurrentUser: function() { 
+                return (Principal && Principal.userName()); 
             },
 
-            currentUserRole: function() { 
-                return Principal.userRole(); 
+            getCurrentUserRole: function() { 
+                return (Principal && Principal.userRole()); 
+            },
+
+            isUserAuthenticated: function(){
+                return (Principal && Principal.isAuthenticated());
             }
         };
     });

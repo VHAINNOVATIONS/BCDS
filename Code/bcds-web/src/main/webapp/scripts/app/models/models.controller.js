@@ -5,7 +5,7 @@ angular.module('bcdssApp').controller('ModelsController', function($rootScope, $
 														$stateParams, ModelService, $timeout) {
 
 	$scope.results = [];
-	$scope.userName = Auth.currentUser();
+	$scope.userName = Auth.getCurrentUser();
 	$scope.modelRatingResultsStatus = [];
 	$scope.resultDetailsData = [];
 	$scope.dtInstance = {};
@@ -22,6 +22,7 @@ angular.module('bcdssApp').controller('ModelsController', function($rootScope, $
           });
    })
    .withOption('filter', false)
+   .withOption('paging', false)
    .withOption('createdRow', function(row, data, dataIndex) {
            // Recompiling so we can bind Angular directive to the DT
        $compile(angular.element(row).contents())($scope);
