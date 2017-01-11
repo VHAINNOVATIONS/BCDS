@@ -23,4 +23,12 @@ public class AppUtill {
         return dates.stream().max(Date::compareTo).get();
     }
 
+    public static int roundToCeilMultipleOfTen(int value) {
+        int i = value / 10;
+        if ((value % 10) > 0) {
+            return (i + 1) * 10;
+        }
+        return value;
+    }
+
 }

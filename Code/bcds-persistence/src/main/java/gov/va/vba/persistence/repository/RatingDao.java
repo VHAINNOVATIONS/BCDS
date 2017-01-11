@@ -1,6 +1,7 @@
 package gov.va.vba.persistence.repository;
 
 import gov.va.vba.persistence.entity.DDMModelPatternIndex;
+import gov.va.vba.persistence.models.data.ContentionDetails;
 import gov.va.vba.persistence.models.data.DecisionDetails;
 import gov.va.vba.persistence.models.data.DiagnosisCount;
 import gov.va.vba.persistence.models.data.ClaimDetails;
@@ -31,4 +32,8 @@ public interface RatingDao {
     List<Long> getProcessIDSeq();
 
     List<ClaimDetails> getClaims();
+
+    List<ClaimDetails> getClaims(long veteranId, long claimId);
+
+    ContentionDetails getContention(long contentionCode);
 }
