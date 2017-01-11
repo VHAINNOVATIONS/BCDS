@@ -4,7 +4,8 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 														$q, $filter, DTOptionsBuilder, DTColumnBuilder, $compile, 	
 														$stateParams, ClaimService, RatingService) {
 	
-	$scope.userName = Auth.currentUser();
+	$scope.userName = Auth.getCurrentUser();
+	$scope.processedClaimsUserName = '';
 	$scope.results = [];
 	$scope.diagnosticCodes = [];
 	$scope.modelRatingResultsStatus = [];
@@ -114,7 +115,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
     /*These are changes for version 3.0*/
     $scope.dtDetailsColumns = [
 		DTColumnBuilder.newColumn(null).withTitle('User Id').notSortable().renderWith(function(data, type, full) {
-	            return "<div>"+$scope.userName+"</div>"
+	            return "<div>"+$scope.processedClaimsUserName+"</div>"
 	    }),
 		DTColumnBuilder.newColumn('processDate').withTitle('Session Date').notSortable().renderWith(function(data, type, full) {
             return "<div>{{" + data +"| date:'yyyy-MM-dd'}} </div>"
@@ -173,6 +174,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
     				$scope.claimCount = $scope.resultDetailsData[0].claimCount;
     				$scope.modelRatingDiagonosticCodes = $scope.getDiagonosticCodesByProcessId($scope.resultDetailsData[0].processId);
     				$scope.modelRatingStatus = $scope.getModelRatingResultStatusByProcessId($scope.resultDetailsData[0].processId);
+    				$scope.processedClaimsUserName =  $scope.userName;//$scope.resultDetailsData[0].userId;
                 }
                 else
                   resolve([]);
@@ -500,7 +502,6 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	/*version 3.0*/
 	$rootScope.$on('ProcessClaims', function(event, data) {
 		var inputObj = [];
-
 		angular.forEach(data,function(ele,idx){
 			var obj = {
    			      "veteran": {
@@ -514,7 +515,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
    			          "profileDate": null,
    			          "productTypeCode": null,
    			          "claimDate": null,
-   			          "contentionId": 0,
+   			          "contentionId": ele.contentionId,
    			          "contentionClassificationId": null,
    			          "contentionBeginDate": null
    			        }
@@ -522,9 +523,11 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
    			    }
 			inputObj.push(obj);
 		});
-		$scope.results = []
+		$scope.results = [];
+		$scope.userName = Auth.getCurrentUser();
 		ClaimService.processClaims({},{
-	  			"veteranClaimInput": inputObj
+	  			"veteranClaimInput": inputObj,
+	  			"userId": $scope.userName
 			},function(data){
 			//data = {"veteranClaimRatingOutput":[{"veteran":{"veteranId":244390,"veteranName":null,"dob":null},"claimRating":[{"claim":{"claimId":5614193,"profileDate":1147665600000,"productTypeCode":"020","claimDate":1091073600000,"contentionId":2991274,"contentionClassificationId":"6850","contentionBeginDate":null},"rating":{"claimantAge":20,"promulgationDate":null,"recentDate":null,"contationCount":2,"priorCdd":64,"quantPriorCdd":0,"currentCdd":0,"claimAge":20,"cddAge":20,"claimCount":1,"processId":18380497,"patternId":0,"processDate":null,"modelType":null,"modelContentionCount":0,"quantCdd":80,"ratingDecisions":{"processId":18380497,"kneeRatings":{"contentionKnee":0,"contentionLeft":0,"contentionRight":0,"contentionBilateral":0,"contentionLeg":0,"contentionAmputation":0,"decisionKnee":0,"decisionLeft":0,"decisionRight":0,"decisionBilateral":0,"decisionLimitation":0,"decisionImpairment":0,"decisionAnkyloses":0,"decisionAmputation":0},"earRatings":{"contentionLoss":0,"contentionTinitu":0,"decisionLoss":0,"decisionTinitu":0}},"status":[],"diagnosisCodeCounts":[],"contentionsCodeCounts":[]}}]}]};
 			var formattedResults = $scope.processResults(data.veteranClaimRatingOutput);

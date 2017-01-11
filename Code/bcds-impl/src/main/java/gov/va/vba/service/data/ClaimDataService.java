@@ -205,7 +205,6 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                                 results = modelRatingResultsRepository.save(results);
                             }
                         }
-
                     }
                     //ddmModelCntntService.getPatternId(results.getModelType(), )
 
@@ -399,6 +398,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
             c.setClaimDate(kneeClaim.getClaimDate());
             c.setClaimId(kneeClaim.getClaimId());
             c.setRegionalOfficeOfClaim(kneeClaim.getClaimROName());
+            c.setContentionId(kneeClaim.getContentionId());
             c.setContentionClaimTextKeyForModel(kneeClaim.getContentionClaimantText());
             c.setCestDate(calculateCestDate(kneeClaim.getClaimDate()));
             c.setVeteran(v);

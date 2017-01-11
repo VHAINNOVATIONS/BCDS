@@ -13,6 +13,7 @@ public class Claim implements Serializable{
 	private Long claimId;
 	private Date claimDate;
 	private Date cestDate;
+	private Long contentionId;
 	private String contentionClaimTextKeyForModel;
 
 	public Veteran getVeteran() {
@@ -49,6 +50,13 @@ public class Claim implements Serializable{
 	}
 	public void setCestDate(Date cestDate) {
 		this.cestDate = cestDate;
+	}
+	
+	public Long getContentionId() {
+		return contentionId;
+	}
+	public void setContentionId(Long contentionId) {
+		this.contentionId = contentionId;
 	}
 
 	public String getContentionClaimTextKeyForModel() {
