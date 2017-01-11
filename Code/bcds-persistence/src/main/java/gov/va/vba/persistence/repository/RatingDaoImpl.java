@@ -1,9 +1,12 @@
 package gov.va.vba.persistence.repository;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
+import gov.va.vba.persistence.constants.QueryConstants;
+import gov.va.vba.persistence.entity.DDMModelPatternIndex;
+import gov.va.vba.persistence.mapper.LongRowMapper;
+import gov.va.vba.persistence.models.data.ClaimDetails;
+import gov.va.vba.persistence.models.data.ContentionDetails;
+import gov.va.vba.persistence.models.data.DecisionDetails;
+import gov.va.vba.persistence.models.data.DiagnosisCount;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -14,12 +17,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import gov.va.vba.persistence.constants.QueryConstants;
-import gov.va.vba.persistence.entity.DDMModelPatternIndex;
-import gov.va.vba.persistence.mapper.LongRowMapper;
-import gov.va.vba.persistence.models.data.ClaimDetails;
-import gov.va.vba.persistence.models.data.DecisionDetails;
-import gov.va.vba.persistence.models.data.DiagnosisCount;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ProSphere User on 12/16/2016.
@@ -139,7 +139,7 @@ public class RatingDaoImpl implements RatingDao {
 
     @Override
     public List<Long> getProcessIDSeq() {
-    	StringBuilder processQuery = new StringBuilder();
+        StringBuilder processQuery = new StringBuilder();
         processQuery.append("SELECT COALESCE(MAX(PROCESS_ID),0) FROM BCDSS.MODEL_RATING_RESULTS");
         LOG.info("QUERY -------- " + processQuery);
         List<Long> maxProcessId = jdbcTemplate.query(processQuery.toString(), new LongRowMapper());
@@ -160,6 +160,26 @@ public class RatingDaoImpl implements RatingDao {
         }
         LOG.info("****************************************************************");
         return claims;
+    }
+
+    @Override
+    public List<ClaimDetails> getClaims(long veteranId, long claimId) {
+        List<ClaimDetails> claims = jdbcTemplate.query(QueryConstants.CLAIMS_BY_VETERAN_ID_AND_CLAIM_ID, new Object[]{veteranId, claimId}, new BeanPropertyRowMapper<>(ClaimDetails.class));
+        LOG.info("****************************************************************");
+        for (ClaimDetails claim : claims) {
+            LOG.info(claim.toString());
+        }
+        LOG.info("****************************************************************");
+        return claims;
+    }
+
+    @Override
+    public ContentionDetails getContention(long contentionCode) {
+        ContentionDetails contentionDetails = jdbcTemplate.queryForObject(QueryConstants.CNTNT_DETAILS_QUERY, new Object[]{contentionCode}, ContentionDetails.class);
+        LOG.info("****************************************************************");
+        LOG.info(contentionDetails.toString());
+        LOG.info("****************************************************************");
+        return contentionDetails;
     }
 
 }

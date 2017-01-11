@@ -1,0 +1,83 @@
+<div ng-controller="ModelsController">
+	<div>
+		<br/>
+		<br/>
+		<br/>
+	</div>
+	<div class="form-group">
+		<form name="frmPatternSearch" class="form-horizontal" role="form">
+			<div class="row" role="alert" style="color: #D8000C; padding-right:200px;"><span>{{errMessage}}</span></div>
+			<div class="row">
+				<div class="col-md-2">
+		    		<label for="txtPatterntId" class="control-label pull-right">Pattern Id:</label>
+		    	</div>
+		    	<div class="col-md-2">
+		    		<input type="text" id="txtPatterntId" placeholder="Enter a number" ng-pattern="onlyNumbers" class="form-control pull-left" 
+		    		ng-model="patternId">
+		    	</div>
+		    	<div class="col-md-1">
+					<button type="submit" ng-disabled="frmPatternSearch.$invalid" class="btn btn-outline-secondary" 
+					 	ng-click="searchPatternResults()">
+						<span>Search</span>
+					</button>
+    			</div>
+			</div>
+		</form>	
+	</div>
+	<div class="row">
+		<div role="alert" ng-show="displayInsertStatus">
+			<span class="col-md-12" style="text-align: left;font-size: medium;color: blue">CDD updated successfully.</span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12" ng-show="displayModelPatternTable">
+			<table id="modelPatternGrid" datatable="" dt-options="dtOptions" 
+						dt-columns="dtColumns" dt-instance="dtInstance" class="row-border hover"></table>
+		</div>
+	</div>
+	<div class="row" ng-show="displayModelPatternTable">
+    	<div class="col-md-11" style="margin-top:10px; text-align: right">
+				<button type="submit" ng-disabled="frmPatternSearch.$invalid" class="btn btn-outline-secondary" 
+				 	ng-click="createCddValue()">
+					<span>Edit CDD</span>
+				</button>
+    	</div>
+    </div>
+    <div class="modal fade" id="modelDialogCreateCdd">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="Header">
+					<h4 class="modal-title">Edit CDD</h4>
+				</div>
+				<div class="modal-body">
+					<form name="frmEditCDD">
+						<div>
+							<div class="row" role="alert" style="color: #D8000C; margin-bottom: 5px;"><span>{{errMessageModal}}</span></div>
+						</div>
+						<div class="row">
+							<div class="col-md-4">
+					    		<label for="txtCDD" class="control-label pull-right">Enter CDD:</label>
+					    	</div>
+					    	<div class="col-md-4">
+					    		<input type="text" id="txtCDD" placeholder="Enter a number" ng-pattern="onlyNumbers" class="form-control pull-left" 
+					    		ng-model="Cdd">
+					    	</div>
+						</div>
+						<br/>
+						<div class="row">
+							<div class="col-md-12" style="margin-bottom: 5px;">
+								<button type="button" class="btn btn-outline-secondary" data-dismiss="modal" ng-click="clear()">
+									<span>Cancel</span>
+								</button>
+								<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+								<button type="submit" ng-disabled="frmEditCDD.$invalid" class="btn btn-outline-secondary" ng-click="createPatternCdd($event)">
+									<span>Confirm</span>
+								</button>
+			    			</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

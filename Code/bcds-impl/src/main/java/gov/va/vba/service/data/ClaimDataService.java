@@ -6,6 +6,7 @@ import gov.va.vba.bcdss.models.RatingDecisions;
 import gov.va.vba.bcdss.models.VeteranClaim;
 import gov.va.vba.bcdss.models.VeteranClaimRating;
 import gov.va.vba.domain.Claim;
+import gov.va.vba.persistence.common.ModelType;
 import gov.va.vba.persistence.entity.DDMModelPattern;
 import gov.va.vba.persistence.entity.DDMModelPatternIndex;
 import gov.va.vba.persistence.entity.ModelRatingResults;
@@ -18,10 +19,12 @@ import gov.va.vba.persistence.entity.ModelRatingResultsStatusId;
 import gov.va.vba.persistence.entity.RatingDecision;
 import gov.va.vba.persistence.entity.Veteran;
 import gov.va.vba.persistence.models.data.ClaimDetails;
+import gov.va.vba.persistence.models.data.ContentionDetails;
 import gov.va.vba.persistence.models.data.DecisionDetails;
 import gov.va.vba.persistence.models.data.DiagnosisCount;
 import gov.va.vba.persistence.repository.ClaimRepository;
 import gov.va.vba.persistence.repository.DDMContentionRepository;
+import gov.va.vba.persistence.repository.EarDao;
 import gov.va.vba.persistence.repository.ModelRatingResultsCntnRepository;
 import gov.va.vba.persistence.repository.ModelRatingResultsDiagRepository;
 import gov.va.vba.persistence.repository.ModelRatingResultsRepository;
@@ -29,6 +32,9 @@ import gov.va.vba.persistence.repository.ModelRatingResultsStatusRepository;
 import gov.va.vba.persistence.repository.RatingDao;
 import gov.va.vba.persistence.repository.RatingDecisionRepository;
 import gov.va.vba.persistence.repository.VeteranRepository;
+import gov.va.vba.service.AppUtill;
+import gov.va.vba.service.EarService;
+import gov.va.vba.service.KneeService;
 import gov.va.vba.service.orika.ClaimMapper;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
@@ -61,9 +67,6 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
     private ClaimRepository claimRepository;
 
     @Autowired
-    private VeteranRepository veteranRepository;
-
-    @Autowired
     private RatingDecisionRepository ratingDecisionRepository;
 
     @Autowired
@@ -82,10 +85,16 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
     private ModelRatingResultsStatusRepository modelRatingResultsStatusRepository;
 
     @Autowired
-    private DDMContentionRepository ddmContentionRepository;
+    private EarService earService;
+
+    @Autowired
+    private KneeService kneeService;
 
     @Autowired
     private RatingDao ratingDao;
+
+    @Autowired
+    private EarDao earDao;
 
     @Autowired
     private DDMDataService ddmDataService;
@@ -116,83 +125,66 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
         return mapKneeClaimsToClaims(claims);
     }
 
-    public List<VeteranClaimRating> findByVeteranId(List<VeteranClaim> veteranClaims, String currentLogin) {
+    public List<VeteranClaimRating> findByVeteranId(List<VeteranClaim> veteranClaims) {
         List<VeteranClaimRating> veteranClaimRatings = new ArrayList<>();
+        String currentLogin = null;
         for (VeteranClaim vc : veteranClaims) {
 
             VeteranClaimRating veteranClaimRating = new VeteranClaimRating();
             veteranClaimRating.setVeteran(vc.getVeteran());
             int veteranId = vc.getVeteran().getVeteranId();
-            Veteran veteran = veteranRepository.findOneByVeteranId((long) veteranId);
+            if(null!=vc.getUserId()){
+            	currentLogin = vc.getUserId();
+            }
             List<gov.va.vba.bcdss.models.Claim> claims = vc.getClaim();
             List<ClaimRating> claimRatings = new ArrayList<>();
-
             for (gov.va.vba.bcdss.models.Claim c : claims) {
                 int claimId = c.getClaimId();
-                List<ClaimDetails> kneeClaims = ratingDao.getPreviousClaims(veteranId, claimId);
+                LOG.info("CONTENTION CODE IS ::: " + c.getContentionId());
+                if(c.getContentionId() == 0) {
+                    continue;
+                }
+                ContentionDetails contentionDetails = ratingDao.getContention(c.getContentionId());
+                String modelType = contentionDetails.getModelType();
+                ModelRatingResults results = null;
+                List<ClaimDetails> claimDetails = new ArrayList<>();
+                if (modelType.equalsIgnoreCase(ModelType.EAR.name())) {
+                    claimDetails = earDao.getClaims(veteranId, claimId);
+                    results = earService.processClaims(veteranId, claimDetails, currentLogin);
+                } else if (modelType.equalsIgnoreCase(ModelType.KNEE.name())) {
+                    claimDetails = ratingDao.getPreviousClaims(veteranId, claimId);
+                    results = kneeService.processClaims(veteranId, claimDetails, currentLogin);
+                }
 
-                if (CollectionUtils.isNotEmpty(kneeClaims)) {
-                    ClaimDetails kneeClaim = kneeClaims.get(0);
-                    Set<Long> claimsList = new HashSet<>();
-                    Map<Long, Integer> contentionCounts = new HashMap<>();
-                    for (ClaimDetails kc : kneeClaims) {
-                        claimsList.add(kc.getClaimId());
-                        if (contentionCounts.containsKey(kc.getContentionClassificationId())) {
-                            int value = contentionCounts.get(kc.getContentionClassificationId());
-                            contentionCounts.put(kc.getContentionClassificationId(), value + 1);
-                        } else {
-                            contentionCounts.put(kc.getContentionClassificationId(), 1);
-                        }
-                    }
-                    List<DecisionDetails> decisions = ratingDao.getDecisionsPercentByClaimDate(veteranId, kneeClaim.getClaimDate());
-                    int calculatedValue = calculateKneeRating(decisions);
-                    BigDecimal priorCdd = BigDecimal.ZERO;
-                    if (CollectionUtils.isNotEmpty(decisions)) {
-                        DecisionDetails decisionDetails = decisions.get(0);
-                        Map<String, DecisionDetails> map = new HashMap<>();
-                        map.put(decisionDetails.getDecisionCode(), decisionDetails);
-                        priorCdd = applyFormula(map);
-                    }
-
-                    /*int birthYear = Integer.parseInt(veteran.getBirthYear());
-                    Calendar dob = Calendar.getInstance();
-                    dob.set(1, 1, birthYear);
-                    int age = KneeCalculator.claimantAge(kneeClaim.getClaimDate(), dob.getTime());
-*/
-                    int age = ratingDao.getClaimaintAge(veteranId, kneeClaim.getClaimId());
-                    age = roundtoTop(age);
-                    LOG.info("ROUNDED AGE :: {}", age);
-
+                if (results != null) {
                     //Added code for Process Id Sequence generation
                     List<Long> maxprocessId = ratingDao.getProcessIDSeq();
                     LOG.debug("******************************");
                     long processIdSeq = maxprocessId.get(0);
                     LOG.info("MAX ProcessId -------- " + processIdSeq);
 
-                    ModelRatingResults results = new ModelRatingResults();
-                    results.setProcessDate(new Date());
+                    Set<Long> claimsList = new HashSet<>();
+                    Map<Long, Integer> contentionCounts = new HashMap<>();
+                    for (ClaimDetails details : claimDetails) {
+                        claimsList.add(details.getClaimId());
+                        if (contentionCounts.containsKey(details.getContentionClassificationId())) {
+                            int value = contentionCounts.get(details.getContentionClassificationId());
+                            contentionCounts.put(details.getContentionClassificationId(), value + 1);
+                        } else {
+                            contentionCounts.put(details.getContentionClassificationId(), 1);
+                        }
+                    }
 
                     //setting ProcessId as Max Sequence generated+1
                     results.setProcessId(processIdSeq + 1);
-                    //results.setCDDAge((long) cddAge);
-                    //results.setClaimAge((long) age);
-                    results.setClaimId(kneeClaim.getClaimId());
-                    results.setClaimDate(kneeClaim.getClaimDate());
-                    results.setProfileDate(kneeClaim.getProfileDate());
-                    results.setVeteranId((long) veteranId);
-                    results.setRegionalOfficeNumber(kneeClaim.getClaimRONumber());
-                    results.setClaimantAge((long) age);
                     results.setClaimCount((long) claimsList.size());
-                    results.setModelType("Knee");
                     results.setContentionCount((long) contentionCounts.keySet().size());
-                    //results.setQuantCDD(calculatedCdd.longValue());
-                    results.setCurrentCDD((long) calculatedValue);
-                    results.setPriorCDD(priorCdd.longValue());
+
                     ModelRatingResults savedResults = modelRatingResultsRepository.save(results);
                     BigDecimal processId = BigDecimal.valueOf(savedResults.getProcessId());
 
                     LOG.info("=================================================================");
-                    LOG.info("RESULTS :::::::::::::::: " + results);
+                    LOG.info("RESULTS :::::::::::::::: " + savedResults);
                     LOG.info("=================================================================");
 
                     List<ModelRatingResultsCntnt> resultsCntnts = saveModelResultsCtnts(contentionCounts, savedResults);
@@ -205,7 +197,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                         List<Long> patternsList = patterns.stream().map(DDMModelPattern::getPatternId).collect(Collectors.toList());
                         List<Long> cntntPattrens = ddmModelCntntService.getKneePatternId(contentionCounts, patternsList);
                         if (CollectionUtils.isNotEmpty(cntntPattrens)) {
-                            List<DiagnosisCount> diagnosisCount = ratingDao.getDiagnosisCount((long) veteranId, kneeClaim.getClaimDate());
+                            List<DiagnosisCount> diagnosisCount = ratingDao.getDiagnosisCount((long) veteranId, savedResults.getClaimDate());
                             //List<Long> diagPatternsList = patterns.stream().map(DDMModelPattern::getPatternId).collect(Collectors.toList());
 
                             List<Long> diagPattren = ddmModelDiagService.getKneePatternId(diagnosisCount, cntntPattrens);
@@ -217,7 +209,6 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                                 results = modelRatingResultsRepository.save(results);
                             }
                         }
-
                     }
                     //ddmModelCntntService.getPatternId(results.getModelType(), )
 
@@ -228,18 +219,18 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                    /* ratingDecisions.setEarRatings(ed);
                     ratingDecisions.setKneeRatings(kd);*/
                     gov.va.vba.bcdss.models.Rating rating = new Rating();
-                    rating.setCddAge(age);
-                    rating.setClaimAge(age);
-                    rating.setClaimantAge(age);
+                    rating.setCddAge(savedResults.getClaimantAge().intValue());
+                    rating.setClaimAge(savedResults.getClaimantAge().intValue());
+                    rating.setClaimantAge(savedResults.getClaimantAge().intValue());
                     rating.setClaimCount(savedResults.getClaimCount().intValue());
                     //rating.setContationCount(contentionsCount);
-                    rating.setCurrentCdd(calculatedValue);
-                    rating.setRaterEvaluation(calculatedValue);
+                    rating.setCurrentCdd(savedResults.getCurrentCDD().intValue());
+                    rating.setRaterEvaluation(savedResults.getCurrentCDD().intValue());
                     rating.setPriorCdd(results.getPriorCDD().intValue());
                     rating.setProcessId(processId.intValue());
                     //rating.setQuantCdd(calculatedCdd.intValue());
                     rating.setRatingDecisions(ratingDecisions);
-                    rating.setModelType("Knee");
+                    rating.setModelType(savedResults.getModelType());
                     if (results.getPatternId() != null) {
                         List<DDMModelPatternIndex> accuracy = ratingDao.getPatternAccuracy(results.getPatternId());
                         if (CollectionUtils.isNotEmpty(accuracy)) {
@@ -259,7 +250,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                     }
 
                     rating.setProcessDate(savedResults.getClaimDate());
-                    c.setClaimDate(kneeClaim.getClaimDate());
+                    c.setClaimDate(savedResults.getClaimDate());
                         /*c.setProfileDate(claim.getProfileDate());*/
                     //c.setContentionClassificationId(String.valueOf(kneeClaim.getContentionClsfcnId()));
                     //c.setContentionId(Integer.parseInt(kneeClaim.getContentionId()));
@@ -269,7 +260,6 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                     cr.setClaim(c);
                     cr.setRating(rating);
                     claimRatings.add(cr);
-
                 }
             }
             veteranClaimRating.getClaimRating().addAll(claimRatings);
@@ -355,35 +345,6 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
         LOG.info("SAVED MODEL RATING RESULTS STATUS SUCCESSFULLY");
     }
 
-    private Map<RatingDecision, BigDecimal> aggregateRatingDecisions(List<RatingDecision> decisions) {
-        Map<RatingDecision, BigDecimal> m = new HashMap<>();
-        for (RatingDecision decision : decisions) {
-            boolean isFound = false;
-            for (Map.Entry<RatingDecision, BigDecimal> r : m.entrySet()) {
-                RatingDecision key = r.getKey();
-                if (key.getDiagnosisCode().equals(decision.getDiagnosisCode()) && key.getProfileDate().equals(decision.getProfileDate())) {
-                    BigDecimal value = r.getValue();
-                    BigDecimal bigDecimal = new BigDecimal(key.getPercentNumber());
-                    m.put(key, value.add(bigDecimal));
-                    isFound = true;
-                }
-            }
-            if (!isFound) {
-                m.put(decision, new BigDecimal(decision.getPercentNumber()));
-            }
-
-
-        }
-        return m;
-    }
-
-    public List<Claim> findClaimsInRanged(Date from, Date to) {
-        List<gov.va.vba.persistence.entity.Claim> result = claimRepository.findByClaimDateBetween(from, to);
-        List<Claim> output = new ArrayList<>();
-        mapper.mapAsCollection(result, output, outputClass);
-        return output;
-    }
-
     public List<Claim> findClaims(boolean isRegionalExist, boolean isDatesExist, String contentionType, Long regionalOfficeNumber, Date fromDate, Date toDate) {
         LOG.debug("REST request to get advance filtered Claims");
         List<gov.va.vba.persistence.entity.Claim> input = new ArrayList<>();
@@ -432,42 +393,6 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
         return null;
     }
 
-    // -- remove this use @GeneratedValue
-    @Deprecated
-    private long generateRandomId() {
-        long x = 12345L;
-        long y = 23456789L;
-        Random r = new Random();
-        return x + ((long) (r.nextDouble() * (y - x)));
-    }
-
-    public int calculateKneeRating(List<DecisionDetails> decisions) {
-        Map<String, DecisionDetails> map = new HashMap<>();
-        LOG.info("-------------------------------------");
-        for (DecisionDetails dd : decisions) {
-            if (!map.containsKey(dd.getDecisionCode())) {
-                map.put(dd.getDecisionCode(), dd);
-                LOG.info("DECISION DETAILS :: CODE IS {} AND PERCENT_NUMBER IS {} ", dd.getDecisionCode(), dd.getPercentNumber());
-            }
-        }
-        LOG.info("-------------------------------------");
-
-        BigDecimal calculatedValue = applyFormula(map);
-        LOG.info("CALCULATED VALUE ::::::  {}", calculatedValue.intValue());
-        return roundtoTop(calculatedValue.intValue());
-    }
-
-    private BigDecimal applyFormula(Map<String, DecisionDetails> map) {
-        BigDecimal calValue = BigDecimal.ONE;
-        for (Map.Entry<String, DecisionDetails> x : map.entrySet()) {
-            DecisionDetails decisionDetails = x.getValue();
-            String percentNumber = decisionDetails.getPercentNumber();
-            calValue = calValue.multiply(BigDecimal.ONE.subtract(BigDecimal.valueOf(Integer.parseInt(percentNumber)).divide(BigDecimal.valueOf(100))));
-        }
-        calValue = (BigDecimal.ONE.subtract(calValue)).multiply(BigDecimal.valueOf(100));
-        return (calValue.compareTo(BigDecimal.valueOf(60)) == 1) ? BigDecimal.valueOf(60) : calValue.setScale(-1, RoundingMode.HALF_UP);
-    }
-
     private List<Claim> mapKneeClaimsToClaims(List<ClaimDetails> kneeClaims) {
         List<Claim> claims = new ArrayList<>();
         for (ClaimDetails kneeClaim : kneeClaims) {
@@ -477,21 +402,13 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
             c.setClaimDate(kneeClaim.getClaimDate());
             c.setClaimId(kneeClaim.getClaimId());
             c.setRegionalOfficeOfClaim(kneeClaim.getClaimROName());
+            c.setContentionId(kneeClaim.getContentionId());
             c.setContentionClaimTextKeyForModel(kneeClaim.getContentionClaimantText());
             c.setCestDate(calculateCestDate(kneeClaim.getClaimDate()));
             c.setVeteran(v);
             claims.add(c);
         }
         return claims;
-    }
-
-
-    private int roundtoTop(int value) {
-        int i = value / 10;
-        if ((value % 10) > 0) {
-            return (i + 1) * 10;
-        }
-        return value;
     }
 
 }

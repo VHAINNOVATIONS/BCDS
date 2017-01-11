@@ -4,6 +4,7 @@ import gov.va.vba.persistence.constants.QueryConstants;
 import gov.va.vba.persistence.entity.ModelRatingResults;
 import gov.va.vba.persistence.entity.ModelRatingResultsDiag;
 import gov.va.vba.persistence.entity.ModelRatingResultsStatus;
+import gov.va.vba.persistence.entity.DDMModelPatternIndex;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,8 +41,16 @@ public interface ModelRatingResultsRepository extends JpaRepository<ModelRatingR
 	
 	@Modifying
 	@Transactional
-	@Query(value = "UPDATE ModelRatingResultsStatus r Set r.id.processStatus = ?2  WHERE r.id.processId = ?1")
-	Integer updateModelRatingResultStatusByProcessId(Long processId, String decision);
+	@Query(value = "UPDATE ModelRatingResultsStatus r Set r.id.processStatus = (?2), r.crtdBy = (?3), r.crtdDtm = (?4) WHERE r.id.processId = ?1")
+	Integer updateModelRatingResultStatusByProcessId(Long processId, String decision, String userId, Date updatedDate);
+	
+	@Query(value = "SELECT r FROM DDMModelPatternIndex r WHERE r.patternId = (?1) AND r.categoryId = (select max(d.categoryId) from DDMModelPatternIndex d where d.patternId = (?1))")
+	List<DDMModelPatternIndex> findModelRatingPatternInfo(Long patternId);
+	
+	@Transactional
+	@Modifying
+	@Query(value = "INSERT INTO BCDSS.DDM_MODEL_PATTERN_INDX (PATTERN_ID, ACCURACY, CDD, PATTERN_INDX_NUMBER, CRTD_BY, CRTD_DTM, CTLG_ID, MODEL_TYPE) VALUES ((?1), (?2), (?3), (?4), (?5), (?6), (?7), (?8))", nativeQuery = true)
+	void createModelRatingPatternCDD(Long patternId, Double accuracy, Long cdd, Long patternIndexNumber, String userId, Date createdDate, Long categoryId, String modelType);
 	
 //	@Query(value = "SELECT c FROM ModelRatingResults c WHERE c.modelType = ?1 AND c.claimantAge = ?2 AND c.claimCount = ?3 AND c.contentionCount = ?4 AND c.priorCDD = ?5 AND c.CDDAge = ?6")
 //	List<ModelRatingResults> findPatternId(String modelType, Long claimantAge, Long claimCount, Long contentionCount, Long priorCDD, Long CDDAge);

@@ -18,10 +18,10 @@
 			</xs:complexType>
 			<xs:complexType name="veteranClaim">
 				<xs:sequence>
+					<xs:element name="userId" type="xs:string" />
 					<xs:element name="veteran" type="tns:veteran" />
 					<xs:element maxOccurs="unbounded" minOccurs="1" name="claim"
 						type="tns:claim"></xs:element>
-						<xs:element name="userId" type="xs:string" />
 				</xs:sequence>
 			</xs:complexType>
 			<xs:complexType name="claimRating">
@@ -306,7 +306,7 @@
 	</wsdl:binding>
 	<wsdl:service name="BcdsModelingPortService">
 		<wsdl:port binding="tns:BcdsModelingPortSoap11" name="BcdsModelingPortSoap11">
-			<soap:address location="http://127.0.0.1:8083/bcds-web/soap-api/" />
+			<soap:address location="http://127.0.0.1:8083/soap-api/" />
 		</wsdl:port>
 	</wsdl:service>
 </wsdl:definitions>

@@ -18,7 +18,9 @@ import com.codahale.metrics.annotation.Timed;
 
 import gov.va.vba.domain.ModelRatingResults;
 import gov.va.vba.domain.ModelRatingResultsDiag;
+import gov.va.vba.domain.util.ModelPatternIndex;
 import gov.va.vba.domain.ModelRatingDetailsResult;
+import gov.va.vba.domain.ModelRatingPattern;
 import gov.va.vba.service.data.ModelRatingResultsDataService;
 
 /**
@@ -70,13 +72,46 @@ public class ModelResultsResource {
     public ModelRatingDetailsResult updateModelRatingResultsStatus(@RequestBody ModelRatingResultsDTO modelRating) {
         LOGGER.debug("REST request to update status of model rating");
         ModelRatingDetailsResult detailedResult = new ModelRatingDetailsResult();
-        List<Long> processIds = modelRatingResultsDataService.updateModelRatingResultsStatus(modelRating.getResultsStatus());
+        List<Long> processIds = modelRatingResultsDataService.updateModelRatingResultsStatus(modelRating.getResultsStatus(), modelRating.getUserId());
         if(processIds == null) return null;
         
         detailedResult.modelRatingResults = modelRatingResultsDataService.getClaimModelRatingResults(modelRating.getProcessIds(), null, null, null);
         detailedResult.diagnosticCodes = modelRatingResultsDataService.findDiagnosticCodes(modelRating.getProcessIds());
         detailedResult.resultsStatus = modelRatingResultsDataService.findModelRatingResultStatusByProcessIds(modelRating.getProcessIds());
         return detailedResult;
+    }
+    
+    /**
+     * GET  /getModelRatingPatternInfo -> get results by params (patternId).
+     */
+    @RequestMapping(value = "/modelRatingPatternInfo", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public List<ModelRatingPattern> getModelRatingPatternInfo(@RequestBody ModelRatingResultsDTO modelRating) {
+        LOGGER.debug("REST request to get model rating patern info");
+        List<ModelRatingPattern> result = modelRatingResultsDataService.findModelRatingPatternInfo(modelRating.getPatternId()); 
+        return result;
+    }
+    
+    /**
+     * GET  /updateModelRatingPatternInfo -> get results by params (patternId).
+     */
+    @RequestMapping(value = "/updateModelRatingPatternInfo", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public List<ModelRatingPattern> updateModelRatingPatternInfo(@RequestBody ModelRatingResultsDTO modelRating) {
+        LOGGER.debug("REST request to update model rating patern info");
+        ModelRatingPattern patternInfo = new ModelRatingPattern();
+        ModelPatternIndex patternIndex = new ModelPatternIndex();
+        patternIndex.setPatternId(modelRating.getPatternId());
+        patternIndex.setCDD(modelRating.getCDD());
+        patternIndex.setPatternIndexNumber(modelRating.getPatternIndexNumber());
+        patternIndex.setModelType(modelRating.getModelType());
+        patternIndex.setAccuracy(modelRating.getAccuracy());
+        patternInfo.setPatternIndex(patternIndex);
+        patternInfo.setCategoryId(modelRating.getCategoryId());
+        patternInfo.setCreatedBy(modelRating.getUserId());
+        
+        List<ModelRatingPattern> result = modelRatingResultsDataService.updateModelRatingPatternInfo(patternInfo); 
+        return result;
     }
     
     /**

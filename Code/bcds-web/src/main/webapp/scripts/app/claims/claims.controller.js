@@ -2,7 +2,7 @@
 
 angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $scope, $state, Account, $filter,
 														$q, DTOptionsBuilder, DTColumnBuilder, $compile, 	
-														$stateParams, ClaimService, ClaimFilterService,ModelService) {
+														$stateParams, ClaimService, ClaimFilterService) {
     $scope.searchTerm = undefined;
     $scope.claims = [];
     $scope.orderByField = 'veteranId';
@@ -87,7 +87,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
 	                if (selectedItems.hasOwnProperty(id)) {
 	                    if (selectedItems[id]) {
 	                    	var claimToProcess = $filter('filter')($scope.claims, {claimId: parseInt(id,10)}, true)[0];
-	                    	var obj = {veteranId:claimToProcess.veteran.veteranId,claimId:claimToProcess.claimId};
+	                    	var obj = {veteranId:claimToProcess.veteran.veteranId,claimId:claimToProcess.claimId, contentionId:claimToProcess.contentionId};
 	                    	ClaimsToProcess.push(obj);
 	                    }
 	                }
@@ -115,7 +115,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
 		DTColumnBuilder.newColumn(null).withTitle(titleHtml).notSortable()
 		 .renderWith(function(data, type, full, meta) {
 		     $scope.selected[full.claimId] = false;
-		     return '<label for="selectchk' + data.claimId + '" style="display: none">select</label><input id="selectchk' + data.claimId + '" type="checkbox" ng-model="selected[' + data.claimId + ']" ng-click="toggleOne(selected)">';
+		     return '<label for="selectchk' + data.claimId + '" style="display: none">select</label><input id="selectchk' + data.claimId + '-' + full.contentionId + '" type="checkbox" ng-model="selected[' + data.claimId + ']" ng-click="toggleOne(selected)">';
 		}),
         DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran ID'),
         DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran Name').renderWith(function(data, type, full) {
@@ -232,10 +232,10 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     	});
     };
     
-    $scope.loadClaims();
     $scope.setFilterDates();
     $scope.getUserName();
-    
+    $scope.loadClaims();
+
     $scope.toggleCheckAll = function () {
         angular.forEach($scope.claims, function (claim) {
             claim.Selected = $scope.selectAll;

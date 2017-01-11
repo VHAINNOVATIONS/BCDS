@@ -16,7 +16,13 @@ public class ModelRatingResultsDTO {
     private List<String> resultsStatus;
 	private String crtdBy;
 	private String reportType;
-	
+	private Long patternId;
+	private Long cdd;
+	private Long categoryId;
+	private Double accuracy;
+	private Long patternIndexNumber;
+	private String userId;
+		
     public Date getFromDate() {
         return fromDate;
     }
@@ -65,11 +71,56 @@ public class ModelRatingResultsDTO {
         this.crtdBy = crtdBy;
     }
     
+    public Long getPatternId() {
+        return patternId;
+    }
+
+    public void setPatternId(Long patternId) {
+        this.patternId = patternId;
+    }
+    
+    public Double getAccuracy() {
+		return accuracy;
+	}
+	public void setAccuracy(Double accuracy) {
+		this.accuracy = accuracy;
+	}
+	
+	public Long getPatternIndexNumber() {
+		return patternIndexNumber;
+	}
+	public void setPatternIndexNumber(Long patternIndexNumber) {
+		this.patternIndexNumber = patternIndexNumber;
+	}
+	
+    public Long getCDD() {
+        return cdd;
+    }
+
+    public void setCDD(Long cdd) {
+        this.cdd = cdd;
+    }
+    
+    public Long getCategoryId() {
+		return categoryId;
+	}
+	public void setCategoryId(Long categoryId) {
+		this.categoryId = categoryId;
+	}
+	
     public String getReportType() {
         return this.reportType;
     }
 
     public void setReportType(String reportType) {
         this.reportType = reportType;
+    }
+    
+    public String getUserId() {
+        return this.userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

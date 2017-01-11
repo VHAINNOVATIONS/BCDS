@@ -1,9 +1,11 @@
 'use strict';
 
-angular.module('bcdssApp').controller('ResultsController', function($rootScope, $scope, $state, Account,
+angular.module('bcdssApp').controller('ResultsController', function($rootScope, $scope, $state, Account, Auth,
 														$q, $filter, DTOptionsBuilder, DTColumnBuilder, $compile, 	
 														$stateParams, ClaimService, RatingService) {
 	
+	$scope.userName = Auth.getCurrentUser();
+	$scope.processedClaimsUserName = '';
 	$scope.results = [];
 	$scope.diagnosticCodes = [];
 	$scope.modelRatingResultsStatus = [];
@@ -112,7 +114,9 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
     
     /*These are changes for version 3.0*/
     $scope.dtDetailsColumns = [
-		//DTColumnBuilder.newColumn('userId').withTitle('User Id').notSortable(),
+		DTColumnBuilder.newColumn(null).withTitle('User Id').notSortable().renderWith(function(data, type, full) {
+	            return "<div>"+$scope.processedClaimsUserName+"</div>"
+	    }),
 		DTColumnBuilder.newColumn('processDate').withTitle('Session Date').notSortable().renderWith(function(data, type, full) {
             return "<div>{{" + data +"| date:'yyyy-MM-dd'}} </div>"
         }),
@@ -133,7 +137,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	    DTColumnBuilder.newColumn('patternIndex.cdd').withTitle('Actual Target Claim Rating').notSortable(),
 	    DTColumnBuilder.newColumn('patternIndex.patternIndexNumber').withTitle('Pattern Rate of Use').notSortable(),
 	    DTColumnBuilder.newColumn('patternIndex.accuracy').withTitle('Pattern Accuracy Rate').notSortable().renderWith(function(data, type, full) {
-	            return "<div>"+Math.round(data)+"</div>"
+	            return "<div>"+Math.round(data)+"%</div>"
 	    }),
 	    DTColumnBuilder.newColumn(null).withTitle('Agree/Disagree').notSortable().renderWith(function(data, type, full) {
             return "<div>"+$scope.modelRatingStatus+"</div>"
@@ -170,6 +174,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
     				$scope.claimCount = $scope.resultDetailsData[0].claimCount;
     				$scope.modelRatingDiagonosticCodes = $scope.getDiagonosticCodesByProcessId($scope.resultDetailsData[0].processId);
     				$scope.modelRatingStatus = $scope.getModelRatingResultStatusByProcessId($scope.resultDetailsData[0].processId);
+    				$scope.processedClaimsUserName =  $scope.userName;//$scope.resultDetailsData[0].userId;
                 }
                 else
                   resolve([]);
@@ -295,7 +300,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 		$scope.processIds = [];
 		$scope.setSearchParameters();
     	
-		RatingService.findModelRatingResults($scope.processIds, $scope.filters)
+		RatingService.findModelRatingResults($scope.processIds, $scope.filters, $scope.userName)
 			.then(function(result){
 				console.log('>>>successful');
 				$scope.results = result.data;
@@ -448,7 +453,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 			return;
 		}
 		$scope.filters = null;
-		RatingService.findModelRatingResults($scope.processIds, $scope.filters)
+		RatingService.findModelRatingResults($scope.processIds, $scope.filters, $scope.userName)
 			.then(function(result){
 				console.log('>>>successful');
 				$scope.results = result.data;
@@ -469,7 +474,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	};
 
 	$scope.updateResultsDecisions = function(){
-		RatingService.updateModelRatingResultsStatus($scope.processIds, $scope.arrDecisions)
+		RatingService.updateModelRatingResultsStatus($scope.processIds, $scope.arrDecisions, $scope.userName)
 			.then(function(result){
 				console.log('>>>successful');
 				$scope.results = result.data;
@@ -497,10 +502,11 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	/*version 3.0*/
 	$rootScope.$on('ProcessClaims', function(event, data) {
 		var inputObj = [];
-
+		$scope.userName = Auth.getCurrentUser();
 		angular.forEach(data,function(ele,idx){
 			var obj = {
-   			      "veteran": {
+				 	"userId": $scope.userName,
+   			      	"veteran": {
    			        "veteranId": ele.veteranId,
    			        "veteranName": null,
    			        "dob": null
@@ -511,7 +517,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
    			          "profileDate": null,
    			          "productTypeCode": null,
    			          "claimDate": null,
-   			          "contentionId": 0,
+   			          "contentionId": ele.contentionId,
    			          "contentionClassificationId": null,
    			          "contentionBeginDate": null
    			        }
@@ -519,7 +525,8 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
    			    }
 			inputObj.push(obj);
 		});
-		$scope.results = []
+		$scope.results = [];
+		
 		ClaimService.processClaims({},{
 	  			"veteranClaimInput": inputObj
 			},function(data){
