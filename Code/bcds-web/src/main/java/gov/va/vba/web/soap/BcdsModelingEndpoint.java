@@ -42,7 +42,7 @@ public class BcdsModelingEndpoint {
 		LOGGER.debug("SOAP request to get a Process Claim... ...");
         GetProcessClaimResponse getProcessClaimResponse = new GetProcessClaimResponse();
         if(CollectionUtils.isNotEmpty(request.getVeteranClaimInput())) {
-            List<VeteranClaimRating> veteranClaimRatings = claimDataService.findByVeteranId(request.getVeteranClaimInput(), SecurityUtils.getCurrentLogin());
+            List<VeteranClaimRating> veteranClaimRatings = claimDataService.findByVeteranId(request.getVeteranClaimInput());
             if(CollectionUtils.isNotEmpty(veteranClaimRatings)) {
                 getProcessClaimResponse.getVeteranClaimRatingOutput().addAll(veteranClaimRatings);
             }

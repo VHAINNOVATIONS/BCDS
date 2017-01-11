@@ -125,13 +125,17 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
         return mapKneeClaimsToClaims(claims);
     }
 
-    public List<VeteranClaimRating> findByVeteranId(List<VeteranClaim> veteranClaims, String currentLogin) {
+    public List<VeteranClaimRating> findByVeteranId(List<VeteranClaim> veteranClaims) {
         List<VeteranClaimRating> veteranClaimRatings = new ArrayList<>();
+        String currentLogin = null;
         for (VeteranClaim vc : veteranClaims) {
 
             VeteranClaimRating veteranClaimRating = new VeteranClaimRating();
             veteranClaimRating.setVeteran(vc.getVeteran());
             int veteranId = vc.getVeteran().getVeteranId();
+            if(null!=vc.getUserId()){
+            	currentLogin = vc.getUserId();
+            }
             List<gov.va.vba.bcdss.models.Claim> claims = vc.getClaim();
             List<ClaimRating> claimRatings = new ArrayList<>();
             for (gov.va.vba.bcdss.models.Claim c : claims) {

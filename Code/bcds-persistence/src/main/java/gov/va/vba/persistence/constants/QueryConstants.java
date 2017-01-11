@@ -103,8 +103,8 @@ public class QueryConstants {
             "AND ROWNUM <= 150 AND PTCPNT_VET_ID = ? AND BNFT_CLAIM_ID = ? ORDER BY C.PTCPNT_VET_ID, DATE_OF_CLAIM";
 
     public static final String CNTNT_DETAILS_QUERY = "SELECT CNTNT_ID AS contentionId, CTLG_ID AS catalogId, CNTNT_CD AS contentionCode, " +
-            "MODEL_TYPE AS modelType, CNTNT_CD_DESC AS contentionText, CRTD_BY AS createdBy, CRTD_DTM AS createdDate" +
-            "FROM DDM_CNTNT WHERE CNTNT_CD = ?";
+            "MODEL_TYPE AS modelType, CNTNT_CD_DESC AS contentionText, CRTD_BY AS createdBy, CRTD_DTM AS createdDate " +
+            "FROM BCDSS.DDM_CNTNT WHERE CNTNT_CD = ?";
 
 
 }
