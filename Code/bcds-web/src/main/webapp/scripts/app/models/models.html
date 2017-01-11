@@ -1,6 +1,8 @@
 <div ng-controller="ModelsController">
 	<div>
 		<br/>
+		<br/>
+		<br/>
 	</div>
 	<div class="form-group">
 		<form name="frmPatternSearch" class="form-horizontal" role="form">
@@ -22,8 +24,10 @@
 			</div>
 		</form>	
 	</div>
-	<div class="row" role="alert" ng-show="displayInsertStatus">
-		<span class="col-md-12" style="text-align: left;font-size: medium;color: blue">CDD updated successfully.</span>
+	<div class="row">
+		<div role="alert" ng-show="displayInsertStatus">
+			<span class="col-md-12" style="text-align: left;font-size: medium;color: blue">CDD updated successfully.</span>
+		</div>
 	</div>
 	<div class="row">
 		<div class="col-md-12" ng-show="displayModelPatternTable">
