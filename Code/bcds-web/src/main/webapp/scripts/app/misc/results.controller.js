@@ -502,9 +502,11 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	/*version 3.0*/
 	$rootScope.$on('ProcessClaims', function(event, data) {
 		var inputObj = [];
+		$scope.userName = Auth.getCurrentUser();
 		angular.forEach(data,function(ele,idx){
 			var obj = {
-   			      "veteran": {
+				 	"userId": $scope.userName,
+   			      	"veteran": {
    			        "veteranId": ele.veteranId,
    			        "veteranName": null,
    			        "dob": null
@@ -524,10 +526,9 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 			inputObj.push(obj);
 		});
 		$scope.results = [];
-		$scope.userName = Auth.getCurrentUser();
+		
 		ClaimService.processClaims({},{
-	  			"veteranClaimInput": inputObj,
-	  			"userId": $scope.userName
+	  			"veteranClaimInput": inputObj
 			},function(data){
 			//data = {"veteranClaimRatingOutput":[{"veteran":{"veteranId":244390,"veteranName":null,"dob":null},"claimRating":[{"claim":{"claimId":5614193,"profileDate":1147665600000,"productTypeCode":"020","claimDate":1091073600000,"contentionId":2991274,"contentionClassificationId":"6850","contentionBeginDate":null},"rating":{"claimantAge":20,"promulgationDate":null,"recentDate":null,"contationCount":2,"priorCdd":64,"quantPriorCdd":0,"currentCdd":0,"claimAge":20,"cddAge":20,"claimCount":1,"processId":18380497,"patternId":0,"processDate":null,"modelType":null,"modelContentionCount":0,"quantCdd":80,"ratingDecisions":{"processId":18380497,"kneeRatings":{"contentionKnee":0,"contentionLeft":0,"contentionRight":0,"contentionBilateral":0,"contentionLeg":0,"contentionAmputation":0,"decisionKnee":0,"decisionLeft":0,"decisionRight":0,"decisionBilateral":0,"decisionLimitation":0,"decisionImpairment":0,"decisionAnkyloses":0,"decisionAmputation":0},"earRatings":{"contentionLoss":0,"contentionTinitu":0,"decisionLoss":0,"decisionTinitu":0}},"status":[],"diagnosisCodeCounts":[],"contentionsCodeCounts":[]}}]}]};
 			var formattedResults = $scope.processResults(data.veteranClaimRatingOutput);
