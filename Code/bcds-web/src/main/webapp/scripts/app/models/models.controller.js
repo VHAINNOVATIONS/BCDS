@@ -35,7 +35,7 @@ angular.module('bcdssApp').controller('ModelsController', function($rootScope, $
 	    DTColumnBuilder.newColumn('patternIndex.patternId').withTitle('Pattern Id').notSortable(),
 	    DTColumnBuilder.newColumn('patternIndex.accuracy').withTitle('Pattern Accuracy').notSortable(),
 	    DTColumnBuilder.newColumn('createdDate').withTitle('Created Date').notSortable().renderWith(function(data, type, full) {
-	        return "<div>"+$scope.formatDate(data)+"</div>"
+	        return "<div>"+$scope.formatDate(data)+"%</div>"
 	    }),
 	    DTColumnBuilder.newColumn('createdBy').withTitle('Created/Updated By').notSortable(),
 	    DTColumnBuilder.newColumn('patternIndex.cdd').withTitle('CDD').notSortable()

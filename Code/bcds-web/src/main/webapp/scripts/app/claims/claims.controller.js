@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $scope, $state, Account, $filter,
-														$q, DTOptionsBuilder, DTColumnBuilder, $compile, 	
+														$q, DTOptionsBuilder, DTColumnBuilder, $compile, $timeout,	
 														$stateParams, ClaimService, ClaimFilterService) {
     $scope.searchTerm = undefined;
     $scope.claims = [];
@@ -13,47 +13,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     $scope.isSelected = false;
     $scope.dtInstance = {};
     
-    $scope.toggleAll = function toggleAll(selectAll, selectedItems) {
-        for (var id in selectedItems) {
-            if (selectedItems.hasOwnProperty(id)) {
-                selectedItems[id] = selectAll;
-            }
-        }
-        toggleProcessClaims(selectAll);
-    }
-    
-    function toggleProcessClaims(isEnabled)
-    {
-		 if(isEnabled) {
-            $('#btnProcessClaim').closest('.dt-button').removeClass('disabled');
-		 	$('#btnProcessClaim').closest('.dt-button').removeClass('disabledLink');
-		 }
-		 else {
-            $('#btnProcessClaim').closest('.dt-button').addClass('disabled');
-		 	$('#btnProcessClaim').closest('.dt-button').addClass('disabledLink');
-		 }
-    }
-    
-    $scope.toggleOne = function toggleOne(selectedItems) {
-    	toggleProcessClaims(false);
-    	var isAllSelected = true;
-        for (var id in selectedItems) {
-            if (selectedItems.hasOwnProperty(id)) {
-                if (!selectedItems[id]) {
-                	isAllSelected  = false;
-                }
-                else {
-                	toggleProcessClaims(true);
-            	}
-            }
-        }
-        if(isAllSelected)
-    	{
-        	$scope.selectAll = true;
-    	}
-    }
-
-    var titleHtml = '<label for="selectchkall" style="display: none">select</label><input type="checkbox" id="selectchkall" ng-model="selectAll" ng-click="toggleAll(selectAll,selected)"> ';
+    var titleHtml = '<input type="checkbox" id="selectchkall" ng-model="selectAll" ng-click="toggleAll(selectAll, selected)">';
     
     $scope.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
     	 return new Promise( function(resolve, reject){
@@ -198,6 +158,50 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     
     $scope.filters.regionalOfficeOption = $scope.regionalOfficeOptions[0].value; // Default
     
+    $scope.dtInstanceCallback = function(_dtInstance) {
+        $scope.dtInstance = _dtInstance;
+        $scope.dtInstance.reloadData();
+    };
+
+    $scope.toggleAll = function toggleAll(selectAll, selectedItems) {
+        for (var id in selectedItems) {
+            if (selectedItems.hasOwnProperty(id)) {
+                selectedItems[id] = selectAll;
+            }
+        }
+        $scope.toggleProcessClaims(selectAll);
+    };
+    
+    $scope.toggleProcessClaims = function(isEnabled) {
+         if(isEnabled) {
+            $('#btnProcessClaim').closest('.dt-button').removeClass('disabled');
+            $('#btnProcessClaim').closest('.dt-button').removeClass('disabledLink');
+         }
+         else {
+            $('#btnProcessClaim').closest('.dt-button').addClass('disabled');
+            $('#btnProcessClaim').closest('.dt-button').addClass('disabledLink');
+         }
+    };
+    
+    $scope.toggleOne = function toggleOne(selectedItems) {
+        $scope.toggleProcessClaims(false);
+        var isAllSelected = true;
+        for (var id in selectedItems) {
+            if (selectedItems.hasOwnProperty(id)) {
+                if (!selectedItems[id]) {
+                    isAllSelected  = false;
+                }
+                else {
+                    $scope.toggleProcessClaims(true);
+                }
+            }
+        }
+        if(isAllSelected)
+        {
+            $scope.selectAll = true;
+        }
+    };
+
     $scope.setFilterDates  = function(){
     	$scope.filters.dateType = "claimDate";
         $scope.today = new Date();
@@ -223,11 +227,12 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
                 else
                   resolve([]);
               });
-    		if($scope.claims.length > 0)
-			{
-    			$scope.dtInstance.changeData(function() {
-                    return promise;
-                });
+    		if($scope.claims.length > 0) {
+                $timeout(function() {
+                    $scope.dtInstance.reloadData(function() {
+                        return promise;
+                    });
+                }, 10);
 			}
     	});
     };
