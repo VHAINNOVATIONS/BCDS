@@ -56,23 +56,17 @@
 		    	</div>
 		    </div>
 	  	</form>
-	</div>
-	<div class="form-group">
-		<div class="col-md-12" ng-show="displayResultsRatingTable">
-			<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" 
-				class="table table-striped table-bordered compact row-border hover"></table>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-11" ng-show="displayResultsRatingTable">
-			<div class="form-group">
-				<button type="submit" class="btn btn-outline-secondary btn-md pull-right"  style="width:140px !important;" 
-				ng-click="updateResultsDecisions()">
-					<span>Save</span>
-				</button>		
+	  	<div class="row">
+			<div class="col-md-12" ng-show="displayResultsRatingTable">
+				<div><table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" 
+					class="table table-striped table-bordered compact row-border hover"></table></div>
+				<div><button type="submit" class="btn btn-outline-secondary btn-md pull-right" ng-click="updateResultsDecisions()">
+						<span>Save</span>
+				</button></div>		
 			</div>
 		</div>
 	</div>
+	
 	<div class="modal fade" role="dialog" id="gridPopUp">
 		<div class="modal-dialog" style="width:97% !important;">
 			<div class="modal-content">

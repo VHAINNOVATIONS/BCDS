@@ -1,24 +1,28 @@
-<!--<div>
-	<h2 class="header">Reports</h2>
-</div>
-<br />
-<br />
-<div>
-	<h3><b>Report Page is under construction!!!</b></h3>
-	<br />
-	<h4>Thanks for your patience, while we add more functionalities.</h4>
-	<br />
-	<h4>Please come back again.</h4>
-</div>-->
-
 <div ng-controller="ReportsController">
 	<div>
-		<br/>
 	</div>
 	<div class="form-group">
 		<form name="frmResultsSearchFilter" class="form-horizontal" role="form" ng-submit="checkReportTypeErr()">
 			<div class="row" role="alert" style="color: #D8000C; padding-right:200px;"><span>{{errMessage}}</span></div>
-		    <div class="row"> 
+		    <div class="row">
+		    	<div class="col-md-2">
+		    		 <label for="reportType" class="control-label pull-right">Report Type:</label>
+		    	</div>
+		    	<div class="col-md-2">
+		    		<select id="reportType" name="reportType" class="form-control pull-left" ng-change='checkReportTypeErr()' type="text" ng-model="filters.reportTypeOption" ng-options="o.value as o.label for o in reportTypeOptions | orderBy:'label'">
+								 <option value="">Select a report type</option>
+					</select>
+		    	</div>
+		    	<!--<div class="col-md-2">
+		    		<label for="outputType" class="control-label pull-right">Output Type:</label>
+		    	</div>
+		    	<div class="col-md-2">
+		    		<select id="outputType" name="outputType" class="form-control pull-left" type="text" ng-model="filters.outputTypeOption" ng-options="o.value as o.label for o in outputTypeOptions | orderBy:'label'">
+								 <option value="">Select a output type</option>
+					</select>
+		    	</div>-->
+		    </div>
+		    <div class="row" style="margin-top:10px;"> 
 			    <div class="col-md-2">
 			    	<label class="pull-right">
 			    		<span>Processed From Date:</span>
@@ -55,24 +59,6 @@
 		    		<input type="text" id="txtModelResultId" class="form-control pull-left" ng-model="filters.modelResultId">
 		    	</div>
 		    </div>
-		    <div class="row" style="margin-top:10px;">
-		    	<div class="col-md-2">
-		    		 <label for="reportType" class="control-label pull-right">Report Type:</label>
-		    	</div>
-		    	<div class="col-md-2">
-		    		<select id="reportType" name="reportType" class="form-control pull-left" ng-change='checkReportTypeErr()' type="text" ng-model="filters.reportTypeOption" ng-options="o.value as o.label for o in reportTypeOptions | orderBy:'label'">
-								 <option value="">Select a report type</option>
-					</select>
-		    	</div>
-		    	<!--<div class="col-md-2">
-		    		<label for="outputType" class="control-label pull-right">Output Type:</label>
-		    	</div>
-		    	<div class="col-md-2">
-		    		<select id="outputType" name="outputType" class="form-control pull-left" type="text" ng-model="filters.outputTypeOption" ng-options="o.value as o.label for o in outputTypeOptions | orderBy:'label'">
-								 <option value="">Select a output type</option>
-					</select>
-		    	</div>-->
-		    </div>
 		    <div class="row">
 		    	<div class="col-md-4 col-md-offset-3" style="margin-top:10px;">
 						<button type="submit" ng-disabled="frmResultsSearchFilter.$invalid" class="btn btn-outline-secondary" 
@@ -91,10 +77,10 @@
 		<div class="row">
 			<div class="col-md-12" ng-show="displayResultsRatingDetailsTable">
 				<table id="resultDetailsGrid" name="resultDetailsGrid" datatable="" dt-options="dtDetailsOptions" dt-columns="dtDetailsColumns" 
-				dt-instance="dtDetailsInstance" class="table table-striped table-bordered table-hover compact"></table>
+				dt-instance="dtDetailsInstance" class="table table-striped table-bordered row-border hover compact"></table>
 			</div>
 			<div class="col-md-12" ng-show="displayResultsRatingAggregateTable">
-				<table id="resultAggregateGrid" name="resultAggregateGrid" datatable="" dt-options="dtAggregateOptions" dt-columns="dtAggregateColumns" dt-instance="dtAggregateInstance" class="table table-striped table-bordered table-hover compact"></table>
+				<table id="resultAggregateGrid" name="resultAggregateGrid" datatable="" dt-options="dtAggregateOptions" dt-columns="dtAggregateColumns" dt-instance="dtAggregateInstance" class="table table-striped table-bordered row-border hover compact"></table>
 			</div>
 		</div>
 	</div>
