@@ -93,13 +93,13 @@ public class ModelRatingResultsDataService extends AbsDataService<gov.va.vba.per
 		LOG.info("SIZE of statuses :::: " + statuses.size());
 		Iterator itr = statuses.iterator();
 		while(itr.hasNext()){
-			   Object[] obj = (Object[]) itr.next();
-			   String processStatus = (String.valueOf(obj[1]) == null) ? null : String.valueOf(obj[1]) ;
-			   Long processId = (String.valueOf(obj[0]) == null) ? 0 : Long.parseLong(String.valueOf(obj[0]));
-			   ModelRatingResultsStatus status = new ModelRatingResultsStatus();
-			   status.setProcessId(processId);
-			   status.setProcessStatus(processStatus);
-			   resultsStatus.add(status);
+		   Object[] obj = (Object[]) itr.next();
+		   String processStatus = (String.valueOf(obj[1]) == null) ? null : String.valueOf(obj[1]) ;
+		   Long processId = (String.valueOf(obj[0]) == null) ? 0 : Long.parseLong(String.valueOf(obj[0]));
+		   ModelRatingResultsStatus status = new ModelRatingResultsStatus();
+		   status.setProcessId(processId);
+		   status.setProcessStatus(processStatus);
+		   resultsStatus.add(status);
 		}
 
 		return resultsStatus;

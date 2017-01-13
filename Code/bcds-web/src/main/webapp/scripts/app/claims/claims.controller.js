@@ -35,8 +35,10 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
             $compile(angular.element('.dt-buttons').contents())($scope);
         }
     })
-    .withPaginationType('full_numbers')
-    .withDOM('frtip')
+    .withBootstrap()
+    .withDOM('Bfrtip')
+    .withOption('bLengthChange', false)
+    .withOption('order', [[1, 'asc']])
     .withButtons([
     	{
 	        text: '<a name="Process Claim(s)" id="btnProcessClaim">Process Claims</a>',
@@ -72,18 +74,20 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
       ]);
 
     $scope.dtColumns = [
-		DTColumnBuilder.newColumn(null).withTitle(titleHtml).notSortable()
+		DTColumnBuilder.newColumn(null).withTitle(titleHtml)
 		 .renderWith(function(data, type, full, meta) {
 		     $scope.selected[full.claimId] = false;
 		     return '<label for="selectchk' + data.claimId + '" style="display: none">select</label><input id="selectchk' + data.claimId + '-' + full.contentionId + '" type="checkbox" ng-model="selected[' + data.claimId + ']" ng-click="toggleOne(selected)">';
-		}),
+		}).notSortable(),
         DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran ID'),
         DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran Name').renderWith(function(data, type, full) {
             return "<div>"+ data +"-veteran</div>"
         }),
         DTColumnBuilder.newColumn('regionalOfficeOfClaim').withTitle('Regional Office'),
         DTColumnBuilder.newColumn('claimId').withTitle('Claim ID'),
-        DTColumnBuilder.newColumn('claimDate').withTitle('Date of Claim'),
+        DTColumnBuilder.newColumn('claimDate').withTitle('Date of Claim').renderWith(function(data, type, full) {
+            return "<div>{{" + data +"| date:'yyyy-MM-dd'}} </div>"
+        }),
         DTColumnBuilder.newColumn('cestDate').withTitle('CEST Date').renderWith(function(data, type, full) {
             return "<div>{{" + data +"| date:'yyyy-MM-dd'}} </div>"
         }),

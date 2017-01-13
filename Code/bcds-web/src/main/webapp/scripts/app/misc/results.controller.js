@@ -67,6 +67,9 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	              resolve([]);
 	          });
 	   })
+	 	.withBootstrap()
+	 	.withOption('info', false)
+	 	.withOption('bLengthChange', false)
 	   	.withOption('createdRow', function(row, data, dataIndex) {
 	    	// Recompiling so we can bind Angular directive to the DT        
 	    	$compile(angular.element(row).contents())($scope);
@@ -110,6 +113,8 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
    })
    .withOption('paging', false)
    .withOption('info', false)
+   .withOption('bLengthChange', false)
+   .withBootstrap()
    .withOption('rowCallback', rowCallback);
     
     /*These are changes for version 3.0*/
