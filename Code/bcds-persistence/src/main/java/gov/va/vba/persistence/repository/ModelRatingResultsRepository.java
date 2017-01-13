@@ -36,12 +36,12 @@ public interface ModelRatingResultsRepository extends JpaRepository<ModelRatingR
 	@Query(value = "SELECT r FROM ModelRatingResultsDiag r WHERE r.processId in (?1) AND r.count > 0")
 	List<ModelRatingResultsDiag> findDiagonsticCodesByProcessIds(List<Long> processIds);
 	
-	@Query(value = "SELECT r FROM ModelRatingResultsStatus r WHERE r.id.processId in (?1)")
+	@Query(value = " select s.process_Id, s.process_status from BCDSS.MODEL_RATING_RESULTS_STATUS s inner join (select process_Id, max(crtd_dtm) as crtd_dtm from BCDSS.MODEL_RATING_RESULTS_STATUS where process_id in (?1) group by process_id ) r on s.process_Id = r.process_id and s.crtd_dtm = r.crtd_dtm where s.process_Id in (?1) order by s.process_Id", nativeQuery = true)
 	List<ModelRatingResultsStatus> findModelRatingResultStatusByProcessIds(List<Long> processIds);
 	
 	@Modifying
 	@Transactional
-	@Query(value = "UPDATE ModelRatingResultsStatus r Set r.id.processStatus = (?2), r.crtdBy = (?3), r.crtdDtm = (?4) WHERE r.id.processId = ?1")
+	@Query(value = "INSERT INTO BCDSS.MODEL_RATING_RESULTS_STATUS (PROCESS_ID, PROCESS_STATUS, REASON, CRTD_BY, CRTD_DTM) VALUES ((?1), (?2), (?2), (?3), (?4))", nativeQuery = true)
 	Integer updateModelRatingResultStatusByProcessId(Long processId, String decision, String userId, Date updatedDate);
 	
 	@Query(value = "SELECT r FROM DDMModelPatternIndex r WHERE r.patternId = (?1) AND r.categoryId = (select max(d.categoryId) from DDMModelPatternIndex d where d.patternId = (?1))")

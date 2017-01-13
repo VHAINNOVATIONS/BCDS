@@ -4,8 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.emory.mathcs.backport.java.util.Arrays;
 import gov.va.vba.domain.ModelRatingResults;
-import gov.va.vba.domain.ModelRatingResultsDiag;
 import gov.va.vba.domain.ModelRatingResultsStatus;
+import gov.va.vba.domain.ModelRatingResultsDiag;
 import gov.va.vba.domain.ModelRatingPattern;
 import gov.va.vba.persistence.entity.DDMModelPatternIndex;
 import gov.va.vba.persistence.entity.RatingDecision;
@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
+import java.util.Iterator;
 
 @Service
 public class ModelRatingResultsDataService extends AbsDataService<gov.va.vba.persistence.entity.ModelRatingResults, ModelRatingResults> {
@@ -50,6 +51,7 @@ public class ModelRatingResultsDataService extends AbsDataService<gov.va.vba.per
 	@Autowired
 	private ModelRatingResultsDiagMapper modelRatingResultsDiagMapper;
 	
+	 
 	public ModelRatingResultsDataService() {
 		this.setClasses(gov.va.vba.persistence.entity.ModelRatingResults.class, ModelRatingResults.class);
 	}
@@ -86,9 +88,20 @@ public class ModelRatingResultsDataService extends AbsDataService<gov.va.vba.per
 	
 	public List<ModelRatingResultsStatus> findModelRatingResultStatusByProcessIds(List<Long> processIds) {
 		if(processIds == null) return null;
+		List<ModelRatingResultsStatus> resultsStatus = new ArrayList();
 		List<gov.va.vba.persistence.entity.ModelRatingResultsStatus> statuses = modelRatingResultsRepository.findModelRatingResultStatusByProcessIds(processIds);
-		List<ModelRatingResultsStatus> resultsStatus = modelRatingResultsMapper.mapResultStatusCollection(statuses);
-		LOG.debug("resultsStatus" + resultsStatus);
+		LOG.info("SIZE of statuses :::: " + statuses.size());
+		Iterator itr = statuses.iterator();
+		while(itr.hasNext()){
+			   Object[] obj = (Object[]) itr.next();
+			   String processStatus = (String.valueOf(obj[1]) == null) ? null : String.valueOf(obj[1]) ;
+			   Long processId = (String.valueOf(obj[0]) == null) ? 0 : Long.parseLong(String.valueOf(obj[0]));
+			   ModelRatingResultsStatus status = new ModelRatingResultsStatus();
+			   status.setProcessId(processId);
+			   status.setProcessStatus(processStatus);
+			   resultsStatus.add(status);
+		}
+
 		return resultsStatus;
 	}
 	
