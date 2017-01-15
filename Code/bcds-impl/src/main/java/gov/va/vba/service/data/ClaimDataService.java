@@ -402,6 +402,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
             c.setContentionClaimTextKeyForModel(kneeClaim.getContentionClaimantText());
             c.setCestDate(calculateCestDate(kneeClaim.getClaimDate()));
             c.setVeteran(v);
+            c.setModelType(kneeClaim.getModelType());
             claims.add(c);
         }
         return claims;
