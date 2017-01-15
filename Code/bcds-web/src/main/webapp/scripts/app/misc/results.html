@@ -44,12 +44,12 @@
 		    </div>
 		    <div class="row">
 		    	<div class="col-md-4 col-md-offset-3" style="margin-top:10px;">
-						<button type="submit" ng-disabled="frmResultsSearchFilter.$invalid" class="btn btn-outline-secondary" 
+						<button type="submit" ng-disabled="frmResultsSearchFilter.$invalid" class="btn btn-primary" 
 						 	ng-click="searchRatingResults()">
 							<span>Search</span>
 						</button>
 						<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-						<button type="submit" class="btn btn-outline-secondary" ng-click="clear()">
+						<button type="submit" class="btn btn-primary" ng-click="clear()">
 							<span>Cancel</span>
 						</button>
 						<!--<a href="#" id="btnRatingResults" ng-click="getRatingResults()">GetResults(Test)</a>-->
@@ -60,7 +60,7 @@
 			<div class="col-md-12" ng-show="displayResultsRatingTable">
 				<div><table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" 
 					class="table table-striped table-bordered compact row-border hover"></table></div>
-				<div><button type="submit" class="btn btn-outline-secondary btn-md pull-right" ng-click="updateResultsDecisions()">
+				<div><button type="submit" class="btn btn-primary btn-md pull-right" ng-click="updateResultsDecisions()">
 						<span>Save</span>
 				</button></div>		
 			</div>

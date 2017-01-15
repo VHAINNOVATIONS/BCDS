@@ -5,7 +5,7 @@
 	</div>
 	<div class="form-group">
 		<form name="frmPatternSearch" class="form-horizontal" role="form">
-			<div class="row" role="alert" style="color: #D8000C; padding-right:200px;"><span>{{errMessage}}</span></div>
+			<div class="row" role="alert" style="color: #D8000C; text-align: center;"><span>{{errMessage}}</span></div>
 			<div class="row">
 				<div class="col-md-2">
 		    		<label for="txtPatterntId" class="control-label pull-right">Pattern Id:</label>
@@ -15,8 +15,7 @@
 		    		ng-model="patternId">
 		    	</div>
 		    	<div class="col-md-1">
-					<button type="submit" ng-disabled="frmPatternSearch.$invalid" class="btn btn-outline-secondary" 
-					 	ng-click="searchPatternResults()">
+					<button type="submit" ng-disabled="frmPatternSearch.$invalid" class="btn btn-primary" ng-click="searchPatternResults()">
 						<span>Search</span>
 					</button>
     			</div>
@@ -36,8 +35,7 @@
 	</div>
 	<div class="row" ng-show="displayModelPatternTable">
     	<div class="col-md-12" style="margin-top:10px; text-align: right">
-				<button type="submit" ng-disabled="frmPatternSearch.$invalid" class="btn btn-outline-secondary" 
-				 	ng-click="createCddValue()">
+				<button type="submit" ng-disabled="frmPatternSearch.$invalid" class="btn btn-primary" ng-click="createCddValue()">
 					<span>Edit CDD</span>
 				</button>
     	</div>
@@ -51,7 +49,7 @@
 				<div class="modal-body">
 					<form name="frmEditCDD">
 						<div>
-							<div class="row" role="alert" style="color: #D8000C; margin-bottom: 5px;"><span>{{errMessageModal}}</span></div>
+							<div class="row" role="alert" style="color: #D8000C; text-align: center;"><span>{{errMessageModal}}</span></div>
 						</div>
 						<div class="row">
 							<div class="col-md-4">
@@ -64,12 +62,12 @@
 						</div>
 						<br/>
 						<div class="row">
-							<div class="col-md-12" style="margin-bottom: 5px;">
-								<button type="button" class="btn btn-outline-secondary" data-dismiss="modal" ng-click="clear()">
+							<div class="col-md-12" style="margin-bottom: 5px;text-align: center;">
+								<button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="clear()">
 									<span>Cancel</span>
 								</button>
 								<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-								<button type="submit" ng-disabled="frmEditCDD.$invalid" class="btn btn-outline-secondary" ng-click="createPatternCdd($event)">
+								<button type="submit" ng-disabled="frmEditCDD.$invalid" class="btn btn-primary" ng-click="createPatternCdd($event)">
 									<span>Confirm</span>
 								</button>
 			    			</div>
