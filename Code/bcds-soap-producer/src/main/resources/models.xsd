@@ -15,10 +15,10 @@
 
 	<xs:complexType name="veteranClaim">
 		<xs:sequence>
+			<xs:element name="userId" type="xs:string" />
 			<xs:element name="veteran" type="tns:veteran"></xs:element>
 			<xs:element name="claim" type="tns:claim" minOccurs="1" maxOccurs="unbounded">
 			</xs:element>
-			<xs:element name="userId" type="xs:string" />
 		</xs:sequence>
 	</xs:complexType>
 
@@ -180,6 +180,7 @@
 	<xs:element name="getProcessClaimRequest">
 		<xs:complexType>
           <xs:sequence>
+          	<xs:element name="userId" type="xs:string" />
             <xs:element name="veteranClaimInput" type="tns:veteranClaim" minOccurs="1" maxOccurs="unbounded"/>
           </xs:sequence>
         </xs:complexType>

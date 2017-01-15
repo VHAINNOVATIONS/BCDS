@@ -46,6 +46,8 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
        $compile(angular.element(row).contents())($scope);
    }) 	
    .withOption('scrollX', true)
+   .withBootstrap()
+   .withOption('bLengthChange', false)
    .withDOM('Bfrtip')
    .withButtons([
             {
@@ -103,11 +105,13 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
           });
    })
    .withOption('filter', false)
+   .withBootstrap()
    .withOption('createdRow', function(row, data, dataIndex) {
            // Recompiling so we can bind Angular directive to the DT
        $compile(angular.element(row).contents())($scope);
    }) 	
    .withDOM('Bfrtip')
+   .withOption('bLengthChange', false)
    .withButtons([
             {
                 extend: 'pdf',

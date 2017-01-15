@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $scope, $state, Account, $filter,
-														$q, DTOptionsBuilder, DTColumnBuilder, $compile, 	
+														$q, DTOptionsBuilder, DTColumnBuilder, $compile, $timeout,	
 														$stateParams, ClaimService, ClaimFilterService) {
     $scope.searchTerm = undefined;
     $scope.claims = [];
@@ -13,47 +13,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     $scope.isSelected = false;
     $scope.dtInstance = {};
     
-    $scope.toggleAll = function toggleAll(selectAll, selectedItems) {
-        for (var id in selectedItems) {
-            if (selectedItems.hasOwnProperty(id)) {
-                selectedItems[id] = selectAll;
-            }
-        }
-        toggleProcessClaims(selectAll);
-    }
-    
-    function toggleProcessClaims(isEnabled)
-    {
-		 if(isEnabled) {
-            $('#btnProcessClaim').closest('.dt-button').removeClass('disabled');
-		 	$('#btnProcessClaim').closest('.dt-button').removeClass('disabledLink');
-		 }
-		 else {
-            $('#btnProcessClaim').closest('.dt-button').addClass('disabled');
-		 	$('#btnProcessClaim').closest('.dt-button').addClass('disabledLink');
-		 }
-    }
-    
-    $scope.toggleOne = function toggleOne(selectedItems) {
-    	toggleProcessClaims(false);
-    	var isAllSelected = true;
-        for (var id in selectedItems) {
-            if (selectedItems.hasOwnProperty(id)) {
-                if (!selectedItems[id]) {
-                	isAllSelected  = false;
-                }
-                else {
-                	toggleProcessClaims(true);
-            	}
-            }
-        }
-        if(isAllSelected)
-    	{
-        	$scope.selectAll = true;
-    	}
-    }
-
-    var titleHtml = '<label for="selectchkall" style="display: none">select</label><input type="checkbox" id="selectchkall" ng-model="selectAll" ng-click="toggleAll(selectAll,selected)"> ';
+    var titleHtml = '<input type="checkbox" id="selectchkall" ng-model="selectAll" ng-click="toggleAll(selectAll, selected)">';
     
     $scope.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
     	 return new Promise( function(resolve, reject){
@@ -75,8 +35,10 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
             $compile(angular.element('.dt-buttons').contents())($scope);
         }
     })
-    .withPaginationType('full_numbers')
-    .withDOM('frtip')
+    .withBootstrap()
+    .withDOM('Bfrtip')
+    .withOption('bLengthChange', false)
+    .withOption('order', [[1, 'asc']])
     .withButtons([
     	{
 	        text: '<a name="Process Claim(s)" id="btnProcessClaim">Process Claims</a>',
@@ -87,7 +49,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
 	                if (selectedItems.hasOwnProperty(id)) {
 	                    if (selectedItems[id]) {
 	                    	var claimToProcess = $filter('filter')($scope.claims, {claimId: parseInt(id,10)}, true)[0];
-	                    	var obj = {veteranId:claimToProcess.veteran.veteranId,claimId:claimToProcess.claimId};
+	                    	var obj = {veteranId:claimToProcess.veteran.veteranId,claimId:claimToProcess.claimId, contentionId:claimToProcess.contentionId};
 	                    	ClaimsToProcess.push(obj);
 	                    }
 	                }
@@ -112,18 +74,20 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
       ]);
 
     $scope.dtColumns = [
-		DTColumnBuilder.newColumn(null).withTitle(titleHtml).notSortable()
+		DTColumnBuilder.newColumn(null).withTitle(titleHtml)
 		 .renderWith(function(data, type, full, meta) {
 		     $scope.selected[full.claimId] = false;
-		     return '<label for="selectchk' + data.claimId + '" style="display: none">select</label><input id="selectchk' + data.claimId + '" type="checkbox" ng-model="selected[' + data.claimId + ']" ng-click="toggleOne(selected)">';
-		}),
+		     return '<label for="selectchk' + data.claimId + '" style="display: none">select</label><input id="selectchk' + data.claimId + '-' + full.contentionId + '" type="checkbox" ng-model="selected[' + data.claimId + ']" ng-click="toggleOne(selected)">';
+		}).notSortable(),
         DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran ID'),
         DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran Name').renderWith(function(data, type, full) {
             return "<div>"+ data +"-veteran</div>"
         }),
         DTColumnBuilder.newColumn('regionalOfficeOfClaim').withTitle('Regional Office'),
         DTColumnBuilder.newColumn('claimId').withTitle('Claim ID'),
-        DTColumnBuilder.newColumn('claimDate').withTitle('Date of Claim'),
+        DTColumnBuilder.newColumn('claimDate').withTitle('Date of Claim').renderWith(function(data, type, full) {
+            return "<div>{{" + data +"| date:'yyyy-MM-dd'}} </div>"
+        }),
         DTColumnBuilder.newColumn('cestDate').withTitle('CEST Date').renderWith(function(data, type, full) {
             return "<div>{{" + data +"| date:'yyyy-MM-dd'}} </div>"
         }),
@@ -198,6 +162,50 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     
     $scope.filters.regionalOfficeOption = $scope.regionalOfficeOptions[0].value; // Default
     
+    $scope.dtInstanceCallback = function(_dtInstance) {
+        $scope.dtInstance = _dtInstance;
+        $scope.dtInstance.reloadData();
+    };
+
+    $scope.toggleAll = function toggleAll(selectAll, selectedItems) {
+        for (var id in selectedItems) {
+            if (selectedItems.hasOwnProperty(id)) {
+                selectedItems[id] = selectAll;
+            }
+        }
+        $scope.toggleProcessClaims(selectAll);
+    };
+    
+    $scope.toggleProcessClaims = function(isEnabled) {
+         if(isEnabled) {
+            $('#btnProcessClaim').closest('.dt-button').removeClass('disabled');
+            $('#btnProcessClaim').closest('.dt-button').removeClass('disabledLink');
+         }
+         else {
+            $('#btnProcessClaim').closest('.dt-button').addClass('disabled');
+            $('#btnProcessClaim').closest('.dt-button').addClass('disabledLink');
+         }
+    };
+    
+    $scope.toggleOne = function toggleOne(selectedItems) {
+        $scope.toggleProcessClaims(false);
+        var isAllSelected = true;
+        for (var id in selectedItems) {
+            if (selectedItems.hasOwnProperty(id)) {
+                if (!selectedItems[id]) {
+                    isAllSelected  = false;
+                }
+                else {
+                    $scope.toggleProcessClaims(true);
+                }
+            }
+        }
+        if(isAllSelected)
+        {
+            $scope.selectAll = true;
+        }
+    };
+
     $scope.setFilterDates  = function(){
     	$scope.filters.dateType = "claimDate";
         $scope.today = new Date();
@@ -223,19 +231,20 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
                 else
                   resolve([]);
               });
-    		if($scope.claims.length > 0)
-			{
-    			$scope.dtInstance.changeData(function() {
-                    return promise;
-                });
+    		if($scope.claims.length > 0) {
+                $timeout(function() {
+                    $scope.dtInstance.reloadData(function() {
+                        return promise;
+                    });
+                }, 10);
 			}
     	});
     };
     
-    $scope.loadClaims();
     $scope.setFilterDates();
     $scope.getUserName();
-    
+    $scope.loadClaims();
+
     $scope.toggleCheckAll = function () {
         angular.forEach($scope.claims, function (claim) {
             claim.Selected = $scope.selectAll;

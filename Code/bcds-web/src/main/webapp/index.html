@@ -7,15 +7,17 @@
 		<title>bcdssApp</title>
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width">
-		<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-		<link rel="stylesheet" href="assets/styles/main.css">
 		<!-- <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css"> -->
+		<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+		<link rel="stylesheet" href="bower_components/datatables/media/css/jquery.dataTables.min.css">
+		<link rel="stylesheet" href="bower_components/datatables.net-buttons-dt/css/buttons.dataTables.css" />
+  		<link rel="stylesheet" href="bower_components/angular-datatables/dist/plugins/bootstrap/datatables.bootstrap.min.css">
+		<link rel='stylesheet' href='bower_components/angular-loading-bar/build/loading-bar.min.css' type='text/css' media='all' />
+		<!--<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />-->
+		<link rel="stylesheet" href="assets/styles/main.css">
 		<link class="ng-scope" href="assets/styles/dashboardStyle.css" rel="stylesheet" type="text/css">
 		<link class="ng-scope" href="assets/styles/custom.css" rel="stylesheet" type="text/css">
-		<link rel="stylesheet" href="bower_components/datatables/media/css/jquery.dataTables.min.css">
-		<link rel="stylesheet" href="bower_components/angular-datatables/dist/css/angular-datatables.css">
-		<link rel="stylesheet" href="bower_components/datatables.net-buttons-dt/css/buttons.dataTables.css" />
-		<link rel='stylesheet' href='bower_components/angular-loading-bar/build/loading-bar.min.css' type='text/css' media='all' />
+		<link rel="stylesheet" href="bower_components/angular-datatables/dist/css/angular-datatables.css">	
 	</head>
 	
 	<body ng-app="bcdssApp">
@@ -23,15 +25,26 @@
 		<div ui-view="navbar" ng-cloak=""></div>
         <div class="container-custom" ui-view="content"></div>
 	
-	
 		<!-- bower:js -->
 		<script src="bower_components/modernizr/modernizr.js"></script>
 		<script src="bower_components/jquery/dist/jquery.js"></script>
-		<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
-		<script src="bower_components/json3/lib/json3.js"></script>
 		<script src="bower_components/angular/angular.js"></script>
-		<script	src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+		<script	src="bower_components/datatables/media/js/jquery.dataTables.js"></script>
+		<script src="bower_components/datatables.net-buttons/js/dataTables.buttons.js"></script>
+        <script src="bower_components/datatables.net-buttons/js/buttons.colVis.js"></script>
+        <script src="bower_components/datatables.net-buttons/js/buttons.flash.js"></script>
+        <script src="bower_components/datatables.net-buttons/js/buttons.html5.js"></script>
+        <script src="bower_components/datatables.net-buttons/js/buttons.print.js"></script>
+        <script src='bower_components/angular-loading-bar/build/loading-bar.min.js'></script>
+		<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
 		<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+		<script	src="bower_components/angular-datatables/dist/angular-datatables.min.js"></script>
+		<script src="bower_components/angular-datatables/dist/plugins/bootstrap/angular-datatables.bootstrap.min.js"></script>
+		<script src="bower_components/angular-datatables/dist/plugins/buttons/angular-datatables.buttons.js"></script>
+		<script src="bower_components/json3/lib/json3.js"></script>
+		
+		<script	src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
 		<script src="bower_components/angular-resource/angular-resource.js"></script>
 		<script src="bower_components/angular-cookies/angular-cookies.js"></script>
 		<script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
@@ -39,15 +52,6 @@
 		<script	src="bower_components/angular-cache-buster/angular-cache-buster.js"></script>
 		<script	src="bower_components/angular-idle/angular-idle.min.js"></script>
 		<script	src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
-		<script	src="bower_components/datatables/media/js/jquery.dataTables.js"></script>
-		<script	src="bower_components/angular-datatables/dist/angular-datatables.min.js"></script>
-		<script src="bower_components/angular-datatables/dist/plugins/buttons/angular-datatables.buttons.js"></script>
-		<script src="bower_components/datatables.net-buttons/js/dataTables.buttons.js"></script>
-        <script src="bower_components/datatables.net-buttons/js/buttons.colVis.js"></script>
-        <script src="bower_components/datatables.net-buttons/js/buttons.flash.js"></script>
-        <script src="bower_components/datatables.net-buttons/js/buttons.html5.js"></script>
-        <script src="bower_components/datatables.net-buttons/js/buttons.print.js"></script>
-        <script src='bower_components/angular-loading-bar/build/loading-bar.min.js'></script>
 		<!-- endbower -->
 
 		<script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>

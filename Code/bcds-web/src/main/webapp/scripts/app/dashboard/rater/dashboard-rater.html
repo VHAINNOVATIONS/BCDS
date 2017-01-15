@@ -1,49 +1,54 @@
 <div class="container-fluid">
 	<div class="row" ng-controller="TabController">
-		 <div class="col-sm-2 navbar-custom">
-		  <div class="sidebar-nav">
-		    <div class="navbar navbar-default" role="navigation">
-		      <div class="navbar-collapse collapse sidebar-navbar-collapse">
-		        <ul class="nav navbar-nav">
-					<li ng-class="{ active: isSet(1) }">
-						<a href ng-click="setTab(1)"><i class="glyphicon glyphicon-dashboard"></i> Dashboard</a>
-					</li>
-					<li ng-class="{ active: isSet(2) }">
-						<a href ng-click="setTab(2)"><i class="glyphicon glyphicon-list-alt"></i> Report</a>
-					</li>
-		        </ul>
-		      </div><!--/.nav-collapse -->
-		    </div>
-		  </div>
-		</div>
+		 <div class="sidemenu">
+			<div class="col-md-2 navbar-custom">
+				<div class="sidebar-nav">
+				  <div class="navbar navbar-default" role="navigation">
+				    <div class="navbar-collapse collapse sidebar-navbar-collapse">
+						<ul class="nav navbar-nav">
+								<li ng-class="{ active: isSet(1) }">
+									<a href ng-click="setTab(1)"><i class="glyphicon glyphicon-dashboard"></i> Dashboard</a>
+								</li>
+								<li ng-class="{ active: isSet(2) }">
+									<a href ng-click="setTab(2)"><i class="glyphicon glyphicon-list-alt"></i> Report</a>
+								</li>
+						  </ul>
+				    </div><!--/.nav-collapse -->
+				    <div class="vertical-line" style="height: 600px;" />
+				  </div>
+				</div>
+			</div>
+		</div>	
 		
 		<div class="col-md-10 dashboard">
 			<div ng-show="isSet(1)">
-				<div class="row">
-					<div class="col-md-12">
-						<ul class="nav nav-tabs">
-							<li ng-class="{ active: isDashboardTabSet(1) }">
-								<a href ng-click="setDashboardTab(1)">Claims</a>
-							</li>
-							<li ng-class="{ active: isDashboardTabSet(2) }">
-								<a href ng-click="setDashboardTab(2)">Results</a>
-							</li>
-						</ul>
-						<div ng-show="isDashboardTabSet(1)">
-							<div ng-include="'scripts/app/claims/claims.html'"></div>
-						</div>
-						<div ng-show="isDashboardTabSet(2)">
-							<div ng-include="'scripts/app/misc/results.html'"></div>
-						</div>
+				<div class="row panel-body">
+					<div class="title pull-left">
+						<h4>Raters Dashboard</h4>
+					</div>
+					<ul class="nav nav-tabs">
+						<li ng-class="{ active: isDashboardTabSet(1) }">
+							<a href ng-click="setDashboardTab(1)">Claims</a>
+						</li>
+						<li ng-class="{ active: isDashboardTabSet(2) }">
+							<a href ng-click="setDashboardTab(2)">Results</a>
+						</li>
+					</ul>
+					<div ng-show="isDashboardTabSet(1)">
+						<div ng-include="'scripts/app/claims/claims.html'"></div>
+					</div>
+					<div ng-show="isDashboardTabSet(2)">
+						<div ng-include="'scripts/app/misc/results.html'"></div>
 					</div>
 				</div>
 			</div>
 			<div ng-show="isSet(2)">
 				<div class="row">
-					<div class="col-md-12">
-						<div align="center">
-							<div ng-include="'scripts/app/misc/reports.html'"></div>
+					<div align="center" class="panel-body">
+						<div class="title pull-left">
+							<h4>Reports Dashboard</h4>
 						</div>
+						<div ng-include="'scripts/app/misc/reports.html'"></div>
 					</div>
 				</div>
 			</div>

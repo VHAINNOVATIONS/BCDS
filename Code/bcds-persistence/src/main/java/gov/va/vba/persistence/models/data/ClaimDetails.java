@@ -14,6 +14,7 @@ public class ClaimDetails {
     private Date claimDate;
     private String claimROName;
     private long claimRONumber;
+    private long contentionId;
     private String contentionClaimantText;
     private Date cestDate;
     private String modelType;
@@ -74,6 +75,13 @@ public class ClaimDetails {
         this.claimRONumber = claimRONumber;
     }
 
+    public Long getContentionId() {
+		return contentionId;
+	}
+	public void setContentionId(Long contentionId) {
+		this.contentionId = contentionId;
+	}
+	
     public String getContentionClaimantText() {
         return contentionClaimantText;
     }
@@ -108,6 +116,7 @@ public class ClaimDetails {
                 ", claimDate=" + claimDate +
                 ", claimROName='" + claimROName + '\'' +
                 ", claimRONumber=" + claimRONumber +
+                ", contentionId=" + contentionId +
                 ", contentionClaimantText='" + contentionClaimantText + '\'' +
                 ", cestDate=" + cestDate +
                 '}';

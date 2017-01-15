@@ -2,7 +2,7 @@
 
 angular.module('bcdssApp', ['LocalStorageModule',
         'ngResource', 'ui.router', 'ngCookies', 'ngCacheBuster', 'infinite-scroll', 'ui.bootstrap', 'ngIdle',
-         'datatables','datatables.buttons','angular-loading-bar' ])
+         'datatables', 'datatables.bootstrap', 'datatables.buttons','angular-loading-bar' ])
 
     .run(function ($rootScope, $location, $window, $http, $state, Auth, Principal, ENV, VERSION) {
         $rootScope.ENV = ENV;
