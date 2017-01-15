@@ -25,7 +25,12 @@ body {
 .sidemenu{
     margin-top:5px;
     background: #E0D8E0;
-    height: 100%
+}
+
+div.vertical-line{
+      width: 0px; /* Use only border style */
+      height: 100%;
+      float: left; 
 }
 
 h4 {
@@ -38,6 +43,25 @@ h4 {
     margin-bottom: 14px;
     width: 1250px;
     text-align: left;
+}
+
+.modal {
+  text-align: center;
+}
+
+@media screen and (min-width: 768px) { 
+  .modal:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 100%;
+  }
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
 }
 
 /* ==========================================================================
