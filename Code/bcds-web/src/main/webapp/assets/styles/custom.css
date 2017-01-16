@@ -132,7 +132,7 @@ ul.multiselect li.select-highlight-blur {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    width: 230px;
+    width: 220px;
     background-color: #f1f1f1;
     height: 100%; /* Full height */
     position: fixed; /* Make it stick, even on scroll */
