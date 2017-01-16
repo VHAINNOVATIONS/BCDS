@@ -23,6 +23,12 @@ body {
     margin-left: -20px;
 }
 
+.custom-panel-body{
+    background: #FFFFFF;
+    margin-left: 20px;
+    margin-right: 50px;
+}
+
 h4 {
     font-size: 20px;
     display: inline-block;
