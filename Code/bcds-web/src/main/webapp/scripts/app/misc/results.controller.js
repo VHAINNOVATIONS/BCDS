@@ -68,7 +68,6 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	          });
 	   })
 	 	.withBootstrap()
-	 	.withOption('info', false)
 	 	.withOption('bLengthChange', false)
 	   	.withOption('createdRow', function(row, data, dataIndex) {
 	    	// Recompiling so we can bind Angular directive to the DT        
