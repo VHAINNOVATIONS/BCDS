@@ -20,6 +20,7 @@ body {
 .panel-body{
     background: #FFFFFF;
     margin-top: -20px;
+    margin-left: -20px;
 }
 
 h4 {

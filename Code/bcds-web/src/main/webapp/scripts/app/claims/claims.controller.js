@@ -49,7 +49,8 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
 	                if (selectedItems.hasOwnProperty(id)) {
 	                    if (selectedItems[id]) {
 	                    	var claimToProcess = $filter('filter')($scope.claims, {claimId: parseInt(id,10)}, true)[0];
-	                    	var obj = {veteranId:claimToProcess.veteran.veteranId,claimId:claimToProcess.claimId, contentionId:claimToProcess.contentionId};
+	                    	var obj = {veteranId:claimToProcess.veteran.veteranId,claimId:claimToProcess.claimId, 
+                                        contentionId:claimToProcess.contentionId, modelType:claimToProcess.modelType};
 	                    	ClaimsToProcess.push(obj);
 	                    }
 	                }
