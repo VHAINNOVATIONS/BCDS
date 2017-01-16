@@ -1,26 +1,23 @@
 <div class="container-fluid">
 	<div class="row" ng-controller="TabController">
-		 <div class="sidemenu">
-			<div class="col-md-2 navbar-custom">
-				<div class="sidebar-nav">
-				  <div class="navbar navbar-default" role="navigation">
-				    <div class="navbar-collapse collapse sidebar-navbar-collapse">
+		 <div class="col-md-2 navbar-custom">
+			<div class="sidebar-nav">
+  				<div class="navbar navbar-default" role="navigation">
+    				<div class="navbar-collapse collapse sidebar-navbar-collapse">
 						<ul class="nav navbar-nav">
-								<li ng-class="{ active: isSet(1) }">
-									<a href ng-click="setTab(1)"><i class="glyphicon glyphicon-dashboard"></i> Dashboard</a>
-								</li>
-								<li ng-class="{ active: isSet(2) }">
-									<a href ng-click="setTab(2)"><i class="glyphicon glyphicon-list-alt"></i> Report</a>
-								</li>
-						  </ul>
-				    </div><!--/.nav-collapse -->
-				    <div class="vertical-line" style="height: 600px;" />
-				  </div>
-				</div>
+							<li ng-class="{ active: isSet(1) }">
+								<a href ng-click="setTab(1)"><i class="glyphicon glyphicon-dashboard"></i> Dashboard</a>
+							</li>
+							<li ng-class="{ active: isSet(2) }">
+								<a href ng-click="setTab(2)"><i class="glyphicon glyphicon-list-alt"></i> Report</a>
+							</li>
+						 </ul>
+			    	</div>
+			  	</div>
 			</div>
-		</div>	
+    	</div>
 		
-		<div class="col-md-10 dashboard">
+		<div class="col-md-10 dashboard" style="margin-top:7px">
 			<div ng-show="isSet(1)">
 				<div class="row panel-body">
 					<div class="title pull-left">
