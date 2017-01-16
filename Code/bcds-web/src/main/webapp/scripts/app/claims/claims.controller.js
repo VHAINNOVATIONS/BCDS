@@ -48,7 +48,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
 	        	for (var id in selectedItems) {
 	                if (selectedItems.hasOwnProperty(id)) {
 	                    if (selectedItems[id]) {
-	                    	var claimToProcess = $filter('filter')($scope.claims, {claimId: parseInt(id,10)}, true)[0];
+	                    	var claimToProcess = $filter('filter')($scope.claims, {contentionId: parseInt(id,10)}, true)[0];
 	                    	var obj = {veteranId:claimToProcess.veteran.veteranId,claimId:claimToProcess.claimId, 
                                         contentionId:claimToProcess.contentionId, modelType:claimToProcess.modelType};
 	                    	ClaimsToProcess.push(obj);
@@ -77,8 +77,8 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     $scope.dtColumns = [
 		DTColumnBuilder.newColumn(null).withTitle(titleHtml)
 		 .renderWith(function(data, type, full, meta) {
-		     $scope.selected[full.claimId] = false;
-		     return '<label for="selectchk' + data.claimId + '" style="display: none">select</label><input id="selectchk' + data.claimId + '-' + full.contentionId + '" type="checkbox" ng-model="selected[' + data.claimId + ']" ng-click="toggleOne(selected)">';
+		     $scope.selected[full.contentionId] = false;
+		     return '<label for="selectchk' + data.contentionId + '" style="display: none">select</label><input id="selectchk' + data.contentionId + '" type="checkbox" ng-model="selected[' + data.contentionId + ']" ng-click="toggleOne(selected)">';
 		}).notSortable(),
         DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran ID'),
         DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran Name').renderWith(function(data, type, full) {
