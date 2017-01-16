@@ -132,7 +132,7 @@ ul.multiselect li.select-highlight-blur {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    width: 254px;
+    width: 230px;
     background-color: #f1f1f1;
     height: 100%; /* Full height */
     position: fixed; /* Make it stick, even on scroll */
@@ -151,6 +151,7 @@ ul.multiselect li.select-highlight-blur {
  }
 
  .navbar-custom{
+    z-index: 1000;
  	padding-right:0px;
  	padding-left:2px;
     margin-right: 0px; 
@@ -186,4 +187,9 @@ ul.multiselect li.select-highlight-blur {
 .sidebar-nav .navbar li a:hover {
     background-color: #555;
     color: white;
+}
+
+.navbar-default{
+    background-color: transparent;
+    border-color: transparent;
 }
