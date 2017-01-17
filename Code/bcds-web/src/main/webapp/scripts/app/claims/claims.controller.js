@@ -332,7 +332,8 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
         $scope.setFilterDates();
         $scope.filters.contentionType = null;
         $scope.filters.regionalOfficeOption = $scope.regionalOfficeOptions[0].value;
-
+        $scope.selectAll = false;
+        $scope.selected = {};
         $scope.loadClaims();
     }
         
