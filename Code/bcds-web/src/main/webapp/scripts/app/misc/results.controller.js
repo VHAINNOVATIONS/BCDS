@@ -522,7 +522,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
    			          "productTypeCode": null,
    			          "claimDate": null,
    			          "contentionId": ele.contentionId,
-   			          "contentionClassificationId": null,
+   			          "contentionClassificationId": ele.contentionClassificationId,
    			          "contentionBeginDate": null,
    			          "modelType": ele.modelType
    			        }
