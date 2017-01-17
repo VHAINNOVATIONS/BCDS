@@ -194,7 +194,7 @@ ul.multiselect li.select-highlight-blur {
     border-color: transparent;
 }
 
-.sidebar-nav .navbar li a:active {
-    background-color: #ccc;
-    color: white;
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
+    background-color: #BDBDBD !important;
+    color: black;
 }
