@@ -12,7 +12,11 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     $scope.selectAll = false;
     $scope.isSelected = false;
     $scope.dtInstance = {};
-    
+    $scope.filters = {
+        fromDate: null,
+        toDate: null
+    };
+
     var titleHtml = '<input type="checkbox" id="selectchkall" ng-model="selectAll" ng-click="toggleAll(selectAll, selected)">';
     
     $scope.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
@@ -208,12 +212,12 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
         }
     };
 
-    $scope.setFilterDates  = function(){
+    /*$scope.setFilterDates  = function(){
     	$scope.filters.dateType = "claimDate";
         $scope.today = new Date();
         $scope.fromDate = new Date();
         $scope.toDate = new Date($scope.today.getFullYear(), $scope.today.getMonth() + 1, $scope.today.getDate());
-    };
+    };*/
           
     $scope.getUserName = function(){
     	if ($rootScope.userName != null) {
@@ -243,7 +247,6 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     	});
     };
     
-    $scope.setFilterDates();
     $scope.getUserName();
     $scope.loadClaims();
 
@@ -330,7 +333,8 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     $scope.clear = function(){
         $scope.claims = [];
         $scope.filters.dateType = {};
-        $scope.setFilterDates();
+        $scope.fromDate = null;
+        $scope.toDate = null;
         $scope.filters.contentionType = null;
         $scope.filters.regionalOfficeOption = $scope.regionalOfficeOptions[0].value;
         $scope.selectAll = false;
@@ -349,8 +353,8 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
       
     $scope.advanceFilterSearch = function(){
     	if ($scope.filters != null) {
-    		$scope.filters.fromDate = $scope.formatDate($scope.fromDate);
-    		$scope.filters.toDate = $scope.formatDate($scope.toDate);
+    		$scope.filters.fromDate = ($scope.fromDate === null || $scope.fromDate === undefined) ? null : $scope.formatDate($scope.fromDate);
+    		$scope.filters.toDate = ($scope.toDate === null || $scope.toDate === undefined) ? null : $scope.formatDate($scope.toDate);
     		ClaimFilterService.filterClaims($scope.filters)
     			.then(function(result){
     				console.log('>>>successful');
