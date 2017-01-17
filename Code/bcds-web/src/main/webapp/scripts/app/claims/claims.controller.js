@@ -50,7 +50,8 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
 	                    if (selectedItems[id]) {
 	                    	var claimToProcess = $filter('filter')($scope.claims, {contentionId: parseInt(id,10)}, true)[0];
 	                    	var obj = {veteranId:claimToProcess.veteran.veteranId,claimId:claimToProcess.claimId, 
-                                        contentionId:claimToProcess.contentionId, modelType:claimToProcess.modelType};
+                                        contentionId:claimToProcess.contentionId, contentionClassificationId:claimToProcess.contentionClassificationId,
+                                        modelType:claimToProcess.modelType};
 	                    	ClaimsToProcess.push(obj);
 	                    }
 	                }
