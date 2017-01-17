@@ -1,6 +1,6 @@
-<div ng-cloak>
-	<div class="row">
-		<div class="col-md-12">
+<div ng-cloak class="container-fluid" style="margin-left:-15px">
+	<div class="col-md-12">
+		<div class="row">
 			<div ng-switch="isAuthenticated()" align="center">
 				<div ng-switch-when="false" align="center">
 					<div ng-include="'scripts/app/account/login/login.html'"></div>
@@ -23,12 +23,14 @@
 		</div>
 	</div>
 	<div><p></p></div>
-	<div class="row">
-		<div col="col-md-1">
+	<footer class="col-md-12 footer">
+		<div class="container">
+			<div class="col-md-1">
 		</div>
-		<div clas="col-md-11">
+		<div class="col-md-11">
 			<div ng-include="'scripts/app/main/footer.html'" class="container-custom"></div>
 		</div>
-	</div>
+		</div>
+	</footer>
 </div>
 

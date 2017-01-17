@@ -17,6 +17,7 @@ public class ClaimDetails {
     private long contentionId;
     private String contentionClaimantText;
     private Date cestDate;
+    private String modelType;
 
     public long getVeteranId() {
         return veteranId;
@@ -95,6 +96,14 @@ public class ClaimDetails {
 
     public void setCestDate(Date cestDate) {
         this.cestDate = cestDate;
+    }
+
+    public String getModelType() {
+        return modelType;
+    }
+
+    public void setModelType(String modelType) {
+        this.modelType = modelType;
     }
 
     @Override

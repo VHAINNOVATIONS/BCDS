@@ -2,16 +2,61 @@ body {
 	min-height: 100%;
     height: auto !important;
     height: 100%;
-    /*background: #fafafa;*/
-    background: #ffffff;
+    background-color: #ffffff;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #333;
 }
 
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 80%;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    background-color: #eee;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.panel-body{
+    background: #FFFFFF;
+    margin-top: -20px;
+}
+
+.custom-panel-body{
+    background: #FFFFFF;
+    margin-left: 20px;
+    margin-right: 50px;
+}
+
+h4 {
+    font-size: 20px;
+    display: inline-block;
+}
+
+.title {
+    border-bottom: 1px solid #dedede;
+    margin-bottom: 14px;
+    width: 100%;
+    text-align: left;
+}
+
+.modal {
+  text-align: center;
+}
+
+@media screen and (min-width: 768px) { 
+  .modal:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 100%;
+  }
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
 }
 
 /* ==========================================================================
@@ -293,5 +338,15 @@ Dashboard
     .dashboard-box:nth-child(3n),
     .dashboard-box:nth-child(3n -1){
         /*margin-left: 3%;*/
+    }
+}
+
+.sideMenuMargin{
+    margin-left:-50px;
+}
+
+@media screen and (max-width: 1550px){
+    .sideMenuMargin{
+        margin-left:-10px;
     }
 }

@@ -47,12 +47,18 @@ body {
     background-color: #FBFBFB;
     background-image: url('../images/BCDS_LoginPage.jpg');
     background-repeat:no-repeat;
-    }
+}
 
 .FooterBackground {
     background-color: #EBF9FF;    
     font-family: Arial, Verdana, Helvetica, sans-serif;
     font-size: 10px;
     text-align: left;
-    height: 80px;
+    height: 85vh;
+}
+
+@media screen and (max-width: 1550px){
+    .CenterBackground{
+       height: 80vh;
+    }
 }

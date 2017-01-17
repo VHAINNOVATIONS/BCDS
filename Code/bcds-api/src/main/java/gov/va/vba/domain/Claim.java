@@ -15,7 +15,9 @@ public class Claim implements Serializable{
 	private Date cestDate;
 	private Long contentionId;
 	private String contentionClaimTextKeyForModel;
-
+	private String modelType;
+	private long contentionClassificationId;
+	
 	public Veteran getVeteran() {
 		return veteran;
 	}
@@ -64,6 +66,22 @@ public class Claim implements Serializable{
 	}
 	public void setContentionClaimTextKeyForModel(String contentionClaimTextKeyForModel) {
 		this.contentionClaimTextKeyForModel = contentionClaimTextKeyForModel;
+	}
+
+	public String getModelType() {
+		return modelType;
+	}
+
+	public void setModelType(String modelType) {
+		this.modelType = modelType;
+	}
+
+	public long getContentionClassificationId() {
+		return contentionClassificationId;
+	}
+
+	public void setContentionClassificationId(long contentionClassificationId) {
+		this.contentionClassificationId = contentionClassificationId;
 	}
 
 }

@@ -44,34 +44,29 @@
 		    </div>
 		    <div class="row">
 		    	<div class="col-md-4 col-md-offset-3" style="margin-top:10px;">
-						<button type="submit" ng-disabled="frmResultsSearchFilter.$invalid" class="btn btn-outline-secondary" 
+						<button type="submit" ng-disabled="frmResultsSearchFilter.$invalid" class="btn btn-primary" 
 						 	ng-click="searchRatingResults()">
 							<span>Search</span>
 						</button>
 						<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-						<button type="submit" class="btn btn-outline-secondary" ng-click="clear()">
+						<button type="submit" class="btn btn-primary" ng-click="clear()">
 							<span>Cancel</span>
 						</button>
 						<!--<a href="#" id="btnRatingResults" ng-click="getRatingResults()">GetResults(Test)</a>-->
 		    	</div>
 		    </div>
 	  	</form>
-	</div>
-	<div class="form-group">
-		<div class="col-md-12" ng-show="displayResultsRatingTable">
-			<table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="row-border hover"></table>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-11" ng-show="displayResultsRatingTable">
-			<div class="form-group">
-				<button type="submit" class="btn btn-outline-secondary btn-md pull-right"  style="width:140px !important;" 
-				ng-click="updateResultsDecisions()">
-					<span>Save</span>
-				</button>		
+	  	<div class="row">
+			<div class="col-md-12" ng-show="displayResultsRatingTable">
+				<div><table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" 
+					class="table table-striped table-bordered compact row-border hover"></table></div>
+				<div><button type="submit" class="btn btn-primary btn-md pull-right" ng-click="updateResultsDecisions()">
+						<span>Save</span>
+				</button></div>		
 			</div>
 		</div>
 	</div>
+	
 	<div class="modal fade" role="dialog" id="gridPopUp">
 		<div class="modal-dialog" style="width:97% !important;">
 			<div class="modal-content">
@@ -83,7 +78,7 @@
 					<div class="row">
 						<div class="col-md-12">
 							<table id="resultDetailsGrid" datatable="" dt-options="dtDetailsOptions" 
-							dt-columns="dtDetailsColumns" dt-instance="dtDetailsInstance" class="row-border hover"></table>
+							dt-columns="dtDetailsColumns" dt-instance="dtDetailsInstance" class="table table-striped table-bordered compact"></table>
 						</div>
 					</div>
 				</div>

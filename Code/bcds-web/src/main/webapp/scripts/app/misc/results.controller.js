@@ -67,6 +67,8 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	              resolve([]);
 	          });
 	   })
+	 	.withBootstrap()
+	 	.withOption('bLengthChange', false)
 	   	.withOption('createdRow', function(row, data, dataIndex) {
 	    	// Recompiling so we can bind Angular directive to the DT        
 	    	$compile(angular.element(row).contents())($scope);
@@ -110,6 +112,8 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
    })
    .withOption('paging', false)
    .withOption('info', false)
+   .withOption('bLengthChange', false)
+   .withBootstrap()
    .withOption('rowCallback', rowCallback);
     
     /*These are changes for version 3.0*/
@@ -518,8 +522,9 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
    			          "productTypeCode": null,
    			          "claimDate": null,
    			          "contentionId": ele.contentionId,
-   			          "contentionClassificationId": null,
-   			          "contentionBeginDate": null
+   			          "contentionClassificationId": ele.contentionClassificationId,
+   			          "contentionBeginDate": null,
+   			          "modelType": ele.modelType
    			        }
    			      ]
    			    }
