@@ -403,6 +403,8 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
             c.setClaimId(kneeClaim.getClaimId());
             c.setRegionalOfficeOfClaim(kneeClaim.getClaimROName());
             c.setContentionId(kneeClaim.getContentionId());
+            //Added CNTN_CLSFCN_ID to map to request header
+            c.setContentionClassificationId(kneeClaim.getContentionClassificationId());
             c.setContentionClaimTextKeyForModel(kneeClaim.getContentionClaimantText());
             c.setCestDate(calculateCestDate(kneeClaim.getClaimDate()));
             c.setVeteran(v);
