@@ -23,7 +23,7 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 	];
 
 	$scope.reportTypeOptions = [
-		{ value:'AGGREGATE', label:'Aggregate'},
+		//{ value:'AGGREGATE', label:'Aggregate'}, //no longer there for now - 1/17/2017
 	    { value:'DETAILED',	label:'Detailed'}
 	];
 
