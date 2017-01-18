@@ -2,7 +2,7 @@
 
 angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $scope, $state, Account, $filter,
 														$q, DTOptionsBuilder, DTColumnBuilder, $compile, $timeout,	
-														$stateParams, ClaimService, ClaimFilterService) {
+														$stateParams, ClaimService, ClaimFilterService, spinnerService) {
     $scope.searchTerm = undefined;
     $scope.claims = [];
     $scope.orderByField = 'veteranId';
@@ -231,6 +231,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     };
     
     $scope.loadClaims = function(){
+        spinnerService.show('claimsSpinner');
     	ClaimService.query(function(result){
     		$scope.claims = result;
             $scope.toggleAll(false, null);
@@ -241,6 +242,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
                   resolve([]);
               });
     		if($scope.claims.length > 0) {
+                spinnerService.hide('claimsSpinner');
                 $timeout(function() {
                     $scope.dtInstance.reloadData(function() {
                         return promise;
@@ -251,7 +253,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     };
     
     $scope.getUserName();
-    $scope.loadClaims();
+    //$scope.loadClaims();
 
     $scope.toggleCheckAll = function () {
         angular.forEach($scope.claims, function (claim) {
@@ -356,6 +358,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     }; 
       
     $scope.advanceFilterSearch = function(){
+        spinnerService.show('claimsSpinner');
     	if ($scope.filters != null) {
     		$scope.filters.fromDate = ($scope.fromDate === null || $scope.fromDate === undefined) ? null : $scope.formatDate($scope.fromDate);
     		$scope.filters.toDate = ($scope.toDate === null || $scope.toDate === undefined) ? null : $scope.formatDate($scope.toDate);
@@ -369,6 +372,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     	                else
     	                  resolve([]);
     	              });
+                    spinnerService.hide('claimsSpinner');
     	    		if($scope.claims.length > 0) {
                         $timeout(function() {
                             $scope.dtInstance.reloadData(function() {
