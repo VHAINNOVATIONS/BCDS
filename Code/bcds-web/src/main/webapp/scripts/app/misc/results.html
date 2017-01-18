@@ -12,18 +12,23 @@
 			    	</label>
 			    </div>
 		        <div class="col-md-2">
-		        	<input type="date" class="form-control pull-left" validatedateformat data-date-format="mm/dd/yyyy" 
+		        	<input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy"
 		        		maxlength="10" id="fromDate" calendar ng-click="openCalendar('fromDate')" placeholder="Enter Date" 
 		        		name="fromDate" ng-model="fromDate" ng-change='checkErr(fromDate,toDate)'/>
-				        
+					<div class="output">
+			        	 <span ng-hide="frmResultsSearchFilter.fromDate.$valid" style="color: #D8000C;text-align: center;">Not a valid date.</span>
+			        </div>         
 		        </div>
 		        <div class="col-md-2">
 		        	<label for="dateto" class="control-label pull-right">Processed To Date:</label>
 		        </div>
 		        <div class="col-md-2">
-		        	  <input type="date" class="form-control pull-left" validatedateformat data-date-format="mm/dd/yyyy" 
+		        	  <input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy" 
 		        	  maxlength="10" id="toDate" calendar ng-click="openCalendar('toDate')" placeholder="Enter Date" 
 				      name="toDate" ng-model="toDate" ng-change='checkErr(fromDate,toDate)'/>
+				      <div class="output">
+			        	 <span ng-hide="frmResultsSearchFilter.toDate.$valid" style="color: #D8000C;text-align: center;">Not a valid date.</span>
+			        </div> 
 		        </div>
 		    </div>
 		    <div class="row" style="margin-top:10px;">
