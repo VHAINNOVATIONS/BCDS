@@ -12,6 +12,8 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     $scope.selectAll = false;
     $scope.isSelected = false;
     $scope.dtInstance = {};
+    $scope.fromDate = null;
+    $scope.toDate = null;
     $scope.filters = {
         fromDate: null,
         toDate: null
@@ -42,6 +44,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     .withBootstrap()
     .withDOM('Bfrtip')
     .withOption('bLengthChange', false)
+    .withOption('processing', true)
     .withOption('order', [[1, 'asc']])
     .withButtons([
     	{
@@ -271,6 +274,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     $scope.checkErr = function(startDate,endDate) {
         $scope.errMessage = '';
         $scope.frmAdvancedFilter.$invalid = false;
+
         if(new Date(startDate) > new Date(endDate)){
           $scope.errMessage = 'To date should be greater than from date.';
           $scope.frmAdvancedFilter.$invalid = true;
@@ -365,46 +369,39 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     	                else
     	                  resolve([]);
     	              });
-    	    		$scope.dtInstance.changeData(function() {
-    	                return promise;
-    	            });
+    	    		if($scope.claims.length > 0) {
+                        $timeout(function() {
+                            $scope.dtInstance.reloadData(function() {
+                                return promise;
+                            });
+                        }, 10);
+                    }
     		});
 		}
     };
               
-             
-          /*$scope.loadTabView = function (tabUserRole) {
-        	if(tabUserRole == USER_ROLE.userRoleRater){
-        		console.log("rater");
-        		$state.go('home', {userRoleType: USER_ROLE.userRoleRater});
-        	} else if (tabUserRole == USER_ROLE.userRoleModeler){
-        		console.log("modeler")
-        		$state.go('home', {userRoleType: USER_ROLE.userRoleModeler})
-        	} else {
-        		console.log("admin")
-        		$state.go('home', {userRoleType: USER_ROLE.userRoleAdmin})
-        	}
-        };
+        
+    $scope.$watch('fromDate', function (newValue, oldValue, scope) {
+        console.log("startDate:" + scope.fromDate);
+        var formats = ['MM/DD/YYYY'];
+       
+        if (newValue === undefined || newValue === null || newValue === "") {
+            return true;
+        }
+        
+        return moment(newValue, formats, true).isValid();
+    
+    }, true);
 
-        $scope.userRoleTabs = [
-                           {title: "Rater", active: $scope.isActiveRoleTab(USER_ROLE.userRoleRater)},
-                           {title: "Modeler", active: $scope.isActiveRoleTab(USER_ROLE.userRoleModeler)}, 
-                           {title: "Admin", active: $scope.isActiveRoleTab(USER_ROLE.userRoleAdmin)}
-                       ];
-
-        $scope.loadRaterTab = function () {
-        	console.log("rater");
-        	console.log(USER_ROLE);
-            $state.go('home', {userRoleType: USER_ROLE.userRoleRater});
-        };
-
-        $scope.loadModelerTab = function () {
-        	console.log("modeler");
-            $state.go('home', {userRoleType: USER_ROLE.userRoleModeler});
-        };
-
-        $scope.loadAdminTab = function () {
-        	console.log("admin");
-            $state.go('home', {userRoleType: USER_ROLE.userRoleAdmin});
-        };*/
+    $scope.$watch('toDate', function (newValue, oldValue, scope) {
+       console.log("endDate:" + scope.toDate);
+        var formats = ['MM/DD/YYYY'];
+       
+        if (newValue === undefined || newValue === null || newValue === "") {
+            return true;
+        }
+        
+        return moment(newValue, formats, true).isValid();
+    
+    }, true);
 });
