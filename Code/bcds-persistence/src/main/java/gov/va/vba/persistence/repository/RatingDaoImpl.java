@@ -176,7 +176,7 @@ public class RatingDaoImpl implements RatingDao {
 
     @Override
     public ContentionDetails getContention(long contentionCode) {
-        ContentionDetails contentionDetails = jdbcTemplate.queryForObject(QueryConstants.CNTNT_DETAILS_QUERY, new Object[]{contentionCode}, new BeanPropertyRowMapper<ContentionDetails>());
+        ContentionDetails contentionDetails = jdbcTemplate.queryForObject(QueryConstants.CNTNT_DETAILS_QUERY, new Object[]{contentionCode}, new BeanPropertyRowMapper<>(ContentionDetails.class));
         LOG.info("****************************************************************");
         LOG.info(contentionDetails.toString());
         LOG.info("****************************************************************");
