@@ -37,6 +37,7 @@ import gov.va.vba.service.EarService;
 import gov.va.vba.service.KneeService;
 import gov.va.vba.service.orika.ClaimMapper;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -144,7 +145,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                 if(c.getContentionId() == 0) {
                     continue;
                 }
-                ContentionDetails contentionDetails = ratingDao.getContention(c.getContentionId());
+                ContentionDetails contentionDetails = ratingDao.getContention(NumberUtils.toInt(c.getContentionClassificationId()));
                 String modelType = contentionDetails.getModelType();
                 ModelRatingResults results = null;
                 List<ClaimDetails> claimDetails = new ArrayList<>();
