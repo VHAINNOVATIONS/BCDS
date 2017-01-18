@@ -45,6 +45,8 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     .withDOM('Bfrtip')
     .withOption('bLengthChange', false)
     .withOption('processing', true)
+    .withOption('scrollY', '40vh')
+    .withOption('pageLength', 15)
     .withOption('order', [[1, 'asc']])
     .withButtons([
     	{

@@ -48,6 +48,7 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
        $compile(angular.element(row).contents())($scope);
    }) 	
    .withOption('scrollX', true)
+   .withOption('scrollY', '40vh')
    .withOption('processing', true)
    .withBootstrap()
    .withOption('bLengthChange', false)
