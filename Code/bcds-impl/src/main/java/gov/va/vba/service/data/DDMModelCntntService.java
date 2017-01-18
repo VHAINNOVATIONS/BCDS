@@ -28,8 +28,8 @@ public class DDMModelCntntService {
         return result;
     }
 
-    public List<Long> getKneePatternId(Map<Long, Integer> contentionCount, List<Long> pattrens) {
-        List<Long> result = ratingDao.getKneeCntntPattrens(contentionCount, pattrens);
+    public List<Long> getKneePatternId(Map<Long, Integer> contentionCount, List<Long> pattrens, String modelType) {
+        List<Long> result = ratingDao.getKneeCntntPattrens(contentionCount, pattrens, modelType);
         LOG.info("PATTERN FOUND {}", result.size());
         return result;
     }

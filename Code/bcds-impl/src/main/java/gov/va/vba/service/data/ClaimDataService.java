@@ -196,12 +196,12 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                     List<DDMModelPattern> patterns = ddmDataService.getPatternId(results.getModelType(), results.getClaimantAge(), results.getClaimCount(), (long) contentionCounts.keySet().size(), 0L);
                     if (CollectionUtils.isNotEmpty(patterns)) {
                         List<Long> patternsList = patterns.stream().map(DDMModelPattern::getPatternId).collect(Collectors.toList());
-                        List<Long> cntntPattrens = ddmModelCntntService.getKneePatternId(contentionCounts, patternsList);
+                        List<Long> cntntPattrens = ddmModelCntntService.getKneePatternId(contentionCounts, patternsList, modelType.toUpperCase());
                         if (CollectionUtils.isNotEmpty(cntntPattrens)) {
                             List<DiagnosisCount> diagnosisCount = ratingDao.getDiagnosisCount((long) veteranId, savedResults.getClaimDate());
                             //List<Long> diagPatternsList = patterns.stream().map(DDMModelPattern::getPatternId).collect(Collectors.toList());
 
-                            List<Long> diagPattren = ddmModelDiagService.getKneePatternId(diagnosisCount, cntntPattrens);
+                            List<Long> diagPattren = ddmModelDiagService.getKneePatternId(diagnosisCount, cntntPattrens, modelType.toUpperCase());
                             LOG.info("PATTREN SIZE :::::: " + diagPattren);
                             if (CollectionUtils.isNotEmpty(diagPattren)) {
                                 Long pattrenId = diagPattren.get(0);
