@@ -2,7 +2,7 @@
 
 angular.module('bcdssApp').controller('ReportsController', function($rootScope, $scope, $state, Account,
 														$q, $filter, DTOptionsBuilder, DTColumnBuilder, $compile, 	
-														$stateParams, ClaimService, RatingService) {
+														$stateParams, ClaimService, RatingService, spinnerService) {
 	
 	$scope.results = [];
 	$scope.diagnosticCodes = [];
@@ -278,6 +278,7 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 		//$scope.processIds.push(1); //this is for test and needs to change..... it should come from process claims
     	//$scope.processIds.push(2);
     	//$scope.processIds.push(3);
+    	spinnerService.show('reportsSpinner');
 		RatingService.generateModelRatingResultsReport($scope.processIds, $scope.filters)
 			.then(function(result){
 				console.log('>>>successful');
@@ -292,7 +293,7 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 	                else
 	                  resolve([]);
 	              });
-				
+				spinnerService.hide('reportsSpinner');
 				if($scope.filters && $scope.filters.reportTypeOption === "AGGREGATE"){
 		    		$scope.dtAggregateInstance.changeData(function() {
 		                return promise;

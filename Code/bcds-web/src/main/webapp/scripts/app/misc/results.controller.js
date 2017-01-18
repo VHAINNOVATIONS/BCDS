@@ -2,7 +2,7 @@
 
 angular.module('bcdssApp').controller('ResultsController', function($rootScope, $scope, $state, Account, Auth,
 														$q, $filter, DTOptionsBuilder, DTColumnBuilder, $compile, 	
-														$stateParams, ClaimService, RatingService) {
+														$stateParams, ClaimService, RatingService, spinnerService) {
 	
 	$scope.userName = Auth.getCurrentUser();
 	$scope.processedClaimsUserName = '';
@@ -306,7 +306,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	$scope.searchRatingResults = function(){
 		$scope.processIds = [];
 		$scope.setSearchParameters();
-    	
+    	spinnerService.show('resultsSpinner');
 		RatingService.findModelRatingResults($scope.processIds, $scope.filters, $scope.userName)
 			.then(function(result){
 				console.log('>>>successful');
@@ -321,6 +321,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	                else
 	                  resolve([]);
 	              });
+				spinnerService.hide('resultsSpinner');
 	    		$scope.dtInstance.changeData(function() {
 	                return promise;
 	            });
@@ -460,6 +461,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 			return;
 		}
 		$scope.filters = null;
+		spinnerService.show('resultsSpinner');
 		RatingService.findModelRatingResults($scope.processIds, $scope.filters, $scope.userName)
 			.then(function(result){
 				console.log('>>>successful');
@@ -474,6 +476,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	                else
 	                  resolve([]);
 	              });
+				spinnerService.hide('resultsSpinner');
 	    		$scope.dtInstance.changeData(function() {
 	                return promise;
 	            });
@@ -481,6 +484,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	};
 
 	$scope.updateResultsDecisions = function(){
+		spinnerService.show('resultsSpinner');
 		RatingService.updateModelRatingResultsStatus($scope.processIds, $scope.arrDecisions, $scope.userName)
 			.then(function(result){
 				console.log('>>>successful');
@@ -495,6 +499,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	                else
 	                  resolve([]);
 	              });
+				spinnerService.hide('resultsSpinner');
 	    		$scope.dtInstance.changeData(function() {
 	                return promise;
 	            });
