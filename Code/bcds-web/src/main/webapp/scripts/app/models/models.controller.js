@@ -82,7 +82,7 @@ angular.module('bcdssApp').controller('ModelsController', function($rootScope, $
 
 	$scope.searchPatternResults = function(){
 		$scope.results = [];
-		
+		spinnerService.show('modelCddSpinner');
 		ModelService.findModelPatternResults($scope.patternId)
 			.then(function(result){
 				console.log('>>>successful');
@@ -94,7 +94,7 @@ angular.module('bcdssApp').controller('ModelsController', function($rootScope, $
 	                else
 	                  resolve([]);
 	            });
-
+				spinnerService.hide('modelCddSpinner');
 	    		$scope.dtInstance.changeData(function() {
 	                return promise;
 	            });
