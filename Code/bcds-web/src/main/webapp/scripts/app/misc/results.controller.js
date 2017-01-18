@@ -12,6 +12,8 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	$scope.resultDetailsData = [];
 	$scope.updateDecisions = {};
 	$scope.arrDecisions = [];
+	$scope.fromDate = null;
+    $scope.toDate = null;
 	$scope.filters = {
 		fromDate: null,
 		toDate: null
@@ -69,6 +71,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	   })
 	 	.withBootstrap()
 	 	.withOption('bLengthChange', false)
+	 	.withOption('processing', true)
 	   	.withOption('createdRow', function(row, data, dataIndex) {
 	    	// Recompiling so we can bind Angular directive to the DT        
 	    	$compile(angular.element(row).contents())($scope);
@@ -541,4 +544,28 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
     		$scope.getRatingResults(formattedResults);
 		});
 	});
+
+	 $scope.$watch('fromDate', function (newValue, oldValue, scope) {
+        console.log("startDate:" + scope.fromDate);
+        var formats = ['MM/DD/YYYY'];
+       
+        if (newValue === undefined || newValue === null || newValue === "") {
+            return true;
+        }
+        
+        return moment(newValue, formats, true).isValid();
+    
+    }, true);
+
+    $scope.$watch('toDate', function (newValue, oldValue, scope) {
+       console.log("endDate:" + scope.toDate);
+        var formats = ['MM/DD/YYYY'];
+       
+        if (newValue === undefined || newValue === null || newValue === "") {
+            return true;
+        }
+        
+        return moment(newValue, formats, true).isValid();
+    
+    }, true);
 });

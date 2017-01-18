@@ -9,6 +9,8 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 	$scope.modelRatingResultsStatus = [];
 	$scope.resultDetailsData = [];
 	$scope.resultAggregateData = [];
+	$scope.fromDate = null;
+    $scope.toDate = null;
 	$scope.filters = {
 		fromDate: null,
 		toDate: null
@@ -46,6 +48,7 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
        $compile(angular.element(row).contents())($scope);
    }) 	
    .withOption('scrollX', true)
+   .withOption('processing', true)
    .withBootstrap()
    .withOption('bLengthChange', false)
    .withDOM('Bfrtip')
@@ -302,4 +305,28 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 		    	}
 		});
     };
+
+    $scope.$watch('fromDate', function (newValue, oldValue, scope) {
+        console.log("startDate:" + scope.fromDate);
+        var formats = ['MM/DD/YYYY'];
+       
+        if (newValue === undefined || newValue === null || newValue === "") {
+            return true;
+        }
+        
+        return moment(newValue, formats, true).isValid();
+    
+    }, true);
+
+    $scope.$watch('toDate', function (newValue, oldValue, scope) {
+       	console.log("endDate:" + scope.toDate);
+        var formats = ['MM/DD/YYYY'];
+       
+        if (newValue === undefined || newValue === null || newValue === "") {
+            return true;
+        }
+        
+        return moment(newValue, formats, true).isValid();
+    
+    }, true);
 });
