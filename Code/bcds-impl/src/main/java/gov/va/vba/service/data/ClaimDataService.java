@@ -198,7 +198,13 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                         List<Long> patternsList = patterns.stream().map(DDMModelPattern::getPatternId).collect(Collectors.toList());
                         List<Long> cntntPattrens = ddmModelCntntService.getKneePatternId(contentionCounts, patternsList, modelType.toUpperCase());
                         if (CollectionUtils.isNotEmpty(cntntPattrens)) {
-                            List<DiagnosisCount> diagnosisCount = ratingDao.getDiagnosisCount((long) veteranId, savedResults.getClaimDate());
+                            List<DiagnosisCount> diagnosisCount;
+                            if(modelType.equalsIgnoreCase("EAR")) {
+                                diagnosisCount = ratingDao.getEarDiagnosisCount((long) veteranId, savedResults.getClaimDate());
+                            } else {
+                                diagnosisCount = ratingDao.getDiagnosisCount((long) veteranId, savedResults.getClaimDate());
+                            }
+
                             //List<Long> diagPatternsList = patterns.stream().map(DDMModelPattern::getPatternId).collect(Collectors.toList());
 
                             List<Long> diagPattren = ddmModelDiagService.getKneePatternId(diagnosisCount, cntntPattrens, modelType.toUpperCase());

@@ -23,6 +23,8 @@ public interface RatingDao {
 
     List<DecisionDetails> getDecisionsPercentByClaimDate(long veteranId, Date claimDate);
 
+    List<DiagnosisCount> getEarDiagnosisCount(long veteranId, Date claimDate);
+
     List<Long> getKneeCntntPattrens(Map<Long, Integer> contentionCount, List<Long> pattrens, String modelType);
 
     List<Long> getKneeDiagPattrens(List<DiagnosisCount> diagCount, List<Long> pattrens, String modelType);

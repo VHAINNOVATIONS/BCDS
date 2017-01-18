@@ -82,6 +82,17 @@ public class RatingDaoImpl implements RatingDao {
     }
 
     @Override
+    public List<DiagnosisCount> getEarDiagnosisCount(long veteranId, Date claimDate) {
+        List<DiagnosisCount> count = jdbcTemplate.query(QueryConstants.EAR_DIAGNOSIS_COUNT, new Object[]{veteranId, claimDate}, new BeanPropertyRowMapper<>(DiagnosisCount.class));
+        LOG.info("****************************************************************");
+        for (DiagnosisCount c : count) {
+            LOG.info(c.toString());
+        }
+        LOG.info("****************************************************************");
+        return count;
+    }
+
+    @Override
     public List<Long> getKneeCntntPattrens(Map<Long, Integer> contentionCount, List<Long> pattrens, String modelType) {
         StringBuilder pattrenQuery = new StringBuilder();
         pattrenQuery.append("SELECT DISTINCT PATTERN_ID FROM DDM_MODEL_CNTNT WHERE UPPER(MODEL_TYPE)='" + modelType + "' AND (  ");
