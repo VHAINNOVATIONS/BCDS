@@ -53,32 +53,21 @@ public class ClaimResource {
         LOGGER.debug("REST request to get first few Claims");
 
         String contentionTypeStr=null;
-        boolean isRegionalExist = false;
-        boolean isDatesExist = false;
         Date fromDate = claim.getFromDate();
         Date toDate = claim.getToDate();
         Long regionalOffice = claim.getRegionalOfficeNumber();
         String contentionType = claim.getContentionType();
         StringBuilder sb = new StringBuilder();
-        String formatFromDate= new SimpleDateFormat("yyyy-MM-dd").format(fromDate);
-        String formatToDate= new SimpleDateFormat("yyyy-MM-dd").format(toDate);
         List<Claim> filteredClaims = new ArrayList<>();
-        if(null!=contentionType && !"".equals(contentionType)){
-        	sb.append("%").append(contentionType).append("%");
+        if(null!=contentionType && !"".equalsIgnoreCase(contentionType)){
+        	sb.append("%").append(contentionType.toLowerCase()).append("%");
         	contentionTypeStr = sb.toString();
         }
-
-       if(regionalOffice!=0 && !"".equals(regionalOffice)){
-    	   isRegionalExist= true;
-       }
-       if(formatFromDate.compareTo(formatToDate) < 0){
-       		isDatesExist = true;
-       }
        //Query Conditions
-        if (formatFromDate.compareTo(formatToDate) == 0 && contentionType==null && regionalOffice==0) {
+        if (fromDate==null && toDate==null && (contentionType==null || "".equals(contentionType) ) && regionalOffice==0) {
         	filteredClaims= claimDataService.findFirstNumberedRow();
         }else{
-        	filteredClaims= claimDataService.findClaims(isRegionalExist, isDatesExist, contentionTypeStr, regionalOffice, fromDate, toDate);
+        	filteredClaims= claimDataService.findClaims(contentionTypeStr, regionalOffice, fromDate, toDate);
         }
         return filteredClaims;
     }

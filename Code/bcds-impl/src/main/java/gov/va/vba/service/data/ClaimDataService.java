@@ -345,21 +345,14 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
         LOG.info("SAVED MODEL RATING RESULTS STATUS SUCCESSFULLY");
     }
 
-    public List<Claim> findClaims(boolean isRegionalExist, boolean isDatesExist, String contentionType, Long regionalOfficeNumber, Date fromDate, Date toDate) {
+    public List<Claim> findClaims(String contentionType, Long regionalOfficeNumber, Date fromDate, Date toDate) {
         LOG.debug("REST request to get advance filtered Claims");
-        List<gov.va.vba.persistence.entity.Claim> input = new ArrayList<>();
-        if (isDatesExist && !isRegionalExist) {
-            input = claimRepository.findClaimsByDates(contentionType, fromDate, toDate);
-        } else if (isRegionalExist && !isDatesExist) {
-            input = claimRepository.findClaimsByRegionalOffice(contentionType, regionalOfficeNumber);
-        } else if (isDatesExist && isRegionalExist) {
-            input = claimRepository.findClaimsByAllFilters(contentionType, regionalOfficeNumber, fromDate, toDate);
-        } else {
-            input = claimRepository.findClaimsByContention(contentionType);
-        }
-        List<Claim> claims = claimMapper.mapCollection(input);
-        LOG.info("SIZE :::: " + claims.size());
-        return claims;
+        List<ClaimDetails> input = new ArrayList<>();
+        input = ratingDao.getClaimsByAllFilters(contentionType, regionalOfficeNumber, fromDate, toDate);
+        
+        LOG.info("SIZE :::: " + input.size());
+        return mapFilteredClaims(input);
+       
     }
 
     public List<Claim> getProcessClaimsResults(boolean establishedDate, Date fromDate, Date toDate, String contentionType, Long regionalOfficeNumber) {
@@ -392,6 +385,15 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
         }
         return null;
     }
+    
+    private Date calculateClaimDate(Date claimDate) {
+        if (claimDate != null) {
+            Calendar instance = Calendar.getInstance();
+            instance.setTime(claimDate);
+            return instance.getTime();
+        }
+        return null;
+    }
 
     private List<Claim> mapKneeClaimsToClaims(List<ClaimDetails> kneeClaims) {
         List<Claim> claims = new ArrayList<>();
@@ -414,4 +416,23 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
         return claims;
     }
 
+    private List<Claim> mapFilteredClaims(List<ClaimDetails> filteredClaims) {
+        List<Claim> claims = new ArrayList<>();
+        for (ClaimDetails filteredClaim : filteredClaims) {
+            Claim c = new Claim();
+            gov.va.vba.domain.util.Veteran v = new gov.va.vba.domain.util.Veteran();
+            v.setVeteranId(filteredClaim.getVeteranId());
+            c.setVeteran(v);
+            c.setClaimDate(filteredClaim.getClaimDate());
+            c.setClaimId(filteredClaim.getClaimId());
+            c.setContentionId(filteredClaim.getContentionId());
+            c.setRegionalOfficeOfClaim(filteredClaim.getClaimROName());
+            c.setContentionClaimTextKeyForModel(filteredClaim.getContentionClaimantText());
+            c.setCestDate(calculateCestDate(filteredClaim.getClaimDate()));
+            c.setContentionClassificationId(filteredClaim.getContentionClassificationId());
+            c.setModelType(filteredClaim.getModelType());
+            claims.add(c);
+        }
+        return claims;
+    }
 }

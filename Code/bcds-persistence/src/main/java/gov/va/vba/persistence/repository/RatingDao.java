@@ -36,4 +36,6 @@ public interface RatingDao {
     List<ClaimDetails> getClaims(long veteranId, long claimId);
 
     ContentionDetails getContention(long contentionCode);
+    
+    List<ClaimDetails> getClaimsByAllFilters(String contentionType, Long regionalOfficeNumber, Date fromDate, Date toDate);
 }

@@ -17,6 +17,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -180,6 +181,48 @@ public class RatingDaoImpl implements RatingDao {
         LOG.info(contentionDetails.toString());
         LOG.info("****************************************************************");
         return contentionDetails;
+    }
+
+    @Override
+    public List<ClaimDetails> getClaimsByAllFilters(String contentionType, Long regionalOfficeNumber, Date fromDate, Date toDate) {
+    	String formatFromDate="";
+    	String formatToDate="";
+    	//Formatting Date components to pass to the Query
+    	if(null!=fromDate && null!=toDate){
+    		formatFromDate= new SimpleDateFormat("yyyy-MM-dd").format(fromDate);
+            formatToDate= new SimpleDateFormat("yyyy-MM-dd").format(toDate);
+    	}
+    	
+    	String selectClause = "SELECT DISTINCT C.PTCPNT_VET_ID AS veteranId, BNFT_CLAIM_ID AS claimId, " +
+                "DATE_OF_CLAIM AS claimDate, CLAIM_RO_NUMBER AS claimRONumber, CLAIM_RO_NAME AS claimROName, " +
+                "CNTNTN_ID AS contentionId, " + "CNTNTN_CLMANT_TXT AS contentionClaimantText, MODEL_TYPE AS modelType, CNTNTN_CLSFCN_ID AS contentionClassificationId " +
+                "FROM BCDSS.AH4929_RATING_CORP_CLAIM C, BCDSS.AH4929_PERSON P WHERE C.PTCPNT_VET_ID = P.PTCPNT_VET_ID " +
+                "AND CNTNTN_CLSFCN_ID in ('230','270','2200','2210','3140','3150','3690','3700','3710','3720','3730','3780','3790','3800','4130','4210','4700','4920','5000','5010','5710','6850','8919') " +
+                "AND ROWNUM <= 150 ";
+
+	    	String where = "";
+	    	if (contentionType != null) {
+	    	   where += " AND LOWER(c.CNTNTN_CLMANT_TXT) like '"+contentionType+"'";
+	    	}
+	    	if (regionalOfficeNumber != 0) {
+	    	   where += " AND c.CLAIM_RO_NUMBER = " + regionalOfficeNumber;
+	    	}
+	    	if (fromDate != null ) {
+	    	   where += " AND c.DATE_OF_CLAIM >= TO_DATE('"+formatFromDate+"','yyyy-MM-dd')";
+	    	}
+	    	if (toDate != null ) {
+	    		where +=  " AND c.DATE_OF_CLAIM <= TO_DATE('"+formatToDate+"','yyyy-MM-dd')";
+		    	}
+	    	String SQL = selectClause  +   where + " ORDER BY C.PTCPNT_VET_ID, DATE_OF_CLAIM";				
+	    	LOG.info("Filter QUERY -------- " + SQL);
+	    	
+        List<ClaimDetails> claims = jdbcTemplate.query(SQL, new BeanPropertyRowMapper<>(ClaimDetails.class));
+        LOG.info("****************************************************************");
+        for (ClaimDetails claim : claims) {
+            LOG.info(claim.toString());
+        }
+        LOG.info("****************************************************************");
+        return claims;
     }
 
 }
