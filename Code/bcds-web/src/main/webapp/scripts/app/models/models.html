@@ -23,6 +23,7 @@
 		</form>	
 	</div>
 	<div class="row">
+		<spinner name="modelCddSpinner" img-src="../../assets/images/spinner.gif"></spinner>
 		<div role="alert" ng-show="displayInsertStatus">
 			<span class="col-md-12" style="text-align: left;font-size: medium;color: blue">CDD updated successfully.</span>
 		</div>
@@ -34,7 +35,6 @@
 		</div>
 	</div>
 	<div class="row" ng-show="displayModelPatternTable">
-		<spinner name="modelCddSpinner" img-src="../../assets/images/spinner.gif"></spinner>
     	<div class="col-md-12" style="margin-top:10px; text-align: right">
 				<button type="submit" ng-disabled="frmPatternSearch.$invalid" class="btn btn-primary" ng-click="createCddValue()">
 					<span>Edit CDD</span>
