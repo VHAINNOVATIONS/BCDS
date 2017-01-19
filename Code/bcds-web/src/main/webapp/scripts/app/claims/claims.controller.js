@@ -12,6 +12,8 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     $scope.selectAll = false;
     $scope.isSelected = false;
     $scope.dtInstance = {};
+    $scope.maxDefaultDate = new Date('01/01/2100');
+    $scope.minDefaultDate = new Date('01/01/1900');
     $scope.fromDate = null;
     $scope.toDate = null;
     $scope.filters = {
@@ -217,7 +219,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
         }
     };
 
-    /*$scope.setFilterDates  = function(){
+    /*$scope.setDefaultDates  = function(){
     	$scope.filters.dateType = "claimDate";
         $scope.today = new Date();
         $scope.fromDate = new Date();
@@ -278,6 +280,26 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     $scope.checkErr = function(startDate,endDate) {
         $scope.errMessage = '';
         $scope.frmAdvancedFilter.$invalid = false;
+        var isValidStartDate = true;
+        var isValidEndDate = true;
+
+        if(startDate != null || startDate != undefined || startDate != "") {
+            console.log('startDate-' +$scope.formatDate(startDate));
+            isValidStartDate = $scope.isValidDate(startDate);
+            console.log('isValidStartDate-' +isValidStartDate);
+        }
+
+        if(endDate != null || endDate != undefined || endDate != "") {
+            console.log('startDate-' +$scope.formatDate(endDate));
+            isValidEndDate = $scope.isValidDate(endDate);
+            console.log('isValidEndDate-' +isValidEndDate);
+        }
+
+        if(!isValidStartDate || !isValidEndDate){
+            $scope.errMessage = 'Invalid date. Date should be a value between 01/01/1900 - 01/01/2100.';
+            $scope.frmAdvancedFilter.$invalid = true;
+            return false;
+        }
 
         if(new Date(startDate) > new Date(endDate)){
           $scope.errMessage = 'To date should be greater than from date.';
@@ -286,6 +308,11 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
         }
     };
     
+    $scope.isValidDate = function(date){
+        return (date > $scope.minDefaultDate && date < $scope.maxDefaultDate);  
+    };
+
+
     $scope.isCollapsed = function(claim) {
         if (claim.isCollapsed == undefined) {
             claim.isCollapsed = true;

@@ -9,11 +9,13 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 	$scope.modelRatingResultsStatus = [];
 	$scope.resultDetailsData = [];
 	$scope.resultAggregateData = [];
-	$scope.fromDate = null;
-    $scope.toDate = null;
+	$scope.maxDefaultDate = new Date('01/01/2100');
+    $scope.minDefaultDate = new Date('01/01/1900');
+	$scope.reportsFromDate = null;
+    $scope.reportsToDate = null;
 	$scope.filters = {
-		fromDate: null,
-		toDate: null
+		reportsFromDate: null,
+		reportsToDate: null
 	};
 	$scope.dtDetailsInstance = {};
 	$scope.dtAggregateInstance = {};
@@ -48,7 +50,6 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
        $compile(angular.element(row).contents())($scope);
    }) 	
    .withOption('scrollX', true)
-   .withOption('scrollY', '40vh')
    .withOption('processing', true)
    .withBootstrap()
    .withOption('bLengthChange', false)
@@ -184,10 +185,31 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
     $scope.checkErr = function(startDate,endDate) {
         $scope.errMessage = '';
         $scope.frmReportsSearchFilter.$invalid = false;
-        if(new Date(startDate) > new Date(endDate)){
-        	$scope.errMessage = 'To date should be greater than from date.';
-          	$scope.frmReportsSearchFilter.$invalid = true;
-          	return false;
+        var isValidStartDate = true;
+        var isValidEndDate = true;
+
+        if(startDate != null || startDate != undefined || startDate != "") {
+            console.log('startDate-' +$scope.formatDate(startDate));
+            isValidStartDate = $scope.isValidDate(startDate);
+            console.log('isValidStartDate-' +isValidStartDate);
+        }
+
+        if(endDate != null || endDate != undefined || endDate != "") {
+            console.log('startDate-' +$scope.formatDate(endDate));
+            isValidEndDate = $scope.isValidDate(endDate);
+            console.log('isValidEndDate-' +isValidEndDate);
+        }
+
+        if(!isValidStartDate || !isValidEndDate){
+            $scope.errMessage = 'Invalid date. Date should be a value between 01/01/1900 - 01/01/2100.';
+            $scope.frmReportsSearchFilter.$invalid = true;
+            return false;
+        }
+
+         if(new Date(startDate) > new Date(endDate)){
+          $scope.errMessage = 'To date should be greater than from date.';
+          $scope.frmReportsSearchFilter.$invalid = true;
+          return false;
         }
 
         if(startDate != null && endDate != null){
@@ -202,6 +224,10 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 	        	return false;
 			}
 		}
+    };
+
+     $scope.isValidDate = function(date){
+        return (date > $scope.minDefaultDate && date < $scope.maxDefaultDate);  
     };
 
     $scope.checkReportTypeErr =function(){
@@ -219,8 +245,8 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
     $scope.clear = function(){
     	$scope.results = [];
     	$scope.errMessage = '';
-    	$scope.fromDate = null;
-    	$scope.toDate = null;
+    	$scope.reportsFromDate = null;
+    	$scope.reportsToDate = null;
     	($scope.filters) ? $scope.filters.modelTypeOption = null : $scope.filters = null;
     	($scope.filters) ? $scope.filters.modelResultId = null : $scope.filters = null;
     	($scope.filters) ? $scope.filters.reportTypeOption = null : $scope.filters = null;
@@ -231,24 +257,24 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 
      $scope.setSearchParameters = function(){
      	//case when no params or only model type
-    	if(($scope.filters.modelResultId || $scope.filters.modelResultId == null) && $scope.fromDate == null && $scope.toDate == null){
+    	if(($scope.filters.modelResultId || $scope.filters.modelResultId == null) && $scope.reportsFromDate == null && $scope.reportsToDate == null){
     		var today = new Date();
-    		$scope.filters.fromDate = $scope.formatDate(new Date());
-    		$scope.filters.toDate = $scope.formatDate(new Date(today.getFullYear(), today.getMonth() + 12, today.getDate()));
+    		$scope.filters.reportsFromDate = $scope.formatDate(new Date());
+    		$scope.filters.reportsToDate = $scope.formatDate(new Date(today.getFullYear(), today.getMonth() + 12, today.getDate()));
    			$scope.processIds = [];
     	}
 
     	//case when only resultid
     	if(($scope.filters.modelResultId && $scope.filters.modelResultId != null) && $scope.fromDate == null && $scope.toDate == null){
-    		$scope.filters.fromDate = null;
-    		$scope.filters.toDate = null;
+    		$scope.filters.reportsFromDate = null;
+    		$scope.filters.reportsToDate = null;
     		$scope.processIds.push($scope.filters.modelResultId);
     	}
 
     	//case when only dates and/or resultid/modeltype
-    	if($scope.fromDate != null && $scope.toDate != null){
-    		$scope.filters.fromDate = $scope.formatDate($scope.fromDate);
-    		$scope.filters.toDate = $scope.formatDate($scope.toDate);
+    	if($scope.reportsFromDate != null && $scope.reportsToDate != null){
+    		$scope.filters.reportsFromDate = $scope.formatDate($scope.reportsFromDate);
+    		$scope.filters.reportsToDate = $scope.formatDate($scope.reportsToDate);
     		($scope.filters === null || $scope.filters.modelResultId === null || $scope.filters.modelResultId === undefined) 
     			? $scope.processIds = [] 
     			: $scope.processIds.push($scope.filters.modelResultId);

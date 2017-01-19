@@ -13,8 +13,8 @@ angular.module('bcdssApp')
             findModelRatingResults: function (processIds, filters, userId) {
                 var data = {
                     processIds : (processIds.length === 0) ? null : processIds,           
-                    fromDate: (filters == null) ? null : filters.fromDate,
-                    toDate: (filters == null) ? null : filters.toDate,
+                    fromDate: (filters == null) ? null : filters.resultsFromDate,
+                    toDate: (filters == null) ? null : filters.resultsToDate,
                     modelType: (filters == null) ? null : angular.lowercase(filters.modelTypeOption),
                     userId: userId
                 }
@@ -39,8 +39,8 @@ angular.module('bcdssApp')
             generateModelRatingResultsReport: function (processIds, filters, userId) {
                 var data = {
                     processIds : (processIds.length === 0) ? null : processIds,           
-                    fromDate: (filters == null) ? null : filters.fromDate,
-                    toDate: (filters == null) ? null : filters.toDate,
+                    fromDate: (filters == null) ? null : filters.reportsFromDate,
+                    toDate: (filters == null) ? null : filters.reportsToDate,
                     modelType: (filters == null) ? null : angular.lowercase(filters.modelTypeOption),
                     reportType: (filters == null) ? null : angular.lowercase(filters.reportTypeOption),
                     userId: userId
