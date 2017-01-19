@@ -62,7 +62,9 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
 
     private static final Logger LOG = LoggerFactory.getLogger(ClaimDataService.class);
     private static final List<Long> KNEE_CONTENTION_IDS = Arrays.asList(230L, 270L, 3690L, 3700L, 3710L, 8919L, 3720L, 3730L, 3780L, 3790L, 3800L);
+    private static final List<Long> EAR_CONTENTION_IDS = Arrays.asList(2200L, 2210L, 3140L, 3150L, 4130L, 4210L, 4700L, 4920L, 5000L, 5010L, 5710L, 6850L);
     private static final List<String> KNEE_DIAGNOSIS_CODES = Arrays.asList("5055", "5161", "5162", "5163", "5164", "5165", "5256", "5257", "5258", "5259", "5260", "5261", "5262", "5263", "5264", "5313", "5314", "5315");
+    private static final List<String> EAR_DIAGNOSIS_CODES = Arrays.asList("6100", "6200", "6210", "6202", "6204", "6205", "6207", "6209", "6201", "6211", "6260");
 
     @Autowired
     private ClaimRepository claimRepository;
@@ -187,9 +189,20 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                     LOG.info("=================================================================");
                     LOG.info("RESULTS :::::::::::::::: " + savedResults);
                     LOG.info("=================================================================");
-
-                    List<ModelRatingResultsCntnt> resultsCntnts = saveModelResultsCtnts(contentionCounts, savedResults);
-                    saveModelResultsDiag(savedResults);
+                    List<DiagnosisCount> diagnosisCount;
+                    List<String> diagnosisCodes;
+                    List<Long> contentions;
+                    if(modelType.equalsIgnoreCase("EAR")) {
+                        diagnosisCodes = EAR_DIAGNOSIS_CODES;
+                        contentions = EAR_CONTENTION_IDS;
+                        diagnosisCount = ratingDao.getEarDiagnosisCount((long) veteranId, savedResults.getClaimDate());
+                    } else {
+                        diagnosisCodes = KNEE_DIAGNOSIS_CODES;
+                        contentions = KNEE_CONTENTION_IDS;
+                        diagnosisCount = ratingDao.getDiagnosisCount((long) veteranId, savedResults.getClaimDate());
+                    }
+                    saveModelResultsCtnts(contentionCounts, savedResults, contentions);
+                    saveModelResultsDiag(savedResults, diagnosisCount, diagnosisCodes);
                     saveResultStatus(results, currentLogin);
 
                     //TODO: last param
@@ -198,13 +211,6 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                         List<Long> patternsList = patterns.stream().map(DDMModelPattern::getPatternId).collect(Collectors.toList());
                         List<Long> cntntPattrens = ddmModelCntntService.getKneePatternId(contentionCounts, patternsList, modelType.toUpperCase());
                         if (CollectionUtils.isNotEmpty(cntntPattrens)) {
-                            List<DiagnosisCount> diagnosisCount;
-                            if(modelType.equalsIgnoreCase("EAR")) {
-                                diagnosisCount = ratingDao.getEarDiagnosisCount((long) veteranId, savedResults.getClaimDate());
-                            } else {
-                                diagnosisCount = ratingDao.getDiagnosisCount((long) veteranId, savedResults.getClaimDate());
-                            }
-
                             //List<Long> diagPatternsList = patterns.stream().map(DDMModelPattern::getPatternId).collect(Collectors.toList());
 
                             List<Long> diagPattren = ddmModelDiagService.getKneePatternId(diagnosisCount, cntntPattrens, modelType.toUpperCase());
@@ -277,15 +283,15 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
 
     /**
      * Description: This method is used to save contentions count
-     *
-     * @param counts  - claimId
+     *  @param counts  - claimId
      * @param results - results
+     * @param contentions
      */
-    private List<ModelRatingResultsCntnt> saveModelResultsCtnts(Map<Long, Integer> counts, ModelRatingResults results) {
+    private List<ModelRatingResultsCntnt> saveModelResultsCtnts(Map<Long, Integer> counts, ModelRatingResults results, List<Long> contentions) {
         //TODO:
         //List<Object[]> contentionsCount = claimRepository.aggregateContentions(claimId, veteranId);
         HashMap<Long, Long> countMap = new HashMap<>();
-        for (Long i : KNEE_CONTENTION_IDS) {
+        for (Long i : contentions) {
             countMap.put(i, 0L);
         }
         for (Map.Entry<Long, Integer> x : counts.entrySet()) {
@@ -309,13 +315,13 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
 
     /**
      * Description:
-     *
-     * @param results
+     *  @param results
+     * @param diagnosisCount
+     * @param diagnosisCodes
      */
-    private void saveModelResultsDiag(ModelRatingResults results) {
-        List<DiagnosisCount> diagnosisCount = ratingDao.getDiagnosisCount(results.getVeteranId(), results.getClaimDate());
+    private void saveModelResultsDiag(ModelRatingResults results, List<DiagnosisCount> diagnosisCount, List<String> diagnosisCodes) {
         HashMap<String, Long> diagCount = new HashMap<>();
-        for (String i : KNEE_DIAGNOSIS_CODES) {
+        for (String i : diagnosisCodes) {
             diagCount.put(i, 0L);
         }
         for (DiagnosisCount x : diagnosisCount) {
