@@ -15,6 +15,10 @@
 				<div class="modal-body" style="padding-left:inherit; padding-right:30px; padding-bottom:15px">
 					<form name="frmAdvancedFilter">
 						<div role="alert" style="color: #D8000C;text-align: center;"><span>{{errMessage}}</span></div>
+						 <div role="alert" role="alert" style="color: #D8000C;text-align: center;" 
+						 	ng-show="(!frmAdvancedFilter.fromDate.$valid || !frmAdvancedFilter.toDate.$valid)">
+						 	<span>Date range should be between (01/01/1899 - 01/01/2100)</span>
+						</div>
 						<div class="form-group row">	
 							<label for="txtRegionalOffice" class="col-md-4 col-form-label" style="text-align:right">Regional Office</label>
 							<div class="col-md-8" style="text-align:left">
@@ -32,30 +36,23 @@
 							<label for="dateFrom" class="col-md-4 col-form-label" style="text-align:right">Claim Date:&nbsp&nbspFrom</label>
 							<div class="col-md-3">
 						        <input type="date" validatedateformat data-fv-date-format="mm/dd/yyyy"  maxlength="10" id="fromDate" calendar  
-						         ng-click="openCalendar('fromDate')" placeholder="Enter Date" name="fromDate" ng-model="fromDate" ng-change='checkErr(fromDate,toDate)'/> 
-						         <div class="output">
-						        	 <span ng-hide="frmAdvancedFilter.fromDate.$valid" style="color: #D8000C;text-align: center;">Not a valid date.</span>
-						        </div>
+						         ng-click="openCalendar('fromDate')" placeholder="Enter Date" name="fromDate" ng-model="fromDate" ng-change='checkErr(fromDate,toDate)' min="1899-01-01"  max="2100-01-01"/>
 						     </div>
       						<label for="dateto" class="col-md-1 col-form-label" style="text-align:right">To</label>
 							<div class="col-md-3">
 						        <input type="date" validatedateformat data-fv-date-format="mm/dd/yyyy" maxlength="10" id="toDate" calendar  
-						          ng-click="openCalendar('toDate')" placeholder="Enter Date" name="toDate" ng-model="toDate" ng-change='checkErr(fromDate,toDate)'/>
-						          <div class="output">
-						        	 <span ng-hide="frmAdvancedFilter.toDate.$valid" style="color: #D8000C;text-align: center;">Not a valid date.</span>
-						        </div> 
-						    </div>
-						    
+						          ng-click="openCalendar('toDate')" placeholder="Enter Date" name="toDate" ng-model="toDate" ng-change='checkErr(fromDate,toDate)' min='1899-01-01'  max="2100-01-01"/> 
+						    </div>   
 						</div> 
 						
 						<div class="row">
 							<div class="col-md-6">
-								<button type="button" class="btn btn-outline-secondary btn-sm pull-right" ng-click="clear()" style="width:150px" data-dismiss="modal">
+								<button type="button" class="btn btn-primary btn-sm pull-right" ng-click="clear()" style="width:150px" data-dismiss="modal">
 									<span>Cancel</span>
 								</button>
 							</div>
 							<div class="col-md-6">
-								<button type="button" ng-disabled="frmAdvancedFilter.$invalid" class="btn btn-outline-secondary btn-sm" style="width:150px" data-dismiss="modal" ng-click="advanceFilterSearch()">
+								<button type="button" ng-disabled="frmAdvancedFilter.$invalid" class="btn btn-primary btn-sm" style="width:150px" data-dismiss="modal" ng-click="advanceFilterSearch()">
 									<span>Filter</span>
 								</button>
 							</div>

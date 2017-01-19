@@ -183,10 +183,10 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
     
     $scope.checkErr = function(startDate,endDate) {
         $scope.errMessage = '';
-        $scope.frmResultsSearchFilter.$invalid = false;
+        $scope.frmReportsSearchFilter.$invalid = false;
         if(new Date(startDate) > new Date(endDate)){
         	$scope.errMessage = 'To date should be greater than from date.';
-          	$scope.frmResultsSearchFilter.$invalid = true;
+          	$scope.frmReportsSearchFilter.$invalid = true;
           	return false;
         }
 
@@ -198,7 +198,7 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 			
 			if(diffDays > 365){
 				$scope.errMessage = 'Max date range can only be one year.';
-	        	$scope.frmResultsSearchFilter.$invalid = true;
+	        	$scope.frmReportsSearchFilter.$invalid = true;
 	        	return false;
 			}
 		}
@@ -206,10 +206,10 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 
     $scope.checkReportTypeErr =function(){
     	$scope.errMessage = '';
-        $scope.frmResultsSearchFilter.$invalid = false;
+        $scope.frmReportsSearchFilter.$invalid = false;
     	if($scope.filters && $scope.filters.reportTypeOption === null){
 			$scope.errMessage = 'Report type must be selected.';
-	        $scope.frmResultsSearchFilter.$invalid = true;
+	        $scope.frmReportsSearchFilter.$invalid = true;
 	        return false;
 		}
 
@@ -307,28 +307,4 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 		    	}
 		});
     };
-
-    $scope.$watch('fromDate', function (newValue, oldValue, scope) {
-        console.log("startDate:" + scope.fromDate);
-        var formats = ['MM/DD/YYYY'];
-       
-        if (newValue === undefined || newValue === null || newValue === "") {
-            return true;
-        }
-        
-        return moment(newValue, formats, true).isValid();
-    
-    }, true);
-
-    $scope.$watch('toDate', function (newValue, oldValue, scope) {
-       	console.log("endDate:" + scope.toDate);
-        var formats = ['MM/DD/YYYY'];
-       
-        if (newValue === undefined || newValue === null || newValue === "") {
-            return true;
-        }
-        
-        return moment(newValue, formats, true).isValid();
-    
-    }, true);
 });

@@ -2,7 +2,7 @@
 
 angular.module('bcdssApp').controller('ModelsController', function($rootScope, $scope, $state, Account, Auth,
 														$q, $filter, DTOptionsBuilder, DTColumnBuilder, $compile, 	
-														$stateParams, ModelService, $timeout) {
+														$stateParams, ModelService, $timeout, spinnerService) {
 
 	$scope.results = [];
 	$scope.userName = Auth.getCurrentUser();
