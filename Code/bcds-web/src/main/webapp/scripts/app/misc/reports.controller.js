@@ -255,6 +255,7 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
     	($scope.filters) ? $scope.filters.outputTypeOption = null : $scope.filters = null;
     	$scope.displayResultsRatingDetailsTable  = false;
     	$scope.displayResultsRatingAggregateTable  = false;
+    	spinnerService.hide('reportsSpinner');
     };
 
      $scope.setSearchParameters = function(){
