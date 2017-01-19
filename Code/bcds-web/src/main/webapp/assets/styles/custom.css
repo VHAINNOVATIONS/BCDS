@@ -118,14 +118,13 @@ ul.multiselect li.select-highlight-blur {
 	color:white;
 }
 
-
-.sidebar-nav .navbar .navbar-collapse {
+.navbar .navbar-collapse {
    padding: 0;
    max-height: none;
  }
 
  .sidebar-nav .navbar ul {
-    float: none;
+    float: left;
     display: block;
     text-align:left;
     margin-right: 0px;
@@ -135,8 +134,20 @@ ul.multiselect li.select-highlight-blur {
     width: 230px;
     background-color: #f1f1f1;
     height: 100%; /* Full height */
-    position: fixed; /* Make it stick, even on scroll */
+    position: relative; /* Make it stick, even on scroll */
     overflow: auto; /* Enable scrolling if the sidenav has too much content */
+ }
+
+ .sidebar-nav{
+    z-index: 1000;
+    padding-right:0px;
+    padding-left:0px;
+    margin-right: 2px; 
+    border-bottom: none;
+    border-right: 0px;
+    background-color: #f1f1f1;
+    height: 100vh;
+    margin-left: -14px;
  }
 
  .sidebar-nav .navbar li {
@@ -147,24 +158,19 @@ ul.multiselect li.select-highlight-blur {
  .sidebar-nav .navbar li a {
    padding-top: 12px;
    padding-bottom: 12px;
-   padding-left:35px;
+   padding-left:36px;
  }
 
  .navbar-custom{
     z-index: 1000;
  	padding-right:0px;
- 	padding-left:2px;
+ 	padding-left:0px;
     margin-right: 0px; 
     border-bottom: none;
     border-right: 0px;
+    background-color: #f1f1f1;
+    height: 100%;
  }
- 
- .sidemenu{
-    background: #f5f5f5;
-    margin-left: 0px;
-    margin-right: 0px;
-    height: 80vh;
-}
 
  .navbar-nav.glyphicon{
     padding:5px;
@@ -197,4 +203,10 @@ ul.multiselect li.select-highlight-blur {
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
     background-color: #BDBDBD !important;
     color: black;
+}
+
+@media screen and (max-width: 1550px){
+     .sidebar-nav{
+        height: 100vh;
+    }
 }
