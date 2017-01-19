@@ -49,6 +49,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     .withOption('processing', true)
     //.withOption('scrollY', '40vh')
     .withOption('pageLength', 15)
+    .withOption('responsive', true)
     .withOption('order', [[1, 'asc']])
     .withButtons([
     	{
