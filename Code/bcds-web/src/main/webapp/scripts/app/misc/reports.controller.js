@@ -55,6 +55,7 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
    .withOption('bLengthChange', false)
    .withDOM('Bfrtip')
    .withOption('pageLength', 5)
+   .withOption('responsive', true)
    .withButtons([
             {
                 extend: 'pdf',
