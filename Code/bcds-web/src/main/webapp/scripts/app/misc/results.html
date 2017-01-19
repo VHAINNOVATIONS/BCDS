@@ -4,29 +4,27 @@
 	</div>
 	<div class="form-group">
 		<form name="frmResultsSearchFilter" class="form-horizontal" role="form">
-			<div role="alert" style="color: #D8000C;"><span>{{errMessage}}</span></div>
-		    <div role="alert" role="alert" style="color: #D8000C;" 
-			 	ng-show="(!frmResultsSearchFilter.fromDate.$valid || !frmResultsSearchFilter.toDate.$valid)">
-			 	<span>Date range should be between (01/01/1899 - 01/01/2100)</span>
-			</div>
+			<div role="alert" style="color: #D8000C;padding-right:200px;"><span>{{errMessage}}</span></div>
 		    <div class="row"> 
 			    <div class="col-md-2">
-			    	<label class="pull-right">
+			    	<label for="resultsFromDate" class="pull-right">
 			    		<span>Processed From Date:</span>
 			    	</label>
 			    </div>
 		        <div class="col-md-2">
 		        	<input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy"
-		        		maxlength="10" id="fromDate" calendar ng-click="openCalendar('fromDate')" placeholder="Enter Date" 
-		        		name="fromDate" ng-model="fromDate" ng-change='checkErr(fromDate,toDate)' min="1899-01-01"  max="2100-01-01"/>         
+		        		maxlength="10" id="resultsFromDate" calendar ng-click="openCalendar('resultsFromDate')" placeholder="Enter Date" 
+		        		name="resultsFromDate" ng-model="resultsFromDate" ng-change='checkErr(resultsFromDate,resultsToDate)' min="1899-01-01"  
+		        		max="2100-01-01"/>         
 		        </div>
 		        <div class="col-md-2">
-		        	<label for="dateto" class="control-label pull-right">Processed To Date:</label>
+		        	<label for="resultsToDate" class="control-label pull-right">Processed To Date:</label>
 		        </div>
 		        <div class="col-md-2">
 		        	  <input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy" 
-		        	  maxlength="10" id="toDate" calendar ng-click="openCalendar('toDate')" placeholder="Enter Date" 
-				      name="toDate" ng-model="toDate" ng-change='checkErr(fromDate,toDate)' min="1899-01-01"  max="2100-01-01"/>
+		        	  maxlength="10" id="resultsToDate" calendar ng-click="openCalendar('resultsToDate')" placeholder="Enter Date" 
+				      name="resultsToDate" ng-model="resultsToDate" ng-change='checkErr(resultsFromDate,resultsToDate)' min="1899-01-01"  
+				      max="2100-01-01"/>
 		        </div>
 		    </div>
 		    <div class="row" style="margin-top:10px;">
