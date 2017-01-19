@@ -6,7 +6,8 @@
 			<div class="row" role="alert" style="color: #D8000C; padding-right:200px;"><span>{{errMessage}}</span></div>
 		    <div class="row">
 		    	<div class="col-md-2">
-		    		 <label for="reportType" class="control-label pull-right">Report Type:</label>
+		    		 <label for="reportType" class="control-label pull-right">Report Type:
+		    		 <span style="color:#ff0000;font-size:20px;position:relative;float:right;">&nbsp;*</span></label>
 		    	</div>
 		    	<div class="col-md-2">
 		    		<select id="reportType" name="reportType" class="form-control pull-left" ng-change='checkReportTypeErr()' type="text" ng-model="filters.reportTypeOption" ng-options="o.value as o.label for o in reportTypeOptions | orderBy:'label'">

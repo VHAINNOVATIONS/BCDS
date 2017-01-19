@@ -74,6 +74,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	 	.withBootstrap()
 	 	.withOption('bLengthChange', false)
 	 	.withOption('processing', true)
+	 	.withOption('pageLength', 4)
 	   	.withOption('createdRow', function(row, data, dataIndex) {
 	    	// Recompiling so we can bind Angular directive to the DT        
 	    	$compile(angular.element(row).contents())($scope);
