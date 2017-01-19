@@ -303,6 +303,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
     	($scope.filters) ? $scope.filters.modelTypeOption = null : $scope.filters = null;
     	($scope.filters) ? $scope.filters.modelResultId = null : $scope.filters = null;
         $scope.cleanScopeVariables();
+        spinnerService.hide('resultsSpinner');
     };
 
      $scope.setSearchParameters = function(){
