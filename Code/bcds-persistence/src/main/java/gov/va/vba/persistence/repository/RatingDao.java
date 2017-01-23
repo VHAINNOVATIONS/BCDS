@@ -38,6 +38,8 @@ public interface RatingDao {
     List<ClaimDetails> getClaims(long veteranId, long claimId);
 
     ContentionDetails getContention(long contentionCode);
-    
+
+    List<Long> getPattern(String modelType, long priorCdd, Map<Long, Long> contentionsCount, List<DiagnosisCount> diagnosisCount);
+
     List<ClaimDetails> getClaimsByAllFilters(String contentionType, Long regionalOfficeNumber, Date fromDate, Date toDate);
 }
