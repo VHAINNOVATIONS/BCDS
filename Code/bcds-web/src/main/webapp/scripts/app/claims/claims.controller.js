@@ -34,20 +34,20 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
         $compile(angular.element(row).contents())($scope);
     })
     .withOption('headerCallback', function(header) {
-        if (!self.headerCompiled) {
+        //if (!self.headerCompiled) {
             // Use this headerCompiled field to only compile header once
             self.headerCompiled = true;
             $compile(angular.element(header).contents())($scope);
             $compile(angular.element('.dt-buttons').contents())($scope);
-        }
+       // }
     })
     .withBootstrap()
     .withDOM('Bfrtip')
-    .withOption('bLengthChange', false)
+    //.withOption('bLengthChange', false)
     .withOption('processing', true)
     //.withOption('scrollY', '40vh')
     .withOption('pageLength', 15)
-    .withOption('responsive', true)
+    //.withOption('responsive', true)
     .withOption('order', [[1, 'asc']])
     .withButtons([
     	{

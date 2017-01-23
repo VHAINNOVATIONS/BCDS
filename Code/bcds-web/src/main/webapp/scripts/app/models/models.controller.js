@@ -33,9 +33,11 @@ angular.module('bcdssApp').controller('ModelsController', function($rootScope, $
 	        return "<div>"+data+"</div>"
 	    }),
 	    DTColumnBuilder.newColumn('patternIndex.patternId').withTitle('Pattern Id').notSortable(),
-	    DTColumnBuilder.newColumn('patternIndex.accuracy').withTitle('Pattern Accuracy').notSortable(),
+	    DTColumnBuilder.newColumn('patternIndex.accuracy').withTitle('Pattern Accuracy').notSortable().renderWith(function(data, type, full) {
+	        return "<div>"+data+"%</div>"
+	    }),
 	    DTColumnBuilder.newColumn('createdDate').withTitle('Created Date').notSortable().renderWith(function(data, type, full) {
-	        return "<div>"+$scope.formatDate(data)+"%</div>"
+	        return "<div>"+$scope.formatDate(data)+"</div>"
 	    }),
 	    DTColumnBuilder.newColumn('createdBy').withTitle('Created/Updated By').notSortable(),
 	    DTColumnBuilder.newColumn('patternIndex.cdd').withTitle('CDD').notSortable()
@@ -59,7 +61,7 @@ angular.module('bcdssApp').controller('ModelsController', function($rootScope, $
         }
 
         if(!($scope.Cdd % 10) == 0 || $scope.Cdd == null || $scope.Cdd.length == 0){
-        	$scope.errMessageModal = 'Cdd value must be a multiple of 10.';
+        	$scope.errMessageModal = 'Cdd value must be in the multiple of 10.';
           	$scope.frmEditCDD.$invalid = true;
           	return false;
         }
