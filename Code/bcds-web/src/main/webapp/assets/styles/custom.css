@@ -112,6 +112,7 @@ ul.multiselect li.select-highlight-blur {
 
 .dashboard{
 	padding-top:5px;
+    padding-left: 2%;
 }
 
 .mainNav{
@@ -131,10 +132,9 @@ ul.multiselect li.select-highlight-blur {
     list-style-type: none;
     margin-left: -15px;
     padding: 0;
-    width: 230px;
     background-color: #f1f1f1;
     height: 100%; /* Full height */
-    position: fixed; /* Make it stick, even on scroll */
+    position: relative; /* Make it stick, even on scroll */
     overflow: auto; /* Enable scrolling if the sidenav has too much content */
  }
 
@@ -156,13 +156,14 @@ ul.multiselect li.select-highlight-blur {
     margin-right: 0px; 
     border-bottom: none;
     border-right: 0px;
+    background-color: #f1f1f1;;
+    height: 80vh;
  }
 
 .sidemenu{
     background: #f5f5f5;
     margin-left: 0px;
     margin-right: 0px;
-    height: 80vh;
 }
 
  .navbar-nav.glyphicon{
@@ -196,4 +197,15 @@ ul.multiselect li.select-highlight-blur {
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
     background-color: #BDBDBD !important;
     color: black;
+}
+
+@media (max-width: 1365px) {
+    .navbar-custom{ {
+       height: 86vh;
+    }
+
+    .dashboard{
+        padding-top:5px;
+        padding-left: 2%;
+    }
 }
