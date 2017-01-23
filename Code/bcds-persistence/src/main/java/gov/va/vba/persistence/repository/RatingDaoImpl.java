@@ -196,42 +196,6 @@ public class RatingDaoImpl implements RatingDao {
     }
 
     @Override
-    public List<Long> getPattern(String modelType, long priorCdd, Map<Long, Long> contentionsCount, List<DiagnosisCount> diagnosisCount) {
-        StringBuilder query = new StringBuilder();
-        query.append("SELECT P.PATTERN_ID FROM BCDSS.DDM_MODEL_PATTERN P, BCDSS.DDM_MODEL_CNTNT C, BCDSS.DDM_MODEL_DIAG D ");
-        query.append("WHERE P.PATTERN_ID = C.PATTERN_ID AND P.PATTERN_ID = D.PATTERN_ID AND P.MODEL_TYPE = '");
-        query.append(modelType);
-        query.append("' P.PRIOR_CDD = ");
-        query.append(priorCdd);
-        if(MapUtils.isNotEmpty(contentionsCount)) {
-            query.append(" (");
-            for (Map.Entry<Long, Long> contention : contentionsCount.entrySet()) {
-                query.append("(").append("C.CNTNT_CD=").append(contention.getKey()).append(" AND C.COUNT=").append(contention.getValue()).append(")");
-            }
-            query.append(")");
-        }
-        if(CollectionUtils.isNotEmpty(diagnosisCount)) {
-            query.append(" AND (");
-            for (DiagnosisCount diagnosis : diagnosisCount) {
-                query.append("(").append("D.DIAG_CD=").append(diagnosis.getDecisionCode()).append(" AND D.COUNT=").append(diagnosis.getCount()).append(")");
-            }
-            query.append(")");
-        }
-
-        LOG.info("************************PATTERN QUERY****************************************");
-        LOG.info(query.toString());
-        LOG.info("****************************************************************");
-
-                //"((C.CNTNT_CD=3140 AND C.COUNT=1)  AND (D.DIAG_CD=6100 AND D.COUNT=5)) AND P.PRIOR_CDD = " + priorCdd;
-        List<Long> pattrenIds = jdbcTemplate.query(query.toString(), new LongRowMapper());
-
-        LOG.info("****************************************************************");
-        LOG.info("PATTERN IDS "+pattrenIds);
-        LOG.info("****************************************************************");
-        return pattrenIds;
-    }
-
-    @Override
     public List<ClaimDetails> getClaimsByAllFilters(String contentionType, Long regionalOfficeNumber, Date fromDate, Date toDate) {
     	String formatFromDate="";
     	String formatToDate="";
@@ -272,6 +236,5 @@ public class RatingDaoImpl implements RatingDao {
         LOG.info("****************************************************************");
         return claims;
     }
-
 
 }
