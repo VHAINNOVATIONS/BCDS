@@ -2,45 +2,39 @@
 	<div>
 	</div>
 	<div class="form-group">
-		<form name="frmResultsSearchFilter" class="form-horizontal" role="form" ng-submit="checkReportTypeErr()">
+		<form name="frmReportsSearchFilter" class="form-horizontal" role="form" ng-submit="checkReportTypeErr()">
 			<div class="row" role="alert" style="color: #D8000C; padding-right:200px;"><span>{{errMessage}}</span></div>
 		    <div class="row">
 		    	<div class="col-md-2">
-		    		 <label for="reportType" class="control-label pull-right">Report Type:</label>
+		    		 <label for="reportType" class="control-label pull-right">Report Type:
+		    		 <span style="color:#ff0000;font-size:20px;position:relative;float:right;">&nbsp;*</span></label>
 		    	</div>
 		    	<div class="col-md-2">
 		    		<select id="reportType" name="reportType" class="form-control pull-left" ng-change='checkReportTypeErr()' type="text" ng-model="filters.reportTypeOption" ng-options="o.value as o.label for o in reportTypeOptions | orderBy:'label'">
 								 <option value="">Select a report type</option>
 					</select>
 		    	</div>
-		    	<!--<div class="col-md-2">
-		    		<label for="outputType" class="control-label pull-right">Output Type:</label>
-		    	</div>
-		    	<div class="col-md-2">
-		    		<select id="outputType" name="outputType" class="form-control pull-left" type="text" ng-model="filters.outputTypeOption" ng-options="o.value as o.label for o in outputTypeOptions | orderBy:'label'">
-								 <option value="">Select a output type</option>
-					</select>
-		    	</div>-->
 		    </div>
 		    <div class="row" style="margin-top:10px;"> 
 			    <div class="col-md-2">
-			    	<label class="pull-right">
+			    	<label for="reportsFromDate" class="pull-right">
 			    		<span>Processed From Date:</span>
 			    	</label>
 			    </div>
 		        <div class="col-md-2">
-		        	<input type="date" class="form-control pull-left" validatedateformat data-date-format="mm/dd/yyyy" 
-		        		maxlength="10" id="fromDate" calendar ng-click="openCalendar('fromDate')" placeholder="Enter Date" 
-		        		name="fromDate" ng-model="fromDate" ng-change='checkErr(fromDate,toDate)'/>
-				        
+		        	<input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy" 
+		        		maxlength="10" id="reportsFromDate" calendar ng-click="openCalendar('reportsFromDate')" placeholder="Enter Date" 
+		        		name="reportsFromDate" ng-model="reportsFromDate" ng-change='checkErr(reportsFromDate,reportsToDate)' min="1899-01-01"  
+		        		max="2100-01-01"/>   
 		        </div>
 		        <div class="col-md-2">
-		        	<label for="dateto" class="control-label pull-right">Processed To Date:</label>
+		        	<label for="reportsToDate" class="control-label pull-right">Processed To Date:</label>
 		        </div>
 		        <div class="col-md-2">
-		        	  <input type="date" class="form-control pull-left" validatedateformat data-date-format="mm/dd/yyyy" 
-		        	  maxlength="10" id="toDate" calendar ng-click="openCalendar('toDate')" placeholder="Enter Date" 
-				      name="toDate" ng-model="toDate" ng-change='checkErr(fromDate,toDate)'/>
+		        	  <input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy" 
+		        	  maxlength="10" id="reportsToDate" calendar ng-click="openCalendar('reportsToDate')" placeholder="Enter Date" 
+				      name="reportsToDate" ng-model="reportsToDate" ng-change='checkErr(reportsFromDate,reportsToDate)' min="1899-01-01"  
+				      max="2100-01-01"/>
 		        </div>
 		    </div>
 		    <div class="row" style="margin-top:10px;">
@@ -61,7 +55,7 @@
 		    </div>
 		    <div class="row">
 		    	<div class="col-md-4 col-md-offset-3" style="margin-top:10px;">
-						<button type="submit" ng-disabled="frmResultsSearchFilter.$invalid" class="btn btn-primary" 
+						<button type="submit" ng-disabled="frmReportsSearchFilter.$invalid" class="btn btn-primary" 
 						 	ng-click="searchRatingResults()">
 							<span>Generate Report</span>
 						</button>
@@ -75,6 +69,7 @@
 	</div>
 	<div class="">
 		<div class="row">
+			<spinner name="reportsSpinner" img-src="./assets/images/spinner.gif"><h3>Loading...</h3></spinner>
 			<div class="col-md-12" ng-show="displayResultsRatingDetailsTable">
 				<table id="resultDetailsGrid" name="resultDetailsGrid" datatable="" dt-options="dtDetailsOptions" dt-columns="dtDetailsColumns" 
 				dt-instance="dtDetailsInstance" class="table table-striped table-bordered row-border hover compact"></table>

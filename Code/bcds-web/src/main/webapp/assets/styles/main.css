@@ -340,13 +340,3 @@ Dashboard
         /*margin-left: 3%;*/
     }
 }
-
-.sideMenuMargin{
-    margin-left:-50px;
-}
-
-@media screen and (max-width: 1550px){
-    .sideMenuMargin{
-        margin-left:-10px;
-    }
-}

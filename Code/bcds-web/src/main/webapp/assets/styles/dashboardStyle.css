@@ -44,9 +44,11 @@ body {
 }
  
 .CenterBackground {
-    background-color: #FBFBFB;
+    background-color: #fff;
     background-image: url('../images/BCDS_LoginPage.jpg');
     background-repeat:no-repeat;
+    width:100%;
+    height: 85vh;
 }
 
 .FooterBackground {
@@ -54,7 +56,6 @@ body {
     font-family: Arial, Verdana, Helvetica, sans-serif;
     font-size: 10px;
     text-align: left;
-    height: 85vh;
 }
 
 @media screen and (max-width: 1550px){

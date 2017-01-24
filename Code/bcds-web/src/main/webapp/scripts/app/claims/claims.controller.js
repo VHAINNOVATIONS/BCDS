@@ -2,7 +2,7 @@
 
 angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $scope, $state, Account, $filter,
 														$q, DTOptionsBuilder, DTColumnBuilder, $compile, $timeout,	
-														$stateParams, ClaimService, ClaimFilterService) {
+														$stateParams, ClaimService, ClaimFilterService, spinnerService) {
     $scope.searchTerm = undefined;
     $scope.claims = [];
     $scope.orderByField = 'veteranId';
@@ -12,9 +12,15 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     $scope.selectAll = false;
     $scope.isSelected = false;
     $scope.dtInstance = {};
-    
-    var titleHtml = '<input type="checkbox" id="selectchkall" ng-model="selectAll" ng-click="toggleAll(selectAll, selected)">';
-    
+    $scope.maxDefaultDate = new Date('01/01/2100');
+    $scope.minDefaultDate = new Date('01/01/1900');
+    $scope.fromDate = null;
+    $scope.toDate = null;
+    $scope.filters = {
+        fromDate: null,
+        toDate: null
+    };
+ 
     $scope.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
     	 return new Promise( function(resolve, reject){
              if ($scope.claims)
@@ -28,16 +34,20 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
         $compile(angular.element(row).contents())($scope);
     })
     .withOption('headerCallback', function(header) {
-        if (!self.headerCompiled) {
+        //if (!self.headerCompiled) {
             // Use this headerCompiled field to only compile header once
             self.headerCompiled = true;
             $compile(angular.element(header).contents())($scope);
             $compile(angular.element('.dt-buttons').contents())($scope);
-        }
+       // }
     })
     .withBootstrap()
     .withDOM('Bfrtip')
-    .withOption('bLengthChange', false)
+    //.withOption('bLengthChange', false)
+    .withOption('processing', true)
+    //.withOption('scrollY', '40vh')
+    .withOption('pageLength', 15)
+    //.withOption('responsive', true)
     .withOption('order', [[1, 'asc']])
     .withButtons([
     	{
@@ -75,12 +85,14 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
         }
       ]);
 
+    var titleHtml = '<input type="checkbox" id="selectchkall" ng-model="selectAll" ng-change="toggleAll(selectAll, selected)">';
+   
     $scope.dtColumns = [
-		DTColumnBuilder.newColumn(null).withTitle(titleHtml)
+		DTColumnBuilder.newColumn(null).withTitle(titleHtml).notSortable()
 		 .renderWith(function(data, type, full, meta) {
 		     $scope.selected[full.contentionId] = false;
 		     return '<label for="selectchk' + data.contentionId + '" style="display: none">select</label><input id="selectchk' + data.contentionId + '" type="checkbox" ng-model="selected[' + data.contentionId + ']" ng-click="toggleOne(selected)">';
-		}).notSortable(),
+		}),
         DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran ID'),
         DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran Name').renderWith(function(data, type, full) {
             return "<div>"+ data +"-veteran</div>"
@@ -96,80 +108,57 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
         DTColumnBuilder.newColumn('contentionClaimTextKeyForModel').withTitle('Model/Contentions')
     ];
     
-    $scope.regionalOfficeOptions = [
-        { value:'0',    label:'-- Please select a regional office --'},
-        { value:'463',	label:'Anchorage RO'},
-	    { value:'350',	label:'Little Rock Regional Office'},
-	    { value:'320',	label:'Nashville Regional Office'},
-	    { value:'315',	label:'Huntington Regional Office'},
-	    { value:'316',	label:'Atlanta Regional Office'},
-	    { value:'354',	label:'Reno Regional Office'},
-	    { value:'344',	label:'Los Angeles Regional Office'},
-	    { value:'335',	label:'St. Paul Regional Office'},
-	    { value:'460',	label:'Wilmington RO'},
-	    { value:'311',	label:'Pittsburgh Regional Office'},
-	    { value:'322',	label:'Montgomery Regional Office'},
-	    { value:'321',	label:'New Orleans Regional Office'},
-	    { value:'372',	label:'Washington Regional Office'},
-	    { value:'330',	label:'Milwaukee Regional Office'},
-	    { value:'339',	label:'Denver Regional Office'},
-	    { value:'328',	label:'Chicago Regional Office'},
-	    { value:'341',	label:'Salt Lake City Regional Office'},
-	    { value:'452',	label:'Wichita RO'},
-	    { value:'405',	label:'White River Junction RO'},
-	    { value:'319',	label:'Columbia Regional Office'},
-	    { value:'334',	label:'Lincoln Regional Office'},
-	    { value:'438',	label:'Sioux Falls RO'},
-	    { value:'442',	label:'Cheyenne RO'},
-	    { value:'318',	label:'Winston-Salem Regional Office'},
-	    { value:'307',	label:'Buffalo Regional Office'},
-	    { value:'313',	label:'Baltimore Regional Office'},
-	    { value:'323',	label:'Jackson Regional Office'},
-	    { value:'304',	label:'Providence Regional Office'},
-	    { value:'309',	label:'Newark Regional Office'},
-	    { value:'327',	label:'Louisville Regional Office'},
-	    { value:'402',	label:'Togus RO'},
-	    { value:'346',	label:'Seattle Regional Office'},
-	    { value:'310',	label:'Philadelphia Regional Office'},
-	    { value:'347',	label:'Boise Regional Office'},
-	    { value:'376',	label:'St. Louis RMC'},
-	    { value:'101',	label:'Central Office'},
-	    { value:'325',	label:'Cleveland Regional Office'},
-	    { value:'317',	label:'St. Petersburg Regional Office'},
-	    { value:'301',	label:'Boston Regional Office'},
-	    { value:'306',	label:'New York Regional Office'},
-	    { value:'348',	label:'Portland Regional Office'},
-	    { value:'377',	label:'San Diego Regional Office'},
-	    { value:'345',	label:'Phoenix Regional Office'},
-	    { value:'362',	label:'Houston Regional Office'},
-	    { value:'314',	label:'Roanoke Regional Office'},
-	    { value:'459',	label:'Honolulu RO'},
-	    { value:'436',	label:'Fort Harrison RO'},
-	    { value:'358',	label:'Manila Regional Office'},
-	    { value:'437',	label:'Fargo RO'},
-	    { value:'355',	label:'San Juan Regional Office'},
-	    { value:'329',	label:'Detroit Regional Office'},
-	    { value:'351',	label:'Muskogee Regional Office'},
-	    { value:'331',	label:'St. Louis Regional Office'},
-	    { value:'340',	label:'Albuquerque Regional Office'},
-	    { value:'326',	label:'Indianapolis Regional Office'},
-	    { value:'397',	label:'Appeals Management Center'},
-	    { value:'349',	label:'Waco Regional Office'},
-	    { value:'343',	label:'Oakland Regional Office'},
-	    { value:'333',	label:'Des Moines Regional Office'},
-	    { value:'308',	label:'Hartford Regional Office'},
-	    { value:'373',	label:'Manchester Regional Office'},
+    
+    /*$scope.setDefaultDates  = function(){
+    	$scope.filters.dateType = "claimDate";
+        $scope.today = new Date();
+        $scope.fromDate = new Date();
+        $scope.toDate = new Date($scope.today.getFullYear(), $scope.today.getMonth() + 1, $scope.today.getDate());
+    };*/
+          
+    $scope.getUserName = function(){
+    	if ($rootScope.userName != null) {
+    		$scope.userName = $rootScope.userName;
+    	} else {
+    		$scope.userName = $scope.account.firstName;
+    	}
+    };
+    
+    $scope.loadClaims = function(){
+        spinnerService.show('claimsSpinner');
+    	ClaimService.query(function(result){
+    		$scope.claims = result;
+            $scope.toggleAll(false, null);
+    		var promise = new Promise( function(resolve, reject){
+                if ($scope.claims)
+                  resolve($scope.claims);
+                else
+                  resolve([]);
+              });
+    		if($scope.claims.length > 0) {
+                spinnerService.hide('claimsSpinner');
+                $timeout(function() {
+                    $scope.dtInstance.reloadData(function() {
+                        return promise;
+                    });
+                }, 10);
+			}
+    	});
+    };
+    
+    $scope.getUserName();
+    //$scope.loadClaims();
 
-	];
-    
-    $scope.filters.regionalOfficeOption = $scope.regionalOfficeOptions[0].value; // Default
-    
+ 
     $scope.dtInstanceCallback = function(_dtInstance) {
         $scope.dtInstance = _dtInstance;
-        $scope.dtInstance.reloadData();
+        $timeout(function() {
+            $scope.dtInstance.reloadData();
+        },10);
     };
 
     $scope.toggleAll = function toggleAll(selectAll, selectedItems) {
+        console.log('selectAll');
         for (var id in selectedItems) {
             if (selectedItems.hasOwnProperty(id)) {
                 selectedItems[id] = selectAll;
@@ -190,6 +179,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     };
     
     $scope.toggleOne = function toggleOne(selectedItems) {
+         console.log('selectedItems');
         $scope.toggleProcessClaims(false);
         var isAllSelected = true;
         for (var id in selectedItems) {
@@ -208,50 +198,73 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
         }
     };
 
-    $scope.setFilterDates  = function(){
-    	$scope.filters.dateType = "claimDate";
-        $scope.today = new Date();
-        $scope.fromDate = new Date();
-        $scope.toDate = new Date($scope.today.getFullYear(), $scope.today.getMonth() + 1, $scope.today.getDate());
-    };
-          
-    $scope.getUserName = function(){
-    	if ($rootScope.userName != null) {
-    		$scope.userName = $rootScope.userName;
-    	} else {
-    		$scope.userName = $scope.account.firstName;
-    	}
-    };
-    
-    $scope.loadClaims = function(){
-    	ClaimService.query(function(result){
-    		$scope.claims = result;
-            $scope.toggleAll(false, null);
-    		var promise = new Promise( function(resolve, reject){
-                if ($scope.claims)
-                  resolve($scope.claims);
-                else
-                  resolve([]);
-              });
-    		if($scope.claims.length > 0) {
-                $timeout(function() {
-                    $scope.dtInstance.reloadData(function() {
-                        return promise;
-                    });
-                }, 10);
-			}
-    	});
-    };
-    
-    $scope.setFilterDates();
-    $scope.getUserName();
-    $scope.loadClaims();
+     $scope.regionalOfficeOptions = [
+        { value:'0',    label:'-- Please select a regional office --'},
+        { value:'463',  label:'Anchorage RO'},
+        { value:'350',  label:'Little Rock Regional Office'},
+        { value:'320',  label:'Nashville Regional Office'},
+        { value:'315',  label:'Huntington Regional Office'},
+        { value:'316',  label:'Atlanta Regional Office'},
+        { value:'354',  label:'Reno Regional Office'},
+        { value:'344',  label:'Los Angeles Regional Office'},
+        { value:'335',  label:'St. Paul Regional Office'},
+        { value:'460',  label:'Wilmington RO'},
+        { value:'311',  label:'Pittsburgh Regional Office'},
+        { value:'322',  label:'Montgomery Regional Office'},
+        { value:'321',  label:'New Orleans Regional Office'},
+        { value:'372',  label:'Washington Regional Office'},
+        { value:'330',  label:'Milwaukee Regional Office'},
+        { value:'339',  label:'Denver Regional Office'},
+        { value:'328',  label:'Chicago Regional Office'},
+        { value:'341',  label:'Salt Lake City Regional Office'},
+        { value:'452',  label:'Wichita RO'},
+        { value:'405',  label:'White River Junction RO'},
+        { value:'319',  label:'Columbia Regional Office'},
+        { value:'334',  label:'Lincoln Regional Office'},
+        { value:'438',  label:'Sioux Falls RO'},
+        { value:'442',  label:'Cheyenne RO'},
+        { value:'318',  label:'Winston-Salem Regional Office'},
+        { value:'307',  label:'Buffalo Regional Office'},
+        { value:'313',  label:'Baltimore Regional Office'},
+        { value:'323',  label:'Jackson Regional Office'},
+        { value:'304',  label:'Providence Regional Office'},
+        { value:'309',  label:'Newark Regional Office'},
+        { value:'327',  label:'Louisville Regional Office'},
+        { value:'402',  label:'Togus RO'},
+        { value:'346',  label:'Seattle Regional Office'},
+        { value:'310',  label:'Philadelphia Regional Office'},
+        { value:'347',  label:'Boise Regional Office'},
+        { value:'376',  label:'St. Louis RMC'},
+        { value:'101',  label:'Central Office'},
+        { value:'325',  label:'Cleveland Regional Office'},
+        { value:'317',  label:'St. Petersburg Regional Office'},
+        { value:'301',  label:'Boston Regional Office'},
+        { value:'306',  label:'New York Regional Office'},
+        { value:'348',  label:'Portland Regional Office'},
+        { value:'377',  label:'San Diego Regional Office'},
+        { value:'345',  label:'Phoenix Regional Office'},
+        { value:'362',  label:'Houston Regional Office'},
+        { value:'314',  label:'Roanoke Regional Office'},
+        { value:'459',  label:'Honolulu RO'},
+        { value:'436',  label:'Fort Harrison RO'},
+        { value:'358',  label:'Manila Regional Office'},
+        { value:'437',  label:'Fargo RO'},
+        { value:'355',  label:'San Juan Regional Office'},
+        { value:'329',  label:'Detroit Regional Office'},
+        { value:'351',  label:'Muskogee Regional Office'},
+        { value:'331',  label:'St. Louis Regional Office'},
+        { value:'340',  label:'Albuquerque Regional Office'},
+        { value:'326',  label:'Indianapolis Regional Office'},
+        { value:'397',  label:'Appeals Management Center'},
+        { value:'349',  label:'Waco Regional Office'},
+        { value:'343',  label:'Oakland Regional Office'},
+        { value:'333',  label:'Des Moines Regional Office'},
+        { value:'308',  label:'Hartford Regional Office'},
+        { value:'373',  label:'Manchester Regional Office'},
 
-    $scope.toggleCheckAll = function () {
-        angular.forEach($scope.claims, function (claim) {
-            claim.Selected = $scope.selectAll;
-        });
-    };  
+    ];
+    
+    $scope.filters.regionalOfficeOption = $scope.regionalOfficeOptions[0].value; // Default
     
     $scope.getCestDate = function(date) {
 		return (date + (10*24*60*60*1000));
@@ -268,6 +281,27 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     $scope.checkErr = function(startDate,endDate) {
         $scope.errMessage = '';
         $scope.frmAdvancedFilter.$invalid = false;
+        var isValidStartDate = true;
+        var isValidEndDate = true;
+
+        if(startDate != null || startDate != undefined || startDate != "") {
+            console.log('startDate-' +$scope.formatDate(startDate));
+            isValidStartDate = $scope.isValidDate(startDate);
+            console.log('isValidStartDate-' +isValidStartDate);
+        }
+
+        if(endDate != null || endDate != undefined || endDate != "") {
+            console.log('startDate-' +$scope.formatDate(endDate));
+            isValidEndDate = $scope.isValidDate(endDate);
+            console.log('isValidEndDate-' +isValidEndDate);
+        }
+
+        if(!isValidStartDate || !isValidEndDate){
+            $scope.errMessage = 'Invalid date. Date should be a value between 01/01/1900 - 01/01/2100.';
+            $scope.frmAdvancedFilter.$invalid = true;
+            return false;
+        }
+
         if(new Date(startDate) > new Date(endDate)){
           $scope.errMessage = 'To date should be greater than from date.';
           $scope.frmAdvancedFilter.$invalid = true;
@@ -275,6 +309,11 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
         }
     };
     
+    $scope.isValidDate = function(date){
+        return (date > $scope.minDefaultDate && date < $scope.maxDefaultDate);  
+    };
+
+
     $scope.isCollapsed = function(claim) {
         if (claim.isCollapsed == undefined) {
             claim.isCollapsed = true;
@@ -330,7 +369,8 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     $scope.clear = function(){
         $scope.claims = [];
         $scope.filters.dateType = {};
-        $scope.setFilterDates();
+        $scope.fromDate = null;
+        $scope.toDate = null;
         $scope.filters.contentionType = null;
         $scope.filters.regionalOfficeOption = $scope.regionalOfficeOptions[0].value;
         $scope.selectAll = false;
@@ -348,9 +388,10 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     }; 
       
     $scope.advanceFilterSearch = function(){
+        spinnerService.show('claimsSpinner');
     	if ($scope.filters != null) {
-    		$scope.filters.fromDate = $scope.formatDate($scope.fromDate);
-    		$scope.filters.toDate = $scope.formatDate($scope.toDate);
+    		$scope.filters.fromDate = ($scope.fromDate === null || $scope.fromDate === undefined) ? null : $scope.formatDate($scope.fromDate);
+    		$scope.filters.toDate = ($scope.toDate === null || $scope.toDate === undefined) ? null : $scope.formatDate($scope.toDate);
     		ClaimFilterService.filterClaims($scope.filters)
     			.then(function(result){
     				console.log('>>>successful');
@@ -361,46 +402,15 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     	                else
     	                  resolve([]);
     	              });
-    	    		$scope.dtInstance.changeData(function() {
-    	                return promise;
-    	            });
+                    spinnerService.hide('claimsSpinner');
+    	    		if($scope.claims.length > 0) {
+                        $timeout(function() {
+                            $scope.dtInstance.reloadData(function() {
+                                return promise;
+                            });
+                        }, 10);
+                    }
     		});
 		}
     };
-              
-             
-          /*$scope.loadTabView = function (tabUserRole) {
-        	if(tabUserRole == USER_ROLE.userRoleRater){
-        		console.log("rater");
-        		$state.go('home', {userRoleType: USER_ROLE.userRoleRater});
-        	} else if (tabUserRole == USER_ROLE.userRoleModeler){
-        		console.log("modeler")
-        		$state.go('home', {userRoleType: USER_ROLE.userRoleModeler})
-        	} else {
-        		console.log("admin")
-        		$state.go('home', {userRoleType: USER_ROLE.userRoleAdmin})
-        	}
-        };
-
-        $scope.userRoleTabs = [
-                           {title: "Rater", active: $scope.isActiveRoleTab(USER_ROLE.userRoleRater)},
-                           {title: "Modeler", active: $scope.isActiveRoleTab(USER_ROLE.userRoleModeler)}, 
-                           {title: "Admin", active: $scope.isActiveRoleTab(USER_ROLE.userRoleAdmin)}
-                       ];
-
-        $scope.loadRaterTab = function () {
-        	console.log("rater");
-        	console.log(USER_ROLE);
-            $state.go('home', {userRoleType: USER_ROLE.userRoleRater});
-        };
-
-        $scope.loadModelerTab = function () {
-        	console.log("modeler");
-            $state.go('home', {userRoleType: USER_ROLE.userRoleModeler});
-        };
-
-        $scope.loadAdminTab = function () {
-        	console.log("admin");
-            $state.go('home', {userRoleType: USER_ROLE.userRoleAdmin});
-        };*/
 });

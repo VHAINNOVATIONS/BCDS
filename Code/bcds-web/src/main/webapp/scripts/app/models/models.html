@@ -11,18 +11,18 @@
 		    		<label for="txtPatterntId" class="control-label pull-right">Pattern Id:</label>
 		    	</div>
 		    	<div class="col-md-2">
-		    		<input type="text" id="txtPatterntId" placeholder="Enter a number" ng-pattern="onlyNumbers" class="form-control pull-left" 
-		    		ng-model="patternId">
+		    		<input type="text" id="txtPatterntId" name="txtPatterntId" placeholder="Enter a number" ng-pattern="onlyNumbers" class="form-control pull-left" ng-model="patternId" maxlength="10" min="1" max="9999999999" ng-change="isValidPatternId()">
 		    	</div>
 		    	<div class="col-md-1">
-					<button type="submit" ng-disabled="frmPatternSearch.$invalid" class="btn btn-primary" ng-click="searchPatternResults()">
+					<button type="submit" ng-disabled="frmPatternSearch.$pristine || frmPatternSearch.$invalid" class="btn btn-primary" ng-click="searchPatternResults()">
 						<span>Search</span>
 					</button>
     			</div>
 			</div>
 		</form>	
 	</div>
-	<div class="row">
+	<div class="row">  
+		<spinner name="modelCddSpinner" img-src="./assets/images/spinner.gif"></spinner>
 		<div role="alert" ng-show="displayInsertStatus">
 			<span class="col-md-12" style="text-align: left;font-size: medium;color: blue">CDD updated successfully.</span>
 		</div>
@@ -33,7 +33,7 @@
 						dt-columns="dtColumns" dt-instance="dtInstance" class="table table-striped table-bordered table-hover compact"></table>
 		</div>
 	</div>
-	<div class="row" ng-show="displayModelPatternTable">
+	<div class="row" ng-show="displayBtnOnDataAvailability">
     	<div class="col-md-12" style="margin-top:10px; text-align: right">
 				<button type="submit" ng-disabled="frmPatternSearch.$invalid" class="btn btn-primary" ng-click="createCddValue()">
 					<span>Edit CDD</span>

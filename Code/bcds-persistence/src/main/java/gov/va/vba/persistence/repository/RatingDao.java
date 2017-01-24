@@ -23,9 +23,11 @@ public interface RatingDao {
 
     List<DecisionDetails> getDecisionsPercentByClaimDate(long veteranId, Date claimDate);
 
-    List<Long> getKneeCntntPattrens(Map<Long, Integer> contentionCount, List<Long> pattrens);
+    List<DiagnosisCount> getEarDiagnosisCount(long veteranId, Date claimDate);
 
-    List<Long> getKneeDiagPattrens(List<DiagnosisCount> diagCount, List<Long> pattrens);
+    List<Long> getKneeCntntPattrens(Map<Long, Integer> contentionCount, List<Long> pattrens, String modelType);
+
+    List<Long> getKneeDiagPattrens(List<DiagnosisCount> diagCount, List<Long> pattrens, String modelType);
 
     int getClaimaintAge(long veteranId, long claimId);
     
@@ -36,6 +38,8 @@ public interface RatingDao {
     List<ClaimDetails> getClaims(long veteranId, long claimId);
 
     ContentionDetails getContention(long contentionCode);
-    
+
+    List<Long> getPattern(String modelType, long priorCdd, Map<Long, Long> contentionsCount, List<DiagnosisCount> diagnosisCount);
+
     List<ClaimDetails> getClaimsByAllFilters(String contentionType, Long regionalOfficeNumber, Date fromDate, Date toDate);
 }

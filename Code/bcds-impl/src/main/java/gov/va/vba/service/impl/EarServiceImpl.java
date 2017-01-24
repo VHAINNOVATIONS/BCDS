@@ -100,7 +100,7 @@ public class EarServiceImpl implements EarService {
 
         BigDecimal calculatedValue = applyFormula(map);
         LOG.info("CALCULATED VALUE ::::::  {}", calculatedValue.intValue());
-        return calculatedValue.intValue();
+        return AppUtill.roundToCeilMultipleOfTen(calculatedValue.intValue());
     }
 
     private BigDecimal applyFormula(Map<String, DecisionDetails> map) {
