@@ -41,6 +41,7 @@ public class ModelRatingResults implements Serializable {
 	private Long claimCount;
 	private Veteran veteran;
 	private DDMModelPatternIndex patternIndex;
+	private Claim claim;
 	
 	@Id
 	@Column(name="PROCESS_ID")
@@ -68,6 +69,17 @@ public class ModelRatingResults implements Serializable {
 
 	public void setVeteran(Veteran veteran) {
 		this.veteran = veteran;
+	}
+	
+	@MapsId("claimId")
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "CLAIM_ID", referencedColumnName="BNFT_CLAIM_ID", insertable = false, updatable = false)
+	public Claim getClaim() {
+		return claim;
+	}
+
+	public void setClaim(Claim claim) {
+		this.claim = claim;
 	}
 	
 	@Column(name="PATTERN_ID")

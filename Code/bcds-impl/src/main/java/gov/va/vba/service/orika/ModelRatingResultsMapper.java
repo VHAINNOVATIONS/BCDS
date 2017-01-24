@@ -50,6 +50,7 @@ public class ModelRatingResultsMapper {
 		        .field("processDate", "processDate")
 		        .field("CDDAge", "CDDAge")
 		        .field("claimCount", "claimCount")
+		        .field("claim.contentionClaimTextKeyForModel", "claim.contentionClaimTextKeyForModel")
 		        .byDefault()
                 .register();
         mapperFactory.classMap(gov.va.vba.persistence.entity.ModelRatingResultsStatus.class, ModelRatingResultsStatus.class)

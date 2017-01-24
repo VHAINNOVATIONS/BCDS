@@ -1,6 +1,7 @@
 package gov.va.vba.domain;
 
 import gov.va.vba.domain.util.Veteran;
+import gov.va.vba.domain.util.Claim;
 import gov.va.vba.domain.util.ModelPatternIndex;
 
 import java.io.Serializable;
@@ -23,6 +24,7 @@ public class ModelRatingResults implements Serializable{
 	private Long quantCDD;
 	private Long CDDAge;
 	private Long claimCount;
+	private Claim claim;
 	
 	public Long getProcessId() {
 		return processId;
@@ -37,6 +39,14 @@ public class ModelRatingResults implements Serializable{
 
 	public void setVeteran(Veteran veteran) {
 		this.veteran = veteran;
+	}
+	
+	public Claim getClaim() {
+		return claim;
+	}
+
+	public void setClaim(Claim claim) {
+		this.claim = claim;
 	}
 
 	public ModelPatternIndex getPatternIndex() {
