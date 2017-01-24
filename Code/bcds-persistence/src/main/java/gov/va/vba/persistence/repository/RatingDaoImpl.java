@@ -201,19 +201,19 @@ public class RatingDaoImpl implements RatingDao {
         query.append("SELECT P.PATTERN_ID FROM BCDSS.DDM_MODEL_PATTERN P, BCDSS.DDM_MODEL_CNTNT C, BCDSS.DDM_MODEL_DIAG D ");
         query.append("WHERE P.PATTERN_ID = C.PATTERN_ID AND P.PATTERN_ID = D.PATTERN_ID AND P.MODEL_TYPE = '");
         query.append(modelType);
-        query.append("' P.PRIOR_CDD = ");
+        query.append("' AND P.PRIOR_CDD = ");
         query.append(priorCdd);
         if(MapUtils.isNotEmpty(contentionsCount)) {
-            query.append(" (");
+            query.append(" AND (");
             for (Map.Entry<Long, Long> contention : contentionsCount.entrySet()) {
-                query.append("(").append("C.CNTNT_CD=").append(contention.getKey()).append(" AND C.COUNT=").append(contention.getValue()).append(")");
+                query.append(" AND (").append("C.CNTNT_CD=").append(contention.getKey()).append(" AND C.COUNT=").append(contention.getValue()).append(")");
             }
             query.append(")");
         }
         if(CollectionUtils.isNotEmpty(diagnosisCount)) {
             query.append(" AND (");
             for (DiagnosisCount diagnosis : diagnosisCount) {
-                query.append("(").append("D.DIAG_CD=").append(diagnosis.getDecisionCode()).append(" AND D.COUNT=").append(diagnosis.getCount()).append(")");
+                query.append(" AND (").append("D.DIAG_CD=").append(diagnosis.getDecisionCode()).append(" AND D.COUNT=").append(diagnosis.getCount()).append(")");
             }
             query.append(")");
         }
