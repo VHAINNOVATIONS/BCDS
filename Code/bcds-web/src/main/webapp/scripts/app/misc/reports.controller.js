@@ -154,6 +154,16 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 	   	DTColumnBuilder.newColumn(null).withTitle('% Throughput').notSortable(),
     ];
 
+    $scope.hasData = function(isEnabled) {
+	     if(isEnabled) {
+	        $('#btnDowloadPDF').closest('.dt-button').removeClass('disabled');
+	        $('#btnDowloadPDF').closest('.dt-button').removeClass('disabledLink');
+	    } else {
+	        $('#btnDowloadPDF').closest('.dt-button').addClass('disabled');
+	        $('#btnDowloadPDF').closest('.dt-button').addClass('disabledLink');
+	    }
+    };
+
     $scope.getDiagonosticCodesByProcessId = function(processId){
 		var codes = $filter('filter')($scope.diagnosticCodes, {processId: processId}, true);
 	     if (codes.length) {
@@ -304,6 +314,7 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 		$scope.processIds = [];
 		$scope.results = [];
 		$scope.setSearchParameters();
+		$scope.hasData(false);
 		if(!$scope.checkReportTypeErr()) return;
 		//$scope.processIds.push(1); //this is for test and needs to change..... it should come from process claims
     	//$scope.processIds.push(2);
@@ -324,6 +335,7 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 	                  resolve([]);
 	              });
 				spinnerService.hide('reportsSpinner');
+				$scope.hasData($scope.results.modelRatingResults.length > 0);
 				if($scope.filters && $scope.filters.reportTypeOption === "AGGREGATE"){
 		    		$scope.dtAggregateInstance.changeData(function() {
 		                return promise;

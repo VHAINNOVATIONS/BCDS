@@ -74,6 +74,17 @@ angular.module('bcdssApp').controller('ModelsController', function($rootScope, $
         $scope.Cdd = null;
     };
 
+    $scope.isValidPatternId = function(){
+    	$scope.frmPatternSearch.$invalid = false;
+    	if($scope.patternId == undefined || $scope.patternId == null || $scope.patternId.length === 0 || $scope.patternId == ''){
+    		$scope.frmPatternSearch.$invalid = true;
+    	}
+
+    	if($scope.patternId == undefined || $scope.patternId == null || $scope.patternId.length > 9999999999){
+    		$scope.frmPatternSearch.$invalid = true;
+    	}
+    };
+
     $scope.createCddValue = function(){
     	$('#modelDialogCreateCdd').modal('show');
     };
@@ -90,6 +101,7 @@ angular.module('bcdssApp').controller('ModelsController', function($rootScope, $
 				console.log('>>>successful');
 				$scope.results = result.data;
 				$scope.displayModelPatternTable = $scope.getResultDisplayStatus();
+				$scope.displayBtnOnDataAvailability = ($scope.results && $scope.results.length > 0);
 				var promise = new Promise( function(resolve, reject){
 	                if ($scope.results)
 	                  resolve($scope.results);
