@@ -5,6 +5,7 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 														$stateParams, ClaimService, RatingService, spinnerService) {
 	
 	$scope.results = [];
+	$scope.serverErrorMsg = "Something went wrong! Please contact the site administrator."
 	$scope.diagnosticCodes = [];
 	$scope.modelRatingResultsStatus = [];
 	$scope.resultDetailsData = [];
@@ -31,10 +32,9 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 	    { value:'DETAILED',	label:'Detailed'}
 	];
 
-	/*$scope.outputTypeOptions = [
-		{ value:'HTML',	label:'HTML'},
-	    { value:'PDF',	label:'PDF'}
-	];*/
+	$scope.modal = {
+      instance: null
+    };
 
 	$scope.dtDetailsOptions = DTOptionsBuilder.fromFnPromise(function() {
    	 return new Promise( function(resolve, reject){
@@ -346,6 +346,17 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 		                return promise;
 		            });
 		    	}
-		});
+			})
+			.catch(function(e){
+                $scope.serverErrorMsg = (e.errMessage && e.errMessage != null) ? e.errMessage : $scope.serverErrorMsg;
+                $scope.callErrorDialog();
+        	});
+    };
+
+    $scope.callErrorDialog = function (size) {
+            $scope.modal.instance = $modal.open({
+            template: '<error-dialog modal="modal" bold-text-title="Error:" text-alert="'+ $scope.serverErrorMsg + '" mode="danger"></error-dialog>',
+            scope: $scope,
+        });
     };
 });
