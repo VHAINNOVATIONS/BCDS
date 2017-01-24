@@ -1,0 +1,22 @@
+<div class="modal-body" id="errorDialog" style="padding:0px; height:250px">
+	<div class="alert alert-danger">
+		<button type="button" class="close" ng-click="close()" >
+       		<span class="glyphicon glyphicon-remove-circle"></span>
+    	</button>
+     	<div>
+			<h3 class="modal-title">Error:-</h3>
+		</div>
+ 	</div>
+ 	<div style="padding-left:15px;font-size:larger;">
+   		<p>
+   			<strong>{{data.boldTextTitle}}</strong> {{data.textAlert}}<br/>
+   			<strong>{{data.boldTextTitle}}</strong> {{data.textAlert}}<br/>
+   			<strong>{{data.boldTextTitle}}</strong> {{data.textAlert}}<br/>
+   		</p>
+   </div>
+   <div class="col-md-12 col-xs-12">
+   		<div class="modal-footer">
+		    <button class="btn btn-primary" ng-click="ok()">OK</button>
+		</div>
+   </div>
+</div>

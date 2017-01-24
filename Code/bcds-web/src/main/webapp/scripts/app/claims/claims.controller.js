@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $scope, $state, Account, $filter,
-														$q, DTOptionsBuilder, DTColumnBuilder, $compile, $timeout,	
+														$q, DTOptionsBuilder, DTColumnBuilder, $compile, $timeout, $modal,	
 														$stateParams, ClaimService, ClaimFilterService, spinnerService) {
     $scope.searchTerm = undefined;
+    $scope.serverErrorMsg = "Something went wrong! Please contact the site administrator."
     $scope.claims = [];
     $scope.orderByField = 'veteranId';
     $scope.reverseSort = false;
@@ -20,7 +21,11 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
         fromDate: null,
         toDate: null
     };
- 
+
+    $scope.modal = {
+      instance: null
+    };
+    
     $scope.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
     	 return new Promise( function(resolve, reject){
              if ($scope.claims)
@@ -49,8 +54,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     .withOption('pageLength', 15)
     //.withOption('responsive', true)
     .withOption('order', [[1, 'asc']])
-    .withButtons([
-    	{
+    .withButtons([{
 	        text: '<a name="Process Claim(s)" id="btnProcessClaim">Process Claims</a>',
 	        action: function (e, dt, node, config) {
 	        	var selectedItems = $scope.selected;
@@ -74,7 +78,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
         {
           text: '<a name="Advanced Filter">Advanced Filter</a>',
           action: function (e, dt, node, config) {
-        	  $('#advancedFilterDialog').modal('show');
+                $('#advancedFilterDialog').modal('show');
           }
         },
         {
@@ -83,7 +87,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
               $scope.clear();
           }
         }
-      ]);
+    ]);
 
     var titleHtml = '<input type="checkbox" id="selectchkall" ng-model="selectAll" ng-change="toggleAll(selectAll, selected)">';
    
@@ -158,7 +162,6 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     };
 
     $scope.toggleAll = function toggleAll(selectAll, selectedItems) {
-        console.log('selectAll');
         for (var id in selectedItems) {
             if (selectedItems.hasOwnProperty(id)) {
                 selectedItems[id] = selectAll;
@@ -179,7 +182,6 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     };
     
     $scope.toggleOne = function toggleOne(selectedItems) {
-         console.log('selectedItems');
         $scope.toggleProcessClaims(false);
         var isAllSelected = true;
         for (var id in selectedItems) {
@@ -265,7 +267,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     ];
     
     $scope.filters.regionalOfficeOption = $scope.regionalOfficeOptions[0].value; // Default
-    
+
     $scope.getCestDate = function(date) {
 		return (date + (10*24*60*60*1000));
 	};
@@ -410,7 +412,18 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
                             });
                         }, 10);
                     }
-    		});
+        		})
+                .catch(function(e){
+                    $scope.serverErrorMsg = (e.errMessage && e.errMessage != null) ? e.errMessage : $scope.serverErrorMsg;
+                    $scope.callErrorDialog();
+                });
 		}
+    };
+
+    $scope.callErrorDialog = function (size) {
+            $scope.modal.instance = $modal.open({
+            template: '<error-dialog modal="modal" bold-text-title="Error:" text-alert="'+ $scope.serverErrorMsg + '" mode="danger"></error-dialog>',
+            scope: $scope,
+        });
     };
 });

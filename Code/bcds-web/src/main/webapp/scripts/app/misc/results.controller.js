@@ -5,6 +5,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 														$stateParams, ClaimService, RatingService, spinnerService) {
 	
 	$scope.userName = Auth.getCurrentUser();
+    $scope.serverErrorMsg = "Something went wrong! Please contact the site administrator."
 	$scope.processedClaimsUserName = '';
 	$scope.results = [];
 	$scope.diagnosticCodes = [];
@@ -33,6 +34,10 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
         { value:'Disagree',	label:'Disagree'},
 	    { value:'Agree',	label:'Agree'}
 	];
+
+    $scope.modal = {
+      instance: null
+    };
 
 	$scope.columnTitles = [
         {columnName : "Veteran Id", title : "Unique Identifier for each Veteran/Customer"},
@@ -345,6 +350,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 				$scope.diagnosticCodes = result.data.diagnosticCodes;
 				$scope.modelRatingResultsStatus = result.data.resultsStatus;
 				$scope.displayResultsRatingTable = $scope.results.modelRatingResults.length >= 0;
+                $scope.displayBtnSaveResultsRating = ($scope.results && $scope.results.modelRatingResults.length > 0);
 				$scope.cleanScopeVariables();
 				var promise = new Promise( function(resolve, reject){
 	                if ($scope.results)
@@ -353,10 +359,14 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	                  resolve([]);
 	              });
 				spinnerService.hide('resultsSpinner');
-	    		$scope.dtInstance.changeData(function() {
-	                return promise;
-	            });
-		});
+    	    	$scope.dtInstance.changeData(function() {
+    	                return promise;
+                })
+	        })
+            .catch(function(e){
+                $scope.serverErrorMsg = (e.errMessage && e.errMessage != null) ? e.errMessage : $scope.serverErrorMsg;
+                $scope.callErrorDialog();
+            });
     };
 	
 	/*These are changes for version 3.0*/
@@ -487,6 +497,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 
 	$scope.getRatingResults = function(results){
 		$scope.processIds = $scope.getProcessIds(results);
+        $scope.displayBtnSaveResultsRating = false;
 		if($scope.processIds == null){
 			alert("No processId found."); // need to change to validation message
 			return;
@@ -500,6 +511,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 				$scope.diagnosticCodes = result.data.diagnosticCodes;
 				$scope.modelRatingResultsStatus = result.data.resultsStatus;
 				$scope.displayResultsRatingTable = $scope.results.modelRatingResults.length >= 0;
+                $scope.displayBtnSaveResultsRating = ($scope.results && $scope.results.modelRatingResults.length > 0);
 				$scope.cleanScopeVariables();
 				var promise = new Promise( function(resolve, reject){
 	                if ($scope.results)
@@ -508,34 +520,49 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	                  resolve([]);
 	              });
 				spinnerService.hide('resultsSpinner');
-	    		$scope.dtInstance.changeData(function() {
-	                return promise;
-	            });
-		});
+    	    	$scope.dtInstance.changeData(function() {
+    	                return promise;
+                })
+	        })
+            .catch(function(e){
+                $scope.serverErrorMsg = (e.errMessage && e.errMessage != null) ? e.errMessage : $scope.serverErrorMsg;
+                $scope.callErrorDialog();
+            });
 	};
 
 	$scope.updateResultsDecisions = function(){
 		spinnerService.show('resultsSpinner');
 		RatingService.updateModelRatingResultsStatus($scope.processIds, $scope.arrDecisions, $scope.userName)
-			.then(function(result){
-				console.log('>>>successful');
-				$scope.results = result.data;
-				$scope.diagnosticCodes = result.data.diagnosticCodes;
-				$scope.modelRatingResultsStatus = result.data.resultsStatus;
-				$scope.displayResultsRatingTable = $scope.results.modelRatingResults.length > 0;
-				$scope.cleanScopeVariables();
-				var promise = new Promise( function(resolve, reject){
-	                if ($scope.results)
-	                  resolve($scope.results.modelRatingResults);
-	                else
-	                  resolve([]);
-	              });
-				spinnerService.hide('resultsSpinner');
-	    		$scope.dtInstance.changeData(function() {
-	                return promise;
-	            });
-		});
+            .then(function(result){
+                console.log('>>>successful');
+                $scope.results = result.data;
+                $scope.diagnosticCodes = result.data.diagnosticCodes;
+                $scope.modelRatingResultsStatus = result.data.resultsStatus;
+                $scope.displayResultsRatingTable = $scope.results.modelRatingResults.length > 0;
+                $scope.cleanScopeVariables();
+                var promise = new Promise( function(resolve, reject){
+                if ($scope.results)
+                  resolve($scope.results.modelRatingResults);
+                else
+                  resolve([]);
+                });
+                spinnerService.hide('resultsSpinner');
+                $scope.dtInstance.changeData(function() {
+                    return promise;
+                })
+	       })
+           .catch(function(e){
+                $scope.serverErrorMsg = (e.errMessage && e.errMessage != null) ? e.errMessage : $scope.serverErrorMsg;
+                $scope.callErrorDialog();
+            }); 
 	};
+
+    $scope.callErrorDialog = function (size) {
+            $scope.modal.instance = $modal.open({
+            template: '<error-dialog modal="modal" bold-text-title="Error:" text-alert="'+ $scope.serverErrorMsg + '" mode="danger"></error-dialog>',
+            scope: $scope,
+        });
+    };
 
 	$scope.cleanScopeVariables = function(){
 		$scope.updateDecisions = {};
@@ -567,7 +594,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
    			          "modelType": ele.modelType
    			        }
    			      ]
-   			    }
+   			}
 			inputObj.push(obj);
 		});
 		$scope.results = [];
