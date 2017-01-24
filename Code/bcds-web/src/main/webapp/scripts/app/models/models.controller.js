@@ -5,6 +5,7 @@ angular.module('bcdssApp').controller('ModelsController', function($rootScope, $
 														$stateParams, ModelService, $timeout, spinnerService) {
 
 	$scope.results = [];
+	$scope.serverErrorMsg = "Something went wrong! Please contact the site administrator."
 	$scope.userName = Auth.getCurrentUser();
 	$scope.modelRatingResultsStatus = [];
 	$scope.resultDetailsData = [];
@@ -12,6 +13,9 @@ angular.module('bcdssApp').controller('ModelsController', function($rootScope, $
 	$scope.displayModelPatternTable = false;
 	$scope.onlyNumbers = /^\d+$/;
 	$scope.displayInsertStatus = false;
+	$scope.modal = {
+      instance: null
+    };
 
 	$scope.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
    	 return new Promise( function(resolve, reject){
@@ -112,7 +116,11 @@ angular.module('bcdssApp').controller('ModelsController', function($rootScope, $
 	    		$scope.dtInstance.changeData(function() {
 	                return promise;
 	            });
-		});
+			})
+			.catch(function(e){
+                $scope.serverErrorMsg = (e.errMessage && e.errMessage != null) ? e.errMessage : $scope.serverErrorMsg;
+                $scope.callErrorDialog();
+        	});
     };
 
     $scope.createPatternCdd = function(event){
@@ -143,6 +151,17 @@ angular.module('bcdssApp').controller('ModelsController', function($rootScope, $
 			       }, 3000);
 	                return promise;
 	            });
-		});
+			})
+			.catch(function(e){
+                $scope.serverErrorMsg = (e.errMessage && e.errMessage != null) ? e.errMessage : $scope.serverErrorMsg;
+                $scope.callErrorDialog();
+        	});
+    };
+
+    $scope.callErrorDialog = function (size) {
+            $scope.modal.instance = $modal.open({
+            template: '<error-dialog modal="modal" bold-text-title="Error:" text-alert="'+ $scope.serverErrorMsg + '" mode="danger"></error-dialog>',
+            scope: $scope,
+        });
     };
 });

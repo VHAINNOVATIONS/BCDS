@@ -1,6 +1,5 @@
 <div ng-controller="ClaimsController">
 	<div class="row">
-		<spinner name="claimsSpinner" img-src="./assets/images/spinner.gif" on-loaded="loadClaims()"></spinner>
 		<div class="col-md-12">
 			<table id="claimsGrid" datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstanceCallback" 
 			class="table table-striped table-bordered compact row-border hover"></table>
@@ -56,14 +55,14 @@
 								<br/>
 								<div class="row" style="margin-bottom:10px">
 									<div class="col-md-6">
-										<button type="button" class="btn btn-primary pull-right" ng-click="clear()" style="width:150px" 
-										data-dismiss="modal">
-											<span>Cancel</span>
+										<button type="button" ng-disabled="frmAdvancedFilter.$invalid" class="btn btn-primary pull-right" style="width:150px" data-dismiss="modal" ng-click="advanceFilterSearch()">
+											<span>Filter</span>
 										</button>
 									</div>
 									<div class="col-md-6">
-										<button type="button" ng-disabled="frmAdvancedFilter.$invalid" class="btn btn-primary" style="width:150px" data-dismiss="modal" ng-click="advanceFilterSearch()">
-											<span>Filter</span>
+										<button type="button" class="btn btn-primary" ng-click="clear()" style="width:150px" 
+										data-dismiss="modal">
+											<span>Cancel</span>
 										</button>
 									</div>
 								</div>
@@ -74,7 +73,9 @@
 			</div>
 		</div>
 	</div>
-	
+	<div>
+		<p><spinner name="claimsSpinner" img-src="./assets/images/spinner.gif" on-loaded="loadClaims()"></spinner></p>
+	</div>	
 	<div class="modal fade" id="serviceErrorDialog">
 		<div class="modal-dialog">
 			<div class="modal-content">
