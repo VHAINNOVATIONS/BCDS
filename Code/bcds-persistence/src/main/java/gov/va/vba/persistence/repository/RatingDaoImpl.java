@@ -206,15 +206,17 @@ public class RatingDaoImpl implements RatingDao {
         if(MapUtils.isNotEmpty(contentionsCount)) {
             query.append(" AND (");
             for (Map.Entry<Long, Long> contention : contentionsCount.entrySet()) {
-                query.append(" AND (").append("C.CNTNT_CD=").append(contention.getKey()).append(" AND C.COUNT=").append(contention.getValue()).append(")");
+                query.append("(").append("C.CNTNT_CD=").append(contention.getKey()).append(" AND C.COUNT=").append(contention.getValue()).append(") AND ");
             }
+            query.replace(query.length()-4, query.length(), " ");
             query.append(")");
         }
         if(CollectionUtils.isNotEmpty(diagnosisCount)) {
             query.append(" AND (");
             for (DiagnosisCount diagnosis : diagnosisCount) {
-                query.append(" AND (").append("D.DIAG_CD=").append(diagnosis.getDecisionCode()).append(" AND D.COUNT=").append(diagnosis.getCount()).append(")");
+                query.append("(").append("D.DIAG_CD=").append(diagnosis.getDecisionCode()).append(" AND D.COUNT=").append(diagnosis.getCount()).append(") AND ");
             }
+            query.replace(query.length()-4, query.length(), " ");
             query.append(")");
         }
 
