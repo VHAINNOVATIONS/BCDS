@@ -49,13 +49,13 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
            // Recompiling so we can bind Angular directive to the DT
        $compile(angular.element(row).contents())($scope);
    }) 	
-   .withOption('scrollX', true)
    .withOption('processing', true)
    .withBootstrap()
    .withOption('bLengthChange', false)
    .withDOM('Bfrtip')
-   .withOption('pageLength', 5)
-   .withOption('responsive', true)
+   .withOption('pageLength', 7)
+   //.withOption('responsive', true)
+   .withOption('ordering', false)
    .withButtons([
             {
                 extend: 'pdf',

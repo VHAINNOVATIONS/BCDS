@@ -156,8 +156,8 @@ ul.multiselect li.select-highlight-blur {
     margin-right: 0px; 
     border-bottom: none;
     border-right: 0px;
-    background-color: #f1f1f1;;
-    height: 86vh;
+    background-color: #f1f1f1;
+    height: 80vh;
  }
 
 .sidemenu{
@@ -199,13 +199,18 @@ ul.multiselect li.select-highlight-blur {
     color: black;
 }
 
-@media (max-width: 1365px) {
-    .navbar-custom{ {
-       height: 86vh;
+@media (max-width: 768px) {
+    .navbar-custom{
+        height: 86vh;
     }
 
     .dashboard{
         padding-top:5px;
         padding-left: 2%;
     }
+}
+
+div.dataTables_wrapper {
+        width: 100%;
+        overflow-x: auto;
 }
