@@ -59,13 +59,13 @@ angular.module('bcdssApp').controller('ModelsController', function($rootScope, $
         $scope.frmEditCDD.$invalid = false;
 
         if($scope.Cdd > 100){
-        	$scope.errMessageModal = 'Cdd value must be less than 100.';
+        	$scope.errMessageModal = 'CDD value must be less than 100.';
           	$scope.frmEditCDD.$invalid = true;
           	return false;
         }
 
         if(!($scope.Cdd % 10) == 0 || $scope.Cdd == null || $scope.Cdd.length == 0){
-        	$scope.errMessageModal = 'Cdd value must be in the multiple of 10.';
+        	$scope.errMessageModal = 'CDD value must be in the multiple of 10.';
           	$scope.frmEditCDD.$invalid = true;
           	return false;
         }
