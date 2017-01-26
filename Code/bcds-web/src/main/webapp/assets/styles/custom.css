@@ -210,7 +210,9 @@ ul.multiselect li.select-highlight-blur {
     }
 }
 
-div.dataTables_wrapper {
-        width: 100%;
-        overflow-x: auto;
+@media (max-width: 768px) {
+    div.dataTables_wrapper {
+            width: 100%;
+            overflow-x: auto;
+    }
 }
