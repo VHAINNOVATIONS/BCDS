@@ -3,7 +3,7 @@
 angular.module('bcdssApp').directive('errorDialog', function($log) {
    return {
         restrict: 'E',
-        templateUrl: '/scripts/app/customized/customDirectives/customError.html',
+        templateUrl: './scripts/app/customized/customDirectives/customError.html',
          scope: {
           modal: '=',
           mode: '@',
