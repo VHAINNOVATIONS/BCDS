@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('bcdssApp').controller('ResultsController', function($rootScope, $scope, $state, Account, Auth,
-														$q, $filter, DTOptionsBuilder, DTColumnBuilder, $compile, 	
+														$q, $filter, DTOptionsBuilder, DTColumnBuilder, $compile, $modal,	
 														$stateParams, ClaimService, RatingService, spinnerService) {
 	
 	$scope.userName = Auth.getCurrentUser();
@@ -290,7 +290,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
         }
 
         if(new Date(startDate) > new Date(endDate)){
-          $scope.errMessage = 'To date should be greater than from date.';
+          $scope.errMessage = 'Date to should be greater than date from.';
           $scope.frmResultsSearchFilter.$invalid = true;
           return false;
         }
@@ -366,6 +366,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
             .catch(function(e){
                 $scope.serverErrorMsg = (e.errMessage && e.errMessage != null) ? e.errMessage : $scope.serverErrorMsg;
                 $scope.callErrorDialog();
+                spinnerService.hide('resultsSpinner');
             });
     };
 	
@@ -527,6 +528,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
             .catch(function(e){
                 $scope.serverErrorMsg = (e.errMessage && e.errMessage != null) ? e.errMessage : $scope.serverErrorMsg;
                 $scope.callErrorDialog();
+                spinnerService.hide('resultsSpinner');
             });
 	};
 
@@ -554,6 +556,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
            .catch(function(e){
                 $scope.serverErrorMsg = (e.errMessage && e.errMessage != null) ? e.errMessage : $scope.serverErrorMsg;
                 $scope.callErrorDialog();
+                spinnerService.hide('resultsSpinner');
             }); 
 	};
 

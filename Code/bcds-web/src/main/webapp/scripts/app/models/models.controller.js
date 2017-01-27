@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('bcdssApp').controller('ModelsController', function($rootScope, $scope, $state, Account, Auth,
-														$q, $filter, DTOptionsBuilder, DTColumnBuilder, $compile, 	
+														$q, $filter, DTOptionsBuilder, DTColumnBuilder, $compile, $modal,	
 														$stateParams, ModelService, $timeout, spinnerService) {
 
 	$scope.results = [];
@@ -120,6 +120,7 @@ angular.module('bcdssApp').controller('ModelsController', function($rootScope, $
 			.catch(function(e){
                 $scope.serverErrorMsg = (e.errMessage && e.errMessage != null) ? e.errMessage : $scope.serverErrorMsg;
                 $scope.callErrorDialog();
+                spinnerService.hide('modelCddSpinner');
         	});
     };
 

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('bcdssApp').controller('ReportsController', function($rootScope, $scope, $state, Account,
-														$q, $filter, DTOptionsBuilder, DTColumnBuilder, $compile, 	
+														$q, $filter, DTOptionsBuilder, DTColumnBuilder, $compile, $modal,	
 														$stateParams, ClaimService, RatingService, spinnerService) {
 	
 	$scope.results = [];
@@ -219,9 +219,9 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
         }
 
          if(new Date(startDate) > new Date(endDate)){
-          $scope.errMessage = 'To date should be greater than from date.';
-          $scope.frmReportsSearchFilter.$invalid = true;
-          return false;
+         	$scope.errMessage = 'Date to should be greater than date from.';
+          	$scope.frmReportsSearchFilter.$invalid = true;
+          	return false;
         }
 
         if(startDate != null && endDate != null){
@@ -229,8 +229,11 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
             var hours = minutes*60;
             var days = hours*24;
 	        var diffDays = Math.round((new Date(endDate) - new Date(startDate))/days);
-			
-			if(diffDays > 365){
+			var isDateLeapYear = $scope.isLeapYear(startDate) || $scope.isLeapYear(endDate);
+			console.log("isLeapYear:" + isDateLeapYear);
+			var totalDays = isDateLeapYear ? 366 : 365;
+
+			if(diffDays > totalDays) {
 				$scope.errMessage = 'Max date range can only be one year.';
 	        	$scope.frmReportsSearchFilter.$invalid = true;
 	        	return false;
@@ -238,7 +241,12 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 		}
     };
 
-     $scope.isValidDate = function(date){
+    $scope.isLeapYear = function(date) {
+    	var y = (date && date !=null) ? date.getFullYear() : null; 
+    	return ((y % 4 == 0) && (y % 100 != 0)) || (y % 400 == 0);
+    };
+
+    $scope.isValidDate = function(date){
         return (date > $scope.minDefaultDate && date < $scope.maxDefaultDate);  
     };
 
@@ -350,6 +358,7 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 			.catch(function(e){
                 $scope.serverErrorMsg = (e.errMessage && e.errMessage != null) ? e.errMessage : $scope.serverErrorMsg;
                 $scope.callErrorDialog();
+                spinnerService.hide('reportsSpinner');
         	});
     };
 
