@@ -18,10 +18,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Types;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 /**
  * Created by ProSphere User on 12/16/2016.
@@ -142,7 +144,7 @@ public class RatingDaoImpl implements RatingDao {
     }
 
     @Override
-    public int getClaimaintAge(long veteranId, long claimId) {
+	public int getClaimaintAge(long veteranId, long claimId) {
         Integer count = jdbcTemplate.queryForObject(QueryConstants.CLAIMANT_AGE_QUERY, new Object[]{veteranId, claimId}, Integer.class);
         LOG.info("****************************************************************");
         LOG.info("CLAIMANT AGE ::::::: {} ", count);
@@ -236,6 +238,61 @@ public class RatingDaoImpl implements RatingDao {
         LOG.info("****************************************************************");
         return claims;
     }
-
-
+    
+    @Override
+    public Long getClaimCountToProcess(Date fromDate, Date toDate, String modelType, Long regionalOfficeNumber) {
+    	String formatFromDate="";
+    	String formatToDate="";
+    	if(fromDate != null && toDate != null){
+    		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+    		formatFromDate= sdf.format(fromDate);
+            formatToDate= sdf.format(toDate);
+    	}
+    	
+    	String SQL = "SELECT COUNT (*) CNT FROM BCDSS.AH4929_RATING_CORP_CLAIM C, BCDSS.AH4929_PERSON P, BCDSS.DDM_CNTNT D WHERE C.PTCPNT_VET_ID = P.PTCPNT_VET_ID " +
+                " AND CNTNTN_CLSFCN_ID in ('230','270','2200','2210','3140','3150','3690','3700','3710','3720','3730','3780','3790','3800','4130','4210','4700','4920','5000','5010','5710','6850','8919') " +
+                " AND D.MODEL_TYPE in (select D.MODEL_TYPE from BCDSS.DDM_CNTNT WHERE D.CNTNT_CD = C.CNTNTN_CLSFCN_ID) ";
+    	
+    	if (fromDate != null) {
+    		SQL += " AND c.DATE_OF_CLAIM >= TO_DATE('"+formatFromDate+"','yyyy-MM-dd')";
+    	}
+    	if (toDate != null) {
+    		SQL +=  " AND c.DATE_OF_CLAIM <= TO_DATE('"+formatToDate+"','yyyy-MM-dd')";
+    	}
+    	if (regionalOfficeNumber != 0) {
+    		SQL += " AND c.CLAIM_RO_NUMBER = " + regionalOfficeNumber;
+    	}
+    	if (modelType != null && modelType != "") {
+    		SQL += " AND LOWER(D.MODEL_TYPE) like '%"+modelType.toLowerCase()+"%'";
+    	}
+    		
+    	LOG.info("Bulk Claims Query -------- " + SQL);
+	    Long claimCount = jdbcTemplate.queryForObject(SQL, new LongRowMapper());
+        LOG.info("****************************************************************");
+        LOG.info("CLAIMS COUNT ::::::: {} ", claimCount);
+        LOG.info("****************************************************************");
+        return claimCount;
+    }
+    
+    public int saveBulkProcessRequest(Date fromDate, Date toDate, String modelType, Long regionalOfficeNumber, String userId, Long recordCount) {
+    	final String insertSql = "INSERT INTO BCDSS.BULK_PROCESS_REQUEST (" +
+								 "REQUEST_DATE, FROM_DATE, TO_DATE, MODEL_TYPE, RO_NUMBER, CRTD_BY, RECORD_COUNT) values (?,?,?,?,?,?,?)";
+    	String formatFromDate="";
+    	String formatToDate="";
+    	if(fromDate != null && toDate != null){
+    		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+    		formatFromDate= sdf.format(fromDate);
+            formatToDate= sdf.format(toDate);
+    	}
+    	LOG.info("Save Bulk Claims Params Query -------- " + insertSql);
+    	Object[] params = new Object[] { new Date(), formatFromDate, formatToDate, modelType, regionalOfficeNumber, userId, recordCount };
+    	int[] types = new int[] { Types.DATE, Types.DATE, Types.DATE, Types.VARCHAR, Types.NUMERIC, Types.VARCHAR, Types.NUMERIC };
+        int row = jdbcTemplate.update(insertSql, params, types);
+        LOG.info("****************************************************************");
+        LOG.info("BULK PROCESS CLAIMS REQUEST PARAMS SAVED ::::::: {} ", row);
+        LOG.info("****************************************************************");
+        return row;
+    }
 }

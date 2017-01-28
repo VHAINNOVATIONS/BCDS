@@ -157,6 +157,7 @@ ul.multiselect li.select-highlight-blur {
     border-bottom: none;
     border-right: 0px;
     background-color: #f1f1f1;
+    width: 11%;
     height: 80vh;
  }
 

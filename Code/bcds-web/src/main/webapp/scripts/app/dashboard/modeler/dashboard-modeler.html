@@ -12,7 +12,10 @@
 								<a href ng-click="setTab(2)"><i class="glyphicon glyphicon-book"></i> Models</a>
 							</li>
 							<li ng-class="{ active: isSet(3) }">
-								<a href ng-click="setTab(3)"><i class="glyphicon glyphicon-list-alt"></i> Report</a>
+								<a href ng-click="setTab(3)"><i class="glyphicon glyphicon-tasks"></i> Bulk Process</a>
+							</li>
+							<li ng-class="{ active: isSet(4) }">
+								<a href ng-click="setTab(4)"><i class="glyphicon glyphicon-list-alt"></i> Report</a>
 							</li>
 						 </ul>
 			    	</div>
@@ -55,6 +58,16 @@
 				</div>
 			</div>
 			<div ng-show="isSet(3)">
+				<div class="row">
+					<div align="center" class="panel-body">
+						<div class="title pull-left">
+							<h4>Bulk Process</h4>
+						</div>
+						<div ng-include="'scripts/app/misc/bulkprocess.html'"></div>
+					</div>
+				</div>
+			</div>
+			<div ng-show="isSet(4)">
 				<div class="row">
 					<div align="center" class="panel-body">
 						<div class="title pull-left">

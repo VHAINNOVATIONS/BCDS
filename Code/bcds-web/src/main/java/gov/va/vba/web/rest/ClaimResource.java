@@ -17,6 +17,7 @@ import gov.va.vba.bcdss.models.GetProcessClaimResponse;
 import gov.va.vba.bcdss.models.Rating;
 import gov.va.vba.bcdss.models.VeteranClaimRating;
 import gov.va.vba.web.rest.dto.ClaimDTO;
+import gov.va.vba.web.rest.dto.BulkProcessClaimDTO;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 import com.codahale.metrics.annotation.Timed;
 
 import gov.va.vba.domain.Claim;
+import gov.va.vba.domain.ServerRequestStatus;
 import gov.va.vba.service.data.ClaimDataService;
 
 @RestController
@@ -98,5 +100,16 @@ public class ClaimResource {
         LOGGER.debug("REST request to get Aggregated contentions");
         return claimDataService.calculateContentions(claimId, veteranId);
     }
-
+    
+    @RequestMapping(value = "/claims/bulkprocess", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+	public ServerRequestStatus prepareBulkProcessClaims(@RequestBody BulkProcessClaimDTO claim) {
+        LOGGER.debug("REST request to prepare/save bulk process params");
+        if(!claim.getSaveParams()) { 
+        	return (claimDataService.prepareBulkProcessClaims(claim.getFromDate(), claim.getToDate(), claim.getModelType(), claim.getRegionalOfficeNumber()));
+        }
+        else {
+        	return claimDataService.saveBulkProcessParams(claim.getFromDate(), claim.getToDate(), claim.getModelType(), claim.getRegionalOfficeNumber(), claim.getRecordCount(), claim.getUserId());
+        }
+    }
 }
