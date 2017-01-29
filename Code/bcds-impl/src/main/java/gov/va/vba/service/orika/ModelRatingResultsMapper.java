@@ -56,6 +56,7 @@ public class ModelRatingResultsMapper {
         mapperFactory.classMap(gov.va.vba.persistence.entity.ModelRatingResultsStatus.class, ModelRatingResultsStatus.class)
 		        .field("id.processId", "processId")
 		        .field("id.processStatus", "processStatus")
+		        .field("crtdBy", "createdBy")
 				.register();
         mapperFactory.classMap(gov.va.vba.persistence.entity.DDMModelPatternIndex.class, ModelRatingPattern.class)
 		        .field("patternId", "patternIndex.patternId")

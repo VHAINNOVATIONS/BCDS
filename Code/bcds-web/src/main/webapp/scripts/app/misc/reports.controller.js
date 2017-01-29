@@ -51,7 +51,6 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
    }) 	
    .withOption('processing', true)
    .withBootstrap()
-   .withOption('bLengthChange', false)
    .withDOM('Bfrtip')
    .withOption('pageLength', 7)
    //.withOption('responsive', true)
@@ -75,11 +74,12 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
     ]);
 
     $scope.dtDetailsColumns = [
-		//DTColumnBuilder.newColumn('userId').withTitle('User Id').notSortable(),
-		DTColumnBuilder.newColumn('processDate').withTitle('Session Date').notSortable().renderWith(function(data, type, full) {
+		DTColumnBuilder.newColumn('userId').withTitle('User Id').notSortable().renderWith(function(data, type, full) {
+          return "<div>"+$scope.getModelRatingResultStatusUserId(full.processId)+"</div>"
+    }),
+		DTColumnBuilder.newColumn('processDate').withTitle('Session Date').withOption('width', '290px').notSortable().renderWith(function(data, type, full) {
 	        return "<div>" +$scope.formatDate(data)+ "</div>"
 	    }),
-	    DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran Id').notSortable(),
 	    DTColumnBuilder.newColumn('processId').withTitle('Model Result Id').notSortable(),
 	    DTColumnBuilder.newColumn('claimId').withTitle('Claim Id').notSortable(),
 	    DTColumnBuilder.newColumn('claimDate').withTitle('Date Of Claim').notSortable().renderWith(function(data, type, full) {
@@ -88,7 +88,7 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 	    DTColumnBuilder.newColumn('modelType').withTitle('Model').notSortable(),
 	    DTColumnBuilder.newColumn('modelType').withTitle('Contention').notSortable(),
 	    DTColumnBuilder.newColumn(null).withTitle('Prior Relevant Diagonostic Codes').notSortable().renderWith(function(data, type, full) {
-	            return "<div>"+$scope.getDiagonosticCodesByProcessId(full.processId)+"</div>"
+	        return "<div>"+$scope.getDiagonosticCodesByProcessId(full.processId)+"</div>"
 	    }),
 	    DTColumnBuilder.newColumn('priorCDD').withTitle('Prior Rating').notSortable(),
 	    DTColumnBuilder.newColumn('cddage').withTitle('Prior Rating Age (Yr)').notSortable(),
@@ -96,7 +96,7 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 	    DTColumnBuilder.newColumn('patternIndex.cdd').withTitle('Actual Target Claim Rating').notSortable(),
 	    DTColumnBuilder.newColumn('patternIndex.patternIndexNumber').withTitle('Pattern Rate of Use').notSortable(),
 	    DTColumnBuilder.newColumn('patternIndex.accuracy').withTitle('Pattern Accuracy Rate').notSortable().renderWith(function(data, type, full) {
-	            return "<div>"+Math.round(data)+"%</div>"
+	        return "<div>"+Math.round(data)+"%</div>"
 	    }),
 	    DTColumnBuilder.newColumn(null).withTitle('Agree/Disagree').notSortable().renderWith(function(data, type, full) {
 	        return "<div>"+$scope.getModelRatingResultStatusByProcessId(full.processId)+"</div>"
@@ -186,6 +186,15 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 
 	     return '';
 	};
+
+  $scope.getModelRatingResultStatusUserId = function(processId){
+     var status = $filter('filter')($scope.modelRatingResultsStatus, {processId: processId}, true);
+       if (status && status.length) {
+        return status[0].createdBy;
+       }
+
+       return '';
+  };
 
 	$scope.formatDate = function(date) {
         var date = new Date(date);

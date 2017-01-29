@@ -40,4 +40,8 @@ public interface RatingDao {
     ContentionDetails getContention(long contentionCode);
 
     List<ClaimDetails> getClaimsByAllFilters(String contentionType, Long regionalOfficeNumber, Date fromDate, Date toDate);
+    
+    Long getClaimCountToProcess(Date fromDate, Date toDate, String modelType, Long regionalOffice);
+    
+    int saveBulkProcessRequest(Date fromDate, Date toDate, String modelType, Long regionalOffice, String userId, Long recordCount);
 }

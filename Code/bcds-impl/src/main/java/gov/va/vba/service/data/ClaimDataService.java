@@ -6,6 +6,7 @@ import gov.va.vba.bcdss.models.RatingDecisions;
 import gov.va.vba.bcdss.models.VeteranClaim;
 import gov.va.vba.bcdss.models.VeteranClaimRating;
 import gov.va.vba.domain.Claim;
+import gov.va.vba.domain.ServerRequestStatus;
 import gov.va.vba.persistence.common.ModelType;
 import gov.va.vba.persistence.entity.DDMModelPattern;
 import gov.va.vba.persistence.entity.DDMModelPatternIndex;
@@ -18,6 +19,7 @@ import gov.va.vba.persistence.entity.ModelRatingResultsStatus;
 import gov.va.vba.persistence.entity.ModelRatingResultsStatusId;
 import gov.va.vba.persistence.entity.RatingDecision;
 import gov.va.vba.persistence.entity.Veteran;
+import gov.va.vba.persistence.entity.BulkProcessRequest;
 import gov.va.vba.persistence.models.data.ClaimDetails;
 import gov.va.vba.persistence.models.data.ContentionDetails;
 import gov.va.vba.persistence.models.data.DecisionDetails;
@@ -36,6 +38,7 @@ import gov.va.vba.service.AppUtill;
 import gov.va.vba.service.EarService;
 import gov.va.vba.service.KneeService;
 import gov.va.vba.service.orika.ClaimMapper;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.slf4j.Logger;
@@ -68,7 +71,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
 
     @Autowired
     private ClaimRepository claimRepository;
-
+    
     @Autowired
     private RatingDecisionRepository ratingDecisionRepository;
 
@@ -447,5 +450,45 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
             claims.add(c);
         }
         return claims;
+    }
+    
+    public ServerRequestStatus prepareBulkProcessClaims( Date fromDate, Date toDate, String modelType, Long regionalOffice) {
+        LOG.debug("REST request to prepare bulk process claims");
+        Long claimCountToProcess = ratingDao.getClaimCountToProcess(fromDate, toDate, modelType, regionalOffice);
+        LOG.info("claimCountToProcess :::: " + claimCountToProcess);
+        ServerRequestStatus requestStatus = new ServerRequestStatus();
+        if(claimCountToProcess >= 0){
+        	requestStatus.setStatus("success");
+        	requestStatus.setRecordCount(claimCountToProcess);
+        }else{
+        	requestStatus.setStatus("failed");;
+        	requestStatus.setReason("Could not extract count to process.");
+        	requestStatus.setError("please check with your admininstrator.");
+        }
+        return requestStatus;
+    }
+    
+    public ServerRequestStatus saveBulkProcessParams( Date fromDate, Date toDate, String modelType, Long regionalOffice, Long count, String userId) {
+    	ServerRequestStatus requestStatus = new ServerRequestStatus();
+    	try{
+	        LOG.debug("REST request to save bulk process params");
+	        int requestSaved = ratingDao.saveBulkProcessRequest(fromDate, toDate, modelType, regionalOffice, userId, count);
+	        LOG.info("SAVED BULK PROCESS CLAIM REQUEST SUCCESSFULLY");
+	        if(requestSaved == 1){
+	        	requestStatus.setStatus("success");
+	        }else{
+	        	requestStatus.setStatus("failed");;
+	        	requestStatus.setReason("insert failed.");
+	        	requestStatus.setError("please check with your admininstrator.");
+	        }
+	        
+	        return requestStatus;
+    	}
+    	catch(Exception e){
+    		requestStatus.setStatus("failed");;
+        	requestStatus.setReason(e.getMessage());
+        	requestStatus.setError(e.getStackTrace().toString());
+    		return requestStatus;
+    	}
     }
 }

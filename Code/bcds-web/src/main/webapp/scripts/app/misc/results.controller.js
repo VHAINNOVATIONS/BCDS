@@ -77,7 +77,6 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	          });
 	   })
 	 	.withBootstrap()
-	 	.withOption('bLengthChange', false)
 	 	.withOption('processing', true)
 	 	.withOption('pageLength', 5)
 	 	//.withOption('responsive', true)
@@ -124,9 +123,8 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
    })
    .withOption('paging', false)
    .withOption('info', false)
-   .withOption('bLengthChange', false)
    .withBootstrap()
-   .withOption('responsive', true)
+   //.withOption('responsive', true)
    .withOption('rowCallback', rowCallback);
     
     /*These are changes for version 3.0*/
@@ -191,7 +189,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
     				$scope.claimCount = $scope.resultDetailsData[0].claimCount;
     				$scope.modelRatingDiagonosticCodes = $scope.getDiagonosticCodesByProcessId($scope.resultDetailsData[0].processId);
     				$scope.modelRatingStatus = $scope.getModelRatingResultStatusByProcessId($scope.resultDetailsData[0].processId);
-    				$scope.processedClaimsUserName =  $scope.userName;//$scope.resultDetailsData[0].userId;
+    				$scope.processedClaimsUserName =  $scope.getModelRatingResultUserId($scope.resultDetailsData[0].processId);
                 }
                 else
                   resolve([]);
@@ -238,6 +236,15 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 
 	     return '';
 	};
+
+    $scope.getModelRatingResultUserId = function(processId){
+         var status = $filter('filter')($scope.modelRatingResultsStatus, {processId: processId}, true);
+         if (status && status.length) {
+            return status[0].createdBy;
+         }
+
+         return '';
+    };
 
 	$scope.modelTypeOptions = [
 		{ value:'knee',	label:'Knee'},
