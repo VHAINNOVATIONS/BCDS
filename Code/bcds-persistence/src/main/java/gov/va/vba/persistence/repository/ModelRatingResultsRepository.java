@@ -36,7 +36,7 @@ public interface ModelRatingResultsRepository extends JpaRepository<ModelRatingR
 	@Query(value = "SELECT r FROM ModelRatingResultsDiag r WHERE r.processId in (?1) AND r.count > 0")
 	List<ModelRatingResultsDiag> findDiagonsticCodesByProcessIds(List<Long> processIds);
 	
-	@Query(value = " select s.process_Id, s.process_status from BCDSS.MODEL_RATING_RESULTS_STATUS s inner join (select process_Id, max(crtd_dtm) as crtd_dtm from BCDSS.MODEL_RATING_RESULTS_STATUS where process_id in (?1) group by process_id ) r on s.process_Id = r.process_id and s.crtd_dtm = r.crtd_dtm where s.process_Id in (?1) order by s.process_Id", nativeQuery = true)
+	@Query(value = "select s.process_Id, s.process_status, s.crtd_By from BCDSS.MODEL_RATING_RESULTS_STATUS s inner join (select process_Id, max(crtd_dtm) as crtd_dtm from BCDSS.MODEL_RATING_RESULTS_STATUS where process_id in (?1) group by process_id ) r on s.process_Id = r.process_id and s.crtd_dtm = r.crtd_dtm where s.process_Id in (?1) order by s.process_Id", nativeQuery = true)
 	List<ModelRatingResultsStatus> findModelRatingResultStatusByProcessIds(List<Long> processIds);
 	
 	@Modifying

@@ -96,9 +96,11 @@ public class ModelRatingResultsDataService extends AbsDataService<gov.va.vba.per
 		   Object[] obj = (Object[]) itr.next();
 		   String processStatus = (String.valueOf(obj[1]) == null) ? null : String.valueOf(obj[1]) ;
 		   Long processId = (String.valueOf(obj[0]) == null) ? 0 : Long.parseLong(String.valueOf(obj[0]));
+		   String createdBy = (String.valueOf(obj[2]) == null) ? null : String.valueOf(obj[2]) ;
 		   ModelRatingResultsStatus status = new ModelRatingResultsStatus();
 		   status.setProcessId(processId);
 		   status.setProcessStatus(processStatus);
+		   status.setCreatedBy(createdBy);
 		   resultsStatus.add(status);
 		}
 
