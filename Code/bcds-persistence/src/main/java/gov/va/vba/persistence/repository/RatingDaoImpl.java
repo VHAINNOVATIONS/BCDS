@@ -280,12 +280,25 @@ public class RatingDaoImpl implements RatingDao {
 								 "REQUEST_DATE, FROM_DATE, TO_DATE, MODEL_TYPE, RO_NUMBER, CRTD_BY, RECORD_COUNT) values (?,?,?,?,?,?,?)";
     	String formatFromDate="";
     	String formatToDate="";
+    	
     	if(fromDate != null && toDate != null){
     		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
     		formatFromDate= sdf.format(fromDate);
             formatToDate= sdf.format(toDate);
+    	}else{
+    		formatFromDate = null;
+    		formatToDate = null;
     	}
+    	
+    	if (modelType == null || modelType == "") {
+    		modelType = null;
+    	}
+    	
+    	if (regionalOfficeNumber == 0) {
+    		regionalOfficeNumber = null;
+    	}
+    	
     	LOG.info("Save Bulk Claims Params Query -------- " + insertSql);
     	Object[] params = new Object[] { new Date(), formatFromDate, formatToDate, modelType, regionalOfficeNumber, userId, recordCount };
     	int[] types = new int[] { Types.DATE, Types.DATE, Types.DATE, Types.VARCHAR, Types.NUMERIC, Types.VARCHAR, Types.NUMERIC };
