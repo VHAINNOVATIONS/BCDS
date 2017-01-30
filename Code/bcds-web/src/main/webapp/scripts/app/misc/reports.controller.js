@@ -86,8 +86,8 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 	        return "<div>" +$scope.formatDate(data)+ "</div>"
 	    }),
 	    DTColumnBuilder.newColumn('modelType').withTitle('Model').notSortable(),
-	    DTColumnBuilder.newColumn('modelType').withTitle('Contention').notSortable(),
-	    DTColumnBuilder.newColumn(null).withTitle('Prior Relevant Diagonostic Codes').notSortable().renderWith(function(data, type, full) {
+	    DTColumnBuilder.newColumn('claim.contentionClaimTextKeyForModel').withOption('width', '110px').withTitle('Contention').notSortable(),
+	    DTColumnBuilder.newColumn(null).withOption('width', '40px').withTitle('Prior Relevant Diagonostic Codes').notSortable().renderWith(function(data, type, full) {
 	        return "<div>"+$scope.getDiagonosticCodesByProcessId(full.processId)+"</div>"
 	    }),
 	    DTColumnBuilder.newColumn('priorCDD').withTitle('Prior Rating').notSortable(),
