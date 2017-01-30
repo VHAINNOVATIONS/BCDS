@@ -79,7 +79,8 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	 	.withBootstrap()
 	 	.withOption('processing', true)
 	 	.withOption('pageLength', 5)
-	 	//.withOption('responsive', true)
+        .withOption('bAutoWidth', false)
+        .withOption('bLengthChange', false)
 	   	.withOption('createdRow', function(row, data, dataIndex) {
 	    	// Recompiling so we can bind Angular directive to the DT        
 	    	$compile(angular.element(row).contents())($scope);
@@ -115,34 +116,35 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
             else
               resolve([]);
           });
-   })
-   .withOption('filter', false)
-   .withOption('createdRow', function(row, data, dataIndex) {
+    })
+    .withOption('filter', false)
+    .withOption('createdRow', function(row, data, dataIndex) {
            // Recompiling so we can bind Angular directive to the DT
        $compile(angular.element(row).contents())($scope);
-   })
-   .withOption('paging', false)
-   .withOption('info', false)
-   .withBootstrap()
+    })
+    .withOption('paging', false)
+    .withOption('info', false)
+    .withBootstrap()
    //.withOption('responsive', true)
-   .withOption('rowCallback', rowCallback);
+    .withOption('bAutoWidth', false)
+    .withOption('rowCallback', rowCallback);
     
     /*These are changes for version 3.0*/
     $scope.dtDetailsColumns = [
-		DTColumnBuilder.newColumn(null).withTitle('User Id').notSortable().renderWith(function(data, type, full) {
+		DTColumnBuilder.newColumn(null).withOption('width', '50px').withTitle('User Id').notSortable().renderWith(function(data, type, full) {
 	            return "<div>"+$scope.processedClaimsUserName+"</div>"
 	    }),
-		DTColumnBuilder.newColumn('processDate').withTitle('Session Date').notSortable().renderWith(function(data, type, full) {
+		DTColumnBuilder.newColumn('processDate').withOption('width', '60px').withTitle('Session Date').notSortable().renderWith(function(data, type, full) {
             return "<div>{{" + data +"| date:'yyyy-MM-dd'}} </div>"
         }),
-	    DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran Id').notSortable(),
-	    DTColumnBuilder.newColumn('processId').withTitle('Model Result Id').notSortable(),
-	    DTColumnBuilder.newColumn('claimId').withTitle('Claim Id').notSortable(),
-	    DTColumnBuilder.newColumn('claimDate').withTitle('Date Of Claim').notSortable().renderWith(function(data, type, full) {
+	    DTColumnBuilder.newColumn('veteran.veteranId').withOption('width', '55px').withTitle('Veteran Id').notSortable(),
+	    DTColumnBuilder.newColumn('processId').withOption('width', '60px').withTitle('Model Result Id').notSortable(),
+	    DTColumnBuilder.newColumn('claimId').withOption('width', '55px').withTitle('Claim Id').notSortable(),
+	    DTColumnBuilder.newColumn('claimDate').withOption('width', '60px').withTitle('Date Of Claim').notSortable().renderWith(function(data, type, full) {
             return "<div>{{" + data +"| date:'yyyy-MM-dd'}} </div>"
         }),
 	    DTColumnBuilder.newColumn('modelType').withTitle('Model').notSortable(),
-	    DTColumnBuilder.newColumn('claim.contentionClaimTextKeyForModel').withTitle('Contention').notSortable(),
+	    DTColumnBuilder.newColumn('claim.contentionClaimTextKeyForModel').withOption('width', '90px').withTitle('Contention').notSortable(),
 	    DTColumnBuilder.newColumn(null).withTitle('Prior Relevant Diagonostic Codes').notSortable().renderWith(function(data, type, full) {
 	            return "<div>"+$scope.modelRatingDiagonosticCodes+"</div>"
 	    }),
@@ -267,9 +269,10 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 
 	$scope.formatDate = function(date) {
         var date = new Date(date);
+        date = new Date(date.getTime() + Math.abs(date.getTimezoneOffset()*60000));
         return date.getFullYear() + '-' +  
             ('0' + (date.getMonth()+1)).slice(-2) + '-' + 
-            ('0' + date.getDate()).slice(-2);
+            ('0' + date.getDate()).slice(-2);  
     };
     
    $scope.checkErr = function(startDate,endDate) {
@@ -285,7 +288,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
         }
 
         if(endDate != null || endDate != undefined || endDate != "") {
-            console.log('startDate-' +$scope.formatDate(endDate));
+            console.log('endDate-' +$scope.formatDate(endDate));
             isValidEndDate = $scope.isValidDate(endDate);
             console.log('isValidEndDate-' +isValidEndDate);
         }
@@ -379,15 +382,15 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	
 	/*These are changes for version 3.0*/
 	$scope.dtColumns = [
-	        DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran Id'),
-	        DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran Name').renderWith(function(data, type, full) {
+	        DTColumnBuilder.newColumn('veteran.veteranId').withOption('width', '60px').withTitle('Veteran Id'),
+	        DTColumnBuilder.newColumn('veteran.veteranId').withOption('width', '90px').withTitle('Veteran Name').renderWith(function(data, type, full) {
 	            return "<div>"+ data +"-veteran</div>"
 	        }),
-	        DTColumnBuilder.newColumn('claimId').withTitle('Claim Id'),
+	        DTColumnBuilder.newColumn('claimId').withOption('width', '60px').withTitle('Claim Id'),
 	        DTColumnBuilder.newColumn('modelType').withTitle('Model').renderWith(function(data, type, full) {
 	            return "<div>"+data+"</div>"
 	        }),
-	        DTColumnBuilder.newColumn('processId').withTitle('Model Result Id').renderWith(function(data, type, full) {
+	        DTColumnBuilder.newColumn('processId').withOption('width', '60px').withTitle('Model Result Id').renderWith(function(data, type, full) {
 	            return "<a href='#' class='clickable' style='cursor: pointer;' data-toggle='modal' data-target='gridPopUp'>" + data + "</a>"
 	        }),
 	        DTColumnBuilder.newColumn('priorCDD').withTitle('Prior Rating').renderWith(function(data, type, full) {

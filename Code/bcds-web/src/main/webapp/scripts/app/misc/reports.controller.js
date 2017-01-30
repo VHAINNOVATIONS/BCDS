@@ -53,7 +53,7 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
    .withBootstrap()
    .withDOM('Bfrtip')
    .withOption('pageLength', 7)
-   //.withOption('responsive', true)
+   .withOption('bAutoWidth', false)
    .withOption('ordering', false)
    .withButtons([
             {
@@ -74,15 +74,15 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
     ]);
 
     $scope.dtDetailsColumns = [
-		DTColumnBuilder.newColumn('userId').withTitle('User Id').notSortable().renderWith(function(data, type, full) {
+		DTColumnBuilder.newColumn('userId').withOption('width', '50px').withTitle('User Id').notSortable().renderWith(function(data, type, full) {
           return "<div>"+$scope.getModelRatingResultStatusUserId(full.processId)+"</div>"
     }),
-		DTColumnBuilder.newColumn('processDate').withTitle('Session Date').withOption('width', '290px').notSortable().renderWith(function(data, type, full) {
+		DTColumnBuilder.newColumn('processDate').withOption('width', '60px').withTitle('Session Date').notSortable().renderWith(function(data, type, full) {
 	        return "<div>" +$scope.formatDate(data)+ "</div>"
 	    }),
-	    DTColumnBuilder.newColumn('processId').withTitle('Model Result Id').notSortable(),
-	    DTColumnBuilder.newColumn('claimId').withTitle('Claim Id').notSortable(),
-	    DTColumnBuilder.newColumn('claimDate').withTitle('Date Of Claim').notSortable().renderWith(function(data, type, full) {
+	    DTColumnBuilder.newColumn('processId').withOption('width', '60px').withTitle('Model Result Id').notSortable(),
+	    DTColumnBuilder.newColumn('claimId').withOption('width', '60px').withTitle('Claim Id').notSortable(),
+	    DTColumnBuilder.newColumn('claimDate').withOption('width', '60px').withTitle('Date Of Claim').notSortable().renderWith(function(data, type, full) {
 	        return "<div>" +$scope.formatDate(data)+ "</div>"
 	    }),
 	    DTColumnBuilder.newColumn('modelType').withTitle('Model').notSortable(),
@@ -164,7 +164,7 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 	    }
     };
 
-    $scope.getDiagonosticCodesByProcessId = function(processId){
+  $scope.getDiagonosticCodesByProcessId = function(processId){
 		var codes = $filter('filter')($scope.diagnosticCodes, {processId: processId}, true);
 	     if (codes.length) {
 	     	var arrCodes = [];
@@ -178,29 +178,30 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 	     return '';
 	};
 
-	$scope.getModelRatingResultStatusByProcessId = function(processId){
-		 var status = $filter('filter')($scope.modelRatingResultsStatus, {processId: processId}, true);
-	     if (status && status.length) {
-	     	return status[0].processStatus;
-	     }
+ $scope.getModelRatingResultStatusByProcessId = function(processId){
+	 var status = $filter('filter')($scope.modelRatingResultsStatus, {processId: processId}, true);
+     if (status && status.length) {
+     	return status[0].processStatus;
+     }
 
-	     return '';
-	};
+     return '';
+ };
 
   $scope.getModelRatingResultStatusUserId = function(processId){
-     var status = $filter('filter')($scope.modelRatingResultsStatus, {processId: processId}, true);
-       if (status && status.length) {
-        return status[0].createdBy;
-       }
+   var status = $filter('filter')($scope.modelRatingResultsStatus, {processId: processId}, true);
+     if (status && status.length) {
+      return status[0].createdBy;
+     }
 
-       return '';
+     return '';
   };
 
 	$scope.formatDate = function(date) {
         var date = new Date(date);
+        date = new Date(date.getTime() + Math.abs(date.getTimezoneOffset()*60000));
         return date.getFullYear() + '-' +  
             ('0' + (date.getMonth()+1)).slice(-2) + '-' + 
-            ('0' + date.getDate()).slice(-2);
+            ('0' + date.getDate()).slice(-2);  
     };
     
     $scope.checkErr = function(startDate,endDate) {
