@@ -274,12 +274,12 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
 		return (date + (10*24*60*60*1000));
 	};
 	
-             
-	 $scope.formatDate = function(date) {
+	$scope.formatDate = function(date) {
         var date = new Date(date);
+        date = new Date(date.getTime() + Math.abs(date.getTimezoneOffset()*60000));
         return date.getFullYear() + '-' +  
             ('0' + (date.getMonth()+1)).slice(-2) + '-' + 
-            ('0' + date.getDate()).slice(-2);
+            ('0' + date.getDate()).slice(-2);  
     };
     
     $scope.checkErr = function(startDate,endDate) {

@@ -200,6 +200,9 @@ ul.multiselect li.select-highlight-blur {
     color: black;
 }
 
+th { font-size: 13px; }
+td { font-size: 12px; }
+
 @media (min-width: 767px) {
     .navbar-custom{
         height: 86vh;
