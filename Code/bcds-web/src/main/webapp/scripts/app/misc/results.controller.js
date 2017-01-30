@@ -144,8 +144,8 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
             return "<div>{{" + data +"| date:'yyyy-MM-dd'}} </div>"
         }),
 	    DTColumnBuilder.newColumn('modelType').withTitle('Model').notSortable(),
-	    DTColumnBuilder.newColumn('claim.contentionClaimTextKeyForModel').withOption('width', '90px').withTitle('Contention').notSortable(),
-	    DTColumnBuilder.newColumn(null).withTitle('Prior Relevant Diagonostic Codes').notSortable().renderWith(function(data, type, full) {
+	    DTColumnBuilder.newColumn('claim.contentionClaimTextKeyForModel').withOption('width', '110px').withTitle('Contention').notSortable(),
+	    DTColumnBuilder.newColumn(null).withOption('width', '40px').withTitle('Prior Relevant Diagonostic Codes').notSortable().renderWith(function(data, type, full) {
 	            return "<div>"+$scope.modelRatingDiagonosticCodes+"</div>"
 	    }),
 	    DTColumnBuilder.newColumn('priorCDD').withTitle('Prior Rating').notSortable(),
