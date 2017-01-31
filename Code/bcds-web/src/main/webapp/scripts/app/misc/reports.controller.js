@@ -11,9 +11,9 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 	$scope.resultDetailsData = [];
 	$scope.resultAggregateData = [];
 	$scope.maxDefaultDate = new Date('01/01/2100');
-    $scope.minDefaultDate = new Date('01/01/1900');
+  $scope.minDefaultDate = new Date('01/01/1900');
 	$scope.reportsFromDate = null;
-    $scope.reportsToDate = null;
+  $scope.reportsToDate = null;
 	$scope.filters = {
 		reportsFromDate: null,
 		reportsToDate: null
@@ -52,25 +52,36 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
    .withOption('processing', true)
    .withBootstrap()
    .withDOM('Bfrtip')
-   .withOption('pageLength', 7)
+   .withOption('pageLength', 8)
    .withOption('bAutoWidth', false)
    .withOption('ordering', false)
    .withButtons([
-            {
-                extend: 'pdf',
-                text:  '<a name="DowloadPDF" id="btnDowloadPDF">Dowload PDF</a>',
-                title: "Detailed Analysis Report",
-            	orientation: 'landscape',
-            	pageSize: 'LEGAL',
-                exportOptions: {
-                    columns: ':visible'
-                },
-                init: function(dt, node, config) {
-			        $("#reportType").on('change', function() {
-			            config.title = this.selectedOptions[0].label + " Analysis Report";
-			        })
-			    }
-            }
+          {
+              extend: 'pdf',
+              text:  '<a name="DowloadPDF" id="btnDowloadPDF">Dowload PDF</a>',
+              title: "Detailed Analysis Report",
+              orientation: 'landscape',
+              pageSize: 'LEGAL',
+              exportOptions: {
+                  columns: ':visible',
+                  columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 , 10 , 11, 12, 13, 14]
+              },
+              init: function(dt, node, config) {
+  			       $("#reportType").on('change', function() {
+  			             config.title = this.selectedOptions[0].label + " Analysis Report";
+      			     })
+              },
+              customize: function ( doc ) {
+                  doc.content[1].layout = 'borders';
+                  var pdfTable = doc.content[1].table;
+                  var headers = pdfTable.body[0];
+                  var rows = pdfTable.body[1];
+                  angular.forEach(pdfTable.body[0], function(header) {
+                      header.width = 'auto';
+                      header.alignment = 'left';
+                  });
+              }
+          }
     ]);
 
     $scope.dtDetailsColumns = [
