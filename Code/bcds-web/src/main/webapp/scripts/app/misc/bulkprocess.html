@@ -4,89 +4,93 @@
 			<br/>
 		</p>	
 	</div>
-	<div class="row">
-		<div class="form-group">
-			<form name="frmBulkProcess">
-				<div class="row">
-					<div class="col-md-12" ng-show="isDataAvaialbleToProcess" role="alert" style="text-align: left;font-size: medium;color: blue;padding-left: 30px">
-						<span>Number of claims available to process: {{claimCount}}</span>
-					</div>
-					<div class="col-md-12" ng-show="noRecordsMessage" style="text-align: left;font-size: medium;color: blue;padding-left: 30px"
-					role="alert">
-						<span>
-							<p>No records available to process.</p>
-						</span>
-					</div>
-					<div class="col-md-12" ng-show="infoMessage" role="alert" style="text-align: left;font-size: medium;color: blue;padding-left: 30px">
-						<span>
-							<p>Your request is received and will be processed.</p>
-							<p>Notification will be sent to your email on file once the bulk process is complete.</p>
-							<p>Results could be viewed in the BCDSS Results and Reports section.</p>
-						</span>
-					</div>
+
+	<div class="form-group">
+		<form name="frmBulkProcess">
+			<div class="row">
+				<div class="col-md-12" ng-show="isDataAvaialbleToProcess" role="alert" style="text-align: left;font-size: medium;color: blue;padding-left: 30px">
+					<span>Number of claims available to process: {{claimCount}}</span>
 				</div>
-				<div class="row col-md-12" role="alert" style="color: #D8000C;text-align: center;"><span>{{errMessage}}</span></div>
-				<br/><br/>
-				<div class="row">
-					<div class="col-md-2">
-						<label for="bpFromDate"  class="control-label pull-right">Date From:</label>
-					</div>
-					<div class="col-md-2">
-				        <input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy"  maxlength="10" 
-				        id="bpFromDate" calendar  ng-click="openCalendar('bpFromDate')" placeholder="Enter Date" name="bpFromDate" ng-model="bpFromDate" ng-change='checkErr(bpFromDate,bpToDate)' min="1899-01-01"  max="2100-01-01"/>
-				     </div>
-				    <div  class="col-md-3">
-							<label for="bpToDate" class="control-label pull-right">Date To:</label>
-						</div>
-					<div class="col-md-2">
-				        <input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy" maxlength="10" id="bpToDate" calendar  ng-click="openCalendar('bpToDate')" placeholder="Enter Date" name="bpToDate" ng-model="bpToDate" ng-change='checkErr(bpFromDate,bpToDate)' min='1899-01-01' max="2100-01-01"/> 
-				    </div>   
-				</div> 
-				<br/>
-				<div class="row">
-					<div class="col-md-2">	
-						<label for="txtRegionalOffice" class="control-label pull-right">Regional Office:</label>
-					</div>
-					<div class="col-md-3">
-						<select id="bpRegionalOffice" class="form-control pull-left" name="bpRegionalOffice" type="text" 
-							ng-model="filters.bpRegionalOfficeOption" ng-options="o.value as o.label for o in bpRegionalOfficeOptions | orderBy:'label'">
-							 <option ng-value="0" value="">Select a regional office</option>
-						</select> 
-					</div>
-					<div class="col-md-2">
-			    		 <label for="txtModelType" class="control-label pull-right">Model Type:</label>
-			    	</div>
-			    	<div class="col-md-2">
-			    		<select id="modelType" name="modelType" class="form-control pull-left" type="text" ng-model="filters.modelTypeOption" ng-options="o.value as o.label for o in modelTypeOptions | orderBy:'label'">
-									 <option value="">Select a model type</option>
-						</select>
-			    	</div>
+				<div class="col-md-12" ng-show="noRecordsMessage" style="text-align: left;font-size: medium;color: blue;padding-left: 30px"
+				role="alert">
+					<span>
+						<p>No records available to process.</p>
+					</span>
 				</div>
-				<br/>
-				<div class="row" style="margin-bottom:10px">
-					<div class="col-md-1"></div>
-					<div class="col-md-3">
-						<button type="button" ng-disabled="frmBulkProcess.$invalid" class="btn btn-primary pull-right" style="width:150px" 
-						data-dismiss="modal" ng-click="searchClaimsToProcess(0)">
-							<span>Search</span>
-						</button>
-					</div>
-					<div class="col-md-3">
-						<button type="button" ng-disabled="frmBulkProcess.$invalid || !isDataAvaialbleToProcess" class="btn btn-primary" 
-						ng-click="saveClaimsToProcess(1)" style="width:150px" 
-						data-dismiss="modal">
-							<span>Process</span>
-						</button>
-					</div>
-					<div class="col-md-3">
-						<button type="button" class="btn btn-primary pull-left" ng-click="clear(0)" style="width:150px" 
-						data-dismiss="modal">
-							<span>Reset</span>
-						</button>
-					</div>
+				<div class="col-md-12" ng-show="infoMessage" role="alert" style="text-align: left;font-size: medium;color: blue;padding-left: 30px">
+					<span>
+						<p>Your request is received and will be processed.</p>
+						<p>Notification will be sent to your email on file once the bulk process is complete.</p>
+						<p>Results could be viewed in the BCDSS Results and Reports section.</p>
+					</span>
 				</div>
-			</form>
-		</div>
+			</div>
+			<div class="row col-md-12" role="alert" style="color: #D8000C;text-align: center;"><span>{{errMessage}}</span></div>
+			<br/><br/>
+			<div class="row">
+				<div class="col-md-2">
+					<label for="bpFromDate"  class="control-label pull-right"><span>From Date:</span></label>
+				</div>
+				<div class="col-md-2">
+			        <input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy" data-fv-date-message="The value is not a valid date"
+	        		maxlength="10" id="bpFromDate" calendar ng-click="openCalendar('bpFromDate')" placeholder="Enter Date" 
+	        		name="bpFromDate" ng-model="bpFromDate" ng-change='checkErr(bpFromDate,bpToDate)' min="1899-01-01"  
+	        		max="2100-01-01"/>     
+			     </div>
+			    <div  class="col-md-3">
+						<label for="bpToDate" class="control-label pull-right"><span>To Date:</span></label>
+					</div>
+				<div class="col-md-2">
+			         <input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy"
+	        		maxlength="10" id="bpToDate" calendar ng-click="openCalendar('bpToDate')" placeholder="Enter Date" 
+	        		name="bpToDate" ng-model="bpToDate" ng-change='checkErr(bpFromDate,bpToDate)' min="1899-01-01"  
+	        		max="2100-01-01"/>  
+			    </div>   
+			</div> 
+			<br/>
+			<div class="row">
+				<div class="col-md-2">	
+					<label for="txtRegionalOffice" class="control-label pull-right">Regional Office:</label>
+				</div>
+				<div class="col-md-3">
+					<select id="bpRegionalOffice" class="form-control pull-left" name="bpRegionalOffice" type="text" 
+						ng-model="filters.bpRegionalOfficeOption" ng-options="o.value as o.label for o in bpRegionalOfficeOptions | orderBy:'label'">
+						 <option ng-value="0" value="">Select a regional office</option>
+					</select> 
+				</div>
+				<div class="col-md-2">
+		    		 <label for="txtModelType" class="control-label pull-right">Model Type:</label>
+		    	</div>
+		    	<div class="col-md-2">
+		    		<select id="modelType" name="modelType" class="form-control pull-left" type="text" ng-model="filters.modelTypeOption" ng-options="o.value as o.label for o in modelTypeOptions | orderBy:'label'">
+								 <option value="">Select a model type</option>
+					</select>
+		    	</div>
+			</div>
+			<br/>
+			<div class="row" style="margin-bottom:10px">
+				<div class="col-md-1"></div>
+				<div class="col-md-3">
+					<button type="submit" ng-disabled="frmBulkProcess.$invalid" class="btn btn-primary pull-right" style="width:150px" 
+					data-dismiss="modal" ng-click="searchClaimsToProcess(0)">
+						<span>Search</span>
+					</button>
+				</div>
+				<div class="col-md-3">
+					<button type="submit" ng-disabled="frmBulkProcess.$invalid || !isDataAvaialbleToProcess" class="btn btn-primary" 
+					ng-click="saveClaimsToProcess(1)" style="width:150px" 
+					data-dismiss="modal">
+						<span>Process</span>
+					</button>
+				</div>
+				<div class="col-md-3">
+					<button type="submit" class="btn btn-primary pull-left" ng-click="clear(0)" style="width:150px" 
+					data-dismiss="modal">
+						<span>Reset</span>
+					</button>
+				</div>
+			</div>
+		</form>
 	</div>
 	<div>
 		<p><spinner name="bulkProcessSpinner" img-src="./assets/images/spinner.gif"></spinner></p>
