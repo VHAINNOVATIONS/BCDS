@@ -11,6 +11,12 @@
 					<div class="col-md-12" ng-show="isDataAvaialbleToProcess" role="alert" style="text-align: left;font-size: medium;color: blue;padding-left: 30px">
 						<span>Number of claims available to process: {{claimCount}}</span>
 					</div>
+					<div class="col-md-12" ng-show="noRecordsMessage" style="text-align: left;font-size: medium;color: blue;padding-left: 30px"
+					role="alert">
+						<span>
+							<p>No records available to process.</p>
+						</span>
+					</div>
 					<div class="col-md-12" ng-show="infoMessage" role="alert" style="text-align: left;font-size: medium;color: blue;padding-left: 30px">
 						<span>
 							<p>Your request is received and will be processed.</p>
@@ -42,7 +48,9 @@
 						<label for="txtRegionalOffice" class="control-label pull-right">Regional Office:</label>
 					</div>
 					<div class="col-md-3">
-						<select id="regionalOffice" class="form-control pull-left" name="regionalOffice" type="text" ng-model="filters.regionalOfficeOption" ng-options="o.value as o.label for o in regionalOfficeOptions | orderBy:'label'">
+						<select id="bpRegionalOffice" class="form-control pull-left" name="bpRegionalOffice" type="text" 
+							ng-model="filters.bpRegionalOfficeOption" ng-options="o.value as o.label for o in bpRegionalOfficeOptions | orderBy:'label'">
+							 <option ng-value="0" value="">Select a regional office</option>
 						</select> 
 					</div>
 					<div class="col-md-2">
