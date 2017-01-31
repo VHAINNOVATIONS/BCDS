@@ -7,7 +7,7 @@ angular.module('bcdssApp')
                 var data = {
                     fromDate: filters.bpFromDate,
                     toDate: filters.bpToDate,
-                    regionalOfficeNumber: filters.regionalOfficeOption,
+                    regionalOfficeNumber: (filters.bpRegionalOfficeOption == null) ? 0 : filters.bpRegionalOfficeOption,
                     modelType: filters.modelTypeOption,
                     userId: userId,
                     recordCount: recordCount,

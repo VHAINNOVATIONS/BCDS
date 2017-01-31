@@ -15,7 +15,7 @@ angular.module('bcdssApp').controller('BulkProcessController', function($rootSco
         bpFromDate: null,
         bpToDate: null,
         modelTypeOption: null,
-        regionalOfficeOption: null
+        bpRegionalOfficeOption: null
     };
 
     $scope.modal = {
@@ -37,8 +37,7 @@ angular.module('bcdssApp').controller('BulkProcessController', function($rootSco
     
     $scope.getUserName();
    
-    $scope.regionalOfficeOptions = [
-        { value:'0',    label:'Select a regional office'},
+    $scope.bpRegionalOfficeOptions = [
         { value:'463',  label:'Anchorage RO'},
         { value:'350',  label:'Little Rock Regional Office'},
         { value:'320',  label:'Nashville Regional Office'},
@@ -103,7 +102,7 @@ angular.module('bcdssApp').controller('BulkProcessController', function($rootSco
 
     ];
     
-    $scope.filters.regionalOfficeOption = $scope.regionalOfficeOptions[0].value; // Default
+    //$scope.filters.bpRegionalOfficeOption = $scope.bpRegionalOfficeOptions[0].value; // Default
 
 	$scope.formatDate = function(date) {
         var date = new Date(date);
@@ -153,11 +152,12 @@ angular.module('bcdssApp').controller('BulkProcessController', function($rootSco
         $scope.filters.bpFromDate = null;
         $scope.filters.bpToDate = null;
         $scope.filters.modelTypeOption = null;
-        $scope.filters.regionalOfficeOption = $scope.regionalOfficeOptions[0].value;
+        $scope.filters.bpRegionalOfficeOption = null;
         $scope.errMessage = '';
         $scope.frmBulkProcess.$invalid = false;
         $scope.isDataAvaialbleToProcess = false;
         $scope.infoMessage = reset;
+        $scope.noRecordsMessage = false;
     }
         
     $scope.isActiveRoleTab = function (userRoleTab) {
@@ -166,6 +166,7 @@ angular.module('bcdssApp').controller('BulkProcessController', function($rootSco
     };
 
     $scope.searchClaimsToProcess = function(doSave){
+        $scope.noRecordsMessage = false;
         spinnerService.show('bulkProcessSpinner');
         if ($scope.filters != null) {
             $scope.filters.bpFromDate = ($scope.bpFromDate === null || $scope.bpFromDate === undefined) ? null : $scope.formatDate($scope.bpFromDate);
@@ -177,14 +178,17 @@ angular.module('bcdssApp').controller('BulkProcessController', function($rootSco
                     $scope.result = result.data;
                     var promise = new Promise( function(resolve, reject){
                         if ($scope.result){
-                          resolve($scope.result);
-                          $scope.claimCount = $scope.result.recordCount;
-                          $scope.isDataAvaialbleToProcess = ($scope.claimCount > 0);
-                          $scope.infoMessage = false;
-                          console.log($scope.result.status);
+                            resolve($scope.result);
+                            $scope.claimCount = $scope.result.recordCount;
+                            $scope.isDataAvaialbleToProcess = ($scope.claimCount > 0);
+                            if(!$scope.isDataAvaialbleToProcess){
+                                $scope.noRecordsMessage = true;
+                            }
+                            $scope.infoMessage = false;
+                            console.log($scope.result.status);
                         }
                         else
-                          resolve([]);
+                            resolve([]);
                     });
                     spinnerService.hide('bulkProcessSpinner');
                 })
@@ -198,6 +202,7 @@ angular.module('bcdssApp').controller('BulkProcessController', function($rootSco
     };
 
     $scope.saveClaimsToProcess = function(doSave){
+        $scope.noRecordsMessage = false;
         spinnerService.show('bulkProcessSpinner');
         if ($scope.filters != null) {
             $scope.filters.bpFromDate = ($scope.bpFromDate === null || $scope.bpFromDate === undefined) ? null : $scope.formatDate($scope.bpFromDate);
