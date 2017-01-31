@@ -52,7 +52,7 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
    .withOption('processing', true)
    .withBootstrap()
    .withDOM('Bfrtip')
-   .withOption('pageLength', 8)
+   .withOption('pageLength', 6)
    .withOption('bAutoWidth', false)
    .withOption('ordering', false)
    .withButtons([
