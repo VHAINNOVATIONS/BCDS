@@ -6,10 +6,13 @@ import gov.va.vba.bcdss.models.RatingDecisions;
 import gov.va.vba.bcdss.models.VeteranClaim;
 import gov.va.vba.bcdss.models.VeteranClaimRating;
 import gov.va.vba.domain.Claim;
+import gov.va.vba.domain.ModelRatingPattern;
 import gov.va.vba.domain.ServerRequestStatus;
+import gov.va.vba.domain.util.ModelPatternIndex;
 import gov.va.vba.persistence.common.ModelType;
 import gov.va.vba.persistence.entity.DDMModelPattern;
 import gov.va.vba.persistence.entity.DDMModelPatternIndex;
+import gov.va.vba.persistence.entity.EditModelPatternResults;
 import gov.va.vba.persistence.entity.ModelRatingResults;
 import gov.va.vba.persistence.entity.ModelRatingResultsCntnt;
 import gov.va.vba.persistence.entity.ModelRatingResultsCntntId;
@@ -41,6 +44,7 @@ import gov.va.vba.service.orika.ClaimMapper;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.math.NumberUtils;
+import org.apache.maven.wagon.authentication.AuthenticationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -490,5 +494,60 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
         	requestStatus.setError(e.getStackTrace().toString());
     		return requestStatus;
     	}
+    }
+    
+    public EditModelPatternResults findModelRatingPatternInfo(Long patternId) throws AuthenticationException, Exception {
+    	List<EditModelPatternResults> results = null;
+    	EditModelPatternResults patterns = new EditModelPatternResults();
+    	try{
+			if(patternId == null) {
+				return null;
+			}
+			//Get the patternId from the request and query the DDM Index table
+			results = ratingDao.getDDMPatternInfo(patternId);
+			if(results!=null && results.size() > 0){
+				patterns = mapEditModelResults(results);
+			}else{
+				throw new AuthenticationException("Pattern not found with pattern ID : " + patternId);
+			}
+    	}catch(AuthenticationException auth){
+    		auth.printStackTrace();
+    	}catch(Exception e){
+    		 System.err.println("Pattern ID not found: " + e.getMessage());
+    	}
+    	return patterns;	
+	}
+    
+    public String updateModelRatingPatternInfo(Long patternId, Double accuracy, Long cdd, Long patternIndexNumber, String createdBy, Date createdDate, 
+    											int ctlgId, String modelType) throws Exception {
+    	String editResponse="";
+    	try{
+			int newPatternCategory = ratingDao.createEditModelPattern(patternId, accuracy, cdd, patternIndexNumber, createdBy, createdDate, ctlgId+1, modelType);
+			if(newPatternCategory==1){
+				editResponse="Edit Model with new Category is saved.";
+			}else{
+				editResponse = "Failed";
+			}
+			
+    	}catch(Exception e){
+    		 System.err.println("Pattern ID not found: " + e.getMessage());
+    	}
+    	return editResponse;	
+	}
+    
+    private EditModelPatternResults mapEditModelResults(List<EditModelPatternResults> patternResults) {
+    	EditModelPatternResults patterns = new EditModelPatternResults();
+        for (EditModelPatternResults editModelPatternResults : patternResults) {
+            patterns.setPatternId(editModelPatternResults.getPatternId());
+            patterns.setAccuracy(editModelPatternResults.getAccuracy());
+            patterns.setCategoryId(editModelPatternResults.getCategoryId());
+            patterns.setCDD(editModelPatternResults.getCDD());
+            patterns.setModelType(editModelPatternResults.getModelType());
+            patterns.setCreatedBy(editModelPatternResults.getCreatedBy());
+            patterns.setCreatedDate(editModelPatternResults.getCreatedDate());
+            patterns.setPatternIndexNumber(editModelPatternResults.getPatternIndexNumber());
+            
+        }
+        return patterns;
     }
 }
