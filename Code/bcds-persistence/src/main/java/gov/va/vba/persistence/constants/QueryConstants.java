@@ -115,5 +115,8 @@ public class QueryConstants {
             "AND RD.SYSTEM_TYPE_CD = 'C' AND RD.DSBLTY_DECN_TYPE_CD IN ('SVCCONNCTED','1151GRANTED') " +
             "GROUP BY RD.DIAGNOSIS_CODE, PRFIL_DT ORDER BY DIAGNOSIS_CODE, PRFIL_DT) GROUP BY DIAGNOSIS_CODE";
 
-
+    public static final String DDM_PATTERN_DETAILS = "SELECT PATTERN_ID AS patternId, ACCURACY AS accuracy, CDD AS CDD, " +
+            "PATTERN_INDX_NUMBER AS patternIndexNumber, CRTD_BY AS createdBy, CRTD_DTM AS createdDate, CTLG_ID AS categoryId, MODEL_TYPE as modelType " +
+            "FROM BCDSS.DDM_MODEL_PATTERN_INDX WHERE PATTERN_ID = ? AND CTLG_ID = (select max(CTLG_ID) from BCDSS.DDM_MODEL_PATTERN_INDX  where PATTERN_ID = ?)";
 }
+

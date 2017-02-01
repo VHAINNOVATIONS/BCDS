@@ -1,6 +1,7 @@
 package gov.va.vba.persistence.repository;
 
 import gov.va.vba.persistence.entity.DDMModelPatternIndex;
+import gov.va.vba.persistence.entity.EditModelPatternResults;
 import gov.va.vba.persistence.models.data.ContentionDetails;
 import gov.va.vba.persistence.models.data.DecisionDetails;
 import gov.va.vba.persistence.models.data.DiagnosisCount;
@@ -44,4 +45,9 @@ public interface RatingDao {
     Long getClaimCountToProcess(Date fromDate, Date toDate, String modelType, Long regionalOffice);
     
     int saveBulkProcessRequest(Date fromDate, Date toDate, String modelType, Long regionalOffice, String userId, Long recordCount);
+    
+    List<EditModelPatternResults> getDDMPatternInfo(long patternId);
+    
+    int createEditModelPattern(Long patternId, Double accuracy, Long cdd, Long patternIndexNumber, String createdBy, Date createdDate,
+								int ctlgId, String modelType);
 }

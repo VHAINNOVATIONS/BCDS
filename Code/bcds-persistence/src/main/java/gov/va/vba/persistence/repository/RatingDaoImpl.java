@@ -2,6 +2,7 @@ package gov.va.vba.persistence.repository;
 
 import gov.va.vba.persistence.constants.QueryConstants;
 import gov.va.vba.persistence.entity.DDMModelPatternIndex;
+import gov.va.vba.persistence.entity.EditModelPatternResults;
 import gov.va.vba.persistence.mapper.LongRowMapper;
 import gov.va.vba.persistence.models.data.ClaimDetails;
 import gov.va.vba.persistence.models.data.ContentionDetails;
@@ -305,6 +306,32 @@ public class RatingDaoImpl implements RatingDao {
         int row = jdbcTemplate.update(insertSql, params, types);
         LOG.info("****************************************************************");
         LOG.info("BULK PROCESS CLAIMS REQUEST PARAMS SAVED ::::::: {} ", row);
+        LOG.info("****************************************************************");
+        return row;
+    }
+    
+    @Override
+    public List<EditModelPatternResults> getDDMPatternInfo(long patternId) {
+        List<EditModelPatternResults> patterns = jdbcTemplate.query(QueryConstants.DDM_PATTERN_DETAILS, new Object[]{patternId, patternId}, new BeanPropertyRowMapper<>(EditModelPatternResults.class));
+        LOG.info("****************************************************************");
+        for (EditModelPatternResults pattern : patterns) {
+            LOG.info(pattern.toString());
+        }
+        LOG.info("****************************************************************");
+        return patterns;
+    }
+    
+    public int createEditModelPattern(Long patternId, Double accuracy, Long cdd, Long patternIndexNumber, String createdBy, Date createdDate,
+    									int ctlgId, String modelType) {
+    	
+    	final String insertSql = "INSERT INTO BCDSS.DDM_MODEL_PATTERN_INDX (PATTERN_ID, ACCURACY, CDD, PATTERN_INDX_NUMBER, CRTD_BY, CRTD_DTM, CTLG_ID, MODEL_TYPE) VALUES (?,?,?,?,?,?,?,?)";
+    	
+    	LOG.info("Edit Model Insert Query -------- " + insertSql);
+    	Object[] params = new Object[] { patternId, accuracy, cdd, patternIndexNumber, createdBy, new Date(), ctlgId, modelType };
+    	int[] types = new int[] { Types.NUMERIC, Types.DOUBLE, Types.NUMERIC, Types.NUMERIC, Types.VARCHAR, Types.DATE, Types.NUMERIC, Types.VARCHAR };
+        int row = jdbcTemplate.update(insertSql, params, types);
+        LOG.info("****************************************************************");
+        LOG.info("EDIT MODEL WITH NEW CATEGORY ID SAVED ::::::: {} ", row);
         LOG.info("****************************************************************");
         return row;
     }

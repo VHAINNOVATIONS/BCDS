@@ -1,9 +1,11 @@
 package gov.va.vba.web.soap;
 
 import gov.va.vba.bcdss.models.*;
+import gov.va.vba.persistence.entity.EditModelPatternResults;
 import gov.va.vba.security.SecurityUtils;
 import gov.va.vba.service.data.ClaimDataService;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.maven.wagon.authentication.AuthenticationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,9 +62,27 @@ public class BcdsModelingEndpoint {
 
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "editModelRequest")
 	@ResponsePayload
-	public EditModelResponse editModel(@RequestPayload EditModelRequest request) {
+	public EditModelResponse editModel(@RequestPayload EditModelRequest request) throws AuthenticationException, Exception {
 		LOGGER.debug("SOAP request to edit model... ...");
 		EditModelResponse editModelResponse = new EditModelResponse();
+		EditModelPatternResults editModelPatternInfo = null;
+		String editModel ="";
+		Long patternId = Long.valueOf(request.getIn().getModelPatternIndex().getPatternId());
+		Long cdd= Long.valueOf(request.getIn().getModelPatternIndex().getCdd());
+		
+		editModelPatternInfo = claimDataService.findModelRatingPatternInfo(patternId);
+		if(null!=editModelPatternInfo.getPatternId()){
+		 if(null!=editModelPatternInfo && editModelPatternInfo.getCDD()!=cdd){
+			 editModel = claimDataService.updateModelRatingPatternInfo(editModelPatternInfo.getPatternId(),editModelPatternInfo.getAccuracy(), cdd, editModelPatternInfo.getPatternIndexNumber(),
+					 																		editModelPatternInfo.getCreatedBy(), editModelPatternInfo.getCreatedDate(),
+					 																		editModelPatternInfo.getCategoryId(), editModelPatternInfo.getModelType());
+		 }else{
+			 editModel = "CDD is not updated. No row inserted.";
+		 }
+		}else{
+			editModel = "Pattern ID is not found" ;
+		}
+		editModelResponse.setOut(editModel);
 		return editModelResponse;
 	}
 
