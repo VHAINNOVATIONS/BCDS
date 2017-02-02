@@ -20,13 +20,13 @@
 								<div class="row col-md-12" role="alert" style="color: #D8000C;text-align: center;"><span>{{errMessage}}</span></div>
 								<div class="row">
 									<div class="col-md-3">
-										<label for="dateFrom" class="control-label pull-right">Date From</label>
+										<label for="dateFrom" class="control-label pull-right">Date From:</label>
 									</div>
 									<div class="col-md-3">
 								        <input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy"  maxlength="10" id="fromDate" calendar  ng-click="openCalendar('fromDate')" placeholder="Enter Date" name="fromDate" ng-model="fromDate" ng-change='checkErr(fromDate,toDate)' min="1899-01-01"  max="2100-01-01"/>
 								     </div>
 								    <div  class="col-md-2">
-		      							<label for="dateto" class="control-label pull-right">Date To</label>
+		      							<label for="dateto" class="control-label pull-right">Date To:</label>
 		      						</div>
 									<div class="col-md-3">
 								        <input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy" maxlength="10" id="toDate" calendar  ng-click="openCalendar('toDate')" placeholder="Enter Date" name="toDate" ng-model="toDate" ng-change='checkErr(fromDate,toDate)' min='1899-01-01'  max="2100-01-01"/> 
@@ -35,7 +35,7 @@
 								<br/>
 								<div class="row">
 									<div class="col-md-3">	
-										<label for="txtRegionalOffice" class="control-label pull-right">Regional Office</label>
+										<label for="txtRegionalOffice" class="control-label pull-right">Regional Office:</label>
 									</div>
 									<div class="col-md-5">
 										<select id="regionalOffice" class="form-control pull-left" name="regionalOffice" type="text" ng-model="filters.regionalOfficeOption" ng-options="o.value as o.label for o in regionalOfficeOptions | orderBy:'label'">
@@ -45,7 +45,7 @@
 								<br/>
 								<div class="row">
 									<div class="col-md-3">
-										<label for="txtContention" class="control-label pull-right">Contention</label>
+										<label for="txtContention" class="control-label pull-right">Contention:</label>
 									</div>
 									<div class="col-md-5">
 										<input type="text" id="txtContention" class="form-control pull-left" ng-model="filters.contentionType"

@@ -8,6 +8,7 @@ import gov.va.vba.persistence.models.data.ClaimDetails;
 import gov.va.vba.persistence.models.data.ContentionDetails;
 import gov.va.vba.persistence.models.data.DecisionDetails;
 import gov.va.vba.persistence.models.data.DiagnosisCount;
+import gov.va.vba.persistence.models.data.ModelRatingAggregateResult;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
@@ -334,5 +335,24 @@ public class RatingDaoImpl implements RatingDao {
         LOG.info("EDIT MODEL WITH NEW CATEGORY ID SAVED ::::::: {} ", row);
         LOG.info("****************************************************************");
         return row;
+        
+    public List<ModelRatingAggregateResult> getModelRatingAggregateCounts(){
+    	StringBuilder SQL = new StringBuilder();
+    	SQL.append("SELECT  DISTINCT R.MODEL_TYPE, COUNT(DISTINCT S.CRTD_BY) AS UserCount, COUNT(DISTINCT R.CLAIM_ID) AS ClaimsCount, ");
+    	SQL.append(" COUNT(DISTINCT R.PATTERN_ID) AS PatternsCount,  COUNT(DISTINCT R.PROCESS_DATE) AS SessionsCount, ");
+    	SQL.append(" SUM(DISTINCT I.ACCURACY)/COUNT(DISTINCT R.PATTERN_ID) AS AvgStatedAccuracy ");
+    	SQL.append(" FROM BCDSS.MODEL_RATING_RESULTS R, BCDSS.MODEL_RATING_RESULTS_STATUS S, BCDSS.DDM_MODEL_PATTERN_INDX I WHERE "); 
+    	SQL.append(" R.PATTERN_ID IS NOT NULL AND R.PROCESS_ID = S.PROCESS_ID AND R.PATTERN_ID = I.PATTERN_ID GROUP BY R.MODEL_TYPE");
+    	
+    	LOG.info("Aggregate Counts Query -------- " + SQL.toString());
+    	List<ModelRatingAggregateResult> results = jdbcTemplate.query(SQL.toString(), new BeanPropertyRowMapper<>(ModelRatingAggregateResult.class));
+    	
+    	LOG.info("****************************************************************");
+        for (ModelRatingAggregateResult result : results) {
+            LOG.info("result patterns count::" + result.getPatternsCount());
+        }
+        LOG.info("****************************************************************");
+        
+        return results;
     }
 }

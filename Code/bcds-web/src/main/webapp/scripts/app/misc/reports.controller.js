@@ -10,6 +10,7 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 	$scope.modelRatingResultsStatus = [];
 	$scope.resultDetailsData = [];
 	$scope.resultAggregateData = [];
+  $scope.isReportTypeAggregate = false;
 	$scope.maxDefaultDate = new Date('01/01/2100');
   $scope.minDefaultDate = new Date('01/01/1900');
 	$scope.reportsFromDate = null;
@@ -23,13 +24,14 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 	$scope.processIds = [];
 	
 	$scope.modelTypeOptions = [
-		{ value:'knee',	label:'Knee'},
+		  { value:'knee',	label:'Knee'},
 	    { value:'ear',	label:'Ear'}
 	];
 
 	$scope.reportTypeOptions = [
 		//{ value:'AGGREGATE', label:'Aggregate'}, //no longer there for now - 1/17/2017
-	    { value:'DETAILED',	label:'Detailed'}
+	    { value:'DETAILED',	label:'Detailed'},
+      { value:'AGGREGATE', label:'Aggregate'}
 	];
 
 	$scope.modal = {
@@ -67,9 +69,9 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
                   columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 , 10 , 11, 12, 13, 14]
               },
               init: function(dt, node, config) {
-  			       $("#reportType").on('change', function() {
-  			             config.title = this.selectedOptions[0].label + " Analysis Report";
-      			     })
+    			       $("#reportType").on('change', function() {
+    			             config.title = this.selectedOptions[0].label + " Analysis Report";
+        			   })
               },
               customize: function ( doc ) {
                   doc.content[1].layout = 'borders';
@@ -129,40 +131,56 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
        $compile(angular.element(row).contents())($scope);
    }) 	
    .withDOM('Bfrtip')
-   .withOption('bLengthChange', false)
+   .withOption('pageLength', 6)
+   .withOption('bAutoWidth', false)
+   .withOption('ordering', false)
    .withButtons([
             {
                 extend: 'pdf',
                 text:  '<a name="DowloadPDF" id="btnDowloadPDF">Dowload PDF</a>',
                 title: "Detailed Analysis Report",
-            	orientation: 'landscape',
-            	pageSize: 'LEGAL',
+                orientation: 'portrait',
+                pageSize: 'LETTER',
+                pageMargin:[40,40,0,0],
                 exportOptions: {
                     columns: ':visible'
                 },
                 init: function(dt, node, config) {
-			        $("#reportType").on('change', function() {
-			            config.title = this.selectedOptions[0].label + " Analysis Report";
-			        })
-			    }
+      			        $("#reportType").on('change', function() {
+      			            config.title = this.selectedOptions[0].label + " Analysis Report";
+      			        })
+      			    },
+                 customize: function ( doc ) {
+                    doc.content[1].layout = 'borders';
+                    doc.content[0].margin = [0,0,12,12];
+                    var pdfTable = doc.content[1].table;
+                    var headers = pdfTable.body[0];
+                    var rows = pdfTable.body[1];
+                    angular.forEach(pdfTable.body[0], function(header) {
+                        header.width = 'auto';
+                        header.alignment = 'left';
+                    });
+                }
             }
     ]);
 
-   $scope.dtAggregateColumns = [
-		DTColumnBuilder.newColumn(null).withTitle('Model').notSortable().renderWith(function(data, type, full) {
-	        return "<div></div>"
+    $scope.dtAggregateColumns = [
+		  DTColumnBuilder.newColumn('modelType').withTitle('Model').notSortable().renderWith(function(data, type, full) {
+	        return "<div>" + data +"</div>"
 	    }),
-	    DTColumnBuilder.newColumn(null).withTitle('No. Of Users').notSortable(),
-	    DTColumnBuilder.newColumn(null).withTitle('No. Of Sessions').notSortable(),
-	    DTColumnBuilder.newColumn(null).withTitle('No. Of Claims').notSortable(),
-	    DTColumnBuilder.newColumn(null).withTitle('No. Of Patterns').notSortable().renderWith(function(data, type, full) {
-	        return "<div></div>"
+	    DTColumnBuilder.newColumn('userCount').withTitle('No. Of Users').notSortable(),
+	    DTColumnBuilder.newColumn('sessionsCount').withTitle('No. Of Sessions').notSortable().renderWith(function(data, type, full) {
+          return "<div>"+data+"</div>"
+      }),
+	    DTColumnBuilder.newColumn('claimsCount').withTitle('No. Of Claims').notSortable(),
+	    DTColumnBuilder.newColumn('patternsCount').withTitle('No. Of Patterns').notSortable().renderWith(function(data, type, full) {
+	        return "<div>"+data+"</div>"
 	    }),
-	    DTColumnBuilder.newColumn(null).withTitle('Avg Stated Accuracy').notSortable(),
-	    DTColumnBuilder.newColumn(null).withTitle('Actual Resulting Accuracy').notSortable(),
-	    DTColumnBuilder.newColumn(null).withTitle('% Agree').notSortable(),
-	    DTColumnBuilder.newColumn(null).withTitle('Claims Rated').notSortable(),
-	   	DTColumnBuilder.newColumn(null).withTitle('% Throughput').notSortable(),
+	    DTColumnBuilder.newColumn('avgStatedAccuracy').withTitle('Avg Stated Accuracy').notSortable(),
+	    //DTColumnBuilder.newColumn(null).withTitle('Actual Resulting Accuracy').notSortable(),
+	    //DTColumnBuilder.newColumn(null).withTitle('% Agree').notSortable(),
+	    //DTColumnBuilder.newColumn(null).withTitle('Claims Rated').notSortable(),
+	   	//DTColumnBuilder.newColumn(null).withTitle('% Throughput').notSortable(),
     ];
 
     $scope.hasData = function(isEnabled) {
@@ -206,60 +224,60 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 
      return '';
   };
-
-	$scope.formatDate = function(date) {
-        var date = new Date(date);
-        date = new Date(date.getTime() + Math.abs(date.getTimezoneOffset()*60000));
-        return date.getFullYear() + '-' +  
-            ('0' + (date.getMonth()+1)).slice(-2) + '-' + 
-            ('0' + date.getDate()).slice(-2);  
-    };
+  
+  $scope.formatDate = function(date) {
+      var date = new Date(date);
+      date = new Date(date.getTime() + Math.abs(date.getTimezoneOffset()*60000));
+      return date.getFullYear() + '-' +  
+          ('0' + (date.getMonth()+1)).slice(-2) + '-' + 
+          ('0' + date.getDate()).slice(-2);  
+  };
     
-    $scope.checkErr = function(startDate,endDate) {
-        $scope.errMessage = '';
-        $scope.frmReportsSearchFilter.$invalid = false;
-        var isValidStartDate = true;
-        var isValidEndDate = true;
+  $scope.checkErr = function(startDate,endDate) {
+      $scope.errMessage = '';
+      $scope.frmReportsSearchFilter.$invalid = false;
+      var isValidStartDate = true;
+      var isValidEndDate = true;
 
-        if(startDate != null || startDate != undefined || startDate != "") {
-            console.log('startDate-' +$scope.formatDate(startDate));
-            isValidStartDate = $scope.isValidDate(startDate);
-            console.log('isValidStartDate-' +isValidStartDate);
-        }
+      if(startDate != null || startDate != undefined || startDate != "") {
+          console.log('startDate-' +$scope.formatDate(startDate));
+          isValidStartDate = $scope.isValidDate(startDate);
+          console.log('isValidStartDate-' +isValidStartDate);
+      }
 
-        if(endDate != null || endDate != undefined || endDate != "") {
-            console.log('startDate-' +$scope.formatDate(endDate));
-            isValidEndDate = $scope.isValidDate(endDate);
-            console.log('isValidEndDate-' +isValidEndDate);
-        }
+      if(endDate != null || endDate != undefined || endDate != "") {
+          console.log('startDate-' +$scope.formatDate(endDate));
+          isValidEndDate = $scope.isValidDate(endDate);
+          console.log('isValidEndDate-' +isValidEndDate);
+      }
 
-        if(!isValidStartDate || !isValidEndDate){
-            $scope.errMessage = 'Invalid date. Date should be a value between 01/01/1900 - 01/01/2100.';
-            $scope.frmReportsSearchFilter.$invalid = true;
-            return false;
-        }
+      if(!isValidStartDate || !isValidEndDate){
+          $scope.errMessage = 'Invalid date. Date should be a value between 01/01/1900 - 01/01/2100.';
+          $scope.frmReportsSearchFilter.$invalid = true;
+          return false;
+      }
 
-         if(new Date(startDate) > new Date(endDate)){
-         	$scope.errMessage = 'Date to should be greater than date from.';
-          	$scope.frmReportsSearchFilter.$invalid = true;
-          	return false;
-        }
+       if(new Date(startDate) > new Date(endDate)){
+       	$scope.errMessage = 'Date to should be greater than date from.';
+        	$scope.frmReportsSearchFilter.$invalid = true;
+        	return false;
+      }
 
-        if(startDate != null && endDate != null){
-        	var minutes = 1000*60;
-            var hours = minutes*60;
-            var days = hours*24;
-	        var diffDays = Math.round((new Date(endDate) - new Date(startDate))/days);
-			var isDateLeapYear = $scope.isLeapYear(startDate) || $scope.isLeapYear(endDate);
-			console.log("isLeapYear:" + isDateLeapYear);
-			var totalDays = isDateLeapYear ? 366 : 365;
+      if(startDate != null && endDate != null){
+        var minutes = 1000*60;
+        var hours = minutes*60;
+        var days = hours*24;
+        var diffDays = Math.round((new Date(endDate) - new Date(startDate))/days);
+		    var isDateLeapYear = $scope.isLeapYear(startDate) || $scope.isLeapYear(endDate);
+  			console.log("isLeapYear:" + isDateLeapYear);
+  			var totalDays = isDateLeapYear ? 366 : 365;
 
-			if(diffDays > totalDays) {
-				$scope.errMessage = 'Max date range can only be one year.';
-	        	$scope.frmReportsSearchFilter.$invalid = true;
-	        	return false;
-			}
-		}
+  			if(diffDays > totalDays) {
+  				$scope.errMessage = 'Max date range can only be one year.';
+  	        	$scope.frmReportsSearchFilter.$invalid = true;
+  	        	return false;
+  			}
+  		}
     };
 
     $scope.isLeapYear = function(date) {
@@ -272,19 +290,27 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
     };
 
     $scope.checkReportTypeErr =function(){
+      $scope.onReportTypeChange();
     	$scope.errMessage = '';
-        $scope.frmReportsSearchFilter.$invalid = false;
+      $scope.frmReportsSearchFilter.$invalid = false;
     	if($scope.filters && $scope.filters.reportTypeOption === null){
 			$scope.errMessage = 'Report type must be selected.';
 	        $scope.frmReportsSearchFilter.$invalid = true;
 	        return false;
-		}
+		  }
+		  return true;
+    };
 
-		return true;
+    $scope.onReportTypeChange = function(){
+      $scope.isReportTypeAggregate = false;
+      if(angular.lowercase($scope.filters.reportTypeOption) === "aggregate"){
+        $scope.isReportTypeAggregate = true;
+      }
+      console.log("aggregateReport-"+$scope.isReportTypeAggregate);
     };
 
     $scope.clear = function(){
-    	$scope.results = [];
+      $scope.results = [];
     	$scope.errMessage = '';
     	$scope.reportsFromDate = null;
     	$scope.reportsToDate = null;
@@ -297,7 +323,8 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
     	spinnerService.hide('reportsSpinner');
     };
 
-     $scope.setSearchParameters = function(){
+
+    $scope.setSearchParameters = function(){
      	//case when no params or only model type
     	if(($scope.filters.modelResultId || $scope.filters.modelResultId == null) && $scope.reportsFromDate == null && $scope.reportsToDate == null){
     		var today = new Date();
@@ -322,9 +349,9 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
     			: $scope.processIds.push($scope.filters.modelResultId);
     	}
 
-		$scope.filters.modelTypeOption = ($scope.filters.modelTypeOption == null) ? null : $scope.filters.modelTypeOption;
-		$scope.filters.reportTypeOption = ($scope.filters.reportTypeOption == null) ? null : $scope.filters.reportTypeOption;
-		//$scope.filters.outputTypeOption = ($scope.filters.outputTypeOption == null) ? null : $scope.filters.outputTypeOption;
+		  $scope.filters.modelTypeOption = ($scope.filters.modelTypeOption == null) ? null : $scope.filters.modelTypeOption;
+		  $scope.filters.reportTypeOption = ($scope.filters.reportTypeOption == null) ? null : $scope.filters.reportTypeOption;
+		  //$scope.filters.outputTypeOption = ($scope.filters.outputTypeOption == null) ? null : $scope.filters.outputTypeOption;
 	};
 
 	$scope.getResultDetailsDisplayStatus = function(){
@@ -345,10 +372,8 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 		$scope.setSearchParameters();
 		$scope.hasData(false);
 		if(!$scope.checkReportTypeErr()) return;
-		//$scope.processIds.push(1); //this is for test and needs to change..... it should come from process claims
-    	//$scope.processIds.push(2);
-    	//$scope.processIds.push(3);
-    	spinnerService.show('reportsSpinner');
+		
+    spinnerService.show('reportsSpinner');
 		RatingService.generateModelRatingResultsReport($scope.processIds, $scope.filters)
 			.then(function(result){
 				console.log('>>>successful');
@@ -358,29 +383,37 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 				$scope.displayResultsRatingDetailsTable = $scope.getResultDetailsDisplayStatus();
 				$scope.displayResultsRatingAggregateTable = $scope.getResultAggregateDisplayStatus();
 				var promise = new Promise( function(resolve, reject){
-	                if ($scope.results && $scope.results.modelRatingResults)
-	                  resolve($scope.results.modelRatingResults);
-	                else
-	                  resolve([]);
-	              });
+            if ($scope.results){
+                if($scope.filters && $scope.filters.reportTypeOption === "DETAILED"){
+                   resolve($scope.results.modelRatingResults);
+                   $scope.hasData($scope.results.modelRatingResults && $scope.results.modelRatingResults.length > 0);
+                }
+                if($scope.filters && $scope.filters.reportTypeOption === "AGGREGATE"){
+                  resolve($scope.results.aggregateReport);
+                  $scope.hasData($scope.results.aggregateReport && $scope.results.aggregateReport.length > 0);
+                }
+            } else{
+                resolve([]);
+            }
+        });
 				spinnerService.hide('reportsSpinner');
-				$scope.hasData($scope.results.modelRatingResults.length > 0);
-				if($scope.filters && $scope.filters.reportTypeOption === "AGGREGATE"){
-		    		$scope.dtAggregateInstance.changeData(function() {
-		                return promise;
-		            });
-		    	}
-		    	if($scope.filters && $scope.filters.reportTypeOption === "DETAILED"){
-		    		$scope.dtDetailsInstance.changeData(function() {
-		                return promise;
-		            });
-		    	}
+				
+			  if($scope.filters && $scope.filters.reportTypeOption === "AGGREGATE"){        
+  		    $scope.dtAggregateInstance.changeData(function() {
+              return promise;
+          });
+	    	}
+	    	if($scope.filters && $scope.filters.reportTypeOption === "DETAILED"){
+          $scope.dtDetailsInstance.changeData(function() {
+              return promise;
+          });
+	    	}
 			})
 			.catch(function(e){
-                $scope.serverErrorMsg = (e.errMessage && e.errMessage != null) ? e.errMessage : $scope.serverErrorMsg;
-                $scope.callErrorDialog();
-                spinnerService.hide('reportsSpinner');
-        	});
+            $scope.serverErrorMsg = (e.errMessage && e.errMessage != null) ? e.errMessage : $scope.serverErrorMsg;
+            $scope.callErrorDialog();
+            spinnerService.hide('reportsSpinner');
+    	});
     };
 
     $scope.callErrorDialog = function (size) {
