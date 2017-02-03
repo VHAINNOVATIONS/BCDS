@@ -132,6 +132,7 @@ public class ModelResultsResource {
      	        }
         		break;
         	case "AGGREGATE" :
+        		detailedResult.aggregateReport = modelRatingResultsDataService.getAggregateResults(modelRating.getProcessIds(), modelRating.getFromDate(), modelRating.getToDate(), modelRating.getModelType());
         		break;
         }
         

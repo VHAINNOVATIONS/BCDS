@@ -23,6 +23,7 @@
 			    </div>
 		        <div class="col-md-2">
 		        	<input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy" 
+		        		ng-disabled="isReportTypeAggregate"
 		        		maxlength="10" id="reportsFromDate" calendar ng-click="openCalendar('reportsFromDate')" placeholder="Enter Date" 
 		        		name="reportsFromDate" ng-model="reportsFromDate" ng-change='checkErr(reportsFromDate,reportsToDate)' min="1899-01-01"  
 		        		max="2100-01-01"/>   
@@ -31,7 +32,8 @@
 		        	<label for="reportsToDate" class="control-label pull-right">Processed To Date:</label>
 		        </div>
 		        <div class="col-md-2">
-		        	  <input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy" 
+		        	  <input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy"
+		        	  ng-disabled="isReportTypeAggregate"
 		        	  maxlength="10" id="reportsToDate" calendar ng-click="openCalendar('reportsToDate')" placeholder="Enter Date" 
 				      name="reportsToDate" ng-model="reportsToDate" ng-change='checkErr(reportsFromDate,reportsToDate)' min="1899-01-01"  
 				      max="2100-01-01"/>
@@ -42,7 +44,8 @@
 		    		 <label for="txtModelType" class="control-label pull-right">Model Type:</label>
 		    	</div>
 		    	<div class="col-md-2">
-		    		<select id="modelType" name="modelType" class="form-control pull-left" type="text" ng-model="filters.modelTypeOption" ng-options="o.value as o.label for o in modelTypeOptions | orderBy:'label'">
+		    		<select id="modelType" name="modelType" class="form-control pull-left" type="text" ng-model="filters.modelTypeOption" 
+		    		ng-options="o.value as o.label for o in modelTypeOptions | orderBy:'label'" ng-disabled="isReportTypeAggregate">
 								 <option value="">Select a model type</option>
 					</select>
 		    	</div>
@@ -50,7 +53,8 @@
 		    		<label for="txtModelResultId" class="control-label pull-right">Model Result Id:</label>
 		    	</div>
 		    	<div class="col-md-2">
-		    		<input type="text" id="txtModelResultId" class="form-control pull-left" ng-model="filters.modelResultId">
+		    		<input type="text" id="txtModelResultId" class="form-control pull-left" 
+		    		ng-disabled="isReportTypeAggregate" ng-model="filters.modelResultId">
 		    	</div>
 		    </div>
 		    <div class="row">

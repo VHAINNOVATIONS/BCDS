@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.emory.mathcs.backport.java.util.Arrays;
 import gov.va.vba.domain.ModelRatingResults;
 import gov.va.vba.domain.ModelRatingResultsStatus;
+import gov.va.vba.domain.ModelRatingAggregateResult;
 import gov.va.vba.domain.ModelRatingResultsDiag;
 import gov.va.vba.domain.ModelRatingPattern;
 import gov.va.vba.persistence.entity.DDMModelPatternIndex;
@@ -16,6 +17,7 @@ import gov.va.vba.persistence.util.KneeCalculator;
 import gov.va.vba.service.orika.ModelRatingResultsMapper;
 import gov.va.vba.service.orika.ModelRatingResultsDiagMapper;
 import org.apache.commons.collections.CollectionUtils;
+import gov.va.vba.persistence.repository.RatingDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +53,9 @@ public class ModelRatingResultsDataService extends AbsDataService<gov.va.vba.per
 	@Autowired
 	private ModelRatingResultsDiagMapper modelRatingResultsDiagMapper;
 	
-	 
+	@Autowired
+    private RatingDao ratingDao;
+	
 	public ModelRatingResultsDataService() {
 		this.setClasses(gov.va.vba.persistence.entity.ModelRatingResults.class, ModelRatingResults.class);
 	}
@@ -76,6 +80,23 @@ public class ModelRatingResultsDataService extends AbsDataService<gov.va.vba.per
 		
 		List<ModelRatingResults> modelRatingResults = modelRatingResultsMapper.mapCollection(result);
 		return modelRatingResults;
+	}
+	
+	public List<ModelRatingAggregateResult> getAggregateResults(List<Long> processIds, Date fromDate, Date toDate, String modelType) {
+		List<gov.va.vba.persistence.models.data.ModelRatingAggregateResult> results = ratingDao.getModelRatingAggregateCounts();
+		LOG.info("Aggregate Count Size --------" + results.size());
+		List<ModelRatingAggregateResult> aggregateResults = new ArrayList<>();
+        for (gov.va.vba.persistence.models.data.ModelRatingAggregateResult result : results) {
+        	ModelRatingAggregateResult r = new ModelRatingAggregateResult();
+        	r.setModelType(result.getModelType());
+        	r.setUserCount(result.getUserCount());
+        	r.setSessionsCount(result.getSessionsCount());
+        	r.setClaimsCount(result.getClaimsCount());
+        	r.setPatternsCount(result.getPatternsCount());
+        	r.setAvgStatedAccuracy(result.getAvgStatedAccuracy());
+        	aggregateResults.add(r);
+        }
+		return aggregateResults;
 	}
 	
 	public List<ModelRatingResultsDiag> findDiagnosticCodes(List<Long> processIds) {

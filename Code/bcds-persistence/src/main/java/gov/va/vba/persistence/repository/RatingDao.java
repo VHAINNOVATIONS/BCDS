@@ -6,6 +6,7 @@ import gov.va.vba.persistence.models.data.ContentionDetails;
 import gov.va.vba.persistence.models.data.DecisionDetails;
 import gov.va.vba.persistence.models.data.DiagnosisCount;
 import gov.va.vba.persistence.models.data.ClaimDetails;
+import gov.va.vba.persistence.models.data.ModelRatingAggregateResult;
 
 import java.util.Date;
 import java.util.List;
@@ -50,4 +51,6 @@ public interface RatingDao {
     
     int createEditModelPattern(Long patternId, Double accuracy, Long cdd, Long patternIndexNumber, String createdBy, Date createdDate,
 								int ctlgId, String modelType);
+    
+    List<ModelRatingAggregateResult> getModelRatingAggregateCounts();
 }
