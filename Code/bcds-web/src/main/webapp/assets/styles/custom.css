@@ -220,3 +220,10 @@ td { font-size: 12px; }
             overflow-x: auto;
     }
 }
+
+.customThumbsUp{
+    color: green;
+}
+.customThumbsDown{
+    color: red;
+}
