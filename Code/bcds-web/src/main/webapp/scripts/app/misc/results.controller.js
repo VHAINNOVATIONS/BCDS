@@ -406,9 +406,9 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	        }),
 	        DTColumnBuilder.newColumn('currentCDD').withTitle('RE/MR Match?').renderWith(function(data, type, full) {
 	        	if($scope.modeledRating === $scope.actualRating){
-	        		return "<div><span class='glyphicon glyphicon-thumbs-up'></span></div>"
+	        		return "<div><span class='glyphicon glyphicon-thumbs-up customThumbsUp'></span></div>"
 	        	}
-	        	return "<div><span class='glyphicon glyphicon-thumbs-down'></span></div>"
+	        	return "<div><span class='glyphicon glyphicon-thumbs-down customThumbsDown'></span></div>"
 	        }),
 	        DTColumnBuilder.newColumn('patternIndex.patternIndexNumber').withTitle('Pattern Rate of Use').renderWith(function(data, type, full) {
 	            return "<div>"+data+"</div>"
