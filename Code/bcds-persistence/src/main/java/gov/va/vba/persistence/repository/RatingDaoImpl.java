@@ -277,6 +277,7 @@ public class RatingDaoImpl implements RatingDao {
         return claimCount;
     }
     
+    @Override
     public int saveBulkProcessRequest(Date fromDate, Date toDate, String modelType, Long regionalOfficeNumber, String userId, Long recordCount) {
     	final String insertSql = "INSERT INTO BCDSS.BULK_PROCESS_REQUEST (" +
 								 "REQUEST_DATE, FROM_DATE, TO_DATE, MODEL_TYPE, RO_NUMBER, CRTD_BY, RECORD_COUNT) values (?,?,?,?,?,?,?)";
@@ -335,7 +336,9 @@ public class RatingDaoImpl implements RatingDao {
         LOG.info("EDIT MODEL WITH NEW CATEGORY ID SAVED ::::::: {} ", row);
         LOG.info("****************************************************************");
         return row;
-        
+    }
+    
+    @Override
     public List<ModelRatingAggregateResult> getModelRatingAggregateCounts(){
     	StringBuilder SQL = new StringBuilder();
     	SQL.append("SELECT  DISTINCT R.MODEL_TYPE, COUNT(DISTINCT S.CRTD_BY) AS UserCount, COUNT(DISTINCT R.CLAIM_ID) AS ClaimsCount, ");

@@ -397,7 +397,6 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
             }
         });
 				spinnerService.hide('reportsSpinner');
-				
 			  if($scope.filters && $scope.filters.reportTypeOption === "AGGREGATE"){        
   		    $scope.dtAggregateInstance.changeData(function() {
               return promise;
