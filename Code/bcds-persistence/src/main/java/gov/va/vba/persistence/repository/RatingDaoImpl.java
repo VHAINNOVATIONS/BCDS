@@ -252,9 +252,11 @@ public class RatingDaoImpl implements RatingDao {
             formatToDate= sdf.format(toDate);
     	}
     	
-    	String SQL = "SELECT COUNT (*) CNT FROM BCDSS.AH4929_RATING_CORP_CLAIM C, BCDSS.AH4929_PERSON P, BCDSS.DDM_CNTNT D WHERE C.PTCPNT_VET_ID = P.PTCPNT_VET_ID " +
-                " AND CNTNTN_CLSFCN_ID in ('230','270','2200','2210','3140','3150','3690','3700','3710','3720','3730','3780','3790','3800','4130','4210','4700','4920','5000','5010','5710','6850','8919') " +
-                " AND D.MODEL_TYPE in (select D.MODEL_TYPE from BCDSS.DDM_CNTNT WHERE D.CNTNT_CD = C.CNTNTN_CLSFCN_ID) ";
+    	String SQL = "SELECT COUNT (*)  FROM (SELECT DISTINCT C.PTCPNT_VET_ID AS veteranId, BNFT_CLAIM_ID AS claimId, DATE_OF_CLAIM AS claimDate, CLAIM_RO_NUMBER AS claimRONumber, "
+    			+ "CLAIM_RO_NAME AS claimROName, CNTNTN_ID AS contentionId, CNTNTN_CLMANT_TXT AS contentionClaimantText, CNTNTN_CLSFCN_ID AS contentionClassificationId,  "
+    			+ "D.MODEL_TYPE AS modelType FROM BCDSS.AH4929_RATING_CORP_CLAIM C, BCDSS.AH4929_PERSON P, BCDSS.DDM_CNTNT D WHERE C.PTCPNT_VET_ID = P.PTCPNT_VET_ID AND "
+    			+ "CNTNTN_CLSFCN_ID in ('230','270','2200','2210','3140','3150','3690','3700','3710','3720','3730','3780','3790','3800','4130','4210','4700','4920','5000','5010','5710','6850','8919') "
+    			+ "AND D.MODEL_TYPE in (select D.MODEL_TYPE from BCDSS.DDM_CNTNT  where D.CNTNT_CD = C.CNTNTN_CLSFCN_ID) AND ROWNUM <= 150 ";
     	
     	if (fromDate != null) {
     		SQL += " AND c.DATE_OF_CLAIM >= TO_DATE('"+formatFromDate+"','yyyy-MM-dd')";
@@ -268,7 +270,9 @@ public class RatingDaoImpl implements RatingDao {
     	if (modelType != null && modelType != "") {
     		SQL += " AND LOWER(D.MODEL_TYPE) like '%"+modelType.toLowerCase()+"%'";
     	}
-    		
+    	
+    	SQL += " )";
+    	
     	LOG.info("Bulk Claims Query -------- " + SQL);
 	    Long claimCount = jdbcTemplate.queryForObject(SQL, new LongRowMapper());
         LOG.info("****************************************************************");
