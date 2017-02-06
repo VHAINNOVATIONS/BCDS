@@ -27,6 +27,13 @@ angular.module('bcdssApp').controller('ModelsController', function($rootScope, $
    })
    .withOption('filter', false)
    .withOption('paging', false)
+   .withOption('headerCallback', function(header) {
+        angular.forEach(header.cells, function(cell){
+            $(cell).attr('title', function (index, attr) {
+                return this.outerText;
+            });
+        }) 
+    })
    .withOption('createdRow', function(row, data, dataIndex) {
            // Recompiling so we can bind Angular directive to the DT
        $compile(angular.element(row).contents())($scope);

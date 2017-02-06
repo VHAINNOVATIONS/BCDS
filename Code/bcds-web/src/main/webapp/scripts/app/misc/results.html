@@ -7,21 +7,21 @@
 			<div role="alert" style="color: #D8000C;padding-right:200px;"><span>{{errMessage}}</span></div>
 		    <div class="row"> 
 			    <div class="col-md-2">
-			    	<label for="resultsFromDate" class="pull-right">
+			    	<label for="resultsFromDate" class="pull-right" title="Processed From Date">
 			    		<span>Processed From Date:</span>
 			    	</label>
 			    </div>
 		        <div class="col-md-2">
-		        	<input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy"
+		        	<input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy" title="Processed From Date"
 		        		maxlength="10" id="resultsFromDate" calendar ng-click="openCalendar('resultsFromDate')" placeholder="Enter Date" 
 		        		name="resultsFromDate" ng-model="resultsFromDate" ng-change='checkErr(resultsFromDate,resultsToDate)' min="1899-01-01"  
 		        		max="2100-01-01"/>         
 		        </div>
 		        <div class="col-md-2">
-		        	<label for="resultsToDate" class="control-label pull-right">Processed To Date:</label>
+		        	<label for="resultsToDate" class="control-label pull-right" title="Processed To Date">Processed To Date:</label>
 		        </div>
 		        <div class="col-md-2">
-		        	  <input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy" 
+		        	  <input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy" title="Processed To Date"
 		        	  maxlength="10" id="resultsToDate" calendar ng-click="openCalendar('resultsToDate')" placeholder="Enter Date" 
 				      name="resultsToDate" ng-model="resultsToDate" ng-change='checkErr(resultsFromDate,resultsToDate)' min="1899-01-01"  
 				      max="2100-01-01"/>
@@ -29,28 +29,29 @@
 		    </div>
 		    <div class="row" style="margin-top:10px;">
 		    	<div class="col-md-2">
-		    		 <label for="txtModelType" class="control-label pull-right">Model Type:</label>
+		    		 <label for="txtModelType" class="control-label pull-right" title="Model Type">Model Type:</label>
 		    	</div>
 		    	<div class="col-md-2">
-		    		<select id="modelType" name="modelType" class="form-control pull-left" type="text" ng-model="filters.modelTypeOption" ng-options="o.value as o.label for o in modelTypeOptions | orderBy:'label'">
+		    		<select id="modelType" name="modelType" class="form-control pull-left" type="text" ng-model="filters.modelTypeOption" ng-options="o.value as o.label for o in modelTypeOptions | orderBy:'label'" title="Select a model type">
 								 <option value="">Select a model type</option>
 					</select>
 		    	</div>
 		    	<div class="col-md-2">
-		    		<label for="txtModelResultId" class="control-label pull-right">Model Result Id:</label>
+		    		<label for="txtModelResultId" class="control-label pull-right" title="Model Result Id">Model Result Id:</label>
 		    	</div>
 		    	<div class="col-md-2">
-		    		<input type="text" id="txtModelResultId" class="form-control pull-left" ng-model="filters.modelResultId">
+		    		<input type="text" id="txtModelResultId" class="form-control pull-left" ng-model="filters.modelResultId" 
+		    		title="Enter a model result id">
 		    	</div>
 		    </div>
 		    <div class="row">
 		    	<div class="col-md-4 col-md-offset-3" style="margin-top:10px;">
-						<button type="submit" ng-disabled="frmResultsSearchFilter.$invalid" class="btn btn-primary" 
+						<button type="submit" ng-disabled="frmResultsSearchFilter.$invalid" class="btn btn-primary"  title="Search"
 						 	ng-click="searchRatingResults()">
 							<span>Search</span>
 						</button>
 						<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-						<button type="submit" class="btn btn-primary" ng-click="clear()">
+						<button type="submit" class="btn btn-primary" title="Cancel" ng-click="clear()">
 							<span>Cancel</span>
 						</button>
 						<!--<a href="#" id="btnRatingResults" ng-click="getRatingResults()">GetResults(Test)</a>-->
@@ -63,7 +64,7 @@
 				<div><table datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" 
 					class="table table-striped table-bordered compact row-border hover"></table></div>
 				<div ng-show="displayBtnSaveResultsRating">
-					<button type="submit" class="btn btn-primary btn-md pull-right" ng-click="updateResultsDecisions()">
+					<button type="submit" title="Save" class="btn btn-primary btn-md pull-right" ng-click="updateResultsDecisions()">
 						<span>Save</span>
 					</button>
 				</div>		

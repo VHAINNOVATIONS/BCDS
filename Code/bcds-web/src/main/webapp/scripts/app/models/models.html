@@ -8,13 +8,13 @@
 			<div class="row" role="alert" style="color: #D8000C; text-align: center;"><span>{{errMessage}}</span></div>
 			<div class="row">
 				<div class="col-md-2">
-		    		<label for="txtPatterntId" class="control-label pull-right">Pattern Id:</label>
+		    		<label for="txtPatterntId" class="control-label pull-right" title="Pattern Id">Pattern Id:</label>
 		    	</div>
 		    	<div class="col-md-2">
-		    		<input type="text" id="txtPatterntId" name="txtPatterntId" placeholder="Enter a number" ng-pattern="onlyNumbers" class="form-control pull-left" ng-model="patternId" maxlength="10" min="1" max="9999999999" ng-change="isValidPatternId()">
+		    		<input type="text" id="txtPatterntId" name="txtPatterntId" placeholder="Enter a number" ng-pattern="onlyNumbers" class="form-control pull-left" ng-model="patternId" maxlength="10" min="1" max="9999999999" ng-change="isValidPatternId()" title=" Enter a pattern id">
 		    	</div>
 		    	<div class="col-md-1">
-					<button type="submit" ng-disabled="frmPatternSearch.$pristine || frmPatternSearch.$invalid" class="btn btn-primary" ng-click="searchPatternResults()">
+					<button type="submit" title="Search" ng-disabled="frmPatternSearch.$pristine || frmPatternSearch.$invalid" class="btn btn-primary" ng-click="searchPatternResults()">
 						<span>Search</span>
 					</button>
     			</div>
@@ -35,7 +35,7 @@
 	</div>
 	<div class="row" ng-show="displayBtnOnDataAvailability">
     	<div class="col-md-12" style="margin-top:10px; text-align: right">
-				<button type="submit" ng-disabled="frmPatternSearch.$invalid" class="btn btn-primary" ng-click="createCddValue()">
+				<button type="submit" title="Edit CDD" ng-disabled="frmPatternSearch.$invalid" class="btn btn-primary" ng-click="createCddValue()">
 					<span>Edit CDD</span>
 				</button>
     	</div>
@@ -56,22 +56,23 @@
 							<br/>
 							<div class="row">
 								<div class="col-md-4">
-						    		<label for="txtCDD" class="control-label pull-right">Enter CDD:</label>
+						    		<label for="txtCDD" class="control-label pull-right" title="Enter CDD">Enter CDD:</label>
 						    	</div>
 						    	<div class="col-md-4">
 						    		<input type="text" id="txtCDD" placeholder="Enter a number" ng-pattern="onlyNumbers" class="form-control pull-left" 
-						    		ng-model="Cdd">
+						    		ng-model="Cdd" title="Enter CDD Value">
 						    	</div>
 							</div>
 							<br/>
 							<div class="row">
 								<div class="col-md-12" style="margin-bottom: 5px;text-align: center;">
-									<button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="clear()">
-										<span>Cancel</span>
+									<button type="submit"  title="Confirm" ng-disabled="frmEditCDD.$invalid" class="btn btn-primary" 
+										ng-click="createPatternCdd($event)">
+										<span>Confirm</span>
 									</button>
 									<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-									<button type="submit" ng-disabled="frmEditCDD.$invalid" class="btn btn-primary" ng-click="createPatternCdd($event)">
-										<span>Confirm</span>
+									<button type="submit" title="Cancel" class="btn btn-primary" data-dismiss="modal" ng-click="clear()">
+										<span>Cancel</span>
 									</button>
 				    			</div>
 							</div>

@@ -29,19 +29,19 @@
 			<br/><br/>
 			<div class="row">
 				<div class="col-md-2">
-					<label for="bpFromDate"  class="control-label pull-right"><span>From Date:</span></label>
+					<label for="bpFromDate"  class="control-label pull-right" title="From Date"><span>From Date:</span></label>
 				</div>
 				<div class="col-md-2">
-			        <input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy" data-fv-date-message="The value is not a valid date"
+			        <input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy" data-fv-date-message="The value is not a valid date" title="From Date"
 	        		maxlength="10" id="bpFromDate" calendar ng-click="openCalendar('bpFromDate')" placeholder="Enter Date" 
 	        		name="bpFromDate" ng-model="bpFromDate" ng-change='checkErr(bpFromDate,bpToDate)' min="1899-01-01"  
 	        		max="2100-01-01"/>     
 			     </div>
 			    <div  class="col-md-3">
-						<label for="bpToDate" class="control-label pull-right"><span>To Date:</span></label>
+						<label for="bpToDate" class="control-label pull-right" title="To Date"><span>To Date:</span></label>
 					</div>
 				<div class="col-md-2">
-			         <input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy"
+			         <input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy" title="To Date"
 	        		maxlength="10" id="bpToDate" calendar ng-click="openCalendar('bpToDate')" placeholder="Enter Date" 
 	        		name="bpToDate" ng-model="bpToDate" ng-change='checkErr(bpFromDate,bpToDate)' min="1899-01-01"  
 	        		max="2100-01-01"/>  
@@ -50,19 +50,19 @@
 			<br/>
 			<div class="row">
 				<div class="col-md-2">	
-					<label for="txtRegionalOffice" class="control-label pull-right">Regional Office:</label>
+					<label for="txtRegionalOffice" class="control-label pull-right" title="Regional Office">Regional Office:</label>
 				</div>
 				<div class="col-md-3">
-					<select id="bpRegionalOffice" class="form-control pull-left" name="bpRegionalOffice" type="text" 
+					<select id="bpRegionalOffice" class="form-control pull-left" name="bpRegionalOffice" type="text" title="Select a regional office"
 						ng-model="filters.bpRegionalOfficeOption" ng-options="o.value as o.label for o in bpRegionalOfficeOptions | orderBy:'label'">
 						 <option ng-value="0" value="">Select a regional office</option>
 					</select> 
 				</div>
 				<div class="col-md-2">
-		    		 <label for="txtModelType" class="control-label pull-right">Model Type:</label>
+		    		 <label for="txtModelType" class="control-label pull-right" title="Model Type">Model Type:</label>
 		    	</div>
 		    	<div class="col-md-2">
-		    		<select id="modelType" name="modelType" class="form-control pull-left" type="text" ng-model="filters.modelTypeOption" ng-options="o.value as o.label for o in modelTypeOptions | orderBy:'label'">
+		    		<select id="modelType" name="modelType" class="form-control pull-left" type="text" ng-model="filters.modelTypeOption" ng-options="o.value as o.label for o in modelTypeOptions | orderBy:'label'" title="Select a model type">
 								 <option value="">Select a model type</option>
 					</select>
 		    	</div>
@@ -71,20 +71,20 @@
 			<div class="row" style="margin-bottom:10px">
 				<div class="col-md-1"></div>
 				<div class="col-md-3">
-					<button type="submit" ng-disabled="frmBulkProcess.$invalid" class="btn btn-primary pull-right" style="width:150px" 
+					<button type="submit" title="Search" ng-disabled="frmBulkProcess.$invalid" class="btn btn-primary pull-right" style="width:150px" 
 					data-dismiss="modal" ng-click="searchClaimsToProcess(0)">
 						<span>Search</span>
 					</button>
 				</div>
 				<div class="col-md-3">
-					<button type="submit" ng-disabled="frmBulkProcess.$invalid || !isDataAvaialbleToProcess" class="btn btn-primary" 
+					<button type="submit" title="Process" ng-disabled="frmBulkProcess.$invalid || !isDataAvaialbleToProcess" class="btn btn-primary" 
 					ng-click="saveClaimsToProcess(1)" style="width:150px" 
 					data-dismiss="modal">
 						<span>Process</span>
 					</button>
 				</div>
 				<div class="col-md-3">
-					<button type="submit" class="btn btn-primary pull-left" ng-click="clear(0)" style="width:150px" 
+					<button type="submit" title="Reset" class="btn btn-primary pull-left" ng-click="clear(0)" style="width:150px" 
 					data-dismiss="modal">
 						<span>Reset</span>
 					</button>

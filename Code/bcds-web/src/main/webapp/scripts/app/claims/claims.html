@@ -20,47 +20,49 @@
 								<div class="row col-md-12" role="alert" style="color: #D8000C;text-align: center;"><span>{{errMessage}}</span></div>
 								<div class="row">
 									<div class="col-md-3">
-										<label for="dateFrom" class="control-label pull-right">Date From:</label>
+										<label for="dateFrom" class="control-label pull-right" title="From Date">Date From:</label>
 									</div>
 									<div class="col-md-3">
-								        <input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy"  maxlength="10" id="fromDate" calendar  ng-click="openCalendar('fromDate')" placeholder="Enter Date" name="fromDate" ng-model="fromDate" ng-change='checkErr(fromDate,toDate)' min="1899-01-01"  max="2100-01-01"/>
+								        <input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy"  maxlength="10" id="fromDate" calendar  ng-click="openCalendar('fromDate')" placeholder="Enter Date" name="fromDate" ng-model="fromDate" ng-change='checkErr(fromDate,toDate)' min="1899-01-01"  max="2100-01-01" title="From Date"/>
 								     </div>
 								    <div  class="col-md-2">
-		      							<label for="dateto" class="control-label pull-right">Date To:</label>
+		      							<label for="dateto" class="control-label pull-right" title="To Date">Date To:</label>
 		      						</div>
 									<div class="col-md-3">
-								        <input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy" maxlength="10" id="toDate" calendar  ng-click="openCalendar('toDate')" placeholder="Enter Date" name="toDate" ng-model="toDate" ng-change='checkErr(fromDate,toDate)' min='1899-01-01'  max="2100-01-01"/> 
+								        <input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy" maxlength="10" id="toDate" calendar  ng-click="openCalendar('toDate')" placeholder="Enter Date" name="toDate" ng-model="toDate" ng-change='checkErr(fromDate,toDate)' min='1899-01-01'  max="2100-01-01" title="To date"/> 
 								    </div>   
 								</div> 
 								<br/>
 								<div class="row">
 									<div class="col-md-3">	
-										<label for="txtRegionalOffice" class="control-label pull-right">Regional Office:</label>
+										<label for="txtRegionalOffice" class="control-label pull-right" title="Regional Office">Regional Office:</label>
 									</div>
 									<div class="col-md-5">
-										<select id="regionalOffice" class="form-control pull-left" name="regionalOffice" type="text" ng-model="filters.regionalOfficeOption" ng-options="o.value as o.label for o in regionalOfficeOptions | orderBy:'label'">
+										<select id="regionalOffice" class="form-control pull-left" name="regionalOffice" type="text" 
+										title="Select a regional office"
+										ng-model="filters.regionalOfficeOption" ng-options="o.value as o.label for o in regionalOfficeOptions | orderBy:'label'">
 										</select> 
 									</div>
 								</div>
 								<br/>
 								<div class="row">
 									<div class="col-md-3">
-										<label for="txtContention" class="control-label pull-right">Contention:</label>
+										<label for="txtContention" class="control-label pull-right" title="Contention">Contention:</label>
 									</div>
 									<div class="col-md-5">
 										<input type="text" id="txtContention" class="form-control pull-left" ng-model="filters.contentionType"
-										style="width: 100%">
+										title="Enter a contention" style="width: 100%">
 									</div>
 								</div>
 								<br/>
 								<div class="row" style="margin-bottom:10px">
 									<div class="col-md-6">
-										<button type="submit" ng-disabled="frmAdvancedFilter.$invalid" class="btn btn-primary pull-right" style="width:150px" data-dismiss="modal" ng-click="advanceFilterSearch()">
+										<button type="submit" title="Filter" ng-disabled="frmAdvancedFilter.$invalid" class="btn btn-primary pull-right" style="width:150px" data-dismiss="modal" ng-click="advanceFilterSearch()">
 											<span>Filter</span>
 										</button>
 									</div>
 									<div class="col-md-6">
-										<button type="submit" class="btn btn-primary" ng-click="clear()" style="width:150px" 
+										<button type="submit" class="btn btn-primary" title="Cancel" ng-click="clear()" style="width:150px" 
 										data-dismiss="modal">
 											<span>Cancel</span>
 										</button>
