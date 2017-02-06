@@ -3,38 +3,38 @@
 	</div>
 	<div class="form-group">
 		<form name="frmReportsSearchFilter" class="form-horizontal" role="form" ng-submit="checkReportTypeErr()">
-			<div class="row" role="alert" style="color: #D8000C; padding-right:200px;height:80px">
+			<div class="row" role="alert" style="color: #D8000C; padding-right:200px;min-height:90px">
 				<p><span>{{errMessage}}</span></p>
 			</div>
 		    <div class="row">
 		    	<div class="col-md-2">
-		    		 <label for="reportType" class="control-label pull-right">Report Type:
+		    		 <label for="reportType" class="control-label pull-right" title="Report Type">Report Type:
 		    		 <span style="color:#ff0000;font-size:20px;position:relative;float:right;">&nbsp;*</span></label>
 		    	</div>
 		    	<div class="col-md-2">
-		    		<select id="reportType" name="reportType" class="form-control pull-left" ng-change='checkReportTypeErr()' type="text" ng-model="filters.reportTypeOption" ng-options="o.value as o.label for o in reportTypeOptions | orderBy:'label'">
-								 <option value="">Select a report type</option>
+		    		<select id="reportType" name="reportType" title="Select a report type" class="form-control pull-left" ng-change='checkReportTypeErr()' type="text" ng-model="filters.reportTypeOption" ng-options="o.value as o.label for o in reportTypeOptions | orderBy:'label'">
+						<option value="">Select a report type</option>
 					</select>
 		    	</div>
 		    </div>
 		    <div class="row" style="margin-top:10px;"> 
 			    <div class="col-md-2">
-			    	<label for="reportsFromDate" class="pull-right">
+			    	<label for="reportsFromDate" class="pull-right" title="Processed From Date">
 			    		<span>Processed From Date:</span>
 			    	</label>
 			    </div>
 		        <div class="col-md-2">
-		        	<input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy" 
+		        	<input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy" title="Processed From Date"
 		        		ng-disabled="isReportTypeAggregate"
 		        		maxlength="10" id="reportsFromDate" calendar ng-click="openCalendar('reportsFromDate')" placeholder="Enter Date" 
 		        		name="reportsFromDate" ng-model="reportsFromDate" ng-change='checkErr(reportsFromDate,reportsToDate)' min="1899-01-01"  
 		        		max="2100-01-01"/>   
 		        </div>
 		        <div class="col-md-2">
-		        	<label for="reportsToDate" class="control-label pull-right">Processed To Date:</label>
+		        	<label for="reportsToDate" class="control-label pull-right" title="Processed To Date">Processed To Date:</label>
 		        </div>
 		        <div class="col-md-2">
-		        	  <input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy"
+		        	  <input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy" title="Processed To Date"
 		        	  ng-disabled="isReportTypeAggregate"
 		        	  maxlength="10" id="reportsToDate" calendar ng-click="openCalendar('reportsToDate')" placeholder="Enter Date" 
 				      name="reportsToDate" ng-model="reportsToDate" ng-change='checkErr(reportsFromDate,reportsToDate)' min="1899-01-01"  
@@ -43,30 +43,31 @@
 		    </div>
 		    <div class="row" style="margin-top:10px;">
 		    	<div class="col-md-2">
-		    		 <label for="txtModelType" class="control-label pull-right">Model Type:</label>
+		    		 <label for="txtModelType" class="control-label pull-right" title="Model Type">Model Type:</label>
 		    	</div>
 		    	<div class="col-md-2">
 		    		<select id="modelType" name="modelType" class="form-control pull-left" type="text" ng-model="filters.modelTypeOption" 
+		    		title="Select a model type"
 		    		ng-options="o.value as o.label for o in modelTypeOptions | orderBy:'label'" ng-disabled="isReportTypeAggregate">
 								 <option value="">Select a model type</option>
 					</select>
 		    	</div>
 		    	<div class="col-md-2">
-		    		<label for="txtModelResultId" class="control-label pull-right">Model Result Id:</label>
+		    		<label for="txtModelResultId" class="control-label pull- right" title="Model Result Id">Model Result Id:</label>
 		    	</div>
 		    	<div class="col-md-2">
-		    		<input type="text" id="txtModelResultId" class="form-control pull-left" 
+		    		<input type="text" id="txtModelResultId" class="form-control pull-left" title="Enter a result id"
 		    		ng-disabled="isReportTypeAggregate" ng-model="filters.modelResultId">
 		    	</div>
 		    </div>
 		    <div class="row">
 		    	<div class="col-md-4 col-md-offset-3" style="margin-top:10px;">
-						<button type="submit" ng-disabled="frmReportsSearchFilter.$invalid" class="btn btn-primary" 
+						<button type="submit" ng-disabled="frmReportsSearchFilter.$invalid" class="btn btn-primary" title="Generate Report"
 						 	ng-click="searchRatingResults()">
 							<span>Generate Report</span>
 						</button>
 						<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-						<button type="submit" class="btn btn-primary" ng-click="clear()">
+						<button type="submit" title="Cancel" class="btn btn-primary" ng-click="clear()">
 							<span>Cancel</span>
 						</button>
 		    	</div>

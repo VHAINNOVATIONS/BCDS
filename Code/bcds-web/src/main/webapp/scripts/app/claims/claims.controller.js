@@ -35,10 +35,16 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
            });
     })
     .withOption('createdRow', function(row, data, dataIndex) {
-                // Recompiling so we can bind Angular directive to the DT
+        // Recompiling so we can bind Angular directive to the DT
         $compile(angular.element(row).contents())($scope);
     })
     .withOption('headerCallback', function(header) {
+        angular.forEach(header.cells, function(cell){
+            $(cell).attr('title', function (index, attr) {
+                return this.outerText;
+            });
+        }) 
+        $('.dataTables_filter input').attr('title', 'Type here to search in the table');
         //if (!self.headerCompiled) {
             // Use this headerCompiled field to only compile header once
             self.headerCompiled = true;
@@ -56,6 +62,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     .withOption('order', [[1, 'asc']])
     .withButtons([{
 	        text: '<a name="Process Claim(s)" id="btnProcessClaim">Process Claims</a>',
+            titleAttr: 'Process Claims',
 	        action: function (e, dt, node, config) {
 	        	var selectedItems = $scope.selected;
 	        	var ClaimsToProcess = [];
@@ -77,12 +84,14 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
 	    },
         {
           text: '<a name="Advanced Filter">Advanced Filter</a>',
+          titleAttr: 'Advanced Filter',
           action: function (e, dt, node, config) {
                 $('#advancedFilterDialog').modal('show');
           }
         },
         {
           text: '<a name="Clear">Clear</a>',
+          titleAttr: 'Clear',
           action: function (e, dt, node, config) {
               $scope.clear();
           }
