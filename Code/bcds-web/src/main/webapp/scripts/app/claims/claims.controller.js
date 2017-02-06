@@ -37,13 +37,18 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     .withOption('createdRow', function(row, data, dataIndex) {
         // Recompiling so we can bind Angular directive to the DT
         $compile(angular.element(row).contents())($scope);
+        angular.forEach(row.cells, function(cell){
+            $(cell).attr('title', function (index, attr) {
+                return this.outerText;
+            });
+        }); 
     })
     .withOption('headerCallback', function(header) {
         angular.forEach(header.cells, function(cell){
             $(cell).attr('title', function (index, attr) {
                 return this.outerText;
             });
-        }) 
+        }); 
         $('.dataTables_filter input').attr('title', 'Type here to search in the table');
         //if (!self.headerCompiled) {
             // Use this headerCompiled field to only compile header once
@@ -113,10 +118,10 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
         DTColumnBuilder.newColumn('regionalOfficeOfClaim').withTitle('Regional Office'),
         DTColumnBuilder.newColumn('claimId').withTitle('Claim ID'),
         DTColumnBuilder.newColumn('claimDate').withTitle('Date of Claim').renderWith(function(data, type, full) {
-            return "<div>{{" + data +"| date:'yyyy-MM-dd'}} </div>"
+            return "<div>"+ $scope.formatDate(data)+ " </div>"
         }),
         DTColumnBuilder.newColumn('cestDate').withTitle('CEST Date').renderWith(function(data, type, full) {
-            return "<div>{{" + data +"| date:'yyyy-MM-dd'}} </div>"
+            return "<div>"+ $scope.formatDate(data)+ " </div>"
         }),
         DTColumnBuilder.newColumn('contentionClaimTextKeyForModel').withTitle('Model / Contentions').renderWith(function(data, type, full) {
             return "<div>"+ full.modelType + " / " + data +"</div>"
@@ -158,7 +163,10 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
                     });
                 }, 10);
 			}
-    	});
+    	}, function(e) {
+            $scope.serverErrorMsg = (e.errMessage && e.errMessage != null) ? e.errMessage : $scope.serverErrorMsg;
+            $scope.callErrorDialog();
+        });
     };
     
     $scope.getUserName();

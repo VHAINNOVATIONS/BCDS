@@ -32,11 +32,16 @@ angular.module('bcdssApp').controller('ModelsController', function($rootScope, $
             $(cell).attr('title', function (index, attr) {
                 return this.outerText;
             });
-        }) 
+        });
     })
    .withOption('createdRow', function(row, data, dataIndex) {
            // Recompiling so we can bind Angular directive to the DT
        $compile(angular.element(row).contents())($scope);
+       angular.forEach(row.cells, function(cell){
+          $(cell).attr('title', function (index, attr) {
+              return this.outerText;
+          });
+       });
    })
 
     $scope.dtColumns = [

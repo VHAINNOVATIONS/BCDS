@@ -84,13 +84,18 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	   	.withOption('createdRow', function(row, data, dataIndex) {
 	    	// Recompiling so we can bind Angular directive to the DT        
 	    	$compile(angular.element(row).contents())($scope);
+            angular.forEach(row.cells, function(cell){
+                $(cell).attr('title', function (index, attr) {
+                    return this.outerText;
+                });
+            }); 
 	   })
 	   	.withOption('headerCallback', function(header) {
 	    	angular.forEach(header.cells, function(cell){
 	       		$(cell).attr('title', function (index, attr) {
 				    return $scope.setTableHeaderDescription(this.outerText);
 				});
-	    	}) 
+	    	}); 
             $('.dataTables_filter input').attr('title', 'Type here to search in the table');
 	    	if (!self.headerCompiled) {
 	           // Use this headerCompiled field to only compile header once
@@ -128,6 +133,11 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
     .withOption('createdRow', function(row, data, dataIndex) {
            // Recompiling so we can bind Angular directive to the DT
        $compile(angular.element(row).contents())($scope);
+       angular.forEach(row.cells, function(cell){
+            $(cell).attr('title', function (index, attr) {
+                return this.outerText;
+            });
+        }); 
     })
     .withOption('paging', false)
     .withOption('info', false)
@@ -142,13 +152,13 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	            return "<div>"+$scope.processedClaimsUserName+"</div>"
 	    }),
 		DTColumnBuilder.newColumn('processDate').withOption('width', '60px').withTitle('Session Date').notSortable().renderWith(function(data, type, full) {
-            return "<div>{{" + data +"| date:'yyyy-MM-dd'}} </div>"
+             return "<div>"+ $scope.formatDate(data)+ " </div>"
         }),
 	    DTColumnBuilder.newColumn('veteran.veteranId').withOption('width', '55px').withTitle('Veteran Id').notSortable(),
 	    DTColumnBuilder.newColumn('processId').withOption('width', '60px').withTitle('Model Result Id').notSortable(),
 	    DTColumnBuilder.newColumn('claimId').withOption('width', '55px').withTitle('Claim Id').notSortable(),
 	    DTColumnBuilder.newColumn('claimDate').withOption('width', '60px').withTitle('Date Of Claim').notSortable().renderWith(function(data, type, full) {
-            return "<div>{{" + data +"| date:'yyyy-MM-dd'}} </div>"
+             return "<div>"+ $scope.formatDate(data)+ " </div>"
         }),
 	    DTColumnBuilder.newColumn('modelType').withTitle('Model').notSortable(),
 	    DTColumnBuilder.newColumn('claim.contentionClaimTextKeyForModel').withOption('width', '110px').withTitle('Contention').notSortable(),
