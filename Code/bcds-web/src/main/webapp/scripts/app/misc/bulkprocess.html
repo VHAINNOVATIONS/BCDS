@@ -8,21 +8,24 @@
 	<div class="form-group">
 		<form name="frmBulkProcess">
 			<div class="row">
-				<div class="col-md-12" ng-show="isDataAvaialbleToProcess" role="alert" style="text-align: left;font-size: medium;color: blue;padding-left: 30px">
+				<div class="col-md-12" ng-show="isDataAvaialbleToProcess" role="alert" style="text-align: center;font-size: medium;color: blue;padding-left: 30px">
 					<span>Number of claims available to process: {{claimCount}}</span>
 				</div>
-				<div class="col-md-12" ng-show="noRecordsMessage" style="text-align: left;font-size: medium;color: blue;padding-left: 30px"
+				<div class="col-md-12" ng-show="noRecordsMessage" style="text-align: center;font-size: medium;color: blue;padding-left: 30px"
 				role="alert">
 					<span>
 						<p>No records available to process.</p>
 					</span>
 				</div>
-				<div class="col-md-12" ng-show="infoMessage" role="alert" style="text-align: left;font-size: medium;color: blue;padding-left: 30px">
-					<span>
-						<p>Your request is received and will be processed.</p>
-						<p>Notification will be sent to your email on file once the bulk process is complete.</p>
-						<p>Results could be viewed in the BCDSS Results and Reports section.</p>
-					</span>
+				<div class="col-md-12">
+				<div class="col-md-3"></div>
+					<div class="col-md-9" ng-show="infoMessage" role="alert" style="text-align: left;font-size: medium;color: blue;padding-left: 30px">
+						<span>
+							<p>Your request is received and will be processed.</p>
+							<p>Notification will be sent to your email on file once the bulk process is complete.</p>
+							<p>Results could be viewed in the BCDSS Results and Reports section.</p>
+						</span>
+					</div>
 				</div>
 			</div>
 			<div class="row col-md-12" role="alert" style="color: #D8000C;text-align: center;"><span>{{errMessage}}</span></div>
