@@ -284,7 +284,7 @@ public class RatingDaoImpl implements RatingDao {
     @Override
     public int saveBulkProcessRequest(Date fromDate, Date toDate, String modelType, Long regionalOfficeNumber, String userId, Long recordCount) {
     	final String insertSql = "INSERT INTO BCDSS.BULK_PROCESS_REQUEST (" +
-								 "REQUEST_DATE, FROM_DATE, TO_DATE, MODEL_TYPE, RO_NUMBER, CRTD_BY, RECORD_COUNT) values (?,?,?,?,?,?,?)";
+								 "REQUEST_DATE, FROM_DATE, TO_DATE, MODEL_TYPE, RO_NUMBER, CRTD_BY, REQUEST_STATUS, RECORD_COUNT) values (?,?,?,?,?,?,?,?)";
     	String formatFromDate="";
     	String formatToDate="";
     	
@@ -307,8 +307,8 @@ public class RatingDaoImpl implements RatingDao {
     	}
     	
     	LOG.info("Save Bulk Claims Params Query -------- " + insertSql);
-    	Object[] params = new Object[] { new Date(), formatFromDate, formatToDate, modelType, regionalOfficeNumber, userId, recordCount };
-    	int[] types = new int[] { Types.DATE, Types.DATE, Types.DATE, Types.VARCHAR, Types.NUMERIC, Types.VARCHAR, Types.NUMERIC };
+    	Object[] params = new Object[] { new Date(), formatFromDate, formatToDate, modelType, regionalOfficeNumber, userId, "Pending", recordCount };
+    	int[] types = new int[] { Types.DATE, Types.DATE, Types.DATE, Types.VARCHAR, Types.NUMERIC, Types.VARCHAR, Types.VARCHAR, Types.NUMERIC };
         int row = jdbcTemplate.update(insertSql, params, types);
         LOG.info("****************************************************************");
         LOG.info("BULK PROCESS CLAIMS REQUEST PARAMS SAVED ::::::: {} ", row);
