@@ -4,7 +4,7 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 														$q, $filter, DTOptionsBuilder, DTColumnBuilder, $compile, $modal,	
 														$stateParams, ClaimService, RatingService, spinnerService) {
 	
-	$scope.results = [];
+  $scope.results = [];
 	$scope.serverErrorMsg = "Something went wrong! Please contact the site administrator."
 	$scope.diagnosticCodes = [];
 	$scope.modelRatingResultsStatus = [];
@@ -36,9 +36,11 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 
 	$scope.modal = {
       instance: null
-    };
+  };
 
-	$scope.dtDetailsOptions = DTOptionsBuilder.fromFnPromise(function() {
+  $scope.customColumns = ["User Id", "Process Date", "Model Result Id", "Claim Id", "Date Of Claim", "Contention"];
+
+  $scope.dtDetailsOptions = DTOptionsBuilder.fromFnPromise(function() {
    	 return new Promise( function(resolve, reject){
             if ($scope.results)
               resolve($scope.results);
@@ -53,9 +55,19 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
                 return this.outerText;
             });
         });
+
+        angular.forEach(header.cells, function(cell) {
+            if($scope.customColumns.indexOf(cell.outerText) > -1) {
+                $(cell).attr('style', 'vertical-align:top;width:70px');
+            }else if(cell.outerText === "Prior Relevant Diagonostic Codes"){
+                $(cell).attr('style', 'vertical-align:top;width:40px');
+            }else {
+                $(cell).attr('style', 'vertical-align:top;');
+            }
+        });
     })
    .withOption('createdRow', function(row, data, dataIndex) {
-           // Recompiling so we can bind Angular directive to the DT
+        // Recompiling so we can bind Angular directive to the DT
        $compile(angular.element(row).contents())($scope);
        angular.forEach(row.cells, function(cell){
           $(cell).attr('title', function (index, attr) {

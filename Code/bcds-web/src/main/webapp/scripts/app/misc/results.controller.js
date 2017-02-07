@@ -53,7 +53,9 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
         {columnName : "Pattern Accuracy", title : "The number of times the matched pattern has resulted in the same rating as a fraction of the number of timesit has occurred within the last 8 years"},
         {columnName : "Agree/Disagree", title : "Rater indicates if he/she agrees with the model output/result"},
     ];
-     
+    
+    $scope.customColumns = ["Veteran Id", "Session Date", "User Id", "Process Date", "Model Result Id", "Claim Id", "Date Of Claim", "Contention"];
+
     $scope.toggleOne = function toggleOne(selectedDecision, pId) {
     	$scope.arrDecisions = [];
     	if($scope.updateDecisions[pId]){
@@ -96,6 +98,15 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 				    return $scope.setTableHeaderDescription(this.outerText);
 				});
 	    	}); 
+             angular.forEach(header.cells, function(cell) {
+                if($scope.customColumns.indexOf(cell.outerText) > -1) {
+                    $(cell).attr('style', 'vertical-align:top;width:70px');
+                }else if(cell.outerText === "Prior Relevant Diagonostic Codes"){
+                    $(cell).attr('style', 'vertical-align:top;width:40px');
+                }else {
+                    $(cell).attr('style', 'vertical-align:top;');
+                }
+            });
             $('.dataTables_filter input').attr('title', 'Type here to search in the table');
 	    	if (!self.headerCompiled) {
 	           // Use this headerCompiled field to only compile header once
@@ -127,6 +138,15 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
         angular.forEach(header.cells, function(cell){
             $(cell).attr('title', function (index, attr) {
                 return this.outerText;
+            });
+            angular.forEach(header.cells, function(cell) {
+               if($scope.customColumns.indexOf(cell.outerText) > -1) {
+                    $(cell).attr('style', 'vertical-align:top;width:70px');
+                }else if(cell.outerText === "Prior Relevant Diagonostic Codes"){
+                    $(cell).attr('style', 'vertical-align:top;width:40px');
+                }else {
+                    $(cell).attr('style', 'vertical-align:top;');
+                }
             });
         }) 
     })
