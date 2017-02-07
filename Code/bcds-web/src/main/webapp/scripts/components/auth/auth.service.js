@@ -15,7 +15,7 @@ angular.module('bcdssApp')
                     });
                     return cb();
                 }).catch(function (err) {
-                    this.logout();
+                    //this.logout(); //also called from interceptor
                     deferred.reject(err);
                     return cb(err);
                 }.bind(this));
