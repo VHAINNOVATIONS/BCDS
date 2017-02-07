@@ -9,6 +9,7 @@ angular.module('bcdssApp')
         $timeout(function (){angular.element('[ng-model="username"]').focus();});
         $scope.login = function (event) {
             event.preventDefault();
+            $scope.form.$invalid = false;
             Auth.login({
                 username: $scope.username,
                 password: $scope.password,
@@ -21,8 +22,10 @@ angular.module('bcdssApp')
                //     $rootScope.back();
                // }
             }).catch(function () {
-            	alert("Invalid Username and Password!!!\n     Please verify and try again...");
+            	console.log("Invalid Username and Password!!!\nPlease verify and try again...");
                 $scope.authenticationError = true;
+                $scope.form.$invalid = true;
+                event.preventDefault();
             });
         };
     });
