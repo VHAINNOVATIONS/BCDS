@@ -107,6 +107,21 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
                       header.width = 'auto';
                       header.alignment = 'left';
                   });
+                  doc['footer']=(function(page, pages) {
+                  return {
+                    columns: [
+                      'Page',{
+                          alignment: 'right',
+                            text: [
+                              { text: page.toString() },
+                              ' of ',
+                              { text: pages.toString() }
+                            ]
+                          }
+                        ],
+                      margin: [20,20]
+                      }
+                  });
               }
           }
     ]);
@@ -177,9 +192,9 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
                 text:  '<a name="DowloadPDF" id="btnDowloadPDF">Dowload PDF</a>',
                 titleAttr: 'Download PDF',
                 title: "Detailed Analysis Report",
-                orientation: 'portrait',
+                orientation: 'potrait',
                 pageSize: 'LETTER',
-                pageMargin:[40,40,0,0],
+                pageMargins: [40, 55, 40, 60],
                 exportOptions: {
                     columns: ':visible'
                 },
@@ -188,18 +203,33 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
       			            config.title = this.selectedOptions[0].label + " Analysis Report";
       			        })
       			    },
-                 customize: function ( doc ) {
-                    doc.content[1].layout = 'borders';
-                    doc.content[0].margin = [0,0,12,12];
-                    var pdfTable = doc.content[1].table;
-                    var headers = pdfTable.body[0];
-                    var rows = pdfTable.body[1];
-                    angular.forEach(pdfTable.body[0], function(header) {
-                        header.width = 'auto';
-                        header.alignment = 'left';
-                    });
-                }
-            }
+               customize: function ( doc ) {
+                  doc.content[1].layout = 'borders';
+                  //doc.content[0].margin = [10,10,12,12];
+                  var pdfTable = doc.content[1].table;
+                  var headers = pdfTable.body[0];
+                  var rows = pdfTable.body[1];
+                  angular.forEach(pdfTable.body[0], function(header) {
+                      header.width = 'auto';
+                      header.alignment = 'left';
+                  });
+                  doc['footer']=(function(page, pages) {
+                  return {
+                    columns: [
+                      'Page',{
+                          alignment: 'right',
+                            text: [
+                              { text: page.toString() },
+                              ' of ',
+                              { text: pages.toString() }
+                            ]
+                          }
+                        ],
+                      margin: [20,20]
+                      }
+                  });
+              }
+          }
     ]);
 
     $scope.dtAggregateColumns = [
@@ -447,9 +477,9 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 	    	}
 			})
 			.catch(function(e){
-            $scope.serverErrorMsg = (e.errMessage && e.errMessage != null) ? e.errMessage : $scope.serverErrorMsg;
-            $scope.callErrorDialog();
-            spinnerService.hide('reportsSpinner');
+          $scope.serverErrorMsg = (e.errMessage && e.errMessage != null) ? e.errMessage : $scope.serverErrorMsg;
+          $scope.callErrorDialog();
+          spinnerService.hide('reportsSpinner');
     	});
     };
 
