@@ -1,12 +1,12 @@
 <div ng-controller="AdminDashboardController">
 	<div class="row">
+		<div>
+			<p><spinner class="screenfade" name="manageUsersSpinner" img-src="./assets/images/spinner.gif" on-loaded="loadAllUsers()">Loading...</spinner></p>
+		</div>
 		<div class="col-md-12">
 			<table id="usersGrid" datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" 
 			class="table table-striped table-bordered compact row-border hover"></table>
 		</div>
-	</div>
-	<div>
-		<p><spinner name="manageUsersSpinner" img-src="./assets/images/spinner.gif" on-loaded="loadAllUsers()">Loading...</spinner></p>
 	</div>
 	<div class="modal fade" id="createOrEditUserDialog">
 		<div class="modal-dialog">
