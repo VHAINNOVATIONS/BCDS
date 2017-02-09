@@ -159,6 +159,7 @@ angular.module('bcdssApp').controller('AdminDashboardController', function($root
     $scope.clear = function(){
     	$scope.editUser = {};
     	$scope.isEditUser = false;
+    	$scope.loadAllUsers();
     };
 
 	$scope.loadAllUsers = function (){
