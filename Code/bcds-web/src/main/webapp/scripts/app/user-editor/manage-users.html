@@ -1,0 +1,108 @@
+<div ng-controller="AdminDashboardController">
+	<div class="row">
+		<div class="col-md-12">
+			<table id="usersGrid" datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" 
+			class="table table-striped table-bordered compact row-border hover"></table>
+		</div>
+	</div>
+	<div>
+		<p><spinner name="manageUsersSpinner" img-src="./assets/images/spinner.gif" on-loaded="loadAllUsers()">Loading...</spinner></p>
+	</div>
+	<div class="modal fade" id="createOrEditUserDialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="Header col-md-12">
+						<h4 class="modal-title">Create/Edit User</h4>
+					</div>
+					<br/>
+					<div class="form-group row" style="margin-left: 30px">
+						<br/>
+						<form name="userEditForm" role="form" novalidate ng-submit="save()">
+							<div class="row" role="alert" style="color: #D8000C; text-align: center;">
+								<span>{{errMessage}}</span>
+								<span ng-show="userEditForm.$error.email">Not a valid email.</span>	
+							</div>
+							<br>
+						    <div class="form-group row">
+						    	<div class="col-md-3">
+					        		<label for="userLoginId" title="User Login Id" class="control-label pull-right">User Login ID:</label>
+					        	</div>
+					        	<div class="col-md-6">
+					            	<input required id="userLoginId" class="form-control pull-left" type="text" class="form-control"
+					            	placeholder="Type user name here" ng-model="editUser.login" title="Type user login id here">
+					            </div>
+					        </div>
+						   	<div class="form-group row">
+						   		<div class="col-md-3">
+					        		<label for="activeUser" title="Active User" class="control-label pull-right">Active User:</label>
+					        	</div>
+					        	<div class="col-md-6">
+					                <select required id="activeUser" class="form-control pull-left" type="text" class="form-control" title="Select activate or deactivate user"	
+					                ng-model="editUser.activated" ng-options="o.value as o.label for o in activeUserOptions"></select>
+					            </div>
+					        </div>
+						    <div class="form-group row">
+						    	<div class="col-md-3">
+						    		<label for="userRole" title="User Role" class="control-label pull-right">Role:</label>
+						    	</div>
+						    	<div class="col-md-6">
+						        	<select required id="userRole" class="form-control pull-left" type="text" class="form-control" title="Select user role"
+						        		ng-model="editUser.authorities[0]" ng-options="userrole.name for userrole in userroles track by userrole.name">
+						                	<option selected="selected" disabled="disabled" value=""></option>
+						            </select>
+						        </div>
+							</div>
+							<div class="form-group row">
+								<div class="col-md-3">
+						    		<label for="userName" title="User Name" class="control-label pull-right">Name:</label>
+						    	</div>
+						        <div class="col-md-6">
+					                <input required id="userName" class="form-control pull-left" type="text" title="Type first name here"
+					                 ng-model="editUser.firstName" placeholder="Type user full name here"/>
+					            </div>
+					        </div>
+						    <div class="form-group row">
+						    	<div class="col-md-3">
+						    		<label for="userEmail" title="User Email" class="control-label pull-right">E-Mail:</label>
+						    	</div>
+						        <div class="col-md-6">
+						        	<input required id="userEmail" class="form-control pull-left" type="email" placeholder="Type user email here"
+						        	  title="Type user email here" ng-model="editUser.email"/>
+					            </div>
+					        </div>
+							<div class="form-group row">
+								<div class="col-md-3">
+						    		<label for="userPassword" title="User Password" class="control-label pull-right">Password:</label>
+						    	</div>
+					        	<div class="col-md-6">
+					             	<input required id="userPassword" class="form-control pull-left" type="password" title="Type user password here" placeholder="Type password here"
+					             	 ng-model="editUser.password" ng-disabled="isEditUser"/>
+					            </div>
+					            <div class="form-group">
+						    		<span ng-show="isEditUser" title="Reset User Password" style="vertical-align: -webkit-baseline-middle">
+						    			<a href="#" id="resetUserPassword" ng-click="resetPassword()">Reset Password</a>
+						    		</span>
+					            </div>	
+						   </div>
+						   <br/>
+						    <div class="row">
+						    <div class="col-md-3"></div>
+						        <div class="col-md-9">
+						            <div>
+						                <button type="submit" ng-disabled="userEditForm.$invalid" class="btn btn-primary" title="Save User Data">
+						                    <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+						                </button>&nbsp;&nbsp;&nbsp;
+						                <button type="button" class="btn btn-primary" ng-click="clear()" data-dismiss="modal" title="Cancel Save Data">
+						                    <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+						                </button>
+						          	</div>
+						        </div>
+						    </div>
+						</form>
+					</div>
+				</div>		
+			</div>
+		</div>
+	</div>
+</div>

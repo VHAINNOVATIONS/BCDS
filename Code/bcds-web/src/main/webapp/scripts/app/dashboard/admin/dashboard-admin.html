@@ -1,47 +1,35 @@
-<div ng-controller="AdminDashboardController">
-	<div class="container" ng-app="bcdssApp">
-		<h2 class="text-center">Administrator's Dashboard</h2>
-		<h2 class="text-left">Current Users</h2>
-	
-		<div class="row v-spacer">
-			<div id="exportable" class="table-responsive well">
+<div class="container-fluid">
+	<div class="row" ng-controller="TabController">
+		<div class="col-md-2 col-xs-2 navbar-custom">
+			<div class="sidebar-nav">
+  				<div class="navbar navbar-default" role="navigation">
+    				<div class="navbar-collapse collapse sidebar-navbar-collapse">
+						<ul class="nav navbar-nav">
+							<li ng-class="{ active: isSet(1) }" title="Admin Dashboard">
+								<a href ng-click="setTab(1)"><i class="glyphicon glyphicon-dashboard"></i> Dashboard</a>
+							</li>
+						 </ul>
+			    	</div>
+			  	</div>
+			</div>
+    	</div>
+    	<div class="col-md-10 col-xs-10 dashboard" style="margin-top:7px;">
+			<div ng-show="isSet(1)">
 				<div class="row">
-			        <div class="col-md-12 col-xs-12">
-			            <div class="pull-right">
-			            	<button type="button" class="btn btn-success" ui-sref="usereditor()">
-			                    <span class="glyphicon glyphicon-plus"></span>&nbsp;<span>Create User</span>
-			                </button>
-			            </div>
-			        </div>
-			    </div>
-				<table width="100%" class="table table-striped">
-					<thead>
-						<tr>
-							<th>ID</th>
-							<th>Login ID</th>
-							<th>Name</th>
-							<th>e-mail</th>
-							<th>Status</th>
-							<th>Role</th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody ng-repeat="editableUser in editableUsers">
-						<tr>
-							<td>{{editableUser.id}}</td>
-							<td>{{editableUser.login}}</td>
-							<td>{{editableUser.firstName}}</td>
-							<td>{{editableUser.email}}</td>
-							<td>{{editableUser.activated ? "active" : "disabled"}}</td>
-							<td><span ng-repeat="role in editableUser.authorities">{{role.name}}</span></td>
-							<td>
-								<button type="button" ui-sref="usereditor({userId: editableUser.id})" class="btn btn-primary">
-	                            	<span class="glyphicon glyphicon-pencil"></span>&nbsp; Edit</span>
-	                        	</button>
-	                        </td>
-						</tr>
-					</tbody>
-				</table>
+					<div align="center" class="panel-body">
+						<div class="title pull-left">
+							<h4>Admin Dashboard</h4>
+						</div>
+						<ul class="nav nav-tabs">
+							<li ng-class="{ active: isDashboardTabSet(1) }" title="Manage Users">
+								<a href ng-click="setDashboardTab(1)">Current Users</a>
+							</li>
+						</ul>
+						<div ng-show="isDashboardTabSet(1)">
+							<div ng-include="'scripts/app/user-editor/manage-users.html'"></div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
