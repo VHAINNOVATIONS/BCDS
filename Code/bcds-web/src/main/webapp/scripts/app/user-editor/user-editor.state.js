@@ -2,7 +2,7 @@
 
 angular.module('bcdssApp')
     .config(function ($stateProvider) {
-        $stateProvider
+        /*$stateProvider
             .state('usereditor', {
                 parent: 'home',
                 url: 'user-editor/:userId',
@@ -39,5 +39,5 @@ angular.module('bcdssApp')
                 	}]
 
                 }
-            });
+            });*/
     });

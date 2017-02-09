@@ -1,4 +1,4 @@
-'use strict';
+/*'use strict';
 
 angular.module('bcdssApp').controller('UserEditorController',	function($rootScope, $state, $scope, editUser, UserEditable, ResetPassword, UserRole,Principal) {
 	$scope.editUser = editUser;
@@ -51,3 +51,4 @@ angular.module('bcdssApp').controller('UserEditorController',	function($rootScop
         $state.go('^', {reload:false});
     };
 });
+*/
