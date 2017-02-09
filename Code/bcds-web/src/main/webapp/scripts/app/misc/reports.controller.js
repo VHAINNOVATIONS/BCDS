@@ -58,11 +58,11 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 
         angular.forEach(header.cells, function(cell) {
             if($scope.customColumns.indexOf(cell.outerText) > -1) {
-                $(cell).attr('style', 'vertical-align:top;width:70px');
+                $(cell).attr('style', 'vertical-align:top;width:70px;word-break:keep-all;');
             }else if(cell.outerText === "Prior Relevant Diagonostic Codes"){
-                $(cell).attr('style', 'vertical-align:top;width:40px');
+                $(cell).attr('style', 'vertical-align:top;width:40px;word-break:keep-all;');
             }else {
-                $(cell).attr('style', 'vertical-align:top;');
+                $(cell).attr('style', 'vertical-align:top;word-break:keep-all;');
             }
         });
     })
@@ -70,6 +70,7 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
         // Recompiling so we can bind Angular directive to the DT
        $compile(angular.element(row).contents())($scope);
        angular.forEach(row.cells, function(cell){
+          $(cell).attr('style', 'word-break:keep-all;');
           $(cell).attr('title', function (index, attr) {
               return this.outerText;
           });
