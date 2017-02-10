@@ -3,6 +3,7 @@
 angular.module('bcdssApp').controller('AdminDashboardController', function($rootScope, $scope, $state, $stateParams, UserEditable, $filter, Account, UserRole,
 																			$q, DTOptionsBuilder, DTColumnBuilder, $compile, $timeout, $modal, spinnerService,
 																			ResetPassword, Principal) {
+	$scope.displayStatus = false;
 	$scope.editableUsers = [];
 	$scope.serverErrorMsg = "Something went wrong! Please contact the site administrator."
 	$scope.dtInstance = {};
@@ -159,10 +160,12 @@ angular.module('bcdssApp').controller('AdminDashboardController', function($root
     $scope.clear = function(){
     	$scope.editUser = {};
     	$scope.isEditUser = false;
+    	$scope.displayStatus = false;
     	$scope.loadAllUsers();
     };
 
 	$scope.loadAllUsers = function (){
+		$scope.displayStatus = false;
 		spinnerService.show('manageUsersSpinner');
     	UserEditable.getAllUsers().then(function(result) {
     		$scope.editableUsers = result.data;
@@ -194,7 +197,7 @@ angular.module('bcdssApp').controller('AdminDashboardController', function($root
 			ResetPassword.get({login: $scope.editUser.login}, function(result){
 				$scope.editUser.password = result[0];
 				console.log("userId After Change::" + $scope.editUser.password);
-				alert("Password Reset"); //needs to change.
+				$scope.displayStatus = true;
 			});
 		}else{
 			$scope.serverErrorMsg = "No user id found.";

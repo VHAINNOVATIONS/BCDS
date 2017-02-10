@@ -1,7 +1,7 @@
 <div ng-controller="AdminDashboardController">
 	<div class="row">
 		<div>
-			<p><spinner class="screenfade" name="manageUsersSpinner" img-src="./assets/images/spinner.gif" on-loaded="loadAllUsers()">Loading...</spinner></p>
+			<p><spinner class="spinner" name="manageUsersSpinner" img-src="./assets/images/spinner.gif" on-loaded="loadAllUsers()">Loading...</spinner></p>
 		</div>
 		<div class="col-md-12">
 			<table id="usersGrid" datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" 
@@ -19,6 +19,9 @@
 					<div class="form-group row" style="margin-left: 30px">
 						<br/>
 						<form name="userEditForm" role="form" novalidate ng-submit="save()">
+							<div class="row" role="alert" style="text-align: center;color: blue;min-height: 2px" ng-show="displayStatus">
+								<span>Password updated successfully.</span>
+							</div>
 							<div class="row" role="alert" style="color: #D8000C; text-align: center;">
 								<span>{{errMessage}}</span>
 								<span ng-show="userEditForm.$error.email">Not a valid email.</span>	
