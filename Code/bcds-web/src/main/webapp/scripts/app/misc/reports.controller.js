@@ -83,7 +83,7 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
    .withOption('scrollCollapse', true)
    .withOption('pageLength', 10)
    .withOption('bAutoWidth', false)
-   .withOption('ordering', false)
+   .withOption('ordering', [0,'asc'])
    .withButtons([
           {
               extend: 'pdf',
@@ -130,35 +130,35 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
     ]);
 
     $scope.dtDetailsColumns = [
-		DTColumnBuilder.newColumn('userId').withOption('width', '50px').withTitle('User Id').notSortable().renderWith(function(data, type, full) {
+		DTColumnBuilder.newColumn('userId').withOption('width', '50px').withTitle('User Id').renderWith(function(data, type, full) {
           return "<div>"+$scope.getModelRatingResultStatusUserId(full.processId)+"</div>"
     }),
-		DTColumnBuilder.newColumn('processDate').withOption('width', '60px').withTitle('Session Date').notSortable().renderWith(function(data, type, full) {
+		DTColumnBuilder.newColumn('processDate').withOption('width', '60px').withTitle('Session Date').renderWith(function(data, type, full) {
 	        return "<div>" +$scope.formatDate(data)+ "</div>"
 	    }),
-	    DTColumnBuilder.newColumn('processId').withOption('width', '60px').withTitle('Model Result Id').notSortable(),
-	    DTColumnBuilder.newColumn('claimId').withOption('width', '60px').withTitle('Claim Id').notSortable(),
-	    DTColumnBuilder.newColumn('claimDate').withOption('width', '60px').withTitle('Date Of Claim').notSortable().renderWith(function(data, type, full) {
+	    DTColumnBuilder.newColumn('processId').withOption('width', '60px').withTitle('Model Result Id'),
+	    DTColumnBuilder.newColumn('claimId').withOption('width', '60px').withTitle('Claim Id'),
+	    DTColumnBuilder.newColumn('claimDate').withOption('width', '60px').withTitle('Date Of Claim').renderWith(function(data, type, full) {
 	        return "<div>" +$scope.formatDate(data)+ "</div>"
 	    }),
-	    DTColumnBuilder.newColumn('modelType').withTitle('Model').notSortable(),
-	    DTColumnBuilder.newColumn('claim.contentionClaimTextKeyForModel').withOption('width', '110px').withTitle('Contention').notSortable(),
-	    DTColumnBuilder.newColumn(null).withOption('width', '40px').withTitle('Prior Relevant Diagonostic Codes').notSortable().renderWith(function(data, type, full) {
+	    DTColumnBuilder.newColumn('modelType').withTitle('Model'),
+	    DTColumnBuilder.newColumn('claim.contentionClaimTextKeyForModel').withOption('width', '110px').withTitle('Contention'),
+	    DTColumnBuilder.newColumn(null).withOption('width', '40px').withTitle('Prior Relevant Diagonostic Codes').renderWith(function(data, type, full) {
 	        return "<div>"+$scope.getDiagonosticCodesByProcessId(full.processId)+"</div>"
 	    }),
-	    DTColumnBuilder.newColumn('priorCDD').withTitle('Prior Rating').notSortable(),
-	    DTColumnBuilder.newColumn('cddage').withTitle('Prior Rating Age (Yr)').notSortable(),
-	    DTColumnBuilder.newColumn('currentCDD').withTitle('Modeled Target Claim Rating').notSortable(),
-	    DTColumnBuilder.newColumn('patternIndex.cdd').withTitle('Actual Target Claim Rating').notSortable().renderWith(function(data, type, full) {
+	    DTColumnBuilder.newColumn('priorCDD').withTitle('Prior Rating'),
+	    DTColumnBuilder.newColumn('cddage').withTitle('Prior Rating Age (Yr)'),
+	    DTColumnBuilder.newColumn('currentCDD').withTitle('Modeled Target Claim Rating'),
+	    DTColumnBuilder.newColumn('patternIndex.cdd').withTitle('Actual Target Claim Rating').renderWith(function(data, type, full) {
               return "<div>"+ data +"</div>"
       }),
-	    DTColumnBuilder.newColumn('patternIndex.patternIndexNumber').withTitle('Pattern Rate of Use').notSortable().renderWith(function(data, type, full) {
+	    DTColumnBuilder.newColumn('patternIndex.patternIndexNumber').withTitle('Pattern Rate of Use').renderWith(function(data, type, full) {
               return "<div>"+ data +"</div>"
       }),
-	    DTColumnBuilder.newColumn('patternIndex.accuracy').withTitle('Pattern Accuracy Rate').notSortable().renderWith(function(data, type, full) {
+	    DTColumnBuilder.newColumn('patternIndex.accuracy').withTitle('Pattern Accuracy Rate').renderWith(function(data, type, full) {
 	        return "<div>"+Math.round(data)+"%</div>"
 	    }),
-	    DTColumnBuilder.newColumn(null).withTitle('Agree/Disagree').notSortable().renderWith(function(data, type, full) {
+	    DTColumnBuilder.newColumn(null).withTitle('Agree/Disagree').renderWith(function(data, type, full) {
 	        return "<div>"+$scope.getModelRatingResultStatusByProcessId(full.processId)+"</div>"
 	    }),
     ];
