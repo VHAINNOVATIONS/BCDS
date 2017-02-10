@@ -147,8 +147,12 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 	    DTColumnBuilder.newColumn('priorCDD').withTitle('Prior Rating').notSortable(),
 	    DTColumnBuilder.newColumn('cddage').withTitle('Prior Rating Age (Yr)').notSortable(),
 	    DTColumnBuilder.newColumn('currentCDD').withTitle('Modeled Target Claim Rating').notSortable(),
-	    DTColumnBuilder.newColumn('patternIndex.cdd').withTitle('Actual Target Claim Rating').notSortable(),
-	    DTColumnBuilder.newColumn('patternIndex.patternIndexNumber').withTitle('Pattern Rate of Use').notSortable(),
+	    DTColumnBuilder.newColumn('patternIndex.cdd').withTitle('Actual Target Claim Rating').notSortable().renderWith(function(data, type, full) {
+              return "<div>"+ data +"</div>"
+      }),
+	    DTColumnBuilder.newColumn('patternIndex.patternIndexNumber').withTitle('Pattern Rate of Use').notSortable().renderWith(function(data, type, full) {
+              return "<div>"+ data +"</div>"
+      }),
 	    DTColumnBuilder.newColumn('patternIndex.accuracy').withTitle('Pattern Accuracy Rate').notSortable().renderWith(function(data, type, full) {
 	        return "<div>"+Math.round(data)+"%</div>"
 	    }),
