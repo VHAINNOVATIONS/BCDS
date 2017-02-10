@@ -164,7 +164,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
                 }, 10);
 			}
     	}, function(e) {
-            $scope.serverErrorMsg = (e.errMessage && e.errMessage != null) ? e.errMessage : $scope.serverErrorMsg;
+            $scope.serverErrorMsg = (e && e.data.message != null) ? e.data.message : $scope.serverErrorMsg;
             $scope.callErrorDialog();
         });
     };
@@ -433,7 +433,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
                     }
         		})
                 .catch(function(e){
-                    $scope.serverErrorMsg = (e.errMessage && e.errMessage != null) ? e.errMessage : $scope.serverErrorMsg;
+                    $scope.serverErrorMsg = (e && e.data.message != null) ? e.data.message : $scope.serverErrorMsg;
                     $scope.callErrorDialog();
                 });
 		}

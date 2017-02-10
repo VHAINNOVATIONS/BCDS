@@ -130,10 +130,10 @@ angular.module('bcdssApp').controller('ModelsController', function($rootScope, $
 	            });
 			})
 			.catch(function(e){
-                $scope.serverErrorMsg = (e.errMessage && e.errMessage != null) ? e.errMessage : $scope.serverErrorMsg;
-                $scope.callErrorDialog();
-                spinnerService.hide('modelCddSpinner');
-        	});
+            $scope.serverErrorMsg = (e && e.data.message != null) ? e.data.message : $scope.serverErrorMsg;
+            $scope.callErrorDialog();
+            spinnerService.hide('modelCddSpinner');
+    	});
     };
 
     $scope.createPatternCdd = function(event){
@@ -166,9 +166,9 @@ angular.module('bcdssApp').controller('ModelsController', function($rootScope, $
 	            });
 			})
 			.catch(function(e){
-                $scope.serverErrorMsg = (e.errMessage && e.errMessage != null) ? e.errMessage : $scope.serverErrorMsg;
-                $scope.callErrorDialog();
-        	});
+            $scope.serverErrorMsg = (e && e.data.message != null) ? e.data.message : $scope.serverErrorMsg;
+            $scope.callErrorDialog();
+    	});
     };
 
     $scope.callErrorDialog = function (size) {

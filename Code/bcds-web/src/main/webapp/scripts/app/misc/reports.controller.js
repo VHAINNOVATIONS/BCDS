@@ -79,7 +79,9 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
    .withOption('processing', true)
    .withBootstrap()
    .withDOM('Bfrtip')
-   .withOption('pageLength', 6)
+   .withOption('scrollY', '32vh')
+   .withOption('scrollCollapse', true)
+   .withOption('pageLength', 10)
    .withOption('bAutoWidth', false)
    .withOption('ordering', false)
    .withButtons([
@@ -482,7 +484,7 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 	    	}
 			})
 			.catch(function(e){
-          $scope.serverErrorMsg = (e.errMessage && e.errMessage != null) ? e.errMessage : $scope.serverErrorMsg;
+          $scope.serverErrorMsg = (e && e.data.message != null) ? e.data.message : $scope.serverErrorMsg;
           $scope.callErrorDialog();
           spinnerService.hide('reportsSpinner');
     	});

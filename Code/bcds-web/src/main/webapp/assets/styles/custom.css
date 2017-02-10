@@ -212,6 +212,9 @@ td { font-size: 12px; }
         padding-top:5px;
         padding-left: 2%;
     }
+
+    th { font-size: 11px; }
+    td { font-size: 10px; }
 }
 
 @media (max-width: 768px) {
