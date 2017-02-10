@@ -227,3 +227,7 @@ td { font-size: 12px; }
 .customThumbsDown{
     color: red;
 }
+
+.spinner {
+  background:black;opacity:.5;z-index:2;position:absolute;height:100%;width:100%;
+}
