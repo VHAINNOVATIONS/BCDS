@@ -185,7 +185,7 @@ angular.module('bcdssApp').controller('AdminDashboardController', function($root
 			}
     	})
     	.catch(function(e){
-            $scope.serverErrorMsg = (e.errMessage && e.errMessage != null) ? e.errMessage : $scope.serverErrorMsg;
+            $scope.serverErrorMsg = (e && e.data.message != null) ? e.data.message : $scope.serverErrorMsg;
             $scope.callErrorDialog();
             spinnerService.hide('manageUsersSpinner');
         });
@@ -221,7 +221,7 @@ angular.module('bcdssApp').controller('AdminDashboardController', function($root
     			$scope.loadAllUsers();
 	    	})
 			.catch(function(e){
-		        $scope.serverErrorMsg = (e.errMessage && e.errMessage != null) ? e.errMessage : $scope.serverErrorMsg;
+		        $scope.serverErrorMsg = (e && e.data.message != null) ? e.data.message : $scope.serverErrorMsg;
 		        $scope.callErrorDialog();
 		        spinnerService.hide('manageUsersSpinner');
 	        });
@@ -231,7 +231,7 @@ angular.module('bcdssApp').controller('AdminDashboardController', function($root
     			$scope.loadAllUsers();
 	    	})
 			.catch(function(e){
-		        $scope.serverErrorMsg = (e.errMessage && e.errMessage != null) ? e.errMessage : $scope.serverErrorMsg;
+		        $scope.serverErrorMsg = (e && e.data.message != null) ? e.data.message : $scope.serverErrorMsg;
 		        $scope.callErrorDialog();
 		        spinnerService.hide('manageUsersSpinner');
 	        });

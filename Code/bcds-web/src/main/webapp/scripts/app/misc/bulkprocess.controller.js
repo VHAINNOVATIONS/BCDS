@@ -193,7 +193,7 @@ angular.module('bcdssApp').controller('BulkProcessController', function($rootSco
                     spinnerService.hide('bulkProcessSpinner');
                 })
                 .catch(function(e){
-                    $scope.serverErrorMsg = (e.errMessage && e.errMessage != null) ? e.errMessage : $scope.serverErrorMsg;
+                    $scope.serverErrorMsg = (e && e.data.message != null) ? e.data.message : $scope.serverErrorMsg;
                     $scope.callErrorDialog();
                     console.log($scope.result && $scope.result.error);
                     spinnerService.hide('bulkProcessSpinner');
@@ -226,7 +226,7 @@ angular.module('bcdssApp').controller('BulkProcessController', function($rootSco
                     spinnerService.hide('bulkProcessSpinner');
                 })
                 .catch(function(e){
-                    $scope.serverErrorMsg = (e.errMessage && e.errMessage != null) ? e.errMessage : $scope.serverErrorMsg;
+                    $scope.serverErrorMsg = (e && e.data.message != null) ? e.data.message : $scope.serverErrorMsg;
                     $scope.callErrorDialog();
                     console.log($scope.result && $scope.result.error);
                     spinnerService.hide('bulkProcessSpinner');
