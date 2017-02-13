@@ -6,6 +6,7 @@ import gov.va.vba.bcdss.models.RatingDecisions;
 import gov.va.vba.bcdss.models.VeteranClaim;
 import gov.va.vba.bcdss.models.VeteranClaimRating;
 import gov.va.vba.domain.Claim;
+import gov.va.vba.domain.CustomBCDSSException;
 import gov.va.vba.domain.ModelRatingPattern;
 import gov.va.vba.domain.ServerRequestStatus;
 import gov.va.vba.domain.util.ModelPatternIndex;
@@ -49,6 +50,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -135,9 +138,10 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
         return mapKneeClaimsToClaims(claims);
     }
 
-    public List<VeteranClaimRating> findByVeteranId(List<VeteranClaim> veteranClaims) {
+    public List<VeteranClaimRating> findByVeteranId(List<VeteranClaim> veteranClaims) throws CustomBCDSSException{
         List<VeteranClaimRating> veteranClaimRatings = new ArrayList<>();
         String currentLogin = null;
+        try{
         for (VeteranClaim vc : veteranClaims) {
 
             VeteranClaimRating veteranClaimRating = new VeteranClaimRating();
@@ -211,25 +215,6 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                     saveModelResultsCtnts(contentionCounts, savedResults, contentions);
                     saveModelResultsDiag(savedResults, diagnosisCount, diagnosisCodes);
                     saveResultStatus(results, currentLogin);
-
-                    //TODO: last param
-                    List<DDMModelPattern> patterns = ddmDataService.getPatternId(results.getModelType(), results.getClaimantAge(), results.getClaimCount(), (long) contentionCounts.keySet().size(), 0L);
-                    if (CollectionUtils.isNotEmpty(patterns)) {
-                        List<Long> patternsList = patterns.stream().map(DDMModelPattern::getPatternId).collect(Collectors.toList());
-                        List<Long> cntntPattrens = ddmModelCntntService.getKneePatternId(contentionCounts, patternsList, modelType.toUpperCase());
-                        if (CollectionUtils.isNotEmpty(cntntPattrens)) {
-                            //List<Long> diagPatternsList = patterns.stream().map(DDMModelPattern::getPatternId).collect(Collectors.toList());
-
-                            List<Long> diagPattren = ddmModelDiagService.getKneePatternId(diagnosisCount, cntntPattrens, modelType.toUpperCase());
-                            LOG.info("PATTREN SIZE :::::: " + diagPattren);
-                            if (CollectionUtils.isNotEmpty(diagPattren)) {
-                                Long pattrenId = diagPattren.get(0);
-                                results.setPatternId(pattrenId);
-                                LOG.info("PATTREN ID :: " + pattrenId);
-                                results = modelRatingResultsRepository.save(results);
-                            }
-                        }
-                    }
                     //ddmModelCntntService.getPatternId(results.getModelType(), )
 
                     /*EarDecision ed = new EarDecision();
@@ -251,6 +236,44 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                     //rating.setQuantCdd(calculatedCdd.intValue());
                     rating.setRatingDecisions(ratingDecisions);
                     rating.setModelType(savedResults.getModelType());
+                    
+                    rating.setProcessDate(savedResults.getClaimDate());
+                    c.setClaimDate(savedResults.getClaimDate());
+                        /*c.setProfileDate(claim.getProfileDate());*/
+                    //c.setContentionClassificationId(String.valueOf(kneeClaim.getContentionClsfcnId()));
+                    //c.setContentionId(Integer.parseInt(kneeClaim.getContentionId()));
+                    //c.setProductTypeCode(kneeClaim.getEndPrdctTypeCode());
+                    // c.setContentionBeginDate(kneeClaim.getContentionBeginDate());
+                    ClaimRating cr = new ClaimRating();
+                    cr.setClaim(c);
+                    cr.setRating(rating);
+                    claimRatings.add(cr);
+                    
+                    //TODO: last param
+                    List<DDMModelPattern> patterns = ddmDataService.getPatternId(results.getModelType(), results.getClaimantAge(), results.getClaimCount(), (long) contentionCounts.keySet().size(), 0L);
+                    if (CollectionUtils.isNotEmpty(patterns)) {
+                        List<Long> patternsList = patterns.stream().map(DDMModelPattern::getPatternId).collect(Collectors.toList());
+                        List<Long> cntntPattrens = ddmModelCntntService.getKneePatternId(contentionCounts, patternsList, modelType.toUpperCase());
+                        if (CollectionUtils.isNotEmpty(cntntPattrens)) {
+                            //List<Long> diagPatternsList = patterns.stream().map(DDMModelPattern::getPatternId).collect(Collectors.toList());
+
+                            List<Long> diagPattren = ddmModelDiagService.getKneePatternId(diagnosisCount, cntntPattrens, modelType.toUpperCase());
+                            LOG.info("PATTREN SIZE :::::: " + diagPattren);
+                            if (CollectionUtils.isNotEmpty(diagPattren)) {
+                                Long pattrenId = diagPattren.get(0);
+                                results.setPatternId(pattrenId);
+                                LOG.info("PATTREN ID :: " + pattrenId);
+                                results = modelRatingResultsRepository.save(results);
+                            }else{
+                            	throw new CustomBCDSSException("No Valid Diagnosis Codes found for the pattern ID ");
+                            }
+                        }else{
+                        	throw new CustomBCDSSException("No Valid Contentions found for the pattern ID ");
+                        }
+                    }else{
+                    	throw new CustomBCDSSException("No valid Pattern found for the data selected");
+                    }
+                   
                     if (results.getPatternId() != null) {
                         List<DDMModelPatternIndex> accuracy = ratingDao.getPatternAccuracy(results.getPatternId());
                         if (CollectionUtils.isNotEmpty(accuracy)) {
@@ -267,24 +290,20 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                             }
                         }
                         rating.setPatternId(results.getPatternId().intValue());
+                    }else{
+                    	throw new CustomBCDSSException("No valid Pattern found for the data selected");
                     }
 
-                    rating.setProcessDate(savedResults.getClaimDate());
-                    c.setClaimDate(savedResults.getClaimDate());
-                        /*c.setProfileDate(claim.getProfileDate());*/
-                    //c.setContentionClassificationId(String.valueOf(kneeClaim.getContentionClsfcnId()));
-                    //c.setContentionId(Integer.parseInt(kneeClaim.getContentionId()));
-                    //c.setProductTypeCode(kneeClaim.getEndPrdctTypeCode());
-                    // c.setContentionBeginDate(kneeClaim.getContentionBeginDate());
-                    ClaimRating cr = new ClaimRating();
-                    cr.setClaim(c);
-                    cr.setRating(rating);
-                    claimRatings.add(cr);
                 }
             }
             veteranClaimRating.getClaimRating().addAll(claimRatings);
             veteranClaimRatings.add(veteranClaimRating);
         }
+       }catch(CustomBCDSSException e){
+    	   LOG.info("Exception Caught :::::: " + e);
+    	   e.getMessage();
+    	   System.err.println("Application Exception. Please contact the administrator: " + e.getMessage());
+       }
         return veteranClaimRatings;
     }
 

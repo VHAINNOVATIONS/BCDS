@@ -21,12 +21,16 @@ import gov.va.vba.web.rest.dto.BulkProcessClaimDTO;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.codahale.metrics.annotation.Timed;
 
 import gov.va.vba.domain.Claim;
+import gov.va.vba.domain.CustomBCDSSException;
+import gov.va.vba.domain.ErrorResponse;
 import gov.va.vba.domain.ServerRequestStatus;
 import gov.va.vba.service.data.ClaimDataService;
 
@@ -76,16 +80,25 @@ public class ClaimResource {
 
     @RequestMapping(value = "/claims/process", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public GetProcessClaimResponse getProcessClaims(@RequestBody GetProcessClaimRequest request) {
+    public GetProcessClaimResponse getProcessClaims(@RequestBody GetProcessClaimRequest request) throws CustomBCDSSException {
         LOGGER.debug("REST request to get first few Claims");
         BcdsModelingPort modelingService = new BcdsModelingPortService().getBcdsModelingPortSoap11();
         GetProcessClaimResponse processClaim = modelingService.getProcessClaim(request);
         LOGGER.info("***********************");
         LOGGER.info(processClaim.getVeteranClaimRatingOutput().toString());
         List<VeteranClaimRating> output = processClaim.getVeteranClaimRatingOutput();
+        if(CollectionUtils.isEmpty(output)){
+        	throw new CustomBCDSSException("No Valid Pattern match for the selected data. Please contact the administrator for detailed logs.");
+        }
         return processClaim;
     }
 
+  /*  @ExceptionHandler(CustomBCDSSException.class)
+    @ResponseStatus(value=HttpStatus.SERVICE_UNAVAILABLE)
+    public ErrorResponse handle(CustomBCDSSException e) {
+        return new ErrorResponse(e.getMessage()); // use message from the original exception
+    }*/
+    
     @RequestMapping(value = "/claims/results", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public List<Claim> getClaimResults(@RequestBody ClaimDTO claim) {
