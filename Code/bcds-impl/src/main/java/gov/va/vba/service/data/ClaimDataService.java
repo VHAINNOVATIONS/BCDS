@@ -310,6 +310,8 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                     	throw new CustomBCDSSException("No valid Pattern found for the data selected");
                     }
 
+                }else{
+                	throw new CustomBCDSSException("No Model Rating Results found for the data selected");
                 }
             }
             veteranClaimRating.getClaimRating().addAll(claimRatings);
