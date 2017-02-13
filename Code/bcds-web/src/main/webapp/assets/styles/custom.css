@@ -233,7 +233,8 @@ th { font-size: 13px; }
 td { font-size: 12px; }
 
 .loginPanelFooter{
-    font-size: 11px; 
+    font-size: 12px;
+    text-align: justify;
 }
 
 .helpMenu{
@@ -249,20 +250,17 @@ td { font-size: 12px; }
     margin-right: 10px;
 }
 
-@media (min-width: 767px) {
-    
+@media (max-width: 1550px) {
+    .dashboard {
+        margin-left: 140px;
+    }
+
     th { font-size: 11px; }
     td { font-size: 10px; }
    
     .loginPanelFooter{
         font-size: 10px; 
-    }
-}
-
-
-@media (max-width: 1550px) {
-    .dashboard {
-        margin-left: 140px;
+        text-align: justify;
     }
 }
 
