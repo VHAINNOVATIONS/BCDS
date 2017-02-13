@@ -121,7 +121,7 @@ ul.multiselect li.select-highlight-blur {
     overflow: auto;
     height: calc(100vh - 90px);
     margin-top: -100px;
-    margin-left: 140px;
+    margin-left: 180px;
     padding-top: 100px;
     position: relative;
     width: 91%;
@@ -253,10 +253,16 @@ td { font-size: 12px; }
     
     th { font-size: 11px; }
     td { font-size: 10px; }
-    body { font-size: 1.25em; }
-
+   
     .loginPanelFooter{
         font-size: 10px; 
+    }
+}
+
+
+@media (max-width: 1550px) {
+    .dashboard {
+        margin-left: 140px;
     }
 }
 
