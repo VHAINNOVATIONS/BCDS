@@ -80,7 +80,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	   })
 	 	.withBootstrap()
 	 	.withOption('processing', true)
-	 	.withOption('pageLength', 5)
+	 	.withOption('pageLength', 10)
         .withOption('bAutoWidth', false)
         .withOption('bLengthChange', false)
 	   	.withOption('createdRow', function(row, data, dataIndex) {
