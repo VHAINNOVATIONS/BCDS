@@ -236,6 +236,19 @@ td { font-size: 12px; }
     font-size: 11px; 
 }
 
+.helpMenu{
+    width: 650px;
+    color:black;
+    font-size:0.5em;
+    text-align: left;
+    text-align-last: left;
+}
+
+.helpMenuList{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
 @media (min-width: 767px) {
     
     th { font-size: 11px; }
