@@ -44,6 +44,7 @@ import gov.va.vba.service.KneeService;
 import gov.va.vba.service.orika.ClaimMapper;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.maven.wagon.authentication.AuthenticationException;
 import org.slf4j.Logger;
@@ -188,6 +189,8 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                             contentionCounts.put(details.getContentionClassificationId(), 1);
                         }
                     }
+                    LOG.info("Contention count :::::: " + contentionCounts);
+                    
 
                     //setting ProcessId as Max Sequence generated+1
                     results.setProcessId(processIdSeq + 1);
@@ -212,6 +215,8 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                         contentions = KNEE_CONTENTION_IDS;
                         diagnosisCount = ratingDao.getDiagnosisCount((long) veteranId, savedResults.getClaimDate());
                     }
+                    LOG.info("Diagnosis count :::::: " + diagnosisCount);
+                    
                     saveModelResultsCtnts(contentionCounts, savedResults, contentions);
                     saveModelResultsDiag(savedResults, diagnosisCount, diagnosisCodes);
                     saveResultStatus(results, currentLogin);
@@ -251,13 +256,24 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                     
                     //TODO: last param
                     List<DDMModelPattern> patterns = ddmDataService.getPatternId(results.getModelType(), results.getClaimantAge(), results.getClaimCount(), (long) contentionCounts.keySet().size(), 0L);
+                    List<Long> diagPattren = new ArrayList<>();
+                    List<Long> cntntPattrens = new ArrayList<>();
                     if (CollectionUtils.isNotEmpty(patterns)) {
                         List<Long> patternsList = patterns.stream().map(DDMModelPattern::getPatternId).collect(Collectors.toList());
-                        List<Long> cntntPattrens = ddmModelCntntService.getKneePatternId(contentionCounts, patternsList, modelType.toUpperCase());
+                        if(MapUtils.isNotEmpty(contentionCounts)){
+                        	 LOG.info("Contention count :::::: " + contentionCounts);
+                        	cntntPattrens = ddmModelCntntService.getKneePatternId(contentionCounts, patternsList, modelType.toUpperCase());
+                        }else{
+                        	throw new CustomBCDSSException("No Valid Contention Codes exist for the selected data ");
+                        }
                         if (CollectionUtils.isNotEmpty(cntntPattrens)) {
                             //List<Long> diagPatternsList = patterns.stream().map(DDMModelPattern::getPatternId).collect(Collectors.toList());
-
-                            List<Long> diagPattren = ddmModelDiagService.getKneePatternId(diagnosisCount, cntntPattrens, modelType.toUpperCase());
+                        	if (CollectionUtils.isNotEmpty(diagnosisCount)) {
+                        		LOG.info("Diagnosis count :::::: " + diagnosisCount);
+                        		diagPattren = ddmModelDiagService.getKneePatternId(diagnosisCount, cntntPattrens, modelType.toUpperCase());
+                        	}else{
+                        		throw new CustomBCDSSException("No Diagnosis Codes exist for the selected data ");
+                        	}
                             LOG.info("PATTREN SIZE :::::: " + diagPattren);
                             if (CollectionUtils.isNotEmpty(diagPattren)) {
                                 Long pattrenId = diagPattren.get(0);
@@ -265,10 +281,10 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                                 LOG.info("PATTREN ID :: " + pattrenId);
                                 results = modelRatingResultsRepository.save(results);
                             }else{
-                            	throw new CustomBCDSSException("No Valid Diagnosis Codes found for the pattern ID ");
+                            	throw new CustomBCDSSException("No Valid Diagnosis patterns found for the pattern ID ");
                             }
                         }else{
-                        	throw new CustomBCDSSException("No Valid Contentions found for the pattern ID ");
+                        	throw new CustomBCDSSException("No Valid Contention patterns found for the pattern ID ");
                         }
                     }else{
                     	throw new CustomBCDSSException("No valid Pattern found for the data selected");

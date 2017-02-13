@@ -17,8 +17,8 @@ public class DDMModelDiagService {
     @Autowired
     private RatingDao ratingDao;
 
-    public List<Long> getKneePatternId(List<DiagnosisCount> contentionCount, List<Long> pattrens, String modelType) {
-        List<Long> result = ratingDao.getKneeDiagPattrens(contentionCount, pattrens, modelType);
+    public List<Long> getKneePatternId(List<DiagnosisCount> diagCount, List<Long> pattrens, String modelType) {
+        List<Long> result = ratingDao.getKneeDiagPattrens(diagCount, pattrens, modelType);
         LOG.info("PATTERN FOUND {}", result.size());
         return result;
     }
