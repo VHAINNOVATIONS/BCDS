@@ -103,13 +103,13 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
         }
     ]);
 
-    var titleHtml = '<input type="checkbox" id="selectchkall" ng-model="selectAll" ng-change="toggleAll(selectAll, selected)">';
+    var titleHtml = '<input type="checkbox" id="selectchkall" title="Select All" ng-model="selectAll" ng-change="toggleAll(selectAll, selected)">';
    
     $scope.dtColumns = [
 		DTColumnBuilder.newColumn(null).withTitle(titleHtml).notSortable()
 		 .renderWith(function(data, type, full, meta) {
 		     $scope.selected[full.contentionId] = false;
-		     return '<label for="selectchk' + data.contentionId + '" style="display: none">select</label><input id="selectchk' + data.contentionId + '" type="checkbox" ng-model="selected[' + data.contentionId + ']" ng-click="toggleOne(selected)">';
+		     return '<label for="selectchk' + data.contentionId + '" style="display: none">Select</label><input id="selectchk' + data.contentionId + '" type="checkbox" ng-model="selected[' + data.contentionId + ']" ng-click="toggleOne(selected)">';
 		}),
         DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran ID'),
         DTColumnBuilder.newColumn('veteran.veteranId').withTitle('Veteran Name').renderWith(function(data, type, full) {
