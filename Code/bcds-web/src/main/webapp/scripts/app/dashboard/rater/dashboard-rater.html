@@ -1,5 +1,5 @@
-<div class="container-fluid">
-	<div class="row" ng-controller="TabController">
+<div class="container-fluid" ng-controller="TabController">
+	<div>
 		 <div class="col-md-2 col-xs-2 navbar-custom">
 			<div class="sidebar-nav">
   				<div class="navbar navbar-default" role="navigation">
@@ -17,37 +17,39 @@
 			</div>
     	</div>
 		
-		<div class="col-md-10 col-xs-10 dashboard sideMenuMargin" style="margin-top:7px">
-			<div ng-show="isSet(1)">
-				<div class="row">
-					<div align="center" class="panel-body">
-						<div class="title pull-left">
-							<h4>Raters Dashboard</h4>
-						</div>
-						<ul class="nav nav-tabs">
-							<li ng-class="{ active: isDashboardTabSet(1) }" title="Claims">
-								<a href ng-click="setDashboardTab(1)">Claims</a>
-							</li>
-							<li ng-class="{ active: isDashboardTabSet(2) }" title="Results">
-								<a href ng-click="setDashboardTab(2)">Results</a>
-							</li>
-						</ul>
-						<div ng-show="isDashboardTabSet(1)">
-							<div ng-include="'scripts/app/claims/claims.html'"></div>
-						</div>
-						<div ng-show="isDashboardTabSet(2)">
-							<div ng-include="'scripts/app/misc/results.html'"></div>
+		<div class="col-md-10 col-xs-10 dashboard">
+			<div id="mainContent" class="mainDashboardContent">
+				<div ng-show="isSet(1)">
+					<div>
+						<div align="center">
+							<div class="title pull-left">
+								<h4>Raters Dashboard</h4>
+							</div>
+							<ul class="nav nav-tabs">
+								<li ng-class="{ active: isDashboardTabSet(1) }" title="Claims">
+									<a href ng-click="setDashboardTab(1)">Claims</a>
+								</li>
+								<li ng-class="{ active: isDashboardTabSet(2) }" title="Results">
+									<a href ng-click="setDashboardTab(2)">Results</a>
+								</li>
+							</ul>
+							<div ng-show="isDashboardTabSet(1)">
+								<div ng-include="'scripts/app/claims/claims.html'"></div>
+							</div>
+							<div ng-show="isDashboardTabSet(2)">
+								<div ng-include="'scripts/app/misc/results.html'"></div>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div ng-show="isSet(2)">
-				<div class="row">
-					<div align="center" class="panel-body">
-						<div class="title pull-left">
-							<h4>Reports Dashboard</h4>
+				<div ng-show="isSet(2)">
+					<div>
+						<div align="center">
+							<div class="title pull-left">
+								<h4>Reports Dashboard</h4>
+							</div>
+							<div ng-include="'scripts/app/misc/reports.html'"></div>
 						</div>
-						<div ng-include="'scripts/app/misc/reports.html'"></div>
 					</div>
 				</div>
 			</div>

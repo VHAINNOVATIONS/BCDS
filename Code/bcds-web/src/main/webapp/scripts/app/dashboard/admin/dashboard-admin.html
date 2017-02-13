@@ -1,5 +1,5 @@
-<div class="container-fluid">
-	<div class="row" ng-controller="TabController">
+<div class="container-fluid" ng-controller="TabController">
+	<div>
 		<div class="col-md-2 col-xs-2 navbar-custom">
 			<div class="sidebar-nav">
   				<div class="navbar navbar-default" role="navigation">
@@ -13,20 +13,22 @@
 			  	</div>
 			</div>
     	</div>
-    	<div class="col-md-10 col-xs-10 dashboard" style="margin-top:7px;">
-			<div ng-show="isSet(1)">
-				<div class="row">
-					<div align="center" class="panel-body">
-						<div class="title pull-left">
-							<h4>Admin Dashboard</h4>
-						</div>
-						<ul class="nav nav-tabs">
-							<li ng-class="{ active: isDashboardTabSet(1) }" title="Manage Users">
-								<a href ng-click="setDashboardTab(1)">Current Users</a>
-							</li>
-						</ul>
-						<div ng-show="isDashboardTabSet(1)">
-							<div ng-include="'scripts/app/user-editor/manage-users.html'"></div>
+    	<div class="col-md-10 col-xs-10 dashboard">
+	    	<div id="mainContent" class="mainDashboardContent">
+				<div ng-show="isSet(1)">
+					<div>
+						<div align="center" class="panel-body">
+							<div class="title pull-left">
+								<h4>Admin Dashboard</h4>
+							</div>
+							<ul class="nav nav-tabs">
+								<li ng-class="{ active: isDashboardTabSet(1) }" title="Manage Users">
+									<a href ng-click="setDashboardTab(1)">Current Users</a>
+								</li>
+							</ul>
+							<div ng-show="isDashboardTabSet(1)">
+								<div ng-include="'scripts/app/user-editor/manage-users.html'"></div>
+							</div>
 						</div>
 					</div>
 				</div>
