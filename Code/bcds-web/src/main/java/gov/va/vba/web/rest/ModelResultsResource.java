@@ -19,6 +19,7 @@ import com.codahale.metrics.annotation.Timed;
 import gov.va.vba.domain.ModelRatingResults;
 import gov.va.vba.domain.ModelRatingResultsDiag;
 import gov.va.vba.domain.util.ModelPatternIndex;
+import gov.va.vba.domain.CustomBCDSSException;
 import gov.va.vba.domain.ModelRatingDetailsResult;
 import gov.va.vba.domain.ModelRatingPattern;
 import gov.va.vba.service.data.ModelRatingResultsDataService;
@@ -52,14 +53,22 @@ public class ModelResultsResource {
      */
     @RequestMapping(value = "/modelRatingResults", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ModelRatingDetailsResult getModelRatingResults(@RequestBody ModelRatingResultsDTO modelRating) {
+    public ModelRatingDetailsResult getModelRatingResults(@RequestBody ModelRatingResultsDTO modelRating) throws CustomBCDSSException{
         LOGGER.debug("REST request to get results of model rating");
         ModelRatingDetailsResult detailedResult = new ModelRatingDetailsResult();
-        detailedResult.modelRatingResults = modelRatingResultsDataService.getClaimModelRatingResults(modelRating.getProcessIds(), modelRating.getFromDate(), modelRating.getToDate(), modelRating.getModelType());
-        List<Long> processIds = (modelRating.getProcessIds() == null) ? modelRatingResultsDataService.getProcessIdsFromRatingResults(detailedResult.modelRatingResults) : modelRating.getProcessIds();
-        if(processIds != null && processIds.size() > 0){
-        	detailedResult.diagnosticCodes = modelRatingResultsDataService.findDiagnosticCodes(processIds);
-        	detailedResult.resultsStatus = modelRatingResultsDataService.findModelRatingResultStatusByProcessIds(processIds);
+        try{
+		        detailedResult.modelRatingResults = modelRatingResultsDataService.getClaimModelRatingResults(modelRating.getProcessIds(), modelRating.getFromDate(), modelRating.getToDate(), modelRating.getModelType());
+		        List<Long> processIds = (modelRating.getProcessIds() == null) ? modelRatingResultsDataService.getProcessIdsFromRatingResults(detailedResult.modelRatingResults) : modelRating.getProcessIds();
+		        if(processIds != null && processIds.size() > 0){
+		        	detailedResult.diagnosticCodes = modelRatingResultsDataService.findDiagnosticCodes(processIds);
+		        	detailedResult.resultsStatus = modelRatingResultsDataService.findModelRatingResultStatusByProcessIds(processIds);
+		        }else{
+		        	throw new CustomBCDSSException("No valid Pattern found for the data selected");
+		        }
+        }
+        catch(CustomBCDSSException e){
+     	   e.getMessage();
+     	   System.err.println("Application Exception. Please contact the administrator: " + e.getMessage());
         }
         return detailedResult;
     }

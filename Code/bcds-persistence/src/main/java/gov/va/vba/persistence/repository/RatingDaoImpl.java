@@ -100,7 +100,7 @@ public class RatingDaoImpl implements RatingDao {
     @Override
     public List<Long> getKneeCntntPattrens(Map<Long, Integer> contentionCount, List<Long> pattrens, String modelType) {
         StringBuilder pattrenQuery = new StringBuilder();
-        pattrenQuery.append("SELECT DISTINCT PATTERN_ID FROM DDM_MODEL_CNTNT WHERE UPPER(MODEL_TYPE)='" + modelType + "' AND (  ");
+        pattrenQuery.append("SELECT DISTINCT PATTERN_ID FROM BCDSS.DDM_MODEL_CNTNT WHERE UPPER(MODEL_TYPE)='" + modelType + "' AND (  ");
         for (Map.Entry<Long, Integer> x : contentionCount.entrySet()) {
             pattrenQuery.append(" (").append("CNTNT_CD=").append(x.getKey()).append(" AND ")
                     .append("COUNT=").append(x.getValue()).append(") OR");
@@ -124,7 +124,7 @@ public class RatingDaoImpl implements RatingDao {
     @Override
     public List<Long> getKneeDiagPattrens(List<DiagnosisCount> diagCount, List<Long> pattrens, String modelType) {
         StringBuilder pattrenQuery = new StringBuilder();
-        pattrenQuery.append("SELECT DISTINCT PATTERN_ID FROM DDM_MODEL_DIAG WHERE UPPER(MODEL_TYPE)='" + modelType + "' AND (  ");
+        pattrenQuery.append("SELECT DISTINCT PATTERN_ID FROM BCDSS.DDM_MODEL_DIAG WHERE UPPER(MODEL_TYPE)='" + modelType + "' AND (  ");
         for (DiagnosisCount x : diagCount) {
             pattrenQuery.append(" (").append("DIAG_CD=").append(x.getDecisionCode()).append(" AND ")
                     .append("COUNT=").append(x.getCount()).append(") OR");

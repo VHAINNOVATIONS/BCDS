@@ -1,8 +1,8 @@
 package gov.va.vba.web.soap;
 
 import gov.va.vba.bcdss.models.*;
+import gov.va.vba.domain.CustomBCDSSException;
 import gov.va.vba.persistence.entity.EditModelPatternResults;
-import gov.va.vba.security.SecurityUtils;
 import gov.va.vba.service.data.ClaimDataService;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.maven.wagon.authentication.AuthenticationException;
@@ -40,14 +40,22 @@ public class BcdsModelingEndpoint {
 
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "getProcessClaimRequest")
 	@ResponsePayload
-	public GetProcessClaimResponse getProcessClaim(@RequestPayload GetProcessClaimRequest request) {
+	public GetProcessClaimResponse getProcessClaim(@RequestPayload GetProcessClaimRequest request) throws CustomBCDSSException {
 		LOGGER.debug("SOAP request to get a Process Claim... ...");
         GetProcessClaimResponse getProcessClaimResponse = new GetProcessClaimResponse();
-        if(CollectionUtils.isNotEmpty(request.getVeteranClaimInput())) {
-            List<VeteranClaimRating> veteranClaimRatings = claimDataService.findByVeteranId(request.getVeteranClaimInput());
-            if(CollectionUtils.isNotEmpty(veteranClaimRatings)) {
-                getProcessClaimResponse.getVeteranClaimRatingOutput().addAll(veteranClaimRatings);
-            }
+        try{
+	        if(CollectionUtils.isNotEmpty(request.getVeteranClaimInput())) {
+	            List<VeteranClaimRating> veteranClaimRatings = claimDataService.findByVeteranId(request.getVeteranClaimInput());
+	            if(CollectionUtils.isNotEmpty(veteranClaimRatings)) {
+	                getProcessClaimResponse.getVeteranClaimRatingOutput().addAll(veteranClaimRatings);
+	            }else{
+                	throw new CustomBCDSSException("No valid Pattern found for the data selected");
+                }
+	        }
+        }catch(CustomBCDSSException e){
+        	LOGGER.info("Exception Caught :::::: " + e);
+        	e.getMessage();
+        	e.printStackTrace();
         }
         return getProcessClaimResponse;
 	}
