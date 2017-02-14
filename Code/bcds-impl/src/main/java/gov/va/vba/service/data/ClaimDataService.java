@@ -133,9 +133,6 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
     public List<Claim> findFirstNumberedRow() {
         List<ClaimDetails> claims = ratingDao.getClaims();
         LOG.info("SIZE of input :::: " + claims.size());
-        for (int i = 0; i < claims.size(); i++) {
-            System.out.println(claims.get(i));
-        }
         return mapKneeClaimsToClaims(claims);
     }
 
