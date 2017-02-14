@@ -83,6 +83,23 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	 	.withOption('pageLength', 10)
         .withOption('bAutoWidth', false)
         .withOption('bLengthChange', false)
+        .withOption('fnDrawCallback', function (settings) {
+            console.log("DataTable drawCallback");
+            if (settings.aoData.length > 0) {
+                var paginationButtons =  $('.pagination');
+                angular.forEach(paginationButtons, function(node) {
+                    var childNodes = node && node.childNodes;
+                    angular.forEach(childNodes, function(listNode){
+                        var pbutton = listNode.childNodes && listNode.childNodes[0];
+                        if(pbutton){
+                            var text = $(pbutton).text(),
+                            title = isNaN(text) ? text+' page' : 'Page '+text;
+                            $(pbutton).attr('title', title);
+                        }
+                    });
+                }); 
+            }
+        })
 	   	.withOption('createdRow', function(row, data, dataIndex) {
 	    	// Recompiling so we can bind Angular directive to the DT        
 	    	$compile(angular.element(row).contents())($scope);
