@@ -45,17 +45,20 @@ public class ClaimResource {
 
 	@RequestMapping(value = "/claims", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	public List<Claim> getFirstFewClaims() {
+	public List<Claim> getFirstFewClaims() throws CustomBCDSSException {
 		LOGGER.debug("REST request to get first few Claims");
 		List<Claim> claims = new ArrayList<>();
-		claims= claimDataService.findFirstNumberedRow();
-		LOGGER.info("SIZE :::: " + claims.size());
+			claims= claimDataService.findFirstNumberedRow();
+			LOGGER.info("SIZE :::: " + claims.size());
+			if(CollectionUtils.isEmpty(claims)){
+				throw new CustomBCDSSException("No Claims found for the in RATING CLAIMS TABLES");
+			}
 		 return claims;
 	}
 
     @RequestMapping(value = "/claims", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public List<Claim> getClaims(@RequestBody ClaimDTO claim) {
+    public List<Claim> getClaims(@RequestBody ClaimDTO claim) throws CustomBCDSSException{
         LOGGER.debug("REST request to get first few Claims");
 
         String contentionTypeStr=null;
@@ -74,6 +77,10 @@ public class ClaimResource {
         	filteredClaims= claimDataService.findFirstNumberedRow();
         }else{
         	filteredClaims= claimDataService.findClaims(contentionTypeStr, regionalOffice, fromDate, toDate);
+        }
+        
+        if(CollectionUtils.isEmpty(filteredClaims)){
+        	throw new CustomBCDSSException("No data matched with the given filter criteria");
         }
         return filteredClaims;
     }

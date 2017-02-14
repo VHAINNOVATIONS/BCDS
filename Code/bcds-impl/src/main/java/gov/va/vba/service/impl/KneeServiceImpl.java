@@ -38,23 +38,19 @@ public class KneeServiceImpl implements KneeService {
     public ModelRatingResults processClaims(int veteranId, List<ClaimDetails> kneeClaims, String currentLogin) {
         if (CollectionUtils.isNotEmpty(kneeClaims)) {
             ClaimDetails kneeClaim = kneeClaims.get(0);
-
-            List<DecisionDetails> decisions = ratingDao.getDecisionsPercentByClaimDate(veteranId, kneeClaim.getClaimDate());
-            int calculatedValue = calculateKneeRating(decisions);
+            int calculatedValue = 0;
             BigDecimal priorCdd = BigDecimal.ZERO;
-            if (CollectionUtils.isNotEmpty(decisions)) {
-                DecisionDetails decisionDetails = decisions.get(0);
-                Map<String, DecisionDetails> map = new HashMap<>();
-                map.put(decisionDetails.getDecisionCode(), decisionDetails);
-                priorCdd = applyFormula(map);
+            List<DecisionDetails> decisions = ratingDao.getDecisionsPercentByClaimDate(veteranId, kneeClaim.getClaimDate());
+            if(CollectionUtils.isNotEmpty(decisions)){
+	            calculatedValue = calculateKneeRating(decisions);
+	                DecisionDetails decisionDetails = decisions.get(0);
+	                Map<String, DecisionDetails> map = new HashMap<>();
+	                map.put(decisionDetails.getDecisionCode(), decisionDetails);
+	                priorCdd = applyFormula(map);
             }
-
             int age = ratingDao.getClaimaintAge(veteranId, kneeClaim.getClaimId());
             age = AppUtill.roundToCeilMultipleOfTen(age);
             LOG.info("ROUNDED AGE :: {}", age);
-
-
-
             ModelRatingResults results = new ModelRatingResults();
             results.setProcessDate(new Date());
 
