@@ -93,11 +93,11 @@ public class ClaimResource {
         return processClaim;
     }
 
-  /*  @ExceptionHandler(CustomBCDSSException.class)
+   @ExceptionHandler(CustomBCDSSException.class)
     @ResponseStatus(value=HttpStatus.SERVICE_UNAVAILABLE)
     public ErrorResponse handle(CustomBCDSSException e) {
         return new ErrorResponse(e.getMessage()); // use message from the original exception
-    }*/
+    }
     
     @RequestMapping(value = "/claims/results", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed

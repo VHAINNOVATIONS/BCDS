@@ -1,4 +1,4 @@
-package gov.va.vba.domain;
+/*package gov.va.vba.domain;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -15,3 +15,4 @@ public class ExceptionControllerAdvice {
 	        return new ErrorResponse(e.getMessage());
 	    }
 }
+*/
