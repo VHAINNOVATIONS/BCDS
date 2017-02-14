@@ -25,7 +25,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     $scope.modal = {
       instance: null
     };
-    
+
     $scope.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
     	 return new Promise( function(resolve, reject){
              if ($scope.claims)
@@ -41,7 +41,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
             $(cell).attr('title', function (index, attr) {
                 return this.outerText;
             });
-        }); 
+        });
     })
     .withOption('headerCallback', function(header) {
         angular.forEach(header.cells, function(cell){
@@ -61,7 +61,23 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     .withDOM('Bfrtip')
     //.withOption('bLengthChange', false)
     .withOption('processing', true)
-    //.withOption('scrollY', '40vh')
+    .withOption('fnDrawCallback', function (settings) {
+        console.log("DataTable drawCallback");
+        if (settings.aoData.length > 0) {
+            var paginationButtons =  $('.pagination');
+            angular.forEach(paginationButtons, function(node) {
+                var childNodes = node && node.childNodes;
+                angular.forEach(childNodes, function(listNode){
+                    var pbutton = listNode.childNodes && listNode.childNodes[0];
+                    if(pbutton){
+                        var text = $(pbutton).text(),
+                        title = isNaN(text) ? text+' page' : 'Page '+text;
+                        $(pbutton).attr('title', title);
+                    }
+                });
+            }); 
+        }
+    })
     .withOption('pageLength', 15)
     //.withOption('responsive', true)
     .withOption('order', [[1, 'asc']])
@@ -128,7 +144,6 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
         })
     ];
     
-    
     /*$scope.setDefaultDates  = function(){
     	$scope.filters.dateType = "claimDate";
         $scope.today = new Date();
@@ -143,7 +158,15 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     		$scope.userName = $scope.account.firstName;
     	}
     };
-    
+
+    $scope.setPaginateTitles=function(){
+        $('.pagination').each(function() {
+            var text = $(this).text(),
+            title = isNaN(text) ? text+' page' : 'Page '+text;
+            $(this).attr('title', title);
+        }); 
+    };
+
     $scope.loadClaims = function(){
         spinnerService.show('claimsSpinner');
     	ClaimService.query(function(result){
@@ -171,7 +194,6 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     
     $scope.getUserName();
     //$scope.loadClaims();
-
  
     $scope.dtInstanceCallback = function(_dtInstance) {
         $scope.dtInstance = _dtInstance;

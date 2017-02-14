@@ -79,6 +79,23 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
    .withOption('processing', true)
    .withBootstrap()
    .withDOM('Bfrtip')
+   .withOption('fnDrawCallback', function (settings) {
+        console.log("DataTable drawCallback");
+        if (settings.aoData.length > 0) {
+            var paginationButtons =  $('.pagination');
+            angular.forEach(paginationButtons, function(node) {
+                var childNodes = node && node.childNodes;
+                angular.forEach(childNodes, function(listNode){
+                    var pbutton = listNode.childNodes && listNode.childNodes[0];
+                    if(pbutton){
+                        var text = $(pbutton).text(),
+                        title = isNaN(text) ? text+' page' : 'Page '+text;
+                        $(pbutton).attr('title', title);
+                    }
+                });
+            }); 
+        }
+    })
    //.withOption('scrollY', '32vh')
    //.withOption('scrollCollapse', true)
    .withOption('pageLength', 10)
@@ -193,6 +210,23 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
    .withOption('pageLength', 6)
    .withOption('bAutoWidth', false)
    .withOption('ordering', false)
+   .withOption('fnDrawCallback', function (settings) {
+        console.log("DataTable drawCallback");
+        if (settings.aoData.length > 0) {
+            var paginationButtons =  $('.pagination');
+            angular.forEach(paginationButtons, function(node) {
+                var childNodes = node && node.childNodes;
+                angular.forEach(childNodes, function(listNode){
+                    var pbutton = listNode.childNodes && listNode.childNodes[0];
+                    if(pbutton){
+                        var text = $(pbutton).text(),
+                        title = isNaN(text) ? text+' page' : 'Page '+text;
+                        $(pbutton).attr('title', title);
+                    }
+                });
+            }); 
+        }
+    })
    .withButtons([
             {
                 extend: 'pdf',

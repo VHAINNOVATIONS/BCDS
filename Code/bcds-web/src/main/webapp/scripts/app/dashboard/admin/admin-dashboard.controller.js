@@ -50,6 +50,23 @@ angular.module('bcdssApp').controller('AdminDashboardController', function($root
     .withOption('processing', true)
     .withOption('bAutoWidth', false)
     .withOption('pageLength', 15)
+    .withOption('fnDrawCallback', function (settings) {
+        console.log("DataTable drawCallback");
+        if (settings.aoData.length > 0) {
+            var paginationButtons =  $('.pagination');
+            angular.forEach(paginationButtons, function(node) {
+                var childNodes = node && node.childNodes;
+                angular.forEach(childNodes, function(listNode){
+                    var pbutton = listNode.childNodes && listNode.childNodes[0];
+                    if(pbutton){
+                        var text = $(pbutton).text(),
+                        title = isNaN(text) ? text+' page' : 'Page '+text;
+                        $(pbutton).attr('title', title);
+                    }
+                });
+            }); 
+        }
+    })
     //.withOption('responsive', true)
     .withOption('order', [[0, 'desc']])
     .withButtons([{
