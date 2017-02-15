@@ -437,8 +437,8 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
      	//case when no params or only model type
     	if(($scope.filters.modelResultId || $scope.filters.modelResultId == null) && $scope.reportsFromDate == null && $scope.reportsToDate == null){
     		var today = new Date();
-    		$scope.filters.reportsFromDate = $scope.formatDate(new Date());
-    		$scope.filters.reportsToDate = $scope.formatDate(new Date(today.getFullYear(), today.getMonth() + 12, today.getDate()));
+    		$scope.filters.reportsFromDate =   $scope.formatDate(new Date(today.getFullYear(), today.getMonth() - 12, today.getDate())); //prior year.
+    		$scope.filters.reportsToDate = $scope.formatDate(new Date());
    			$scope.processIds = [];
     	}
 
