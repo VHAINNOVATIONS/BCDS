@@ -17,4 +17,6 @@ public interface EarDao {
     List<ClaimDetails> getPreviousClaims(long veteranId, Date claimDate);
 
     List<DecisionDetails> getDecisionsPercentByClaimDate(long veteranId, Date claimDate);
+
+    Date getBeginDate(long veteranId, Date claimDate);
 }

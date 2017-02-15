@@ -59,4 +59,13 @@ public class EarDaoImpl implements EarDao {
         return decisions;
     }
 
+    @Override
+    public Date getBeginDate(long veteranId, Date claimDate) {
+        Date beginDate = jdbcTemplate.queryForObject(QueryConstants.EAR_PRIOR_CDD_BEGIN_DATE, new Object[]{veteranId, claimDate}, Date.class);
+        LOG.info("****************************************************************");
+        LOG.info("PRIOR CDD BEGIN DATE AGE ::::::: {} ", beginDate);
+        LOG.info("****************************************************************");
+        return beginDate;
+    }
+
 }

@@ -51,11 +51,19 @@ public class KneeServiceImpl implements KneeService {
             int age = ratingDao.getClaimaintAge(veteranId, kneeClaim.getClaimId());
             age = AppUtill.roundToCeilMultipleOfTen(age);
             LOG.info("ROUNDED AGE :: {}", age);
+
+            Date beginDate = ratingDao.getBeginDate(veteranId, kneeClaim.getClaimDate());
+            int cddAge = 0;
+            if(beginDate != null) {
+                cddAge = AppUtill.diffInYears(beginDate, kneeClaim.getCestDate());
+            }
+
+
             ModelRatingResults results = new ModelRatingResults();
             results.setProcessDate(new Date());
 
 
-            //results.setCDDAge((long) cddAge);
+            results.setCDDAge((long) cddAge);
             //results.setClaimAge((long) age);
             results.setClaimId(kneeClaim.getClaimId());
             results.setClaimDate(kneeClaim.getClaimDate());

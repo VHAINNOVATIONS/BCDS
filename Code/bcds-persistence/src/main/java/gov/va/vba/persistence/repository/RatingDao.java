@@ -53,4 +53,6 @@ public interface RatingDao {
 								int ctlgId, String modelType);
     
     List<ModelRatingAggregateResult> getModelRatingAggregateCounts();
+
+    Date getBeginDate(long veteranId, Date claimDate);
 }

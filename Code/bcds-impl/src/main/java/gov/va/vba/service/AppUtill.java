@@ -1,6 +1,8 @@
 package gov.va.vba.service;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 import java.util.List;
@@ -9,6 +11,8 @@ import java.util.List;
  * Created by ProSphere User on 12/14/2016.
  */
 public class AppUtill {
+
+    private static final Logger LOG = LoggerFactory.getLogger(AppUtill.class);
 
     /**
      * Description: This method gives oldest date from the list of dates
@@ -29,6 +33,16 @@ public class AppUtill {
             return (i + 1) * 10;
         }
         return value;
+    }
+
+    public static int diffInYears(Date startDate, Date endDate) {
+        if(startDate.before(endDate)) {
+            long x = endDate.getTime() - startDate.getTime();
+            long years = Math.round(x/(1000L *60*60*24*365));
+            LOG.info("DATE DIFFERENCE :::: " + years);
+            return roundToCeilMultipleOfTen((int)years);
+        }
+        return 0;
     }
 
 }

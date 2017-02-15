@@ -47,11 +47,15 @@ public class EarServiceImpl implements EarService {
             int calculatedValue = calculateEarRating(decisions);
             BigDecimal priorCdd = getPriorCdd(decisions);
             int age = getClaimentAge(veteranId, kneeClaim);
-
+            Date beginDate = earDao.getBeginDate(veteranId, kneeClaim.getClaimDate());
+            int cddAge = 0;
+            if(beginDate != null) {
+                cddAge = AppUtill.diffInYears(beginDate, kneeClaim.getCestDate());
+            }
             ModelRatingResults results = new ModelRatingResults();
             results.setProcessDate(new Date());
 
-            //results.setCDDAge((long) cddAge);
+            results.setCDDAge((long) cddAge);
             //results.setClaimAge((long) age);
             results.setClaimId(kneeClaim.getClaimId());
             results.setClaimDate(kneeClaim.getClaimDate());
