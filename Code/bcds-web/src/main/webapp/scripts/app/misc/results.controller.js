@@ -570,6 +570,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	$rootScope.$on('ProcessClaims', function(event, data) {
 		var inputObj = [];
         spinnerService.show('resultsSpinner');
+        $scope.displayResultsRatingTable = false;
 		$scope.userName = Auth.getCurrentUser();
 		angular.forEach(data,function(ele,idx){
 			var obj = {
