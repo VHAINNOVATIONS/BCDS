@@ -50,7 +50,7 @@ public class EarServiceImpl implements EarService {
             Date beginDate = earDao.getBeginDate(veteranId, kneeClaim.getClaimDate());
             int cddAge = 0;
             if(beginDate != null) {
-                cddAge = AppUtill.diffInYears(beginDate, kneeClaim.getCestDate());
+                cddAge = AppUtill.diffInYears(beginDate, kneeClaim.getClaimDate());
             }
             ModelRatingResults results = new ModelRatingResults();
             results.setProcessDate(new Date());
