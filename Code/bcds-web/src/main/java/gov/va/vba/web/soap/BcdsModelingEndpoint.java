@@ -14,6 +14,7 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
+import java.util.Date;
 import java.util.List;
 
 @Endpoint
@@ -70,19 +71,23 @@ public class BcdsModelingEndpoint {
 
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "editModelRequest")
 	@ResponsePayload
-	public EditModelResponse editModel(@RequestPayload EditModelRequest request) throws AuthenticationException, Exception {
+	public EditModelResponse editModel(@RequestPayload EditModelRequest request) throws CustomBCDSSException{
 		LOGGER.debug("SOAP request to edit model... ...");
 		EditModelResponse editModelResponse = new EditModelResponse();
 		EditModelPatternResults editModelPatternInfo = null;
 		String editModel ="";
+		String createdBy="";
 		Long patternId = Long.valueOf(request.getIn().getModelPatternIndex().getPatternId());
 		Long cdd= Long.valueOf(request.getIn().getModelPatternIndex().getCdd());
-		
+		createdBy = request.getIn().getModelPatternIndex().getCreatedBy();
+		if(null==createdBy || "".equals(createdBy)){
+			createdBy = "Modeler Service";
+		}
 		editModelPatternInfo = claimDataService.findModelRatingPatternInfo(patternId);
 		if(null!=editModelPatternInfo.getPatternId()){
 		 if(null!=editModelPatternInfo && editModelPatternInfo.getCDD()!=cdd){
 			 editModel = claimDataService.updateModelRatingPatternInfo(editModelPatternInfo.getPatternId(),editModelPatternInfo.getAccuracy(), cdd, editModelPatternInfo.getPatternIndexNumber(),
-					 																		editModelPatternInfo.getCreatedBy(), editModelPatternInfo.getCreatedDate(),
+					 																		createdBy, new Date(),
 					 																		editModelPatternInfo.getCategoryId(), editModelPatternInfo.getModelType());
 		 }else{
 			 editModel = "CDD is not updated. No row inserted.";

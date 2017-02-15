@@ -530,7 +530,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
     	}
     }
     
-    public EditModelPatternResults findModelRatingPatternInfo(Long patternId) throws AuthenticationException, Exception {
+    public EditModelPatternResults findModelRatingPatternInfo(Long patternId) throws CustomBCDSSException{
     	List<EditModelPatternResults> results = null;
     	EditModelPatternResults patterns = new EditModelPatternResults();
     	try{
@@ -542,18 +542,16 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
 			if(results!=null && results.size() > 0){
 				patterns = mapEditModelResults(results);
 			}else{
-				throw new AuthenticationException("Pattern not found with pattern ID : " + patternId);
+				throw new CustomBCDSSException("Pattern not found with pattern ID : " + patternId);
 			}
-    	}catch(AuthenticationException auth){
-    		auth.printStackTrace();
-    	}catch(Exception e){
-    		 System.err.println("Pattern ID not found: " + e.getMessage());
+    	}catch(CustomBCDSSException e){
+    		e.printStackTrace();
     	}
     	return patterns;	
 	}
     
     public String updateModelRatingPatternInfo(Long patternId, Double accuracy, Long cdd, Long patternIndexNumber, String createdBy, Date createdDate, 
-    											int ctlgId, String modelType) throws Exception {
+    											int ctlgId, String modelType) throws CustomBCDSSException {
     	String editResponse="";
     	try{
 			int newPatternCategory = ratingDao.createEditModelPattern(patternId, accuracy, cdd, patternIndexNumber, createdBy, createdDate, ctlgId+1, modelType);
@@ -563,7 +561,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
 				editResponse = "Failed";
 			}
 			
-    	}catch(Exception e){
+    	}catch(CustomBCDSSException e){
     		 System.err.println("Pattern ID not found: " + e.getMessage());
     	}
     	return editResponse;	
