@@ -365,7 +365,7 @@ public class RatingDaoImpl implements RatingDao {
 
     @Override
     public Date getBeginDate(long veteranId, Date claimDate) {
-        Date beginDate = jdbcTemplate.queryForObject(QueryConstants.KNEE_PRIOR_CDD_BEGIN_DATE, new Object[]{claimDate, veteranId}, Date.class);
+        Date beginDate = jdbcTemplate.queryForObject(QueryConstants.KNEE_PRIOR_CDD_BEGIN_DATE, new Object[]{claimDate, veteranId, claimDate, veteranId}, Date.class);
         LOG.info("****************************************************************");
         LOG.info("PRIOR CDD BEGIN DATE AGE ::::::: {} ", beginDate);
         LOG.info("****************************************************************");
