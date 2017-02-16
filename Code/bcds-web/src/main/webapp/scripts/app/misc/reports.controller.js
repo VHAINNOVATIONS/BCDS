@@ -167,13 +167,13 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 	    DTColumnBuilder.newColumn('cddage').withTitle('Prior Rating Age (Yr)'),
 	    DTColumnBuilder.newColumn('currentCDD').withTitle('Modeled Target Claim Rating'),
 	    DTColumnBuilder.newColumn('patternIndex.cdd').withTitle('Actual Target Claim Rating').renderWith(function(data, type, full) {
-              return "<div>"+ data +"</div>"
+              return "<div>"+(data != null || data != undefined) ? data : "" +"</div>"
       }),
 	    DTColumnBuilder.newColumn('patternIndex.patternIndexNumber').withTitle('Pattern Rate of Use').renderWith(function(data, type, full) {
-              return "<div>"+ data +"</div>"
+              return "<div>"+(data != null || data != undefined) ? data : "" +"</div>"
       }),
 	    DTColumnBuilder.newColumn('patternIndex.accuracy').withTitle('Pattern Accuracy Rate').renderWith(function(data, type, full) {
-	        return "<div>"+Math.round(data)+"%</div>"
+	        return "<div>"+(data != null || data != undefined) ? Math.round(data) : "" +"</div>"
 	    }),
 	    DTColumnBuilder.newColumn(null).withTitle('Agree/Disagree').renderWith(function(data, type, full) {
 	        return "<div>"+$scope.getModelRatingResultStatusByProcessId(full.processId)+"</div>"
