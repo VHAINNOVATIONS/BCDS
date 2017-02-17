@@ -164,15 +164,18 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 	    DTColumnBuilder.newColumn('priorCDD').withTitle('Prior Rating'),
 	    DTColumnBuilder.newColumn('cddage').withTitle('Prior Rating Age (Yr)'),
 	    DTColumnBuilder.newColumn('currentCDD').withTitle('Modeled Target Claim Rating'),
-	    DTColumnBuilder.newColumn('patternIndex.cdd').withTitle('Actual Target Claim Rating').renderWith(function(data, type, full) {
-              return "<div>"+(data != null || data != undefined) ? data : "" +"</div>"
+	    DTColumnBuilder.newColumn(null).withTitle('Actual Target Claim Rating').renderWith(function(data, type, full) {
+          var cdd = (data.patternIndex == null) ? "" : data.patternIndex.cdd;
+          return "<div>"+ cdd +"</div>"
       }),
-	    DTColumnBuilder.newColumn('patternIndex.patternIndexNumber').withTitle('Pattern Rate of Use').renderWith(function(data, type, full) {
-              return "<div>"+(data != null || data != undefined) ? data : "" +"</div>"
+      DTColumnBuilder.newColumn(null).withTitle('Pattern Rate of Use').renderWith(function(data, type, full) {
+          var patternIndexNumber = (data.patternIndex == null) ? "" : data.patternIndex.patternIndexNumber;
+          return "<div>"+ patternIndexNumber +"</div>"
+      }), 
+      DTColumnBuilder.newColumn(null).withTitle('Pattern Accuracy Rate').renderWith(function(data, type, full) {
+          var accuracy = (data.patternIndex == null) ? "" : Math.round(data.patternIndex.accuracy) + "%";
+          return "<div>"+ accuracy +"</div>"
       }),
-	    DTColumnBuilder.newColumn('patternIndex.accuracy').withTitle('Pattern Accuracy Rate').renderWith(function(data, type, full) {
-	        return "<div>"+(data != null || data != undefined) ? Math.round(data) : "" +"</div>"
-	    }),
 	    DTColumnBuilder.newColumn(null).withTitle('Agree/Disagree').renderWith(function(data, type, full) {
 	        return "<div>"+$scope.getModelRatingResultStatusByProcessId(full.processId)+"</div>"
 	    }),
