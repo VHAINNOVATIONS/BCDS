@@ -110,13 +110,11 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
               orientation: 'landscape',
               pageSize: 'LEGAL',
               exportOptions: {
-                  columns: ':visible',
+                  //columns: ':visible',
                   columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 , 10 , 11, 12, 13, 14]
               },
               init: function(dt, node, config) {
-    			       $("#reportType").on('change', function() {
-    			             config.title = this.selectedOptions[0].label + " Analysis Report";
-        			   })
+                    config.title = "Detailed Analysis Report";
               },
               customize: function ( doc ) {
                   doc.content[1].layout = 'borders';
@@ -167,13 +165,13 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 	    DTColumnBuilder.newColumn('cddage').withTitle('Prior Rating Age (Yr)'),
 	    DTColumnBuilder.newColumn('currentCDD').withTitle('Modeled Target Claim Rating'),
 	    DTColumnBuilder.newColumn('patternIndex.cdd').withTitle('Actual Target Claim Rating').renderWith(function(data, type, full) {
-              return "<div>"+ data +"</div>"
+              return "<div>"+(data != null || data != undefined) ? data : "" +"</div>"
       }),
 	    DTColumnBuilder.newColumn('patternIndex.patternIndexNumber').withTitle('Pattern Rate of Use').renderWith(function(data, type, full) {
-              return "<div>"+ data +"</div>"
+              return "<div>"+(data != null || data != undefined) ? data : "" +"</div>"
       }),
 	    DTColumnBuilder.newColumn('patternIndex.accuracy').withTitle('Pattern Accuracy Rate').renderWith(function(data, type, full) {
-	        return "<div>"+Math.round(data)+"%</div>"
+	        return "<div>"+(data != null || data != undefined) ? Math.round(data) : "" +"</div>"
 	    }),
 	    DTColumnBuilder.newColumn(null).withTitle('Agree/Disagree').renderWith(function(data, type, full) {
 	        return "<div>"+$scope.getModelRatingResultStatusByProcessId(full.processId)+"</div>"
@@ -240,9 +238,7 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
                     columns: ':visible'
                 },
                 init: function(dt, node, config) {
-      			        $("#reportType").on('change', function() {
-      			            config.title = this.selectedOptions[0].label + " Analysis Report";
-      			        })
+      			        config.title = "Aggregate Analysis Report";
       			    },
                customize: function ( doc ) {
                   doc.content[1].layout = 'borders';

@@ -126,6 +126,7 @@ ul.multiselect li.select-highlight-blur {
     position: relative;
     width: 91%;
     will-change: overflow;
+    -ms-overflow-style: none;
 }
 
 .mainDashboardContent{
