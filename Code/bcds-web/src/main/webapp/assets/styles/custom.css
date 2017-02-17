@@ -255,6 +255,10 @@ td { font-size: 12px; }
     width: 210px !important;
 }
 
+.datePopup {
+    width: 200px !important;
+}
+
 @media (max-width: 1550px) {
     .dashboard {
         margin-left: 140px;
@@ -268,8 +272,12 @@ td { font-size: 12px; }
         text-align: justify;
     }
 
-    .dateInput {
-        width: 152px !important;
+    .dateInput  {
+        width: 153px !important;
+    }
+
+    .datePopup{
+        width: 153px !important;
     }
 }
 
