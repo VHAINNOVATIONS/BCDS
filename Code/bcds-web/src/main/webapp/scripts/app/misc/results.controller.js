@@ -207,17 +207,20 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	    DTColumnBuilder.newColumn('priorCDD').withTitle('Prior Rating').notSortable(),
 	    DTColumnBuilder.newColumn('cddage').withTitle('Prior Rating Age (Yr)').notSortable(),
 	    DTColumnBuilder.newColumn('currentCDD').withTitle('Modeled Target Claim Rating').notSortable(),
-	    DTColumnBuilder.newColumn('patternIndex.cdd').withTitle('Actual Target Claim Rating').notSortable().renderWith(function(data, type, full) {
-                return "<div>"+(data != null || data != undefined) ? data : "" +"</div>"
+	    DTColumnBuilder.newColumn(null).withTitle('Actual Target Claim Rating').renderWith(function(data, type, full) {
+                var cdd = (data.patternIndex == null) ? "" : data.patternIndex.cdd;
+                return "<div>"+ cdd +"</div>"
         }),
-	    DTColumnBuilder.newColumn('patternIndex.patternIndexNumber').withTitle('Pattern Rate of Use').notSortable().renderWith(function(data, type, full) {
-                return "<div>"+(data != null || data != undefined) ? data : "" +"</div>"
+        DTColumnBuilder.newColumn(null).withTitle('Pattern Rate of Use').renderWith(function(data, type, full) {
+                var patternIndexNumber = (data.patternIndex == null) ? "" : data.patternIndex.patternIndexNumber;
+                return "<div>"+ patternIndexNumber +"</div>"
+        }), 
+        DTColumnBuilder.newColumn(null).withTitle('Pattern Accuracy Rate').renderWith(function(data, type, full) {
+                var accuracy = (data.patternIndex == null) ? "" : Math.round(data.patternIndex.accuracy) + "%";
+                return "<div>"+ accuracy +"</div>"
         }),
-	    DTColumnBuilder.newColumn('patternIndex.accuracy').withTitle('Pattern Accuracy Rate').notSortable().renderWith(function(data, type, full) {
-	            return "<div>"+(data != null || data != undefined) ? Math.round(data) : "" +"</div>"
-	    }),
 	    DTColumnBuilder.newColumn(null).withTitle('Agree/Disagree').notSortable().renderWith(function(data, type, full) {
-            return "<div>"+$scope.modelRatingStatus+"</div>"
+                return "<div>"+$scope.modelRatingStatus+"</div>"
         }),
     ];
 
@@ -460,9 +463,10 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	        	$scope.modeledRating = data;
 	            return "<div>"+data+"</div>"
 	        }),
-	        DTColumnBuilder.newColumn('patternIndex.cdd').withTitle('Model Results').renderWith(function(data, type, full) {
-	        	$scope.actualRating = data;
-	        	return "<div>"+(data != null || data != undefined) ? data : "" +"</div>"
+	        DTColumnBuilder.newColumn(null).withTitle('Model Results').renderWith(function(data, type, full) {
+	            var cdd = (data.patternIndex == null) ? "" : data.patternIndex.cdd;
+                $scope.actualRating = cdd;
+	        	return "<div>"+ cdd +"</div>"
 	        }),
 	        DTColumnBuilder.newColumn('currentCDD').withTitle('RE/MR Match?').renderWith(function(data, type, full) {
 	        	if($scope.modeledRating === $scope.actualRating){
@@ -470,12 +474,14 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	        	}
 	        	return "<div><span class='glyphicon glyphicon-thumbs-down customThumbsDown'></span></div>"
 	        }),
-	        DTColumnBuilder.newColumn('patternIndex.patternIndexNumber').withTitle('Pattern Rate of Use').renderWith(function(data, type, full) {
-	            return "<div>"+(data != null || data != undefined) ? data : "" +"</div>"
-	        }),
-	        DTColumnBuilder.newColumn('patternIndex.accuracy').withTitle('Pattern Accuracy').renderWith(function(data, type, full) {
-	            return "<div>"+(data != null || data != undefined) ? Math.round(data) : "" +"</div>"
-	        }),
+	         DTColumnBuilder.newColumn(null).withTitle('Pattern Rate of Use').renderWith(function(data, type, full) {
+                var patternIndexNumber = (data.patternIndex == null) ? "" : data.patternIndex.patternIndexNumber;
+                return "<div>"+ patternIndexNumber +"</div>"
+            }), 
+            DTColumnBuilder.newColumn(null).withTitle('Pattern Accuracy Rate').renderWith(function(data, type, full) {
+                    var accuracy = (data.patternIndex == null) ? "" : Math.round(data.patternIndex.accuracy) + "%";
+                    return "<div>"+ accuracy +"</div>"
+            }),
 	        DTColumnBuilder.newColumn(null).withTitle('Status').renderWith(function(data, type, full) {
 	        	return "<div>"+$scope.getModelRatingResultStatusByProcessId(full.processId)+"</div>"
 	        }),
