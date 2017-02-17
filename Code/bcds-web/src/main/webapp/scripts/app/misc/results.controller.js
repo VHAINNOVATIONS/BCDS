@@ -263,7 +263,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
                 });
 			}
 		}
-    }
+    };
 
     $scope.setReliability = function(accuracy){
     	if(accuracy >= 99.50)
@@ -354,7 +354,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
         }
 
         if(!isValidStartDate || !isValidEndDate){
-            $scope.errMessage = 'Invalid date. Date should be a value between 01/01/1900 - 01/01/2100.';
+            $scope.errMessage = 'Invalid date. Date should be a value between 01/01/2000 - 01/01/2100.';
             $scope.frmResultsSearchFilter.$invalid = true;
             return false;
         }

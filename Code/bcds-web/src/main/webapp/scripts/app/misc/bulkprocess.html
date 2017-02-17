@@ -13,19 +13,18 @@
 					<label for="bpFromDate"  class="control-label pull-right" title="From Date"><span>From Date:</span></label>
 				</div>
 				<div class="col-md-2">
-			        <input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy" data-fv-date-message="The value is not a valid date" title="From Date"
-	        		maxlength="10" id="bpFromDate" calendar ng-click="openCalendar('bpFromDate')" placeholder="Enter Date" 
-	        		name="bpFromDate" ng-model="bpFromDate" ng-change='checkErr(bpFromDate,bpToDate)' min="1899-01-01"  
-	        		max="2100-01-01"/>     
+			        <input type="date" class="form-control pull-left dateInput" validatedateformat data-fv-date-format="mm/dd/yyyy" data-fv-date-message="The value is not a valid date" title="From Date" maxlength="10" id="bpFromDate" calendar ng-click="openCalendar('bpFromDate')" placeholder="mm/dd/yyyy" 
+	        		name="bpFromDate" ng-model="bpFromDate" ng-change='checkErr(bpFromDate,bpToDate)' min="2000-01-01"  
+	        		max="2100-01-01" data-date='{"startView": 2 }'/>     
 			     </div>
 			    <div  class="col-md-3">
 						<label for="bpToDate" class="control-label pull-right" title="To Date"><span>To Date:</span></label>
 					</div>
 				<div class="col-md-2">
-			         <input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy" title="To Date"
-	        		maxlength="10" id="bpToDate" calendar ng-click="openCalendar('bpToDate')" placeholder="Enter Date" 
-	        		name="bpToDate" ng-model="bpToDate" ng-change='checkErr(bpFromDate,bpToDate)' min="1899-01-01"  
-	        		max="2100-01-01"/>  
+			         <input type="date" class="form-control pull-left dateInput" validatedateformat data-fv-date-format="mm/dd/yyyy" title="To Date"
+	        		maxlength="10" id="bpToDate" calendar ng-click="openCalendar('bpToDate')" placeholder="mm/dd/yyyy" 
+	        		name="bpToDate" ng-model="bpToDate" ng-change='checkErr(bpFromDate,bpToDate)' min="2000-01-01"  
+	        		max="2100-01-01" data-date='{"startView": 2 }'/>  
 			    </div>   
 			</div> 
 			<br/>

@@ -17,19 +17,24 @@
 						<div class="row">
 							<br/>
 							<form name="frmAdvancedFilter">
-								<div class="row col-md-12" role="alert" style="color: #D8000C;text-align: center;"><span>{{errMessage}}</span></div>
+								<div class="row col-md-12" role="alert" style="color: #D8000C;text-align: center;min-height: 20px;margin-bottom: 5px;">
+									<span>{{errMessage}}</span>
+								</div>
 								<div class="row">
 									<div class="col-md-3">
 										<label for="dateFrom" class="control-label pull-right" title="From Date">Date From:</label>
 									</div>
 									<div class="col-md-3">
-								        <input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy"  maxlength="10" id="fromDate" calendar  ng-click="openCalendar('fromDate')" placeholder="Enter Date" name="fromDate" ng-model="fromDate" ng-change='checkErr(fromDate,toDate)' min="1899-01-01"  max="2100-01-01" title="From Date"/>
+								        <input type="date" class="form-control pull-left dateInput" validatedateformat data-fv-date-format="mm/dd/yyyy" maxlength="10" id="fromDate" calendar  ng-click="openCalendar('fromDate')" placeholder="mm/dd/yyyy" name="fromDate" ng-model="fromDate" ng-change='checkErr(fromDate,toDate)' min="2000-01-01"  max="2100-01-01" title="From Date" data-date='{"startView": 2 }'/>
 								     </div>
+								    
+
 								    <div  class="col-md-2">
 		      							<label for="dateto" class="control-label pull-right" title="To Date">Date To:</label>
 		      						</div>
 									<div class="col-md-3">
-								        <input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy" maxlength="10" id="toDate" calendar  ng-click="openCalendar('toDate')" placeholder="Enter Date" name="toDate" ng-model="toDate" ng-change='checkErr(fromDate,toDate)' min='1899-01-01'  max="2100-01-01" title="To date"/> 
+								        <input type="date" class="form-control pull-left dateInput" validatedateformat data-fv-date-format="mm/dd/yyyy" maxlength="10" id="toDate" calendar  ng-click="openCalendar('toDate')" placeholder="mm/dd/yyyy" name="toDate" ng-model="toDate" ng-change='checkErr(fromDate,toDate)' 
+								        min='2000-01-01'  max="2100-01-01" title="To date" data-date='{"startView": 2}'> 
 								    </div>   
 								</div> 
 								<br/>

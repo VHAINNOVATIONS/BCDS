@@ -130,7 +130,7 @@ angular.module('bcdssApp').controller('BulkProcessController', function($rootSco
         }
 
         if(!isValidStartDate || !isValidEndDate){
-            $scope.errMessage = 'Invalid date. Date should be a value between 01/01/1900 - 01/01/2100.';
+            $scope.errMessage = 'Invalid date. Date should be a value between 01/01/2000 - 01/01/2100.';
             $scope.frmBulkProcess.$invalid = true;
             return false;
         }

@@ -357,7 +357,7 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
       }
 
       if(!isValidStartDate || !isValidEndDate){
-          $scope.errMessage = 'Invalid date. Date should be a value between 01/01/1900 - 01/01/2100.';
+          $scope.errMessage = 'Invalid date. Date should be a value between 01/01/2000 - 01/01/2100.';
           $scope.frmReportsSearchFilter.$invalid = true;
           return false;
       }
