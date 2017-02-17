@@ -114,9 +114,7 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
                   columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 , 10 , 11, 12, 13, 14]
               },
               init: function(dt, node, config) {
-    			       $("#reportType").on('change', function() {
-    			             config.title = this.selectedOptions[0].label + " Analysis Report";
-        			   })
+                    config.title = "Detailed Analysis Report";
               },
               customize: function ( doc ) {
                   doc.content[1].layout = 'borders';
@@ -240,9 +238,7 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
                     columns: ':visible'
                 },
                 init: function(dt, node, config) {
-      			        $("#reportType").on('change', function() {
-      			            config.title = this.selectedOptions[0].label + " Analysis Report";
-      			        })
+      			        config.title = "Aggregate Analysis Report";
       			    },
                customize: function ( doc ) {
                   doc.content[1].layout = 'borders';
