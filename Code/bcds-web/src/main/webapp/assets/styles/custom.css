@@ -251,6 +251,10 @@ td { font-size: 12px; }
     margin-right: 10px;
 }
 
+.dateInput {
+    width: 210px !important;
+}
+
 @media (max-width: 1550px) {
     .dashboard {
         margin-left: 140px;
@@ -262,6 +266,10 @@ td { font-size: 12px; }
     .loginPanelFooter{
         font-size: 10px; 
         text-align: justify;
+    }
+
+    .dateInput {
+        width: 152px !important;
     }
 }
 
@@ -292,7 +300,3 @@ td { font-size: 12px; }
 .ws-popover-opener {  
     margin-top: 8px;
 }  
-
-.dateInput {
-    width: 152px !important;
-}
