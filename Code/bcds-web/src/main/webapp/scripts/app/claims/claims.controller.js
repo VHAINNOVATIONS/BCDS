@@ -82,7 +82,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     //.withOption('responsive', true)
     .withOption('order', [[1, 'asc']])
     .withButtons([{
-	        text: '<a name="Process Claim(s)" id="btnProcessClaim">Process Claims</a>',
+	        text: '<a name="Process Claim(s)" title="Process Claims" id="btnProcessClaim">Process Claims</a>',
             titleAttr: 'Process Claims',
 	        action: function (e, dt, node, config) {
 	        	var selectedItems = $scope.selected;
@@ -308,6 +308,17 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     ];
     
     $scope.filters.regionalOfficeOption = $scope.regionalOfficeOptions[0].value; // Default
+    
+    webshims.setOptions('forms-ext', {
+        "date": {
+           "classes": "hide-spinbtns inputbtns-outside",
+           "calculateWidth": true,
+        },
+        replaceUI: 'auto'
+
+    });
+    webshims.polyfill('forms forms-ext');
+    
 
     $scope.getCestDate = function(date) {
 		return (date + (10*24*60*60*1000));
@@ -340,7 +351,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
         }
 
         if(!isValidStartDate || !isValidEndDate){
-            $scope.errMessage = 'Invalid date. Date should be a value between 01/01/1900 - 01/01/2100.';
+            $scope.errMessage = 'Invalid date. Date should be a value between 01/01/2000 - 01/01/2100.';
             $scope.frmAdvancedFilter.$invalid = true;
             return false;
         }
@@ -419,6 +430,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
         $scope.selectAll = false;
         $scope.selected = {};
         $scope.loadClaims();
+        $scope.errMessage = null;
     }
         
     $scope.isActiveRoleTab = function (userRoleTab) {

@@ -288,3 +288,11 @@ td { font-size: 12px; }
 .spinner {
   background:black;opacity:.5;z-index:2;position:absolute;height:100%;width:100%;
 }
+
+.ws-popover-opener {  
+    margin-top: 8px;
+}  
+
+.dateInput {
+    width: 152px !important;
+}

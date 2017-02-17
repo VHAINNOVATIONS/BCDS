@@ -24,21 +24,21 @@
 			    	</label>
 			    </div>
 		        <div class="col-md-2">
-		        	<input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy" title="Processed From Date"
+		        	<input type="date" class="form-control pull-left dateInput" validatedateformat data-fv-date-format="mm/dd/yyyy" title="Processed From Date"
 		        		ng-disabled="isReportTypeAggregate"
-		        		maxlength="10" id="reportsFromDate" calendar ng-click="openCalendar('reportsFromDate')" placeholder="Enter Date" 
-		        		name="reportsFromDate" ng-model="reportsFromDate" ng-change='checkErr(reportsFromDate,reportsToDate)' min="1899-01-01"  
-		        		max="2100-01-01"/>   
+		        		maxlength="10" id="reportsFromDate" calendar ng-click="openCalendar('reportsFromDate')" placeholder="mm/dd/yyyy" 
+		        		name="reportsFromDate" ng-model="reportsFromDate" ng-change='checkErr(reportsFromDate,reportsToDate)' min="2000-01-01"  
+		        		max="2100-01-01" data-date='{"startView": 2 }'/>   
 		        </div>
 		        <div class="col-md-2">
 		        	<label for="reportsToDate" class="control-label pull-right" title="Processed To Date">Processed To Date:</label>
 		        </div>
 		        <div class="col-md-2">
-		        	  <input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy" title="Processed To Date"
+		        	  <input type="date" class="form-control pull-left dateInput" validatedateformat data-fv-date-format="mm/dd/yyyy" title="Processed To Date"
 		        	  ng-disabled="isReportTypeAggregate"
-		        	  maxlength="10" id="reportsToDate" calendar ng-click="openCalendar('reportsToDate')" placeholder="Enter Date" 
-				      name="reportsToDate" ng-model="reportsToDate" ng-change='checkErr(reportsFromDate,reportsToDate)' min="1899-01-01"  
-				      max="2100-01-01"/>
+		        	  maxlength="10" id="reportsToDate" calendar ng-click="openCalendar('reportsToDate')" placeholder="mm/dd/yyyy"
+				      name="reportsToDate" ng-model="reportsToDate" ng-change='checkErr(reportsFromDate,reportsToDate)' min="2000-01-01"  
+				      max="2100-01-01" data-date='{"startView": 2 }'/>
 		        </div>
 		    </div>
 		    <div class="row" style="margin-top:10px;">

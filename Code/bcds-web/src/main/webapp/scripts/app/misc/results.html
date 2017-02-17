@@ -7,24 +7,22 @@
 			<div role="alert" style="color: #D8000C;padding-right:200px;min-height:20px"><span>{{errMessage}}</span></div>
 		    <div class="row"> 
 			    <div class="col-md-2">
-			    	<label for="resultsFromDate" class="pull-right" title="Processed From Date">
+			    	<label for="resultsFromDate" class="control-label pull-right" title="Processed From Date">
 			    		<span>Processed From Date:</span>
 			    	</label>
 			    </div>
 		        <div class="col-md-2">
-		        	<input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy" title="Processed From Date"
-		        		maxlength="10" id="resultsFromDate" calendar ng-click="openCalendar('resultsFromDate')" placeholder="Enter Date" 
-		        		name="resultsFromDate" ng-model="resultsFromDate" ng-change='checkErr(resultsFromDate,resultsToDate)' min="1899-01-01"  
-		        		max="2100-01-01"/>         
+		        	 <input type="date" class="form-control pull-left dateInput" validatedateformat data-fv-date-format="mm/dd/yyyy" maxlength="10" id="resultsFromDate" calendar  ng-click="			openCalendar('resultsFromDate')" placeholder="mm/dd/yyyy" name="resultsFromDate" ng-model="resultsFromDate" 
+		        	 		ng-change='checkErr(resultsFromDate,resultsToDate)' min="2000-01-01"  max="2100-01-01" title="From Date" data-date='{"startView": 2 }'/>	      
 		        </div>
 		        <div class="col-md-2">
 		        	<label for="resultsToDate" class="control-label pull-right" title="Processed To Date">Processed To Date:</label>
 		        </div>
-		        <div class="col-md-2">
-		        	  <input type="date" class="form-control pull-left" validatedateformat data-fv-date-format="mm/dd/yyyy" title="Processed To Date"
-		        	  maxlength="10" id="resultsToDate" calendar ng-click="openCalendar('resultsToDate')" placeholder="Enter Date" 
-				      name="resultsToDate" ng-model="resultsToDate" ng-change='checkErr(resultsFromDate,resultsToDate)' min="1899-01-01"  
-				      max="2100-01-01"/>
+		        <div class="form-row col-md-2">
+		        	  <input type="date" class="form-control pull-left dateInput" title="Processed To Date" maxlength="10" id="resultsToDate" 
+		        	  calendar ng-click="openCalendar('resultsToDate')" placeholder="mm/dd/yyyy" validatedateformat data-fv-date-format="mm/dd/yyyy" 
+				      name="resultsToDate" ng-model="resultsToDate" ng-change='checkErr(resultsFromDate,resultsToDate)' min="2000-01-01"  
+				      max="2100-01-01" data-date='{"startView": 2 }'/>
 		        </div>
 		    </div>
 		    <div class="row" style="margin-top:10px;">
