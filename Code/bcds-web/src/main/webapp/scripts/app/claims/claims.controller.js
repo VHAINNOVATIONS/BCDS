@@ -307,18 +307,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
 
     ];
     
-    $scope.filters.regionalOfficeOption = $scope.regionalOfficeOptions[0].value; // Default
-    
-    webshims.setOptions('forms-ext', {
-        "date": {
-           "classes": "hide-spinbtns inputbtns-outside",
-           "calculateWidth": true,
-        },
-        replaceUI: 'auto'
-
-    });
-    webshims.polyfill('forms forms-ext');
-    
+    $scope.filters.regionalOfficeOption = $scope.regionalOfficeOptions[0].value; // Default  
 
     $scope.getCestDate = function(date) {
 		return (date + (10*24*60*60*1000));
@@ -478,5 +467,26 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
             template: '<error-dialog modal="modal" bold-text-title="Error:" text-alert="'+ $scope.serverErrorMsg + '" mode="danger"></error-dialog>',
             scope: $scope,
         });
+    };
+
+   $.webshims.setOptions('forms-ext', {
+        "date": {
+           "classes": "hide-spinbtns inputbtns-outside",
+           "calculateWidth": true,
+        }
+    });
+    $.webshims.polyfill('es5 forms forms-ext');
+
+})
+angular.module('bcdssApp').directive('input', function() {
+    return {
+        restrict: 'E',
+        priority: -1,
+        link: function(scope, element, attrs) {
+            if (attrs.type == 'date') {
+                // Doesn't appear to need a setTimeout when used like this
+                $(element).updatePolyfill();
+            }
+        }
     };
 });
