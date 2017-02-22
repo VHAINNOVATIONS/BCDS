@@ -276,12 +276,12 @@ angular.module('bcdssApp').controller('ReportsController', function($rootScope, 
 		  DTColumnBuilder.newColumn('modelType').withTitle('Model').notSortable().renderWith(function(data, type, full) {
 	        return "<div>" + data +"</div>"
 	    }),
-	    DTColumnBuilder.newColumn('userCount').withTitle('No. Of Users').notSortable(),
-	    DTColumnBuilder.newColumn('sessionsCount').withTitle('No. Of Sessions').notSortable().renderWith(function(data, type, full) {
+	    DTColumnBuilder.newColumn('userCount').withTitle('No. of Users').notSortable(),
+	    DTColumnBuilder.newColumn('sessionsCount').withTitle('No. of Sessions').notSortable().renderWith(function(data, type, full) {
           return "<div>"+data+"</div>"
       }),
-	    DTColumnBuilder.newColumn('claimsCount').withTitle('No. Of Claims').notSortable(),
-	    DTColumnBuilder.newColumn('patternsCount').withTitle('No. Of Patterns').notSortable().renderWith(function(data, type, full) {
+	    DTColumnBuilder.newColumn('claimsCount').withTitle('No. of Claims').notSortable(),
+	    DTColumnBuilder.newColumn('patternsCount').withTitle('No. of Patterns').notSortable().renderWith(function(data, type, full) {
 	        return "<div>"+data+"</div>"
 	    }),
 	    DTColumnBuilder.newColumn('avgStatedAccuracy').withTitle('Avg Stated Accuracy').notSortable(),
