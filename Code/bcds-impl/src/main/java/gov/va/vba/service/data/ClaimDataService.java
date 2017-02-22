@@ -302,7 +302,10 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                                 rating.setQuantCdd(ddmModelPatternIndex.getCDD().intValue());
                             }
                         }
-                        rating.setPatternId(results.getPatternId().intValue());
+                        if(results.getPatternId() != null) {
+                            rating.setPatternId(results.getPatternId().intValue());
+                        }
+
                     }else{
                     	throw new CustomBCDSSException("No valid Pattern found for the data selected");
                     }
