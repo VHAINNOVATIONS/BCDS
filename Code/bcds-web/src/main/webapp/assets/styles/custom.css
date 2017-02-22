@@ -260,6 +260,7 @@ td { font-size: 12px; }
 }
 
 @media (max-width: 1550px) {
+
     .dashboard {
         margin-left: 140px;
     }
@@ -291,6 +292,36 @@ td { font-size: 12px; }
 @media (max-width: 992px) {
     body {
         padding-top: 0px;
+    }
+}
+
+@media only screen and (min-width:1000px) and (max-width: 1200px)  {
+    body {
+       overflow: auto;
+    }
+
+    .navbar-custom{
+        width: 12%;
+     }
+
+    .dashboard {
+        margin-left: 100px;
+    }
+
+    th { font-size: 11px; }
+    td { font-size: 10px; }
+   
+    .loginPanelFooter{
+        font-size: 10px; 
+        text-align: justify;
+    }
+
+    .dateInput  {
+        width: 123px !important;
+    }
+
+    .datePopup{
+        width: 123px !important;
     }
 }
 
