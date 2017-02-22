@@ -196,7 +196,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	    DTColumnBuilder.newColumn('veteran.veteranId').withOption('width', '55px').withTitle('Veteran Id').notSortable(),
 	    DTColumnBuilder.newColumn('processId').withOption('width', '60px').withTitle('Model Result Id').notSortable(),
 	    DTColumnBuilder.newColumn('claimId').withOption('width', '55px').withTitle('Claim Id').notSortable(),
-	    DTColumnBuilder.newColumn('claimDate').withOption('width', '60px').withTitle('Date Of Claim').notSortable().renderWith(function(data, type, full) {
+	    DTColumnBuilder.newColumn('claimDate').withOption('width', '60px').withTitle('Date of Claim').notSortable().renderWith(function(data, type, full) {
              return "<div>"+ $scope.formatDate(data)+ " </div>"
         }),
 	    DTColumnBuilder.newColumn('modelType').withTitle('Model').notSortable(),
