@@ -189,6 +189,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
     	}, function(e) {
             $scope.serverErrorMsg = (e && e.data.message != null) ? e.data.message : $scope.serverErrorMsg;
             $scope.callErrorDialog();
+            spinnerService.hide('claimsSpinner');
         });
     };
     
@@ -458,6 +459,7 @@ angular.module('bcdssApp').controller('ClaimsController', function($rootScope, $
                 .catch(function(e){
                     $scope.serverErrorMsg = (e && e.data.message != null) ? e.data.message : $scope.serverErrorMsg;
                     $scope.callErrorDialog();
+                    spinnerService.hide('claimsSpinner');
                 });
 		}
     };
