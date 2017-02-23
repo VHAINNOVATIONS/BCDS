@@ -33,7 +33,7 @@
 					<label for="txtRegionalOffice" class="control-label pull-right" title="Regional Office">Regional Office:</label>
 				</div>
 				<div class="col-md-3">
-					<select id="bpRegionalOffice" class="form-control pull-left" name="bpRegionalOffice" type="text" title="Select a regional office"
+					<select id="bpRegionalOffice" class="form-control pull-left" name="bpRegionalOffice" type="text" title="Select a regional office" ng-change="cancelProcess()"
 						ng-model="filters.bpRegionalOfficeOption" ng-options="o.value as o.label for o in bpRegionalOfficeOptions | orderBy:'label'">
 						 <option ng-value="0" value="">Select a regional office</option>
 					</select> 
@@ -42,8 +42,9 @@
 		    		 <label for="txtModelType" class="control-label pull-right" title="Model Type">Model Type:</label>
 		    	</div>
 		    	<div class="col-md-2">
-		    		<select id="modelType" name="modelType" class="form-control pull-left" type="text" ng-model="filters.modelTypeOption" ng-options="o.value as o.label for o in modelTypeOptions | orderBy:'label'" title="Select a model type">
-								 <option value="">Select a model type</option>
+		    		<select id="modelType" name="modelType" class="form-control pull-left" type="text" ng-model="filters.modelTypeOption" ng-change="cancelProcess()"
+		    		 	ng-options="o.value as o.label for o in modelTypeOptions | orderBy:'label'" title="Select a model type">
+							<option value="">Select a model type</option>
 					</select>
 		    	</div>
 			</div>

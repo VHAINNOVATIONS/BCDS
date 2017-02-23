@@ -140,6 +140,8 @@ angular.module('bcdssApp').controller('BulkProcessController', function($rootSco
           $scope.frmBulkProcess.$invalid = true;
           return false;
         }
+
+         $scope.cancelProcess();
     };
     
     $scope.isValidDate = function(date){
@@ -163,6 +165,13 @@ angular.module('bcdssApp').controller('BulkProcessController', function($rootSco
     $scope.isActiveRoleTab = function (userRoleTab) {
     	$stateParams.userRoleType == userRoleTab;
     	return userRoleTab;
+    };
+
+    $scope.cancelProcess = function(){
+        $scope.isDataAvaialbleToProcess = false;
+        $scope.isDataAvaialbleToProcess = false;
+        $scope.infoMessage = false;
+        $scope.noRecordsMessage = false;
     };
 
     $scope.searchClaimsToProcess = function(doSave){
