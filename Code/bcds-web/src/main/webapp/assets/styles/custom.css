@@ -280,6 +280,10 @@ td { font-size: 12px; }
     .datePopup{
         width: 153px !important;
     }
+
+    .helpMenu{
+        width: 650px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -312,7 +316,7 @@ td { font-size: 12px; }
     td { font-size: 10px; }
    
     .loginPanelFooter{
-        font-size: 10px; 
+        font-size: 8px; 
         text-align: justify;
     }
 
@@ -322,6 +326,13 @@ td { font-size: 12px; }
 
     .datePopup{
         width: 123px !important;
+    }
+
+    .helpMenu{
+        width: 650px;
+        height: 250px;
+        overflow: auto;
+        font-size: 0.5em;
     }
 }
 
