@@ -334,6 +334,12 @@ td { font-size: 12px; }
         overflow: auto;
         font-size: 0.5em;
     }
+
+    .footer {
+        height: 25px;
+        background-color: #eee;
+        font-size: 9px;
+    }
 }
 
 .customThumbsUp{
