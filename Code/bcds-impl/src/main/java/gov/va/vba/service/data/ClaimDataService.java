@@ -139,7 +139,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
     public List<VeteranClaimRating> findByVeteranId(List<VeteranClaim> veteranClaims) throws CustomBCDSSException{
         List<VeteranClaimRating> veteranClaimRatings = new ArrayList<>();
         String currentLogin = null;
-        try{
+        //try{
         for (VeteranClaim vc : veteranClaims) {
 
             VeteranClaimRating veteranClaimRating = new VeteranClaimRating();
@@ -310,11 +310,11 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
             veteranClaimRating.getClaimRating().addAll(claimRatings);
             veteranClaimRatings.add(veteranClaimRating);
         }
-       }catch(CustomBCDSSException e){
+       /*}catch(CustomBCDSSException e){
     	   LOG.info("Exception Caught :::::: " + e);
     	   e.getMessage();
     	   System.err.println("Application Exception. Please contact the administrator: " + e.getMessage());
-       }
+       }*/
         return veteranClaimRatings;
     }
 
