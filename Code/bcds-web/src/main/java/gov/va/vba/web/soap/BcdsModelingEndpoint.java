@@ -44,7 +44,6 @@ public class BcdsModelingEndpoint {
 	public GetProcessClaimResponse getProcessClaim(@RequestPayload GetProcessClaimRequest request) throws CustomBCDSSException {
 		LOGGER.debug("SOAP request to get a Process Claim... ...");
         GetProcessClaimResponse getProcessClaimResponse = new GetProcessClaimResponse();
-        try{
 	        if(CollectionUtils.isNotEmpty(request.getVeteranClaimInput())) {
 	            List<VeteranClaimRating> veteranClaimRatings = claimDataService.findByVeteranId(request.getVeteranClaimInput());
 	            if(CollectionUtils.isNotEmpty(veteranClaimRatings)) {
@@ -53,11 +52,7 @@ public class BcdsModelingEndpoint {
                 	throw new CustomBCDSSException("No valid Pattern found for the data selected");
                 }
 	        }
-        }catch(CustomBCDSSException e){
-        	LOGGER.info("Exception Caught :::::: " + e);
-        	e.getMessage();
-        	e.printStackTrace();
-        }
+
         return getProcessClaimResponse;
 	}
 
