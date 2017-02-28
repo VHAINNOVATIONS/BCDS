@@ -179,6 +179,7 @@ angular.module('bcdssApp').controller('AdminDashboardController', function($root
     	$scope.isEditUser = false;
     	$scope.displayStatus = false;
     	$scope.loadAllUsers();
+        $scope.dtInstance.DataTable.search('');
     };
 
 	$scope.loadAllUsers = function (){
