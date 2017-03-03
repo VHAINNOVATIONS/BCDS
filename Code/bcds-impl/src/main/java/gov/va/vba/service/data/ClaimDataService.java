@@ -260,16 +260,12 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                         if(MapUtils.isNotEmpty(contentionCounts)){
                         	 LOG.info("Contention count :::::: " + contentionCounts);
                         	cntntPattrens = ddmModelCntntService.getKneePatternId(contentionCounts, patternsList, modelType.toUpperCase());
-                        }else{
-                        	throw new CustomBCDSSException("No Valid Contention Codes exist for the selected data ");
                         }
                         if (CollectionUtils.isNotEmpty(cntntPattrens)) {
                             //List<Long> diagPatternsList = patterns.stream().map(DDMModelPattern::getPatternId).collect(Collectors.toList());
                         	if (CollectionUtils.isNotEmpty(diagnosisCount)) {
                         		LOG.info("Diagnosis count :::::: " + diagnosisCount);
                         		diagPattren = ddmModelDiagService.getKneePatternId(diagnosisCount, cntntPattrens, modelType.toUpperCase());
-                        	}else{
-                        		throw new CustomBCDSSException("No Diagnosis Codes exist for the selected data ");
                         	}
                             LOG.info("PATTREN SIZE :::::: " + diagPattren);
                             if (CollectionUtils.isNotEmpty(diagPattren)) {
@@ -277,14 +273,8 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                                 results.setPatternId(pattrenId);
                                 LOG.info("PATTREN ID :: " + pattrenId);
                                 results = modelRatingResultsRepository.save(results);
-                            }else{
-                            	throw new CustomBCDSSException("No Valid Diagnosis patterns found for the pattern ID ");
                             }
-                        }else{
-                        	throw new CustomBCDSSException("No Valid Contention patterns found for the pattern ID ");
                         }
-                    }else{
-                    	throw new CustomBCDSSException("No valid Pattern found for the data selected");
                     }
                    
                     if (results.getPatternId() != null) {
