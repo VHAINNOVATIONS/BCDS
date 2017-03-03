@@ -385,7 +385,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
     };
 
      $scope.setSearchParameters = function(){
-     	//case when no params or only model type
+     	//case when no params or only model type 
     	if(($scope.filters.modelResultId || $scope.filters.modelResultId == null) && $scope.fromDate == null && $scope.toDate == null){
     		var today = new Date();
     		$scope.filters.resultsFromDate =   $scope.formatDate(new Date(today.getFullYear(), today.getMonth() - 12, today.getDate())); //prior year.
@@ -469,6 +469,9 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	        	return "<div>"+ cdd +"</div>"
 	        }),
 	        DTColumnBuilder.newColumn('currentCDD').withTitle('RE/MR Match?').renderWith(function(data, type, full) {
+                if(data.patternIndex == null) {
+                    return "";
+                }
 	        	if($scope.modeledRating === $scope.actualRating){
 	        		return "<div><span class='glyphicon glyphicon-thumbs-up customThumbsUp'></span></div>"
 	        	}
