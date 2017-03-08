@@ -41,6 +41,8 @@ import gov.va.vba.persistence.repository.VeteranRepository;
 import gov.va.vba.service.AppUtill;
 import gov.va.vba.service.EarService;
 import gov.va.vba.service.KneeService;
+import gov.va.vba.service.common.Error;
+import gov.va.vba.service.exception.BusinessException;
 import gov.va.vba.service.orika.ClaimMapper;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -136,7 +138,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
         return mapKneeClaimsToClaims(claims);
     }
 
-    public List<VeteranClaimRating> findByVeteranId(List<VeteranClaim> veteranClaims) throws CustomBCDSSException{
+    public List<VeteranClaimRating> findByVeteranId(List<VeteranClaim> veteranClaims) throws CustomBCDSSException, BusinessException {
         List<VeteranClaimRating> veteranClaimRatings = new ArrayList<>();
         String currentLogin = null;
         //try{
@@ -162,9 +164,15 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                 List<ClaimDetails> claimDetails = new ArrayList<>();
                 if (modelType.equalsIgnoreCase(ModelType.EAR.name())) {
                     claimDetails = earDao.getClaims(veteranId, claimId);
+                    if(CollectionUtils.isEmpty(claimDetails)) {
+                        throw new BusinessException(Error.ER_1001, String.valueOf(veteranId), String.valueOf(claimId));
+                    }
                     results = earService.processClaims(veteranId, claimDetails, currentLogin);
                 } else if (modelType.equalsIgnoreCase(ModelType.KNEE.name())) {
                     claimDetails = ratingDao.getPreviousClaims(veteranId, claimId);
+                    if(CollectionUtils.isEmpty(claimDetails)) {
+                        throw new BusinessException(Error.ER_1001, String.valueOf(veteranId), String.valueOf(claimId));
+                    }
                     results = kneeService.processClaims(veteranId, claimDetails, currentLogin);
                 }
 

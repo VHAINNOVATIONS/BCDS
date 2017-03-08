@@ -6,6 +6,8 @@ import gov.va.vba.persistence.models.data.DecisionDetails;
 import gov.va.vba.persistence.repository.RatingDao;
 import gov.va.vba.service.AppUtill;
 import gov.va.vba.service.KneeService;
+import gov.va.vba.service.common.Error;
+import gov.va.vba.service.exception.BusinessException;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +37,7 @@ public class KneeServiceImpl implements KneeService {
     private RatingDao ratingDao;
 
     @Override
-    public ModelRatingResults processClaims(int veteranId, List<ClaimDetails> kneeClaims, String currentLogin) {
+    public ModelRatingResults processClaims(int veteranId, List<ClaimDetails> kneeClaims, String currentLogin) throws BusinessException {
         if (CollectionUtils.isNotEmpty(kneeClaims)) {
             ClaimDetails kneeClaim = kneeClaims.get(0);
             int calculatedValue = 0;
@@ -47,6 +49,8 @@ public class KneeServiceImpl implements KneeService {
 	                Map<String, DecisionDetails> map = new HashMap<>();
 	                map.put(decisionDetails.getDecisionCode(), decisionDetails);
 	                priorCdd = applyFormula(map);
+            } else {
+                throw new BusinessException(Error.ER_1002);
             }
             int age = ratingDao.getClaimaintAge(veteranId, kneeClaim.getClaimId());
             age = AppUtill.roundToCeilMultipleOfTen(age);
