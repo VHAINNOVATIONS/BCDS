@@ -212,7 +212,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
                 return "<div>"+ cdd +"</div>"
         }),
         DTColumnBuilder.newColumn(null).withTitle('Pattern Rate of Use').renderWith(function(data, type, full) {
-                var patternIndexNumber = (data.patternIndex == "") ? "" : data.patternIndex.patternIndexNumber;
+                var patternIndexNumber = (data.patternIndex == null) ? "" : data.patternIndex.patternIndexNumber;
                 return "<div>"+ patternIndexNumber +"</div>"
         }),
         DTColumnBuilder.newColumn(null).withTitle('Pattern Accuracy Rate').renderWith(function(data, type, full) {
@@ -469,7 +469,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	        	return "<div>"+ cdd +"</div>"
 	        }),
 	        DTColumnBuilder.newColumn('currentCDD').withTitle('RE/MR Match?').renderWith(function(data, type, full) {
-                if(data.patternIndex == null) {
+                if(data.patternIndex == "") {
                     return "";
                 }
 	        	if($scope.modeledRating === $scope.actualRating){
