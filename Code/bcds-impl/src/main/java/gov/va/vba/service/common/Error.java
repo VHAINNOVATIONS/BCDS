@@ -5,10 +5,9 @@ package gov.va.vba.service.common;
  */
 public enum Error {
 
-    ER_1001("Claims are not found for the veteran id %s and claim id %s"),
-    ER_1002("No previous decisions are available for the veteran id %s and claim id %s"),
-    ER_1003("There are no contentions or diagnosis found for the veteran id %s and claim date %s"),
-    ER_1004("This service is currently unavailable. Please try after some time");
+    ER_1001("No records found for the veteran id %s and claim id %s"),
+    ER_1002("Did not find previous rating decisions for the selected veteran id %s and claim id %s"),
+    ER_1003("This service is temporarily unavailable. Please try after some time");
 
     private String message;
 
