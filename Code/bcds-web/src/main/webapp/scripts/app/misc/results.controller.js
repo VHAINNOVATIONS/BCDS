@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('bcdssApp').controller('ResultsController', function($rootScope, $scope, $state, Account, Auth,
-														$q, $filter, DTOptionsBuilder, DTColumnBuilder, $compile, $modal,	
+														$q, $filter, DTOptionsBuilder, DTColumnBuilder, $compile, $modal,
 														$stateParams, ClaimService, RatingService, spinnerService) {
-	
+
 	$scope.userName = Auth.getCurrentUser();
     $scope.serverErrorMsg = "Something went wrong! Please contact the site administrator."
 	$scope.processedClaimsUserName = '';
@@ -53,7 +53,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
         {columnName : "Pattern Accuracy", title : "The number of times the matched pattern has resulted in the same rating as a fraction of the number of timesit has occurred within the last 8 years"},
         {columnName : "Agree/Disagree", title : "Rater indicates if he/she agrees with the model output/result"},
     ];
-    
+
     $scope.customColumns = ["Veteran Id", "Session Date", "User Id", "Process Date", "Model Result Id", "Claim Id", "Date Of Claim", "Contention"];
 
     $scope.toggleOne = function toggleOne(selectedDecision, pId) {
@@ -64,7 +64,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
     	else{
     		$scope.updateDecisions[pId] = selectedDecision;
     	}
-    	
+
     	angular.forEach($scope.updateDecisions, function(d,p){
        		$scope.arrDecisions.push(d+"-"+p);
 	    });
@@ -97,25 +97,25 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
                             $(pbutton).attr('title', title);
                         }
                     });
-                }); 
+                });
             }
         })
 	   	.withOption('createdRow', function(row, data, dataIndex) {
-	    	// Recompiling so we can bind Angular directive to the DT        
+	    	// Recompiling so we can bind Angular directive to the DT
 	    	$compile(angular.element(row).contents())($scope);
             angular.forEach(row.cells, function(cell){
                 $(cell).attr('style', 'word-break:keep-all;');
                 $(cell).attr('title', function (index, attr) {
                     return this.outerText;
                 });
-            }); 
+            });
 	   })
 	   	.withOption('headerCallback', function(header) {
 	    	angular.forEach(header.cells, function(cell){
 	       		$(cell).attr('title', function (index, attr) {
 				    return $scope.setTableHeaderDescription(this.outerText);
 				});
-	    	}); 
+	    	});
              angular.forEach(header.cells, function(cell) {
                 if($scope.customColumns.indexOf(cell.outerText) > -1) {
                     $(cell).attr('style', 'vertical-align:top;width:70px;word-break:keep-all;');
@@ -139,7 +139,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 		 var header = $filter('filter')($scope.columnTitles, {columnName: columnName}, true);
 	     if (header.length) {
 	         return header[0].title;
-	     } 
+	     }
 	     return columnName;
 	};
 
@@ -166,7 +166,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
                     $(cell).attr('style', 'vertical-align:top;word-break:keep-all;');
                 }
             });
-        }) 
+        })
     })
     .withOption('createdRow', function(row, data, dataIndex) {
            // Recompiling so we can bind Angular directive to the DT
@@ -176,7 +176,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
             $(cell).attr('title', function (index, attr) {
                 return this.outerText;
             });
-        }); 
+        });
     })
     .withOption('paging', false)
     .withOption('info', false)
@@ -184,7 +184,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
    //.withOption('responsive', true)
     .withOption('bAutoWidth', false)
     .withOption('rowCallback', rowCallback);
-    
+
     /*These are changes for version 3.0*/
     $scope.dtDetailsColumns = [
 		DTColumnBuilder.newColumn(null).withOption('width', '50px').withTitle('User Id').notSortable().renderWith(function(data, type, full) {
@@ -212,9 +212,9 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
                 return "<div>"+ cdd +"</div>"
         }),
         DTColumnBuilder.newColumn(null).withTitle('Pattern Rate of Use').renderWith(function(data, type, full) {
-                var patternIndexNumber = (data.patternIndex == null) ? "" : data.patternIndex.patternIndexNumber;
+                var patternIndexNumber = (data.patternIndex == "") ? "" : data.patternIndex.patternIndexNumber;
                 return "<div>"+ patternIndexNumber +"</div>"
-        }), 
+        }),
         DTColumnBuilder.newColumn(null).withTitle('Pattern Accuracy Rate').renderWith(function(data, type, full) {
                 var accuracy = (data.patternIndex == null) ? "" : Math.round(data.patternIndex.accuracy) + "%";
                 return "<div>"+ accuracy +"</div>"
@@ -231,12 +231,12 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
                 $scope.rowClickHandler(e,aData);
             });
         });
-       
+
         return nRow;
     }
-    
+
     $scope.rowClickHandler= function(e,info) {
-    	if($(e.target).hasClass('clickable')) {	
+    	if($(e.target).hasClass('clickable')) {
     		$('#gridPopUp').modal('show');
     		$scope.resultDetailsData = [];
     		$scope.reliability = '';
@@ -278,7 +278,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
     	if(accuracy <= 90.00)
     		return  'NOT RELIABLE';
     };
-	
+
 	$scope.getDiagonosticCodesByProcessId = function(processId){
 		var codes = $filter('filter')($scope.diagnosticCodes, {processId: processId}, true);
 	     if (codes.length) {
@@ -286,7 +286,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	     	angular.forEach(codes, function(code){
 	     		arrCodes.push(code.diagId);
 	     	});
-	    	
+
 	    	return (arrCodes.sort()).join();
 	     }
 
@@ -333,11 +333,11 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	$scope.formatDate = function(date) {
         var date = new Date(date);
         date = new Date(date.getTime() + Math.abs(date.getTimezoneOffset()*60000));
-        return date.getFullYear() + '-' +  
-            ('0' + (date.getMonth()+1)).slice(-2) + '-' + 
-            ('0' + date.getDate()).slice(-2);  
+        return date.getFullYear() + '-' +
+            ('0' + (date.getMonth()+1)).slice(-2) + '-' +
+            ('0' + date.getDate()).slice(-2);
     };
-    
+
    $scope.checkErr = function(startDate,endDate) {
         $scope.errMessage = '';
         $scope.frmResultsSearchFilter.$invalid = false;
@@ -368,9 +368,9 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
           return false;
         }
     };
-    
+
     $scope.isValidDate = function(date){
-        return (date > $scope.minDefaultDate && date < $scope.maxDefaultDate);  
+        return (date > $scope.minDefaultDate && date < $scope.maxDefaultDate);
     };
 
     $scope.clear = function(){
@@ -385,7 +385,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
     };
 
      $scope.setSearchParameters = function(){
-     	//case when no params or only model type 
+     	//case when no params or only model type
     	if(($scope.filters.modelResultId || $scope.filters.modelResultId == null) && $scope.fromDate == null && $scope.toDate == null){
     		var today = new Date();
     		$scope.filters.resultsFromDate =   $scope.formatDate(new Date(today.getFullYear(), today.getMonth() - 12, today.getDate())); //prior year.
@@ -404,8 +404,8 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
     	if($scope.resultsFromDate != null && $scope.resultsToDate != null){
     		$scope.filters.resultsFromDate = $scope.formatDate($scope.resultsFromDate);
     		$scope.filters.resultsToDate = $scope.formatDate($scope.resultsToDate);
-    		($scope.filters === null || $scope.filters.modelResultId === null || $scope.filters.modelResultId === undefined) 
-    			? $scope.processIds = [] 
+    		($scope.filters === null || $scope.filters.modelResultId === null || $scope.filters.modelResultId === undefined)
+    			? $scope.processIds = []
     			: $scope.processIds.push($scope.filters.modelResultId);
     	}
 
@@ -442,7 +442,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
                 spinnerService.hide('resultsSpinner');
             });
     };
-	
+
 	/*These are changes for version 3.0*/
 	$scope.dtColumns = [
 	        DTColumnBuilder.newColumn('veteran.veteranId').withOption('width', '60px').withTitle('Veteran Id'),
@@ -480,7 +480,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	         DTColumnBuilder.newColumn(null).withTitle('Pattern Rate of Use').renderWith(function(data, type, full) {
                 var patternIndexNumber = (data.patternIndex == null) ? "" : data.patternIndex.patternIndexNumber;
                 return "<div>"+ patternIndexNumber +"</div>"
-            }), 
+            }),
             DTColumnBuilder.newColumn(null).withTitle('Pattern Accuracy Rate').renderWith(function(data, type, full) {
                     var accuracy = (data.patternIndex == null) ? "" : Math.round(data.patternIndex.accuracy) + "%";
                     return "<div>"+ accuracy +"</div>"
@@ -494,7 +494,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	        	return html
 	        })
 	    ];
-	
+
 	$scope.getProcessIds = function(results){
 		var processIds = [];
     	angular.forEach(results, function(result,idx){
@@ -564,7 +564,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
                 $scope.serverErrorMsg = (e && e.data.message != null) ? e.data.message : $scope.serverErrorMsg;
                 $scope.callErrorDialog();
                 spinnerService.hide('resultsSpinner');
-            }); 
+            });
 	};
 
     $scope.callErrorDialog = function (size) {
@@ -609,7 +609,7 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 			inputObj.push(obj);
 		});
 		$scope.results = [];
-		
+
 		ClaimService.processClaims({},{
 	  			"veteranClaimInput": inputObj
 			},function(data){

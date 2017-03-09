@@ -221,7 +221,11 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                         diagnosisCount = ratingDao.getDiagnosisCount((long) veteranId, savedResults.getClaimDate());
                     }
                     LOG.info("Diagnosis count :::::: " + diagnosisCount);
-                    
+
+                    if(MapUtils.isNotEmpty(contentionCounts) || CollectionUtils.isNotEmpty(diagnosisCount)) {
+                        throw new BusinessException(Error.ER_1003, String.valueOf(veteranId), savedResults.getClaimDate().toString());
+                    }
+
                     saveModelResultsCtnts(contentionCounts, savedResults, contentions);
                     saveModelResultsDiag(savedResults, diagnosisCount, diagnosisCodes);
                     saveResultStatus(results, currentLogin);
