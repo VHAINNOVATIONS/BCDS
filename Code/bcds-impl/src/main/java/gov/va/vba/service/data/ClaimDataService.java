@@ -222,7 +222,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                     }
                     LOG.info("Diagnosis count :::::: " + diagnosisCount);
 
-                    if(MapUtils.isNotEmpty(contentionCounts) || CollectionUtils.isNotEmpty(diagnosisCount)) {
+                    if(MapUtils.isEmpty(contentionCounts) || CollectionUtils.isEmpty(diagnosisCount)) {
                         throw new BusinessException(Error.ER_1003, String.valueOf(veteranId), savedResults.getClaimDate().toString());
                     }
 
