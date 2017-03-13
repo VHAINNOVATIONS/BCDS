@@ -614,9 +614,20 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
 	  			"veteranClaimInput": inputObj
 			},function(data){
 			//data = {"veteranClaimRatingOutput":[{"veteran":{"veteranId":244390,"veteranName":null,"dob":null},"claimRating":[{"claim":{"claimId":5614193,"profileDate":1147665600000,"productTypeCode":"020","claimDate":1091073600000,"contentionId":2991274,"contentionClassificationId":"6850","contentionBeginDate":null},"rating":{"claimantAge":20,"promulgationDate":null,"recentDate":null,"contationCount":2,"priorCdd":64,"quantPriorCdd":0,"currentCdd":0,"claimAge":20,"cddAge":20,"claimCount":1,"processId":18380497,"patternId":0,"processDate":null,"modelType":null,"modelContentionCount":0,"quantCdd":80,"ratingDecisions":{"processId":18380497,"kneeRatings":{"contentionKnee":0,"contentionLeft":0,"contentionRight":0,"contentionBilateral":0,"contentionLeg":0,"contentionAmputation":0,"decisionKnee":0,"decisionLeft":0,"decisionRight":0,"decisionBilateral":0,"decisionLimitation":0,"decisionImpairment":0,"decisionAnkyloses":0,"decisionAmputation":0},"earRatings":{"contentionLoss":0,"contentionTinitu":0,"decisionLoss":0,"decisionTinitu":0}},"status":[],"diagnosisCodeCounts":[],"contentionsCodeCounts":[]}}]}]};
-			var formattedResults = $scope.processResults(data.veteranClaimRatingOutput);
-			//make api call using rating service to get rest of the column values and then populate results.
-    		$scope.getRatingResults(formattedResults);
+			if(!data.message) {
+                var formattedResults = $scope.processResults(data.veteranClaimRatingOutput);
+                //make api call using rating service to get rest of the column values and then populate results.
+                $scope.getRatingResults(formattedResults);
+            } else {
+                var exceptionDetails = data.message.split(":")
+                var message = "";
+                for(var i=2;i<exceptionDetails.length; i++) {
+                    message +=  exceptionDetails[i];
+                }
+                $scope.serverErrorMsg =  message;
+                $scope.callErrorDialog();
+            }
+
 		},function(e){
             $scope.serverErrorMsg = (e && e.data.message != null) ? e.data.message : $scope.serverErrorMsg;
             $scope.callErrorDialog();
