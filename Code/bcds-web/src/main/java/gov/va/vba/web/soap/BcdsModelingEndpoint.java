@@ -4,6 +4,7 @@ import gov.va.vba.bcdss.models.*;
 import gov.va.vba.domain.CustomBCDSSException;
 import gov.va.vba.persistence.entity.EditModelPatternResults;
 import gov.va.vba.service.data.ClaimDataService;
+import gov.va.vba.service.exception.BusinessException;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.maven.wagon.authentication.AuthenticationException;
 import org.slf4j.Logger;
@@ -41,10 +42,9 @@ public class BcdsModelingEndpoint {
 
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "getProcessClaimRequest")
 	@ResponsePayload
-	public GetProcessClaimResponse getProcessClaim(@RequestPayload GetProcessClaimRequest request) throws CustomBCDSSException {
+	public GetProcessClaimResponse getProcessClaim(@RequestPayload GetProcessClaimRequest request) throws CustomBCDSSException, BusinessException {
 		LOGGER.debug("SOAP request to get a Process Claim... ...");
         GetProcessClaimResponse getProcessClaimResponse = new GetProcessClaimResponse();
-        try{
 	        if(CollectionUtils.isNotEmpty(request.getVeteranClaimInput())) {
 	            List<VeteranClaimRating> veteranClaimRatings = claimDataService.findByVeteranId(request.getVeteranClaimInput());
 	            if(CollectionUtils.isNotEmpty(veteranClaimRatings)) {
@@ -53,11 +53,7 @@ public class BcdsModelingEndpoint {
                 	throw new CustomBCDSSException("No valid Pattern found for the data selected");
                 }
 	        }
-        }catch(CustomBCDSSException e){
-        	LOGGER.info("Exception Caught :::::: " + e);
-        	e.getMessage();
-        	e.printStackTrace();
-        }
+
         return getProcessClaimResponse;
 	}
 

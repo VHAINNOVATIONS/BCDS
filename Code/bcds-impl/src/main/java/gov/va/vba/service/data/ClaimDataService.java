@@ -41,6 +41,8 @@ import gov.va.vba.persistence.repository.VeteranRepository;
 import gov.va.vba.service.AppUtill;
 import gov.va.vba.service.EarService;
 import gov.va.vba.service.KneeService;
+import gov.va.vba.service.common.Error;
+import gov.va.vba.service.exception.BusinessException;
 import gov.va.vba.service.orika.ClaimMapper;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -136,7 +138,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
         return mapKneeClaimsToClaims(claims);
     }
 
-    public List<VeteranClaimRating> findByVeteranId(List<VeteranClaim> veteranClaims) throws CustomBCDSSException{
+    public List<VeteranClaimRating> findByVeteranId(List<VeteranClaim> veteranClaims) throws CustomBCDSSException, BusinessException {
         List<VeteranClaimRating> veteranClaimRatings = new ArrayList<>();
         String currentLogin = null;
         //try{
@@ -162,9 +164,15 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                 List<ClaimDetails> claimDetails = new ArrayList<>();
                 if (modelType.equalsIgnoreCase(ModelType.EAR.name())) {
                     claimDetails = earDao.getClaims(veteranId, claimId);
+                    if(CollectionUtils.isEmpty(claimDetails)) {
+                        throw new BusinessException(Error.ER_1001, String.valueOf(veteranId), String.valueOf(claimId));
+                    }
                     results = earService.processClaims(veteranId, claimDetails, currentLogin);
                 } else if (modelType.equalsIgnoreCase(ModelType.KNEE.name())) {
                     claimDetails = ratingDao.getPreviousClaims(veteranId, claimId);
+                    if(CollectionUtils.isEmpty(claimDetails)) {
+                        throw new BusinessException(Error.ER_1001, String.valueOf(veteranId), String.valueOf(claimId));
+                    }
                     results = kneeService.processClaims(veteranId, claimDetails, currentLogin);
                 }
 
@@ -213,7 +221,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                         diagnosisCount = ratingDao.getDiagnosisCount((long) veteranId, savedResults.getClaimDate());
                     }
                     LOG.info("Diagnosis count :::::: " + diagnosisCount);
-                    
+
                     saveModelResultsCtnts(contentionCounts, savedResults, contentions);
                     saveModelResultsDiag(savedResults, diagnosisCount, diagnosisCodes);
                     saveResultStatus(results, currentLogin);
@@ -260,16 +268,12 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                         if(MapUtils.isNotEmpty(contentionCounts)){
                         	 LOG.info("Contention count :::::: " + contentionCounts);
                         	cntntPattrens = ddmModelCntntService.getKneePatternId(contentionCounts, patternsList, modelType.toUpperCase());
-                        }else{
-                        	throw new CustomBCDSSException("No Valid Contention Codes exist for the selected data ");
                         }
                         if (CollectionUtils.isNotEmpty(cntntPattrens)) {
                             //List<Long> diagPatternsList = patterns.stream().map(DDMModelPattern::getPatternId).collect(Collectors.toList());
                         	if (CollectionUtils.isNotEmpty(diagnosisCount)) {
                         		LOG.info("Diagnosis count :::::: " + diagnosisCount);
                         		diagPattren = ddmModelDiagService.getKneePatternId(diagnosisCount, cntntPattrens, modelType.toUpperCase());
-                        	}else{
-                        		throw new CustomBCDSSException("No Diagnosis Codes exist for the selected data ");
                         	}
                             LOG.info("PATTREN SIZE :::::: " + diagPattren);
                             if (CollectionUtils.isNotEmpty(diagPattren)) {
@@ -277,14 +281,8 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                                 results.setPatternId(pattrenId);
                                 LOG.info("PATTREN ID :: " + pattrenId);
                                 results = modelRatingResultsRepository.save(results);
-                            }else{
-                            	throw new CustomBCDSSException("No Valid Diagnosis patterns found for the pattern ID ");
                             }
-                        }else{
-                        	throw new CustomBCDSSException("No Valid Contention patterns found for the pattern ID ");
                         }
-                    }else{
-                    	throw new CustomBCDSSException("No valid Pattern found for the data selected");
                     }
                    
                     if (results.getPatternId() != null) {
