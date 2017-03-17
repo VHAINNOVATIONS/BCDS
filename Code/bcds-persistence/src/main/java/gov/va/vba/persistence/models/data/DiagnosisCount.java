@@ -8,6 +8,13 @@ public class DiagnosisCount {
     private String decisionCode;
     private int count;
 
+    public DiagnosisCount() {}
+
+    public DiagnosisCount(String decisionCode, int count) {
+        this.decisionCode = decisionCode;
+        this.count = count;
+    }
+
     public String getDecisionCode() {
         return decisionCode;
     }

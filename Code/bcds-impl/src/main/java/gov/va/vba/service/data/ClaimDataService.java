@@ -1,6 +1,9 @@
 package gov.va.vba.service.data;
 
 import gov.va.vba.bcdss.models.ClaimRating;
+import gov.va.vba.bcdss.models.CodesCount;
+import gov.va.vba.bcdss.models.GetDdmModelRequest;
+import gov.va.vba.bcdss.models.GetDdmModelResponse;
 import gov.va.vba.bcdss.models.Rating;
 import gov.va.vba.bcdss.models.RatingDecisions;
 import gov.va.vba.bcdss.models.VeteranClaim;
@@ -260,31 +263,17 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                     claimRatings.add(cr);
                     
                     //TODO: last param
-                    List<DDMModelPattern> patterns = ddmDataService.getPatternId(results.getModelType(), results.getClaimantAge(), results.getClaimCount(), (long) contentionCounts.keySet().size(), 0L);
-                    List<Long> diagPattren = new ArrayList<>();
-                    List<Long> cntntPattrens = new ArrayList<>();
-                    if (CollectionUtils.isNotEmpty(patterns)) {
-                        List<Long> patternsList = patterns.stream().map(DDMModelPattern::getPatternId).collect(Collectors.toList());
-                        if(MapUtils.isNotEmpty(contentionCounts)){
-                        	 LOG.info("Contention count :::::: " + contentionCounts);
-                        	cntntPattrens = ddmModelCntntService.getKneePatternId(contentionCounts, patternsList, modelType.toUpperCase());
-                        }
-                        if (CollectionUtils.isNotEmpty(cntntPattrens)) {
-                            //List<Long> diagPatternsList = patterns.stream().map(DDMModelPattern::getPatternId).collect(Collectors.toList());
-                        	if (CollectionUtils.isNotEmpty(diagnosisCount)) {
-                        		LOG.info("Diagnosis count :::::: " + diagnosisCount);
-                        		diagPattren = ddmModelDiagService.getKneePatternId(diagnosisCount, cntntPattrens, modelType.toUpperCase());
-                        	}
-                            LOG.info("PATTREN SIZE :::::: " + diagPattren);
-                            if (CollectionUtils.isNotEmpty(diagPattren)) {
-                                Long pattrenId = diagPattren.get(0);
-                                results.setPatternId(pattrenId);
-                                LOG.info("PATTREN ID :: " + pattrenId);
-                                results = modelRatingResultsRepository.save(results);
-                            }
-                        }
+                    Long claimantAge = results.getClaimantAge();
+                    Long claimCount = results.getClaimCount();
+                    int size = contentionCounts.keySet().size();
+                    long cddAge = 0L;
+                    Long pattrenId = getPattrenId(modelType, contentionCounts, diagnosisCount, claimantAge, claimCount, size, cddAge);
+
+                    if(pattrenId != null) {
+                        results.setPatternId(pattrenId);
+                        results = modelRatingResultsRepository.save(results);
                     }
-                   
+
                     if (results.getPatternId() != null) {
                         List<DDMModelPatternIndex> accuracy = ratingDao.getPatternAccuracy(results.getPatternId());
                         if (CollectionUtils.isNotEmpty(accuracy)) {
@@ -301,6 +290,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
                             }
                         }
                             rating.setPatternId(results.getPatternId().intValue());
+
                     }
                 }
             }
@@ -313,6 +303,83 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
     	   System.err.println("Application Exception. Please contact the administrator: " + e.getMessage());
        }*/
         return veteranClaimRatings;
+    }
+
+    private Long getPattrenId(String modelType, Map<Long, Integer> contentionCounts, List<DiagnosisCount> diagnosisCount, Long claimantAge, Long claimCount, long size, long cddAge) {
+        List<DDMModelPattern> patterns = ddmDataService.getPatternId(modelType, claimantAge, claimCount, size, cddAge);
+        List<Long> diagPattren = new ArrayList<>();
+        List<Long> cntntPattrens = new ArrayList<>();
+        Long pattrenId = null;
+        if (CollectionUtils.isNotEmpty(patterns)) {
+            List<Long> patternsList = patterns.stream().map(DDMModelPattern::getPatternId).collect(Collectors.toList());
+            if(MapUtils.isNotEmpty(contentionCounts)){
+                 LOG.info("Contention count :::::: " + contentionCounts);
+                cntntPattrens = ddmModelCntntService.getKneePatternId(contentionCounts, patternsList, modelType.toUpperCase());
+            }
+            if (CollectionUtils.isNotEmpty(cntntPattrens)) {
+                //List<Long> diagPatternsList = patterns.stream().map(DDMModelPattern::getPatternId).collect(Collectors.toList());
+                if (CollectionUtils.isNotEmpty(diagnosisCount)) {
+                    LOG.info("Diagnosis count :::::: " + diagnosisCount);
+                    diagPattren = ddmModelDiagService.getKneePatternId(diagnosisCount, cntntPattrens, modelType.toUpperCase());
+                }
+                LOG.info("PATTREN SIZE :::::: " + diagPattren);
+                if (CollectionUtils.isNotEmpty(diagPattren)) {
+                    pattrenId = diagPattren.get(0);
+                    LOG.info("PATTREN ID :: " + pattrenId);
+                }
+            }
+        }
+        return pattrenId;
+    }
+
+    public GetDdmModelResponse findDdmModelResponse(GetDdmModelRequest request) {
+        String modelType = request.getModelType();
+        int contentionCount = request.getContentionCount();
+        int claimantAge = request.getClaimantAge();
+        int claimCount = request.getClaimCount();
+        int cddAge = request.getCddAge();
+        List<CodesCount> diagnosisCodeCounts = request.getDiagnosisCodeCounts();
+        List<CodesCount> contentionCodeCounts = request.getContentionCodeCounts();
+        Map<Long, Integer> contentionsCount = contentionCodeCounts.stream().collect(Collectors.toMap(e -> Long.valueOf(e.getDiagnosisCode()), CodesCount::getCount));
+        List<DiagnosisCount> diagnosisCount = diagnosisCodeCounts.stream().map(d -> new DiagnosisCount(d.getDiagnosisCode(), d.getCount())).collect(Collectors.toList());
+        Long pattrenId = getPattrenId(modelType, contentionsCount, diagnosisCount, (long) claimantAge, (long) claimCount, contentionCount, cddAge);
+
+        GetDdmModelResponse response = new GetDdmModelResponse();
+        if(pattrenId != null) {
+            response.setPattrenId(pattrenId.intValue());
+            response.setPriorCdd(request.getPriorCdd());
+            response.setContentionCount(request.getContentionCount());
+            response.setClaimCount(request.getClaimCount());
+            response.setClaimantAge(request.getClaimantAge());
+            response.setModelType(request.getModelType());
+            response.setCddAge(request.getCddAge());
+            response.getContentionCodeCounts().addAll(request.getContentionCodeCounts());
+            response.getDiagnosisCodeCounts().addAll(request.getDiagnosisCodeCounts());
+        }
+        return response;
+    }
+
+    public GetDdmModelResponse getDDMModels(List<VeteranClaim> veteranClaims) throws CustomBCDSSException, BusinessException {
+        List<VeteranClaimRating> veteranClaimRatings = findByVeteranId(veteranClaims);
+        GetDdmModelResponse response = new GetDdmModelResponse();
+        for (VeteranClaimRating veteranClaimRating : veteranClaimRatings) {
+            List<ClaimRating> claimRatings = veteranClaimRating.getClaimRating();
+            for(ClaimRating cr : claimRatings) {
+                Rating rating = cr.getRating();
+                int patternId = rating.getPatternId();
+                if(patternId != 0) {
+                    response.setModelType(rating.getModelType());
+                    response.setCddAge(rating.getCddAge());
+                    response.setClaimantAge(rating.getClaimantAge());
+                    response.setClaimCount(rating.getClaimCount());
+                    response.setContentionCount(rating.getContationCount());
+                    response.setPriorCdd(rating.getPriorCdd());
+                    response.setPattrenId(patternId);
+                    break;
+                }
+            }
+        }
+        return response;
     }
 
     /**
@@ -575,4 +642,5 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
         }
         return patterns;
     }
+
 }

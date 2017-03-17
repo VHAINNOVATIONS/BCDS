@@ -37,7 +37,7 @@ public class BcdsModelingEndpoint {
 	@ResponsePayload
 	public GetDdmModelResponse getDdmModel(@RequestPayload GetDdmModelRequest request) {
 		LOGGER.debug("SOAP request to get a DDMModel... ...");
-		return dDMModelRepository.findDdmModelResponse(request.getClaimantAge());
+		return claimDataService.findDdmModelResponse(request);
 	}
 
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "getProcessClaimRequest")
