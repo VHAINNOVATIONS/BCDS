@@ -2,6 +2,8 @@ package gov.va.vba.service.data;
 
 import gov.va.vba.bcdss.models.ClaimRating;
 import gov.va.vba.bcdss.models.CodesCount;
+import gov.va.vba.bcdss.models.GetCurrentRatingRequest;
+import gov.va.vba.bcdss.models.GetCurrentRatingResponse;
 import gov.va.vba.bcdss.models.GetDdmModelRequest;
 import gov.va.vba.bcdss.models.GetDdmModelResponse;
 import gov.va.vba.bcdss.models.Rating;
@@ -641,6 +643,38 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
             
         }
         return patterns;
+    }
+
+    public GetCurrentRatingResponse getResultsByProcessId(GetCurrentRatingRequest request) {
+        int processId = request.getProcessId();
+        ModelRatingResults results = ratingDao.getByProcessId(processId);
+        GetCurrentRatingResponse response = new GetCurrentRatingResponse();
+
+        Rating rating = new Rating();
+        rating.setProcessDate(results.getProcessDate());
+        rating.setQuantCdd(getIntValueFromLong(results.getQuantCDD()));
+        rating.setCddAge(results.getCDDAge().intValue());
+        rating.setModelType(results.getModelType());
+        rating.setClaimAge(getIntValueFromLong(results.getClaimAge()));
+        rating.setClaimantAge(getIntValueFromLong(results.getClaimantAge()));
+        rating.setClaimCount(getIntValueFromLong(results.getClaimCount()));
+        rating.setContationCount(getIntValueFromLong(results.getContentionCount()));
+        rating.setPriorCdd(getIntValueFromLong(results.getPriorCDD()));
+        rating.setCurrentCdd(getIntValueFromLong(results.getCurrentCDD()));
+        rating.setPromulgationDate(results.getPromulgationDate());
+        rating.setRecentDate(results.getRecentDate());
+        rating.setProcessId(getIntValueFromLong(results.getProcessId()));
+        rating.setPatternId(getIntValueFromLong(results.getPatternId()));
+        rating.setModelContentionCount(getIntValueFromLong(results.getModelContentionCount()));
+        response.setRatingResult(rating);
+        return response;
+    }
+
+    private int getIntValueFromLong(Long value) {
+        if(value != null) {
+            return value.intValue();
+        }
+        return 0;
     }
 
 }

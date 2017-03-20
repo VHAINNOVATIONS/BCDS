@@ -130,5 +130,9 @@ public class QueryConstants {
             "AND  PRFIL_DT >= ? AND DIAGNOSIS_CODE IN ('6100', '6200', '6210', '6202', '6204', '6205', '6207', '6209', '6201', '6211', '6260') " +
             "AND DSBLTY_DECN_TYPE_CD IN ('SVCCONNCTED','1151GRANTED')";
 
+
+    public static final String RESULTS_BY_PROCESS_ID = "SELECT * FROM BCDSS.MODEL_RATING_RESULTS WHERE PROCESS_ID = ?";
+
+
 }
 

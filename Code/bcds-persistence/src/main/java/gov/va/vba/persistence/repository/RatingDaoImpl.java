@@ -3,6 +3,7 @@ package gov.va.vba.persistence.repository;
 import gov.va.vba.persistence.constants.QueryConstants;
 import gov.va.vba.persistence.entity.DDMModelPatternIndex;
 import gov.va.vba.persistence.entity.EditModelPatternResults;
+import gov.va.vba.persistence.entity.ModelRatingResults;
 import gov.va.vba.persistence.mapper.LongRowMapper;
 import gov.va.vba.persistence.models.data.ClaimDetails;
 import gov.va.vba.persistence.models.data.ContentionDetails;
@@ -10,7 +11,6 @@ import gov.va.vba.persistence.models.data.DecisionDetails;
 import gov.va.vba.persistence.models.data.DiagnosisCount;
 import gov.va.vba.persistence.models.data.ModelRatingAggregateResult;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -370,6 +370,13 @@ public class RatingDaoImpl implements RatingDao {
         LOG.info("PRIOR CDD BEGIN DATE AGE ::::::: {} ", beginDate);
         LOG.info("****************************************************************");
         return beginDate;
+    }
+
+    @Override
+    public ModelRatingResults getByProcessId(int processId) {
+        ModelRatingResults results = jdbcTemplate.queryForObject(QueryConstants.RESULTS_BY_PROCESS_ID, new Object[]{processId}, ModelRatingResults.class);
+        LOG.info("Results found :: " + results);
+        return results;
     }
 
 }

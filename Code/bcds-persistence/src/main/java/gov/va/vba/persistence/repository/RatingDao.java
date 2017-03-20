@@ -2,6 +2,7 @@ package gov.va.vba.persistence.repository;
 
 import gov.va.vba.persistence.entity.DDMModelPatternIndex;
 import gov.va.vba.persistence.entity.EditModelPatternResults;
+import gov.va.vba.persistence.entity.ModelRatingResults;
 import gov.va.vba.persistence.models.data.ContentionDetails;
 import gov.va.vba.persistence.models.data.DecisionDetails;
 import gov.va.vba.persistence.models.data.DiagnosisCount;
@@ -55,4 +56,6 @@ public interface RatingDao {
     List<ModelRatingAggregateResult> getModelRatingAggregateCounts();
 
     Date getBeginDate(long veteranId, Date claimDate);
+
+    ModelRatingResults getByProcessId(int processId);
 }
