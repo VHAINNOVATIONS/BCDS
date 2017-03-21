@@ -653,7 +653,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
         Rating rating = new Rating();
         rating.setProcessDate(results.getProcessDate());
         rating.setQuantCdd(getIntValueFromLong(results.getQuantCDD()));
-        rating.setCddAge(results.getCDDAge().intValue());
+        rating.setCddAge(getIntValueFromLong(results.getCDDAge()));
         rating.setModelType(results.getModelType());
         rating.setClaimAge(getIntValueFromLong(results.getClaimAge()));
         rating.setClaimantAge(getIntValueFromLong(results.getClaimantAge()));
