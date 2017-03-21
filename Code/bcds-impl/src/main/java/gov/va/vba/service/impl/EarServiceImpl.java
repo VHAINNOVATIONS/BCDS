@@ -7,6 +7,8 @@ import gov.va.vba.persistence.repository.EarDao;
 import gov.va.vba.persistence.repository.RatingDao;
 import gov.va.vba.service.AppUtill;
 import gov.va.vba.service.EarService;
+import gov.va.vba.service.common.Error;
+import gov.va.vba.service.exception.BusinessException;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,31 +39,38 @@ public class EarServiceImpl implements EarService {
     private RatingDao ratingDao;
 
     @Override
-    public ModelRatingResults processClaims(int veteranId, List<ClaimDetails> claims, String currentLogin) {
+    public ModelRatingResults processClaims(int veteranId, List<ClaimDetails> claims, String currentLogin) throws BusinessException {
 
         if (CollectionUtils.isNotEmpty(claims)) {
             Comparator<ClaimDetails> comparator = Comparator.comparing(ClaimDetails::getProfileDate);
-            ClaimDetails kneeClaim = claims.stream().max(comparator).get();
-            //List<ClaimDetails> previousClaims = earDao.getPreviousClaims(veteranId, kneeClaim.getProfileDate());
-            List<DecisionDetails> decisions = earDao.getDecisionsPercentByClaimDate(veteranId, kneeClaim.getClaimDate());
-            int calculatedValue = calculateEarRating(decisions);
-            BigDecimal priorCdd = getPriorCdd(decisions);
-            int age = getClaimentAge(veteranId, kneeClaim);
-            Date beginDate = earDao.getBeginDate(veteranId, kneeClaim.getClaimDate());
+            ClaimDetails earClaim = claims.stream().max(comparator).get();
+            //List<ClaimDetails> previousClaims = earDao.getPreviousClaims(veteranId, earClaim.getProfileDate());
+            List<DecisionDetails> decisions = earDao.getDecisionsPercentByClaimDate(veteranId, earClaim.getClaimDate());
+            int age = getClaimentAge(veteranId, earClaim);
             int cddAge = 0;
-            if(beginDate != null) {
-                cddAge = AppUtill.diffInYears(beginDate, kneeClaim.getClaimDate());
+            int calculatedValue = 0;
+            BigDecimal priorCdd = BigDecimal.ZERO;
+            if(CollectionUtils.isNotEmpty(decisions)) {
+                calculatedValue = calculateEarRating(decisions);
+                priorCdd = getPriorCdd(decisions);
+                Date beginDate = earDao.getBeginDate(veteranId, earClaim.getClaimDate());
+                if (beginDate != null) {
+                    cddAge = AppUtill.diffInYears(beginDate, earClaim.getClaimDate());
+                }
+            } else {
+                throw new BusinessException(Error.ER_1002, String.valueOf(veteranId), String.valueOf(earClaim.getClaimId()));
             }
+
             ModelRatingResults results = new ModelRatingResults();
             results.setProcessDate(new Date());
 
             results.setCDDAge((long) cddAge);
             //results.setClaimAge((long) age);
-            results.setClaimId(kneeClaim.getClaimId());
-            results.setClaimDate(kneeClaim.getClaimDate());
-            results.setProfileDate(kneeClaim.getProfileDate());
+            results.setClaimId(earClaim.getClaimId());
+            results.setClaimDate(earClaim.getClaimDate());
+            results.setProfileDate(earClaim.getProfileDate());
             results.setVeteranId((long) veteranId);
-            results.setRegionalOfficeNumber(kneeClaim.getClaimRONumber());
+            results.setRegionalOfficeNumber(earClaim.getClaimRONumber());
             results.setClaimantAge((long) age);
             results.setModelType("Ear");
             //results.setQuantCDD(calculatedCdd.longValue());

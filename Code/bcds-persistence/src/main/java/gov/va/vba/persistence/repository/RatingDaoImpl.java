@@ -374,7 +374,7 @@ public class RatingDaoImpl implements RatingDao {
 
     @Override
     public ModelRatingResults getByProcessId(int processId) {
-        ModelRatingResults results = jdbcTemplate.queryForObject(QueryConstants.RESULTS_BY_PROCESS_ID, new Object[]{processId}, ModelRatingResults.class);
+        ModelRatingResults results = jdbcTemplate.queryForObject(QueryConstants.RESULTS_BY_PROCESS_ID, new Object[]{processId}, new BeanPropertyRowMapper<>(ModelRatingResults.class));
         LOG.info("Results found :: " + results);
         return results;
     }

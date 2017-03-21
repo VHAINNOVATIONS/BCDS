@@ -50,7 +50,7 @@ public class KneeServiceImpl implements KneeService {
 	                map.put(decisionDetails.getDecisionCode(), decisionDetails);
 	                priorCdd = applyFormula(map);
             } else {
-                throw new BusinessException(Error.ER_1002);
+                throw new BusinessException(Error.ER_1002, String.valueOf(veteranId), String.valueOf(kneeClaim.getClaimId()));
             }
             int age = ratingDao.getClaimaintAge(veteranId, kneeClaim.getClaimId());
             age = AppUtill.roundToCeilMultipleOfTen(age);
