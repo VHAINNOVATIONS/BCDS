@@ -133,6 +133,14 @@ public class QueryConstants {
 
     public static final String RESULTS_BY_PROCESS_ID = "SELECT * FROM BCDSS.MODEL_RATING_RESULTS WHERE PROCESS_ID = ?";
 
+    public static final String BULK_CLAIMS_QUERY = "SELECT DISTINCT C.PTCPNT_VET_ID AS veteranId, BNFT_CLAIM_ID AS claimId, " +
+            "DATE_OF_CLAIM AS claimDate, CLAIM_RO_NUMBER AS claimRONumber, CLAIM_RO_NAME AS claimROName, " +
+            "CNTNTN_ID AS contentionId, CNTNTN_CLMANT_TXT AS contentionClaimantText, CNTNTN_CLSFCN_ID AS contentionClassificationId,  D.MODEL_TYPE AS modelType " +
+            "FROM BCDSS.AH4929_RATING_CORP_CLAIM C, BCDSS.AH4929_PERSON P, BCDSS.DDM_CNTNT D WHERE C.PTCPNT_VET_ID = P.PTCPNT_VET_ID " +
+            "AND CNTNTN_CLSFCN_ID in ('230','270','2200','2210','3140','3150','3690','3700','3710','3720','3730','3780','3790','3800','4130','4210','4700','4920','5000','5010','5710','6850','8919') " +
+            " AND D.MODEL_TYPE in (select D.MODEL_TYPE from BCDSS.DDM_CNTNT  where D.CNTNT_CD = C.CNTNTN_CLSFCN_ID) AND END_PRDCT_TYPE_CD LIKE '02%' AND ROWNUM <= 150 ORDER BY C.PTCPNT_VET_ID, DATE_OF_CLAIM";
+
+
 
 }
 

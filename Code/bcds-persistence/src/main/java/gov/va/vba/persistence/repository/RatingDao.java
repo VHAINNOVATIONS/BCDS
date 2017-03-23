@@ -58,4 +58,6 @@ public interface RatingDao {
     Date getBeginDate(long veteranId, Date claimDate);
 
     ModelRatingResults getByProcessId(int processId);
+
+    List<ClaimDetails> getClaims(Date fromDate, Date toDate, String modelType, Long regionalOffice);
 }

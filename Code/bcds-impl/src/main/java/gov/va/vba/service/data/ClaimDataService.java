@@ -57,6 +57,7 @@ import org.apache.maven.wagon.authentication.AuthenticationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
@@ -576,6 +577,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
 	        LOG.info("SAVED BULK PROCESS CLAIM REQUEST SUCCESSFULLY");
 	        if(requestSaved == 1){
 	        	requestStatus.setStatus("success");
+                processBulkRecords(fromDate, toDate, modelType, regionalOffice, userId);
 	        }else{
 	        	requestStatus.setStatus("failed");;
 	        	requestStatus.setReason("insert failed.");
@@ -590,6 +592,36 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
         	requestStatus.setError(e.getStackTrace().toString());
     		return requestStatus;
     	}
+    }
+
+    @Async
+    public void processBulkRecords(Date fromDate, Date toDate, String modelType, Long regionalOffice, String userId) {
+        try {
+            List<ClaimDetails> claims = ratingDao.getClaims(fromDate, toDate, modelType, regionalOffice);
+            Map<Long, List<ClaimDetails>> group = claims.stream().collect(Collectors.groupingBy(ClaimDetails::getVeteranId));
+            List<VeteranClaim> veteranClaims = new ArrayList<>();
+            for (Map.Entry<Long, List<ClaimDetails>> entry : group.entrySet()) {
+                VeteranClaim vc = new VeteranClaim();
+                gov.va.vba.bcdss.models.Veteran v = new gov.va.vba.bcdss.models.Veteran();
+                v.setVeteranId(entry.getKey().intValue());
+                List<gov.va.vba.bcdss.models.Claim> claimList = vc.getClaim();
+                for (ClaimDetails claimDetails : entry.getValue()) {
+                    gov.va.vba.bcdss.models.Claim c = new gov.va.vba.bcdss.models.Claim();
+                    c.setClaimId(Math.toIntExact(claimDetails.getClaimId()));
+                    c.setContentionId(Math.toIntExact(claimDetails.getContentionId()));
+                    c.setContentionClassificationId(String.valueOf(claimDetails.getContentionClassificationId()));
+                    c.setClaimDate(claimDetails.getClaimDate());
+                    claimList.add(c);
+                }
+                vc.setVeteran(v);
+                vc.setUserId(userId);
+                veteranClaims.add(vc);
+            }
+            LOG.info("VETERAN CALIMS COUNT :: " + veteranClaims.size());
+            findByVeteranId(veteranClaims);
+        } catch (BusinessException e) {
+            LOG.error(e.getMessage(), e);
+        }
     }
     
     public EditModelPatternResults findModelRatingPatternInfo(Long patternId) throws CustomBCDSSException{

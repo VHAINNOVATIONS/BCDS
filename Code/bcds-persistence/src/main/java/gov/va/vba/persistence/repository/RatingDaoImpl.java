@@ -379,4 +379,37 @@ public class RatingDaoImpl implements RatingDao {
         return results;
     }
 
+    @Override
+    public List<ClaimDetails> getClaims(Date fromDate, Date toDate, String modelType, Long regionalOffice) {
+        String query = QueryConstants.BULK_CLAIMS_QUERY;
+        String formatFromDate="";
+        String formatToDate="";
+        if(fromDate != null && toDate != null){
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+            formatFromDate= sdf.format(fromDate);
+            formatToDate= sdf.format(toDate);
+        }
+        if (fromDate != null) {
+            query += " AND c.DATE_OF_CLAIM >= TO_DATE('"+formatFromDate+"','yyyy-MM-dd')";
+        }
+        if (toDate != null) {
+            query +=  " AND c.DATE_OF_CLAIM <= TO_DATE('"+formatToDate+"','yyyy-MM-dd')";
+        }
+        if (regionalOffice != 0) {
+            query += " AND c.CLAIM_RO_NUMBER = " + regionalOffice;
+        }
+        if (StringUtils.isNotBlank(modelType)) {
+            query += " AND LOWER(D.MODEL_TYPE) like '%"+modelType.toLowerCase()+"%'";
+        }
+        List<ClaimDetails> claims = jdbcTemplate.query(query, new BeanPropertyRowMapper<>(ClaimDetails.class));
+
+        LOG.info("****************************************************************");
+        for (ClaimDetails claim : claims) {
+            LOG.info(claim.toString());
+        }
+        LOG.info("****************************************************************");
+        return claims;
+    }
+
 }

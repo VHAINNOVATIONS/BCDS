@@ -619,8 +619,8 @@ angular.module('bcdssApp').controller('ResultsController', function($rootScope, 
                 //make api call using rating service to get rest of the column values and then populate results.
                 $scope.getRatingResults(formattedResults);
             } else {
-                var exceptionDetails = data.message.split(":")
-                var message = "";
+                var cc = data.message.split(":")
+                var message = exceptionDetails[1] + ": s";
                 for(var i=2;i<exceptionDetails.length; i++) {
                     message +=  exceptionDetails[i];
                 }
