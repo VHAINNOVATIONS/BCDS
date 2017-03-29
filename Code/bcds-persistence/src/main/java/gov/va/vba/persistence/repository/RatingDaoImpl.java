@@ -17,11 +17,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Types;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -282,22 +288,10 @@ public class RatingDaoImpl implements RatingDao {
     }
     
     @Override
-    public int saveBulkProcessRequest(Date fromDate, Date toDate, String modelType, Long regionalOfficeNumber, String userId, Long recordCount) {
+    public long saveBulkProcessRequest(Date fromDate, Date toDate, String modelType, Long regionalOfficeNumber, String userId, Long recordCount) {
     	final String insertSql = "INSERT INTO BCDSS.BULK_PROCESS_REQUEST (" +
 								 "REQUEST_DATE, FROM_DATE, TO_DATE, MODEL_TYPE, RO_NUMBER, CRTD_BY, REQUEST_STATUS, RECORD_COUNT) values (?,?,?,?,?,?,?,?)";
-    	String formatFromDate="";
-    	String formatToDate="";
-    	
-    	if(fromDate != null && toDate != null){
-    		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
-    		formatFromDate= sdf.format(fromDate);
-            formatToDate= sdf.format(toDate);
-    	}else{
-    		formatFromDate = null;
-    		formatToDate = null;
-    	}
-    	
+
     	if (modelType == null || modelType == "") {
     		modelType = null;
     	}
@@ -307,14 +301,37 @@ public class RatingDaoImpl implements RatingDao {
     	}
     	
     	LOG.info("Save Bulk Claims Params Query -------- " + insertSql);
-    	Object[] params = new Object[] { new Date(), formatFromDate, formatToDate, modelType, regionalOfficeNumber, userId, "Pending", recordCount };
-    	int[] types = new int[] { Types.DATE, Types.DATE, Types.DATE, Types.VARCHAR, Types.NUMERIC, Types.VARCHAR, Types.VARCHAR, Types.NUMERIC };
-        int row = jdbcTemplate.update(insertSql, params, types);
+    	 GeneratedKeyHolder holder = new GeneratedKeyHolder();
+        String finalModelType = modelType;
+        Long finalRegionalOfficeNumber = regionalOfficeNumber;
+        jdbcTemplate.update(new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                PreparedStatement preparedStatement = con.prepareStatement(insertSql);
+                preparedStatement.setDate(1, java.sql.Date.valueOf(LocalDate.now()));
+                preparedStatement.setDate(2, new java.sql.Date(fromDate.getTime()));
+                preparedStatement.setDate(3, new java.sql.Date(fromDate.getTime()));
+                preparedStatement.setString(4, finalModelType);
+                preparedStatement.setLong(5, finalRegionalOfficeNumber);
+                preparedStatement.setString(6, userId);
+                preparedStatement.setString(7, "Pending");
+                preparedStatement.setLong(8, recordCount);
+                return preparedStatement;
+            }
+        }, holder);
         LOG.info("****************************************************************");
-        LOG.info("BULK PROCESS CLAIMS REQUEST PARAMS SAVED ::::::: {} ", row);
+        LOG.info("BULK PROCESS CLAIMS REQUEST PARAMS SAVED ::::::: {} ", holder.getKey().longValue());
         LOG.info("****************************************************************");
-        return row;
+        return holder.getKey().longValue();
     }
+
+    @Override
+    public void updateBulkProcessRequest(Long id) {
+        String query = "UPDATE BCDSS.BULK_PROCESS_REQUEST SET REQUEST_STATUS = ? WHERE REQUEST_ID=?";
+        jdbcTemplate.update(query, "Completed", id);
+        LOG.info("SUCCESSFULLY UPDATED BULK_PROCESS_REQUEST");
+    }
+
     
     @Override
     public List<EditModelPatternResults> getDDMPatternInfo(long patternId) {

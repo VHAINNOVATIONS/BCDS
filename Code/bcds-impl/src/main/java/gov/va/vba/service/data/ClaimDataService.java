@@ -573,11 +573,11 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
     	ServerRequestStatus requestStatus = new ServerRequestStatus();
     	try{
 	        LOG.debug("REST request to save bulk process params");
-	        int requestSaved = ratingDao.saveBulkProcessRequest(fromDate, toDate, modelType, regionalOffice, userId, count);
+	        long savedId = ratingDao.saveBulkProcessRequest(fromDate, toDate, modelType, regionalOffice, userId, count);
 	        LOG.info("SAVED BULK PROCESS CLAIM REQUEST SUCCESSFULLY");
-	        if(requestSaved == 1){
+	        if(savedId >= 0){
 	        	requestStatus.setStatus("success");
-                processBulkRecords(fromDate, toDate, modelType, regionalOffice, userId);
+                processBulkRecords(fromDate, toDate, modelType, regionalOffice, userId, savedId);
 	        }else{
 	        	requestStatus.setStatus("failed");;
 	        	requestStatus.setReason("insert failed.");
@@ -595,7 +595,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
     }
 
     @Async
-    public void processBulkRecords(Date fromDate, Date toDate, String modelType, Long regionalOffice, String userId) {
+    public void processBulkRecords(Date fromDate, Date toDate, String modelType, Long regionalOffice, String userId, Long bulkProcessId) {
         try {
             List<ClaimDetails> claims = ratingDao.getClaims(fromDate, toDate, modelType, regionalOffice);
             Map<Long, List<ClaimDetails>> group = claims.stream().collect(Collectors.groupingBy(ClaimDetails::getVeteranId));
@@ -619,6 +619,7 @@ public class ClaimDataService extends AbsDataService<gov.va.vba.persistence.enti
             }
             LOG.info("VETERAN CALIMS COUNT :: " + veteranClaims.size());
             findByVeteranId(veteranClaims);
+            ratingDao.updateBulkProcessRequest(bulkProcessId);
         } catch (BusinessException e) {
             LOG.error(e.getMessage(), e);
         }

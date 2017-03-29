@@ -46,8 +46,10 @@ public interface RatingDao {
     
     Long getClaimCountToProcess(Date fromDate, Date toDate, String modelType, Long regionalOffice);
     
-    int saveBulkProcessRequest(Date fromDate, Date toDate, String modelType, Long regionalOffice, String userId, Long recordCount);
-    
+    long saveBulkProcessRequest(Date fromDate, Date toDate, String modelType, Long regionalOffice, String userId, Long recordCount);
+
+    void updateBulkProcessRequest(Long id);
+
     List<EditModelPatternResults> getDDMPatternInfo(long patternId);
     
     int createEditModelPattern(Long patternId, Double accuracy, Long cdd, Long patternIndexNumber, String createdBy, Date createdDate,
